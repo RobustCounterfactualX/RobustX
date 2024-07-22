@@ -146,8 +146,7 @@ class ExampleDatasetLoader(DatasetLoader, ABC):
         :return:
         """
         preprocessed = self.get_default_preprocessed_features()
-        new_y = self.y
-        self.data = pd.concat([preprocessed, new_y], axis=1).drop_duplicates()
+        self.data = pd.concat([preprocessed, self.y], axis=1).drop_duplicates()
 
     def preprocess(
             self,
@@ -179,5 +178,4 @@ class ExampleDatasetLoader(DatasetLoader, ABC):
             encode_categorical=encode_categorical,
             selected_features=selected_features
         )
-        new_y = self.y
-        self.data = pd.concat([preprocessed, new_y], axis=1).drop_duplicates()
+        self.data = pd.concat([preprocessed, self.y], axis=1).drop_duplicates()

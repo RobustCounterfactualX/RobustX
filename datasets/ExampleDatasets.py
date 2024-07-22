@@ -1,5 +1,7 @@
+from datasets.provided_datasets.AdultDatasetLoader import AdultDatasetLoader
 from datasets.provided_datasets.IonosphereDatasetLoader import IonosphereDatasetLoader
 from datasets.provided_datasets.IrisDatasetLoader import IrisDatasetLoader
+from datasets.provided_datasets.TitanicDatasetLoader import TitanicDatasetLoader
 
 
 def get_example_dataset(name: str):
@@ -16,6 +18,14 @@ def get_example_dataset(name: str):
         return ds
     elif name == "ionosphere":
         ds = IonosphereDatasetLoader()
+        ds.load_data()
+        return ds
+    elif name == "adult":
+        ds = AdultDatasetLoader()
+        ds.load_data()
+        return ds
+    elif name == "titanic":
+        ds = TitanicDatasetLoader()
         ds.load_data()
         return ds
     else:

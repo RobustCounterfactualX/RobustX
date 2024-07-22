@@ -1,28 +1,29 @@
-from datasets.provided_datasets.DatasetLoader import DatasetLoader
 from sklearn.preprocessing import StandardScaler
 import pandas as pd
+from datasets.provided_datasets.ExampleDatasetLoader import ExampleDatasetLoader
 
 
-class IonosphereDatasetLoader(DatasetLoader):
+class IonosphereDatasetLoader(ExampleDatasetLoader):
     """
     A DataLoader class responsible for loading the Ionosphere dataset
     """
 
     def __init__(self):
-        self._data = None
+        categoricals = []
+        numericals = [f"feature_{i}" for i in range(34)]
+        super().__init__(categoricals, numericals)
 
     def load_data(self):
         url = "https://archive.ics.uci.edu/ml/machine-learning-databases/ionosphere/ionosphere.data"
-        column_names = [f"feature_{i}" for i in range(34)] + ["target"]
+        column_names = self.numerical + ["target"]
         self._data = pd.read_csv(url, header=None, names=column_names)
 
-    def get_preprocessed_features(self):
+    def get_default_preprocessed_features(self):
 
-        # Map target values - good to 1 and bad to 0
+        # We will map the target variable here for default preprocessing
         self.data['target'] = self.data['target'].map({'g': 1, 'b': 0})
 
-        features = self.data.drop(columns=['target'])
-        target = self.data['target']
+        features = self.X
 
         # Standardize the features
         scaler = StandardScaler()
@@ -30,17 +31,7 @@ class IonosphereDatasetLoader(DatasetLoader):
         data_preprocessed = pd.DataFrame(features_scaled, columns=features.columns)
 
         # Add target column to standardized features
-        data_preprocessed['target'] = target.values
-
         return data_preprocessed
-
-    @property
-    def data(self) -> pd.DataFrame:
-        return self._data
-
-    @data.setter
-    def data(self, value):
-        self._data = value
 
     @property
     def X(self):

@@ -15,3 +15,5 @@ the repository, run these lines in Powershell or Cmd:
 `conda activate RoCELib`
 
 `conda install numpy pandas scikit-learn pytest`
+
+`conda install pytorch torchvision torchaudio cpuonly -c pytorch`

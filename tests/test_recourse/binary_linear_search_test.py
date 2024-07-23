@@ -2,36 +2,29 @@ from datasets.ExampleDatasets import get_example_dataset
 from datasets.custom_datasets.CsvDatasetLoader import CsvDatasetLoader
 from models.Models import get_sklearn_model
 from models.pytorch_models.SimpleNNModel import SimpleNNModel
-from models.sklearn_models.DecisionTreeModel import DecisionTreeModel
-from recourse_methods.RecourseMethods import generate_counterfactuals_binary_linear_search
 from tasks.ClassificationTask import ClassificationTask
-
+from recourse_methods.BinaryLinearSearch import BinaryLinearSearch
+import pandas as pd
+import numpy as np
 
 def test_binary_linear_search_nn() -> None:
+    # Create a new classification task and train themodel on our data
     model = SimpleNNModel(10, 7, 1)
     dl = CsvDatasetLoader('./assets/recruitment_data.csv', "HiringDecision")
-
     ct = ClassificationTask(model, dl)
 
     ct.train()
 
-    for _, negative in ct.training_data.get_negative_instances(0, column_name="HiringDecision").iterrows():
-        ce = generate_counterfactuals_binary_linear_search(
-            ct.model,
-            negative,
-            ct.get_random_positive_instance(
-                0,
-                column_name="HiringDecision"
-            ),
-            column_name="HiringDecision"
-        )
-        print(ce)
+    # Use BinaryLinearSearch to generate a recourse for each negative value
+    recourse = BinaryLinearSearch(ct)
 
-    assert True
+    res = recourse.generate_for_all(neg_value=0, column_name="HiringDecision")
+    print(res)
+
+    assert not res.empty
 
 
 def test_binary_linear_search_dt() -> None:
-
     model = get_sklearn_model("decision_tree")
     dl = get_example_dataset("ionosphere")
 
@@ -40,22 +33,14 @@ def test_binary_linear_search_dt() -> None:
     ct.default_preprocess()
     ct.train()
 
-    for _, negative in ct.training_data.get_negative_instances(0, column_name="target").iterrows():
-        ce = generate_counterfactuals_binary_linear_search(
-            ct.model,
-            negative,
-            ct.get_random_positive_instance(
-                0,
-                column_name="target"
-            ),
-            column_name="target"
-        )
-        print(ce)
+    recourse = BinaryLinearSearch(ct)
 
-    assert True
+    res = recourse.generate_for_all(neg_value=0, column_name="target", distance_func="l1")
+
+    assert not res.empty
+
 
 def test_binary_linear_search_lr() -> None:
-
     model = get_sklearn_model("log_reg")
     dl = get_example_dataset("ionosphere")
 
@@ -64,16 +49,11 @@ def test_binary_linear_search_lr() -> None:
     ct.default_preprocess()
     ct.train()
 
-    for _, negative in ct.training_data.get_negative_instances(0, column_name="target").iterrows():
-        ce = generate_counterfactuals_binary_linear_search(
-            ct.model,
-            negative,
-            ct.get_random_positive_instance(
-                0,
-                column_name="target"
-            ),
-            column_name="target"
-        )
-        print(ce)
+    recourse = BinaryLinearSearch(ct)
 
-    assert True
+    def euclidean(x: pd.DataFrame, c: pd.DataFrame) -> pd.DataFrame:
+        return np.sqrt(np.sum((x.values - c.values) ** 2))
+
+    res = recourse.generate_for_all(neg_value=0, column_name="target", distance_func="custom", custom_func=euclidean)
+
+    assert not res.empty

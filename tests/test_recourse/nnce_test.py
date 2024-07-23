@@ -1,9 +1,7 @@
-import pandas as pd
-
 from datasets.custom_datasets.CsvDatasetLoader import CsvDatasetLoader
 from models.pytorch_models.SimpleNNModel import SimpleNNModel
-from recourse_methods.RecourseMethods import compute_nnce
 from tasks.ClassificationTask import ClassificationTask
+from recourse_methods.NNCE import NNCE
 
 
 def test_compute_nnce() -> None:
@@ -14,10 +12,8 @@ def test_compute_nnce() -> None:
 
     ct.train()
 
-    for _, negative in ct.training_data.get_negative_instances(0, column_name="HiringDecision").iterrows():
+    recourse = NNCE(ct)
 
-        nnce = compute_nnce(ct.model, ct.training_data, negative)
+    res = recourse.generate_for_all(neg_value=0, column_name="HiringDecision")
 
-        print(nnce)
-
-    assert True
+    assert not res.empty

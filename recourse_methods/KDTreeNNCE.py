@@ -7,13 +7,13 @@ from recourse_methods.RecourseGenerator import RecourseGenerator
 
 class KDTreeNNCE(RecourseGenerator):
 
-    def generate_for_instance(self, instance, distance_func="euclidean", custom_func=None, gamma=0.1,
+    def _generation_method(self, instance, distance_func, custom_distance_func=None, gamma=0.1,
                               column_name="target", neg_value=0):
 
-        model = self.ct.model
+        model = self.task.model
 
         # Convert X values of dataset to tensor
-        X_tensor = torch.tensor(self.ct.training_data.X.values, dtype=torch.float32)
+        X_tensor = torch.tensor(self.task.training_data.X.values, dtype=torch.float32)
 
         # Get all model predictions of model, turning them to 0s or 1s
         model_labels = model.predict(X_tensor)
@@ -28,7 +28,7 @@ class KDTreeNNCE(RecourseGenerator):
             instance = instance.to_frame().T
 
         # Prepare the data
-        preds = self.ct.training_data.X.copy()
+        preds = self.task.training_data.X.copy()
         preds["predicted"] = model_labels
 
         # Filter out instances that have the desired counterfactual label
@@ -39,7 +39,7 @@ class KDTreeNNCE(RecourseGenerator):
             return None
 
         # Build KD-Tree
-        kd_tree = KDTree(positive_instances.values, metric=distance_func)
+        kd_tree = KDTree(positive_instances.values, metric="euclidean")
 
         # Query the KD-Tree for the nearest neighbour
         dist, idx = kd_tree.query(instance.values, k=1, return_distance=True)

@@ -17,3 +17,9 @@ the repository, run these lines in Powershell or Cmd:
 `conda install numpy pandas scikit-learn pytest`
 
 `conda install pytorch torchvision torchaudio cpuonly -c pytorch`
+
+`conda install tensorflow`
+
+`conda install -c gurobi gurobi`
+
+Gurobi gives free academic licenses.

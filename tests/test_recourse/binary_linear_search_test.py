@@ -7,6 +7,7 @@ from recourse_methods.BinaryLinearSearch import BinaryLinearSearch
 import pandas as pd
 import numpy as np
 
+
 def test_binary_linear_search_nn() -> None:
     # Create a new classification task and train themodel on our data
     model = SimpleNNModel(10, 7, 1)
@@ -30,7 +31,7 @@ def test_binary_linear_search_dt() -> None:
 
     ct = ClassificationTask(model, dl)
 
-    ct.default_preprocess()
+    dl.default_preprocess()
     ct.train()
 
     recourse = BinaryLinearSearch(ct)
@@ -46,14 +47,14 @@ def test_binary_linear_search_lr() -> None:
 
     ct = ClassificationTask(model, dl)
 
-    ct.default_preprocess()
+    dl.default_preprocess()
     ct.train()
 
-    recourse = BinaryLinearSearch(ct)
-
-    def euclidean(x: pd.DataFrame, c: pd.DataFrame) -> pd.DataFrame:
+    def euclidean_copy(x: pd.DataFrame, c: pd.DataFrame) -> pd.DataFrame:
         return np.sqrt(np.sum((x.values - c.values) ** 2))
 
-    res = recourse.generate_for_all(neg_value=0, column_name="target", distance_func="custom", custom_func=euclidean)
+    recourse = BinaryLinearSearch(ct, custom_distance_func=euclidean_copy)
+
+    res = recourse.generate_for_all(neg_value=0, column_name="target", distance_func="custom")
 
     assert not res.empty

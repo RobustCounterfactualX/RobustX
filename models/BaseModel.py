@@ -9,7 +9,7 @@ class BaseModel(ABC):
     """
 
     def __init__(self, model):
-        self.model = model
+        self._model = model
 
     @abstractmethod
     def train(self, X: pd.DataFrame, y: pd.DataFrame) -> None:
@@ -58,3 +58,7 @@ class BaseModel(ABC):
         :return: An evaluation of model
         """
         pass
+
+    @property
+    def model(self):
+        return self._model

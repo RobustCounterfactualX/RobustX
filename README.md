@@ -22,4 +22,8 @@ the repository, run these lines in Powershell or Cmd:
 
 `conda install -c gurobi gurobi`
 
+`conda install tqdm`
+
+`conda install xgboost`
+
 Gurobi gives free academic licenses.

@@ -24,7 +24,7 @@ def test_kdtree_nnce() -> None:
 
 
 def test_kdtree_nnce_same_as_nnce() -> None:
-    model = SimpleNNModel(10, 7, 1)
+    model = SimpleNNModel(10, [7], 1)
     dl = CsvDatasetLoader('./assets/recruitment_data.csv', "HiringDecision")
 
     ct = ClassificationTask(model, dl)

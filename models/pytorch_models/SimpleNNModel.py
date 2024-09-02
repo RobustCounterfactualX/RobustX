@@ -87,5 +87,8 @@ class SimpleNNModel(BaseModel):
         res[1] = 1 - res.iloc[0]
         return res
 
+    def predict_proba_tensor(self, x: torch.Tensor) -> torch.Tensor:
+        return self._model(x)
+
     def get_torch_model(self):
         return self._model

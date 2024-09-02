@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 
 import pandas as pd
+import torch
 
 
 class BaseModel(ABC):
@@ -42,6 +43,14 @@ class BaseModel(ABC):
 
     @abstractmethod
     def predict_proba(self, X: pd.DataFrame) -> pd.DataFrame:
+        """
+        Predicts probability of outcomes
+        :param X: Instances to predict
+        :return: Probabilities of each outcome
+        """
+        pass
+
+    def predict_proba_tensor(self, X: torch.Tensor) -> torch.Tensor:
         """
         Predicts probability of outcomes
         :param X: Instances to predict

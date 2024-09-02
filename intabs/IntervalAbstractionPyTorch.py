@@ -28,8 +28,6 @@ class IntervalAbstractionPytorch:
         # Loop through layers
         for layer_idx in range(0, len(params) // 2):
 
-            # TODO: This assumes every layer has a ReLU after it
-
             # Get weights and biases
             weights = params[f'{layer_idx * 2}.weight']
             biases = params[f'{layer_idx * 2}.bias']

@@ -21,7 +21,7 @@ class RecourseGenerator(ABC):
         return self._task
 
     def generate(self, instances, distance_func="euclidean", neg_value=0,
-                 column_name="target") -> pd.DataFrame:
+                 column_name="target", **kwargs) -> pd.DataFrame:
         """
         Generates counterfactuals for a given DataFrame of instances
         :param instances: A DataFrame of instances for which you want to generate recourses
@@ -35,14 +35,14 @@ class RecourseGenerator(ABC):
 
         for _, instance in instances.iterrows():
             cs.append(self.generate_for_instance(instance, distance_func, neg_value=neg_value,
-                                                 column_name=column_name))
+                                                 column_name=column_name, **kwargs))
 
         res = pd.concat(cs)
 
         return res
 
     def generate_for_instance(self, instance, distance_func="euclidean", neg_value=0,
-                              column_name="target") -> pd.DataFrame:
+                              column_name="target", **kwargs) -> pd.DataFrame:
         """
         Generates a counterfactual for a provided instance
         :param instance: The instance for which you would like to generate a counterfactual for
@@ -58,9 +58,9 @@ class RecourseGenerator(ABC):
         elif distance_func == "custom":
             func = self.custom_distance_func
 
-        return self._generation_method(instance, func, neg_value=neg_value, column_name=column_name)
+        return self._generation_method(instance, func, neg_value=neg_value, column_name=column_name, **kwargs)
 
-    def generate_for_all(self, neg_value=0, column_name="target", distance_func="euclidean") -> pd.DataFrame:
+    def generate_for_all(self, neg_value=0, column_name="target", distance_func="euclidean", **kwargs) -> pd.DataFrame:
         """
         Generates for all instances with a given negative value in their target column
         :param neg_value: The value in the target column which counts as a negative instance
@@ -75,7 +75,8 @@ class RecourseGenerator(ABC):
             negatives,
             distance_func,
             column_name=column_name,
-            neg_value=neg_value
+            neg_value=neg_value,
+            **kwargs
         )
 
         recourses.index = negatives.index
@@ -83,7 +84,7 @@ class RecourseGenerator(ABC):
 
     @abstractmethod
     def _generation_method(self, instance, distance_func,
-                           column_name="target", neg_value=0):
+                           column_name="target", neg_value=0, **kwargs):
         pass
 
     @property

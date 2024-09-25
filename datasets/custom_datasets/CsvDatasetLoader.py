@@ -5,27 +5,58 @@ from datasets.DatasetLoader import DatasetLoader
 
 class CsvDatasetLoader(DatasetLoader):
     """
-    A DatasetLoader class responsible for loading CSVs
+    A DatasetLoader class which opens a CSV and loads it into DatasetLoader format
+
+        ...
+
+    Attributes / Properties
+    -------
+
+    _data: pd.DataFrame
+        Stores the dataset as a DataFrame, only has value once load_data() called
+
+    _target_col: str
+        Stores name of target variable
+
+    X: pd.DataFrame
+        Stores the feature columns as a DataFrame, only has value once load_data() called
+
+    y: pd.DataFrame
+        Stores the target column as a DataFrame, only has value once load_data() called
+
+    -------
+
+    Methods
+    -------
+
+    get_negative_instances() -> pd.DataFrame:
+        Filters all the negative instances in the dataset and returns them
+
+    get_random_positive_instance() -> pd.Series:
+        Returns a random instance where the target variable is NOT the neg_value
+
+    -------
     """
 
     def __init__(self, csv, target_column, header=0, names=None):
         """
-        Parameters
-        ----------
-        csv : str
-            Path to the csv
-        target_column : str
-            Name of column storing target variable
-        header : int, optional
-            Row number(s) containing column labels and marking the start of the data (zero-indexed).
-        names: list[str], optional
-            Column labels
+        @param csv: str, Path to csv
+        @param target_column: str, Name of column storing target variable
+        @param header: optional int, Row number(s) containing column labels and marking the start of the data (zero-indexed).
+        @param names: optional list[str], Column labels
         """
         super().__init__()
         self._target_col = target_column
         self.__load_data(csv, header, names)
 
     def __load_data(self, csv, header, names):
+        """
+        Loads data into protected self._data attribute
+        @param csv: str, Path to csv
+        @param header: optional int, Row number(s) containing column labels and marking the start of the data (zero-indexed).
+        @param names: optional list[str], Column labels
+        @return:
+        """
         if names is None:
             self._data = pd.read_csv(csv, header=header)
         else:

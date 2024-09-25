@@ -1,15 +1,36 @@
-import torch
 import pandas as pd
+import torch
 from sklearn.neighbors import KDTree
 
 from recourse_methods.RecourseGenerator import RecourseGenerator
 
 
 class KDTreeNNCE(RecourseGenerator):
+    """
+    A recourse generator that uses KD-Tree for nearest neighbor counterfactual explanations.
 
-    def _generation_method(self, instance, distance_func, custom_distance_func=None, gamma=0.1,
-                              column_name="target", neg_value=0):
+    Inherits from the RecourseGenerator class and implements the _generation_method to find
+    counterfactual explanations using KD-Tree for nearest neighbors.
 
+    Attributes:
+        _task (Task): The task to solve, inherited from RecourseGenerator.
+        __customFunc (callable, optional): A custom distance function, inherited from RecourseGenerator.
+    """
+
+    def _generation_method(self, instance, gamma=0.1,
+                           column_name="target", neg_value=0, **kwargs) -> pd.DataFrame:
+        """
+        Generates a counterfactual explanation using KD-Tree for nearest neighbor search.
+
+        @param instance: The instance for which to generate a counterfactual.
+        @param distance_func: The function used to calculate the distance between points.
+        @param custom_distance_func: Optional custom distance function. (Not used in this method)
+        @param gamma: The distance threshold for convergence. (Not used in this method)
+        @param column_name: The name of the target column. (Not used in this method)
+        @param neg_value: The value considered negative in the target variable.
+        @param kwargs: Additional keyword arguments.
+        @return: A DataFrame containing the nearest counterfactual explanation or None if no positive instances.
+        """
         model = self.task.model
 
         # Convert X values of dataset to tensor
@@ -36,10 +57,10 @@ class KDTreeNNCE(RecourseGenerator):
 
         # If there are no positive instances, return None
         if positive_instances.empty:
-            return None
+            return instance
 
         # Build KD-Tree
-        kd_tree = KDTree(positive_instances.values, metric="euclidean")
+        kd_tree = KDTree(positive_instances.values)
 
         # Query the KD-Tree for the nearest neighbour
         dist, idx = kd_tree.query(instance.values, k=1, return_distance=True)

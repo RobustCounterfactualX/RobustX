@@ -1,7 +1,9 @@
 pandas~=2.2.2
-numpy~=1.24.3
-scikit-learn~=1.4.2
+numpy~=1.26.4
+scikit-learn~=1.5.1
 setuptools~=69.5.1
 keras~=2.10.0
 scipy~=1.10.1
 gurobipy~=11.0.3
+tabulate~=0.9.0
+tensorflow~=2.10.0

@@ -1,70 +1,80 @@
 import numpy as np
 import pandas as pd
+from sklearn.neighbors import KDTree
 
-from intabs.IntervalAbstractionPyTorch import IntervalAbstractionPytorch
 from recourse_methods.RecourseGenerator import RecourseGenerator
-from robustness_evaluations.ModelChangesRobustnessEvaluator import ModelChangesRobustnessEvaluator
 from robustness_evaluations.DeltaRobustnessEvaluator import DeltaRobustnessEvaluator
 from tasks.Task import Task
-from sklearn.neighbors import KDTree
+from functools import lru_cache
 
 
 class RNCE(RecourseGenerator):
+    """
+    A recourse generator that finds robust nearest counterfactual examples using KDTree.
 
-    def __init__(self, task: Task, delta=0.005, bias_delta=0):
+    Inherits from the RecourseGenerator class and implements the _generation_method to find counterfactual examples 
+    that are robust to perturbations. It leverages KDTree for nearest neighbor search and uses a robustness evaluator 
+    to identify robust instances in the training data.
+
+    Attributes:
+        intabs (DeltaRobustnessEvaluator): An evaluator for checking the robustness of instances to perturbations.
+    """
+
+    def __init__(self, task: Task):
+        """
+        Initializes the RNCE recourse generator with a given task and robustness evaluator.
+
+        @param task: The task to solve, provided as a Task instance.
+        """
         super().__init__(task)
-        self.delta = delta
-        self.bias_delta = bias_delta
-
         self.intabs = DeltaRobustnessEvaluator(task)
 
-    def _generation_method(self, x, robustInit=True, optimal=True, column_name="target", neg_value=0):
-        S = self.getCandidates(robustInit, column_name=column_name)
+    def _generation_method(self, x, robustInit=True, optimal=True, column_name="target", neg_value=0, delta=0.005,
+                           bias_delta=0, **kwargs):
+        """
+        Generates a counterfactual explanation using nearest neighbor search.
+
+        @param x: The instance for which to generate a counterfactual. Can be a DataFrame or Series.
+        @param robustInit: If True, only robust instances are considered for counterfactual generation.
+        @param column_name: The name of the target column.
+        @param neg_value: The value considered negative in the target variable.
+        @param delta: The tolerance for robustness in the feature space.
+        @param bias_delta: The bias tolerance for robustness in the feature space.
+        @param kwargs: Additional keyword arguments.
+        @return: A DataFrame containing the counterfactual explanation.
+        """
+        S = self.getCandidates(robustInit, delta, bias_delta, column_name=column_name, neg_value=neg_value)
+        if S.empty:
+            print("No instance in the dataset is robust for the given perturbations!")
+            return pd.DataFrame(x).T
+
         treer = KDTree(S, leaf_size=40)
         x_df = pd.DataFrame(x).T
         idxs = np.array(treer.query(x_df)[1]).flatten()
-        return S.iloc[idxs[0]]
+        res = pd.DataFrame(S.iloc[idxs[0]]).T
+        return res
 
-    def getCandidates(self, robustInit, column_name="target"):
+    @lru_cache()
+    def getCandidates(self, robustInit, delta, bias_delta, column_name="target", neg_value=0):
+        """
+        Retrieves candidate instances from the dataset that are robust to perturbations.
 
+        @param robustInit: If True, only robust instances are considered.
+        @param delta: The tolerance for robustness in the feature space.
+        @param bias_delta: The bias tolerance for robustness in the feature space.
+        @param column_name: The name of the target column.
+        @param neg_value: The value considered negative in the target variable.
+        @return: A DataFrame containing robust instances from the dataset.
+        """
         S = []
 
         for _, instance in self.task.training_data.data.iterrows():
             instance_x = instance.drop(column_name)
             if robustInit:
-                if self.intabs.evaluate(instance_x, delta=self.delta):
+                if self.intabs.evaluate(instance_x, delta=delta, bias_delta=bias_delta, desired_output=1-neg_value):
                     S.append(instance_x)
-
             else:
                 if self.task.model.predict_single(instance_x):
                     S.append(instance_x)
 
         return pd.DataFrame(S)
-
-    # def getRobustCE(self, x, kdtree: KDTree, optimal):
-    #
-    #     a = 1
-    #
-    #     s = 0.05
-    #
-    #     neighbors_distances, neighbors_indices = kdtree.query([x], k=kdtree.n_samples_)
-    #     neighbors_indices = neighbors_indices[0]
-    #
-    #     x_prime = None
-    #
-    #     # Iterate through neighbors until no more neighbors are left
-    #     for nn_index in neighbors_indices:
-    #         x_nn_prime = self.task.training_data.data.iloc[nn_index]  # Get the next nearest neighbor
-    #         # Do something with x_nn_prime
-    #         if self.intabs.evaluate(x_nn_prime):
-    #             x_prime = x_nn_prime
-    #
-    #     if optimal:
-    #         while a > 0:
-    #             x_line = a * x_prime + (1-a) * x
-    #             a -= s
-    #
-    #             if self.intabs.evaluate(x_line):
-    #                 x_prime = x_line
-    #
-    #     return x_prime

@@ -1,10 +1,34 @@
+from lib.distance_functions.DistanceFunctions import euclidean
 from recourse_methods.RecourseGenerator import RecourseGenerator
+import pandas as pd
 
 
 class BinaryLinearSearch(RecourseGenerator):
+    """
+    A recourse generator that uses binary linear search to find counterfactual explanations.
 
-    def _generation_method(self, instance, distance_func, gamma=0.1,
-                           column_name="target", neg_value=0):
+    Inherits from the RecourseGenerator class and implements the _generation_method to perform
+    binary linear search for generating counterfactuals.
+
+    Attributes:
+        _task (Task): The task to solve, inherited from RecourseGenerator.
+        __customFunc (callable, optional): A custom distance function, inherited from RecourseGenerator.
+    """
+
+    def _generation_method(self, instance, gamma=0.1, column_name="target", neg_value=0,
+                           distance_func=euclidean, **kwargs) -> pd.DataFrame:
+        """
+        Generates a counterfactual explanation using binary linear search.
+
+        @param instance: The instance for which to generate a counterfactual.
+        @param distance_func: The function used to calculate the distance between points.
+        @param gamma: The distance threshold for convergence.
+        @param column_name: The name of the target column.
+        @param neg_value: The value considered negative in the target variable.
+        @return: A DataFrame containing the counterfactual explanation.
+        """
+        if self.custom_distance_func is not None:
+            distance_func = self.custom_distance_func
 
         # Get initial counterfactual
         c = self.task.get_random_positive_instance(neg_value, column_name).T
@@ -33,7 +57,7 @@ class BinaryLinearSearch(RecourseGenerator):
         # Store model prediction in return CE (this should ALWAYS be the positive value)
         res = model.predict_single(ct)
 
-        ct["target"] = res
+        ct[column_name] = res
 
         # Store the loss
         ct["loss"] = distance_func(negative, c)

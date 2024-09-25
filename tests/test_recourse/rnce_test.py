@@ -15,14 +15,10 @@ def test_rnce() -> None:
 
     delta = 0.01
 
-    recourse = RNCE(ct, delta)
+    recourse = RNCE(ct)
 
     _, neg = list(dl.get_negative_instances(neg_value=0).iterrows())[0]
 
     for _, neg in dl.get_negative_instances(neg_value=0).head(10).iterrows():
-
-        res = recourse.generate_for_instance(neg)
-
-        print(res)
-
+        res = recourse.generate_for_instance(neg, delta=delta)
         assert recourse.intabs.evaluate(res, delta=delta)

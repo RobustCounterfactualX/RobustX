@@ -2,9 +2,9 @@ from datasets.ExampleDatasets import get_example_dataset
 from datasets.custom_datasets.CsvDatasetLoader import CsvDatasetLoader
 from models.Models import get_sklearn_model
 from models.pytorch_models.SimpleNNModel import SimpleNNModel
+from recourse_methods.KDTreeNNCE import KDTreeNNCE
 from recourse_methods.NNCE import NNCE
 from tasks.ClassificationTask import ClassificationTask
-from recourse_methods.KDTreeNNCE import KDTreeNNCE
 
 
 def test_kdtree_nnce() -> None:

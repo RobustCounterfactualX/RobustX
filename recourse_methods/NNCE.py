@@ -1,15 +1,36 @@
-from recourse_methods.RecourseGenerator import RecourseGenerator
-from lib.distance_functions.DistanceFunctions import manhattan, euclidean
-import torch
 import numpy as np
 import pandas as pd
+import torch
+
+from lib.distance_functions.DistanceFunctions import euclidean
+from recourse_methods.RecourseGenerator import RecourseGenerator
 
 
 class NNCE(RecourseGenerator):
+    """
+    A recourse generator that uses a nearest-neighbor counterfactual explanation (NNCE) approach.
 
-    def _generation_method(self, instance, distance_func, custom_distance_func=None, gamma=0.1,
-                           column_name="target", neg_value=0):
+    Inherits from RecourseGenerator and calculates counterfactual explanations based on the nearest neighbor
+    in the training data with the desired prediction.
 
+    Attributes:
+        _task (Task): The task to solve, inherited from RecourseGenerator.
+        __customFunc (callable, optional): A custom distance function, inherited from RecourseGenerator.
+    """
+
+    def _generation_method(self, instance, gamma=0.1, column_name="target", neg_value=0,
+                           distance_func=euclidean, **kwargs) -> pd.DataFrame:
+        """
+        Generates a nearest-neighbor counterfactual explanation for a provided instance.
+
+        @param instance: The instance for which to generate a counterfactual. Can be a DataFrame or Series.
+        @param gamma: The threshold for the distance between the instance and the counterfactual. (Not used in this method)
+        @param column_name: The name of the target column. (Not used in this method)
+        @param neg_value: The value considered negative in the target variable.
+        @param distance_func: The function used to calculate the distance between two points. Defaults to euclidean.
+        @param kwargs: Additional keyword arguments.
+        @return: A DataFrame containing the nearest-neighbor counterfactual explanation for the provided instance.
+        """
         model = self.task.model
 
         # Convert X values of dataset to tensor
@@ -20,7 +41,6 @@ class NNCE(RecourseGenerator):
         model_labels = (model_labels >= 0.5)
 
         # Determine the target label
-        # y = 1 if model.predict_single(instance) >= 0.5 else 0
         y = neg_value
         nnce_y = 1 - y
 

@@ -1,17 +1,18 @@
+import numpy as np
+import pandas as pd
+
 from datasets.ExampleDatasets import get_example_dataset
 from datasets.custom_datasets.CsvDatasetLoader import CsvDatasetLoader
 from models.Models import get_sklearn_model
 from models.pytorch_models.SimpleNNModel import SimpleNNModel
-from tasks.ClassificationTask import ClassificationTask
 from recourse_methods.BinaryLinearSearch import BinaryLinearSearch
-import pandas as pd
-import numpy as np
+from tasks.ClassificationTask import ClassificationTask
 
 
 def test_binary_linear_search_nn() -> None:
-    # Create a new classification task and train themodel on our data
+    # Create a new classification task and train the model on our data
     model = SimpleNNModel(10, [7], 1)
-    dl = CsvDatasetLoader('../assets/recruitment_data.csv', "HiringDecision")
+    dl = CsvDatasetLoader('./assets/recruitment_data.csv', "HiringDecision")
     ct = ClassificationTask(model, dl)
 
     ct.train()
@@ -36,7 +37,7 @@ def test_binary_linear_search_dt() -> None:
 
     recourse = BinaryLinearSearch(ct)
 
-    res = recourse.generate_for_all(neg_value=0, column_name="target", distance_func="l1")
+    res = recourse.generate_for_all(neg_value=0, column_name="target")
 
     assert not res.empty
 
@@ -55,6 +56,6 @@ def test_binary_linear_search_lr() -> None:
 
     recourse = BinaryLinearSearch(ct, custom_distance_func=euclidean_copy)
 
-    res = recourse.generate_for_all(neg_value=0, column_name="target", distance_func="custom")
+    res = recourse.generate_for_all(neg_value=0, column_name="target")
 
     assert not res.empty

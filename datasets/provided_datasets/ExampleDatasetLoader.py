@@ -1,18 +1,71 @@
 from abc import ABC, abstractmethod
+
+import numpy as np
 import pandas as pd
 from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
-import numpy as np
 
 from datasets.DatasetLoader import DatasetLoader
 
 
 class ExampleDatasetLoader(DatasetLoader, ABC):
     """
-    Helper abstract class to make implementing example datasets easier
+    An abstract extension of DatasetLoader class which stores example datasets provided within the library
+
+        ...
+
+    Attributes / Properties
+    -------
+
+    _categorical: list[str]
+        Stores the list of categorical column names
+
+    _numerical: list[str]
+        Stores the list of numerical column names
+
+    __missing_num: any
+        Value representing missing numerical data
+
+    __missing_cat: any
+        Value representing missing categorical data
+
+    -------
+
+    Methods
+    -------
+
+    categorical -> list[str]:
+        Returns the list of categorical features
+
+    numerical -> list[str]:
+        Returns the list of numerical features
+
+    load_data() -> None:
+        Abstract method to load data into the dataset
+
+    get_default_preprocessed_features() -> pd.DataFrame:
+        Abstract method to get the default preprocessed dataset
+
+    get_preprocessed_features() -> pd.DataFrame:
+        Returns the dataset preprocessed according to user specifications (imputing, scaling, encoding)
+
+    default_preprocess() -> None:
+        Preprocesses and updates the dataset using the default preprocessing method
+
+    preprocess() -> None:
+        Preprocesses and updates the dataset based on user-provided parameters
+    -------
     """
 
     def __init__(self, categoricals, numericals, missing_val_num=np.nan, missing_val_cat=np.nan):
+        """
+        Initializes the ExampleDatasetLoader with categorical and numerical features, as well as values for missing data.
+
+        @param categoricals: list[str], List of categorical features
+        @param numericals: list[str], List of numerical features
+        @param missing_val_num: optional, Value to represent missing numerical data (default: np.nan)
+        @param missing_val_cat: optional, Value to represent missing categorical data (default: np.nan)
+        """
         super().__init__()
         self._categorical = categoricals
         self._numerical = numericals
@@ -23,7 +76,7 @@ class ExampleDatasetLoader(DatasetLoader, ABC):
     def categorical(self):
         """
         Returns all categorical column names
-        :return: list[str]
+        @return: list[str]
         """
         return self._categorical
 
@@ -31,7 +84,7 @@ class ExampleDatasetLoader(DatasetLoader, ABC):
     def numerical(self) -> list[str]:
         """
         Returns all numerical column names
-        :return: list[str]
+        @return: list[str]
         """
         return self._numerical
 
@@ -39,7 +92,7 @@ class ExampleDatasetLoader(DatasetLoader, ABC):
     def load_data(self):
         """
         Loads data into data attribute
-        :return: None
+        @return: None
         """
         pass
 
@@ -47,7 +100,7 @@ class ExampleDatasetLoader(DatasetLoader, ABC):
     def get_default_preprocessed_features(self) -> pd.DataFrame:
         """
         Returns a preprocessed version of the dataset by using a default/standard preprocessing pipeline
-        :return: pd.DataFrame
+        @return: pd.DataFrame
         """
         pass
 
@@ -63,16 +116,15 @@ class ExampleDatasetLoader(DatasetLoader, ABC):
     ) -> pd.DataFrame:
         """
         Returns a preprocessed version of the dataset based on what the user inputs
-        :param impute_strategy_numeric:  strategy for imputing missing numeric values ('mean', 'median')
-        :param impute_strategy_categoric: strategy for imputing missing categoric values ('most_frequent', 'constant')
-        :param fill_value_categoric: value to use for constant imputing strategy for categorical features
-        :param fill_value_numeric: value to use for constant imputing strategy for numerical features
-        :param scale_method: method for scaling numerical features ('standard', 'minmax', None)
-        :param encode_categorical: whether to encode categorical features (True/False)
-        :param selected_features: list of features to select, if None all features are used
-        :return: pd.DataFrame
+        @param impute_strategy_numeric:  strategy for imputing missing numeric values ('mean', 'median')
+        @param impute_strategy_categoric: strategy for imputing missing categoric values ('most_frequent', 'constant')
+        @param fill_value_categoric: value to use for constant imputing strategy for categorical features
+        @param fill_value_numeric: value to use for constant imputing strategy for numerical features
+        @param scale_method: method for scaling numerical features ('standard', 'minmax', None)
+        @param encode_categorical: whether to encode categorical features (True/False)
+        @param selected_features: list of features to select, if None all features are used
+        @return: pd.DataFrame
         """
-
         # Extract only the selected features and separate into numerical, categorical
         if selected_features is not None:
             data_selected = self.data[selected_features]
@@ -84,7 +136,6 @@ class ExampleDatasetLoader(DatasetLoader, ABC):
             data_selected = self.data
 
         if len(self.numerical) > 0:
-
             # Impute numerical features
             if impute_strategy_categoric == 'constant':
                 numerical_imputer = SimpleImputer(strategy=impute_strategy_numeric, missing_values=self.__missing_num,
@@ -106,12 +157,10 @@ class ExampleDatasetLoader(DatasetLoader, ABC):
                                                      columns=numeric_features)
             else:
                 numerical_data_scaled = numerical_data_imputed
-
         else:
             numerical_data_scaled = pd.DataFrame()
 
         if len(self.categorical) > 0:
-
             # Impute categorical features
             if impute_strategy_categoric == 'constant':
                 categorical_imputer = SimpleImputer(strategy=impute_strategy_categoric,
@@ -130,20 +179,18 @@ class ExampleDatasetLoader(DatasetLoader, ABC):
                                                           columns=categoric_features)
             else:
                 categorical_data_encoded = categorical_data_imputed
-
         else:
             categorical_data_encoded = pd.DataFrame()
 
         # Join preprocessed categorical and numerical features
-        preprocessed_data = pd.concat([categorical_data_encoded, numerical_data_scaled],
-                                      axis=1)
+        preprocessed_data = pd.concat([categorical_data_encoded, numerical_data_scaled], axis=1)
 
         return preprocessed_data
 
     def default_preprocess(self):
         """
         Changes the data attribute to be preprocessed using the default method
-        :return:
+        @return: None
         """
         preprocessed = self.get_default_preprocessed_features()
         self.data = pd.concat([preprocessed, self.y], axis=1).drop_duplicates()
@@ -160,14 +207,14 @@ class ExampleDatasetLoader(DatasetLoader, ABC):
     ):
         """
         Changes the data attribute to be preprocessed based on parameters
-        :param impute_strategy_numeric:  strategy for imputing missing numeric values ('mean', 'median')
-        :param impute_strategy_categoric: strategy for imputing missing categoric values ('most_frequent', 'constant')
-        :param fill_value_categoric: value to use for constant imputing strategy for categorical features
-        :param fill_value_numeric: value to use for constant imputing strategy for numerical features
-        :param scale_method: method for scaling numerical features ('standard', 'minmax', None)
-        :param encode_categorical: whether to encode categorical features (True/False)
-        :param selected_features: list of features to select, if None all features are used
-        :return: pd.DataFrame
+        @param impute_strategy_numeric:  strategy for imputing missing numeric values ('mean', 'median')
+        @param impute_strategy_categoric: strategy for imputing missing categoric values ('most_frequent', 'constant')
+        @param fill_value_categoric: value to use for constant imputing strategy for categorical features
+        @param fill_value_numeric: value to use for constant imputing strategy for numerical features
+        @param scale_method: method for scaling numerical features ('standard', 'minmax', None)
+        @param encode_categorical: whether to encode categorical features (True/False)
+        @param selected_features: list of features to select, if None all features are used
+        @return: None
         """
         preprocessed = self.get_preprocessed_features(
             impute_strategy_numeric=impute_strategy_numeric,

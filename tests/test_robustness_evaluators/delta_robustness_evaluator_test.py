@@ -1,12 +1,12 @@
 import pandas as pd
+import torch
 
 from datasets.ExampleDatasets import get_example_dataset
 from datasets.custom_datasets.CsvDatasetLoader import CsvDatasetLoader
 from models.pytorch_models.SimpleNNModel import SimpleNNModel
+from recourse_methods.KDTreeNNCE import KDTreeNNCE
 from robustness_evaluations.DeltaRobustnessEvaluator import DeltaRobustnessEvaluator
 from tasks.ClassificationTask import ClassificationTask
-from recourse_methods.KDTreeNNCE import KDTreeNNCE
-import torch
 
 
 def test_from_example_8_in_paper():

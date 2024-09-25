@@ -1,5 +1,6 @@
-from sklearn.preprocessing import StandardScaler
 import pandas as pd
+from sklearn.preprocessing import StandardScaler
+
 from datasets.provided_datasets.ExampleDatasetLoader import ExampleDatasetLoader
 
 
@@ -19,7 +20,6 @@ class IonosphereDatasetLoader(ExampleDatasetLoader):
         self._data = pd.read_csv(url, header=None, names=column_names)
 
     def get_default_preprocessed_features(self):
-
         # We will map the target variable here for default preprocessing
         self.data['target'] = self.data['target'].map({'g': 1, 'b': 0})
 

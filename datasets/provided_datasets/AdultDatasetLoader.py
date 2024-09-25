@@ -1,7 +1,7 @@
 import pandas as pd
-from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
 
 from datasets.provided_datasets.ExampleDatasetLoader import ExampleDatasetLoader
 
@@ -18,7 +18,7 @@ class AdultDatasetLoader(ExampleDatasetLoader):
 
     @property
     def X(self) -> pd.DataFrame:
-        return self._data.drop([["income"]])
+        return self._data.drop(columns=["income"])
 
     @property
     def y(self) -> pd.Series:
@@ -53,4 +53,6 @@ class AdultDatasetLoader(ExampleDatasetLoader):
         data_features = data.drop(columns=["income"])
         data_preprocessed = preprocessor.fit_transform(data_features)
         data_preprocessed_df = pd.DataFrame(data_preprocessed.toarray())
+
+        self._data["income"] = self._data["income"].map({"<=50K": 0, ">50K": 1})
         return data_preprocessed_df

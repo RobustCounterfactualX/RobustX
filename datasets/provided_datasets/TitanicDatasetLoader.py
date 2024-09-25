@@ -1,9 +1,9 @@
+import numpy as np
 import pandas as pd
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
-import numpy as np
 
 from datasets.provided_datasets.ExampleDatasetLoader import ExampleDatasetLoader
 
@@ -28,7 +28,6 @@ class TitanicDatasetLoader(ExampleDatasetLoader):
         self._data = pd.read_csv(url)
 
     def get_default_preprocessed_features(self) -> pd.DataFrame:
-
         numeric_transformer = Pipeline(steps=[
             ('imputer', SimpleImputer(strategy='mean')),
             ('scaler', StandardScaler())

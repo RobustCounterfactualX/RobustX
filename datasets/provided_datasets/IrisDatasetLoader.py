@@ -1,6 +1,6 @@
+import pandas as pd
 from sklearn.datasets import load_iris
 from sklearn.preprocessing import StandardScaler
-import pandas as pd
 
 from datasets.provided_datasets.ExampleDatasetLoader import ExampleDatasetLoader
 

@@ -59,7 +59,12 @@ class BinaryLinearSearch(RecourseGenerator):
 
         ct[column_name] = res
 
+        newct = c.T
+        nt = instance
+
+        loss = distance_func(nt, newct)
+
         # Store the loss
-        ct["loss"] = distance_func(negative, c)
+        ct["loss"] = loss
 
         return ct

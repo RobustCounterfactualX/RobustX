@@ -7,12 +7,7 @@ from robustness_evaluations.DeltaRobustnessEvaluator import DeltaRobustnessEvalu
 from robustness_evaluations.ModelChangesRobustnessEvaluator import ModelChangesRobustnessEvaluator
 
 
-# TODO: FOcus on extensibility so other's can implement their own recourse generation methods
-
-# TODO: Examples, and notebooks and documentation! How does someone implement their own method as a notebook?
-
-# TODO: Some benchmarking, with other datasets
-class TREX2(RecourseGenerator):
+class TrexNN(RecourseGenerator):
     """
     A recourse generator that uses the T-Rex method for finding robust counterfactual explanations.
 

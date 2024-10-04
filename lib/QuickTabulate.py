@@ -15,7 +15,7 @@ from tabulate import tabulate
 
 
 def quick_tabulate(dl: DatasetLoader, model: BaseModel, methods: Dict[str, RecourseGenerator.__class__],
-                   subset: pd.DataFrame = None, preprocess = True, **params):
+                   subset: pd.DataFrame = None, preprocess=True, **params):
     """
     Generates and prints a table summarizing the performance of different recourse generation methods.
 
@@ -44,7 +44,6 @@ def quick_tabulate(dl: DatasetLoader, model: BaseModel, methods: Dict[str, Recou
     validity_evaluator = ValidityEvaluator(ct)
     distance_evaluator = DistanceEvaluator(ct)
     robustness_evaluator = RobustnessProportionEvaluator(ct)
-    #manifold_evaluator = ManifoldEvaluator(ct)
 
     for method_name in methods:
 
@@ -69,8 +68,7 @@ def quick_tabulate(dl: DatasetLoader, model: BaseModel, methods: Dict[str, Recou
                         ])
 
     # Set headers
-    headers = ["Method", "Execution Time (s)", "Validity proportion", "Average Distance", "Robustness proportion",
-               ]
+    headers = ["Method", "Execution Time (s)", "Validity proportion", "Average Distance", "Robustness proportion"]
 
     # Print results
     print(tabulate(results, headers, tablefmt="grid"))

@@ -21,6 +21,8 @@ def test_distance():
 
     dist_eval = DistanceEvaluator(ct)
 
-    avg_dist = dist_eval.evaluate(res)
+    avg_dist = dist_eval.evaluate(res, distance_func=manhattan)
 
-    assert avg_dist
+    mean = res["loss"].mean()
+
+    assert avg_dist == mean

@@ -4,7 +4,7 @@ from datasets.ExampleDatasets import get_example_dataset
 from evaluations.RobustnessProportionEvaluator import RobustnessProportionEvaluator
 from models.pytorch_models.SimpleNNModel import SimpleNNModel
 from recourse_methods.MCE import MCE
-from recourse_methods.STCE import TREX2
+from recourse_methods.STCE import TrexNN
 from tasks.ClassificationTask import ClassificationTask
 
 
@@ -17,16 +17,15 @@ def test_stce() -> None:
     dl.default_preprocess()
     ct.train()
 
-    recourse = TREX2(ct)
+    recourse = TrexNN(ct)
 
     re = RobustnessProportionEvaluator(ct)
 
     _, neg = list(dl.get_negative_instances(neg_value=0).iterrows())[0]
     ces = []
-    for _, neg in dl.get_negative_instances(neg_value=0).head(10).iterrows():
-        res = recourse.generate_for_instance(neg, delta=0.05)
+    for _, neg in dl.get_negative_instances(neg_value=0).iterrows():
+        res = recourse.generate_for_instance(neg, delta=0.005)
         ces.append(res)
         assert model.predict_single(res)
-
     ce_df = pd.concat(ces)
-    print(re.evaluate(ce_df, delta=0.05))
+    print(re.evaluate(ce_df, delta=0.005))

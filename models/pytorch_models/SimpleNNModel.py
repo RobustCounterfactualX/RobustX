@@ -89,7 +89,7 @@ class SimpleNNModel(BaseModel):
 
         return model
 
-    def train(self, X, y, epochs=100):
+    def train(self, X, y, epochs=100, **kwargs):
         """
         Trains the neural network model.
 

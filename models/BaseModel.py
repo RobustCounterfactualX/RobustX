@@ -48,7 +48,7 @@ class BaseModel(ABC):
         self._model = model
 
     @abstractmethod
-    def train(self, X: pd.DataFrame, y: pd.DataFrame) -> None:
+    def train(self, X: pd.DataFrame, y: pd.DataFrame, **kwargs) -> None:
         """
         Trains the model using X feature variables and y target variable. Each implementing class
         can decide how to train their model and can add additional parameters, but X and y must be of

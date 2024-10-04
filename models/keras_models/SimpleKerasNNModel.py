@@ -57,7 +57,7 @@ class SimpleKerasNNModel(BaseModel):
         model.compile(optimizer=Adam(learning_rate=0.001), loss=BinaryCrossentropy(), metrics=[Accuracy()])
         super().__init__(model)
 
-    def train(self, X: pd.DataFrame, y: pd.DataFrame, epochs: int = 100, batch_size: int = 32) -> None:
+    def train(self, X: pd.DataFrame, y: pd.DataFrame, epochs: int = 100, batch_size: int = 32, **kwargs) -> None:
         """
         Trains the model on the provided data.
 

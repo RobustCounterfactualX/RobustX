@@ -20,7 +20,7 @@ class SklearnModel(BaseModel):
         """
         super().__init__(model)
 
-    def train(self, X: pd.DataFrame, y: pd.DataFrame) -> None:
+    def train(self, X: pd.DataFrame, y: pd.DataFrame, **kwargs) -> None:
         """
         Trains the scikit-learn model.
 

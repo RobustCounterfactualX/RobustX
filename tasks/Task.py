@@ -27,7 +27,7 @@ class Task(ABC):
         self.__model = model
 
     @abstractmethod
-    def train(self):
+    def train(self, **kwargs):
         """
         Abstract method to train the model on the provided training data.
         Must be implemented by subclasses.

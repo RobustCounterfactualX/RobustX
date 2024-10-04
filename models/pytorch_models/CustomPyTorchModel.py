@@ -51,7 +51,7 @@ class CustomPyTorchModel(BaseModel):
         self.criterion = criterion
         self.optimizer = optimizer_class(self._model.parameters(), lr=learning_rate)
 
-    def train(self, X: pd.DataFrame, y: pd.DataFrame, epochs=10, batch_size=32):
+    def train(self, X: pd.DataFrame, y: pd.DataFrame, epochs=10, batch_size=32, **kwargs):
         """
         Train the PyTorch model using the provided data.
 

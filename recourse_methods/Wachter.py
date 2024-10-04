@@ -62,7 +62,7 @@ class Wachter(RecourseGenerator):
         DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
         # initialise the counterfactual search at the input point
-        x = torch.Tensor(instance).to(DEVICE)
+        x = torch.Tensor(instance.to_numpy()).to(DEVICE)
         wac = Variable(x.clone(), requires_grad=True).to(DEVICE)
 
         # initialise an optimiser for gradient descent over the wac counterfactual point

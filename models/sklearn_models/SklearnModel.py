@@ -1,7 +1,8 @@
 import pandas as pd
+import torch
 from sklearn.metrics import accuracy_score, f1_score
 
-from models.BaseModel import BaseModel
+from RoCELib.models.BaseModel import BaseModel
 
 
 class SklearnModel(BaseModel):
@@ -55,6 +56,15 @@ class SklearnModel(BaseModel):
         @return: Probabilities of each outcome, returned as a DataFrame.
         """
         return self.model.predict_proba(X)
+
+    def predict_proba_tensor(self, X: pd.DataFrame) -> torch.Tensor:
+        """
+        Predicts the probabilities of outcomes for given feature variables.
+
+        @param X: The feature variables, should be a DataFrame.
+        @return: Probabilities of each outcome, returned as a DataFrame.
+        """
+        return torch.tensor(self.model.predict_proba(X))
 
     def evaluate(self, X: pd.DataFrame, y: pd.DataFrame) -> dict:
         """

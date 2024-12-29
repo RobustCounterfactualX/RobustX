@@ -1,10 +1,10 @@
-from datasets.ExampleDatasets import get_example_dataset
-from datasets.custom_datasets.CsvDatasetLoader import CsvDatasetLoader
-from models.Models import get_sklearn_model
-from models.pytorch_models.SimpleNNModel import SimpleNNModel
-from recourse_methods.KDTreeNNCE import KDTreeNNCE
-from recourse_methods.NNCE import NNCE
-from tasks.ClassificationTask import ClassificationTask
+from RoCELib.datasets.ExampleDatasets import get_example_dataset
+from RoCELib.datasets.custom_datasets.CsvDatasetLoader import CsvDatasetLoader
+from RoCELib.models.Models import get_sklearn_model
+from RoCELib.models.pytorch_models.SimpleNNModel import SimpleNNModel
+from RoCELib.recourse_methods.KDTreeNNCE import KDTreeNNCE
+from RoCELib.recourse_methods.NNCE import NNCE
+from RoCELib.tasks.ClassificationTask import ClassificationTask
 
 
 def test_kdtree_nnce() -> None:

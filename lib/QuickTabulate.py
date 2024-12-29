@@ -1,14 +1,14 @@
 import pandas as pd
 
-from datasets.DatasetLoader import DatasetLoader
-from datasets.provided_datasets.ExampleDatasetLoader import ExampleDatasetLoader
-from evaluations.DistanceEvaluator import DistanceEvaluator
-from evaluations.ManifoldEvaluator import ManifoldEvaluator
-from evaluations.RobustnessProportionEvaluator import RobustnessProportionEvaluator
-from evaluations.ValidityEvaluator import ValidityEvaluator
-from models.BaseModel import BaseModel
-from recourse_methods.RecourseGenerator import RecourseGenerator
-from tasks.ClassificationTask import ClassificationTask
+from RoCELib.datasets.DatasetLoader import DatasetLoader
+from RoCELib.datasets.provided_datasets.ExampleDatasetLoader import ExampleDatasetLoader
+from RoCELib.evaluations.DistanceEvaluator import DistanceEvaluator
+from RoCELib.evaluations.ManifoldEvaluator import ManifoldEvaluator
+from RoCELib.evaluations.RobustnessProportionEvaluator import RobustnessProportionEvaluator
+from RoCELib.evaluations.ValidityEvaluator import ValidityEvaluator
+from RoCELib.models.BaseModel import BaseModel
+from RoCELib.recourse_methods.RecourseGenerator import RecourseGenerator
+from RoCELib.tasks.ClassificationTask import ClassificationTask
 from typing import Dict
 import time
 from tabulate import tabulate

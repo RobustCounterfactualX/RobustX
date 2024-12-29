@@ -1,7 +1,7 @@
 import pandas as pd
 from sklearn.neighbors import LocalOutlierFactor
 
-from evaluations.RecourseEvaluator import RecourseEvaluator
+from RoCELib.evaluations.RecourseEvaluator import RecourseEvaluator
 
 
 ### Work In Progress ###

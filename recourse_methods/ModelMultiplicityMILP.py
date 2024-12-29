@@ -2,10 +2,10 @@ import pandas as pd
 from gurobipy import Model
 from gurobipy.gurobipy import quicksum, GRB
 
-from datasets.DatasetLoader import DatasetLoader
-from models.pytorch_models.SimpleNNModel import SimpleNNModel
-from recourse_methods.RecourseGenerator import RecourseGenerator
-from tasks.ClassificationTask import ClassificationTask
+from RoCELib.datasets.DatasetLoader import DatasetLoader
+from RoCELib.models.pytorch_models.SimpleNNModel import SimpleNNModel
+from RoCELib.recourse_methods.RecourseGenerator import RecourseGenerator
+from RoCELib.tasks.ClassificationTask import ClassificationTask
 
 
 def create_weights_and_bias_dictionary(model):

@@ -1,7 +1,7 @@
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
 
-from datasets.provided_datasets.ExampleDatasetLoader import ExampleDatasetLoader
+from RoCELib.datasets.provided_datasets.ExampleDatasetLoader import ExampleDatasetLoader
 
 
 class IonosphereDatasetLoader(ExampleDatasetLoader):

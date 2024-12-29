@@ -1,9 +1,9 @@
-from datasets.ExampleDatasets import get_example_dataset
-from evaluations.ValidityEvaluator import ValidityEvaluator
-from lib.distance_functions.DistanceFunctions import manhattan
-from models.Models import get_sklearn_model
-from recourse_methods.BinaryLinearSearch import BinaryLinearSearch
-from tasks.ClassificationTask import ClassificationTask
+from RoCELib.datasets.ExampleDatasets import get_example_dataset
+from RoCELib.evaluations.ValidityEvaluator import ValidityEvaluator
+from RoCELib.lib.distance_functions.DistanceFunctions import manhattan
+from RoCELib.models.Models import get_sklearn_model
+from RoCELib.recourse_methods.BinaryLinearSearch import BinaryLinearSearch
+from RoCELib.tasks.ClassificationTask import ClassificationTask
 
 
 def test_validity():

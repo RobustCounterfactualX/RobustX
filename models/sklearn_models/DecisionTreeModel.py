@@ -1,6 +1,6 @@
 from sklearn.tree import DecisionTreeClassifier
 
-from models.sklearn_models.SklearnModel import SklearnModel
+from RoCELib.models.sklearn_models.SklearnModel import SklearnModel
 
 
 class DecisionTreeModel(SklearnModel):

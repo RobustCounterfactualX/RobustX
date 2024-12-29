@@ -1,6 +1,6 @@
 import pandas as pd
 
-from evaluations.RecourseEvaluator import RecourseEvaluator
+from RoCELib.evaluations.RecourseEvaluator import RecourseEvaluator
 
 
 class ValidityEvaluator(RecourseEvaluator):

@@ -1,7 +1,7 @@
-from datasets.provided_datasets.AdultDatasetLoader import AdultDatasetLoader
-from datasets.provided_datasets.IonosphereDatasetLoader import IonosphereDatasetLoader
-from datasets.provided_datasets.IrisDatasetLoader import IrisDatasetLoader
-from datasets.provided_datasets.TitanicDatasetLoader import TitanicDatasetLoader
+from ..datasets.provided_datasets.AdultDatasetLoader import AdultDatasetLoader
+from ..datasets.provided_datasets.IonosphereDatasetLoader import IonosphereDatasetLoader
+from ..datasets.provided_datasets.IrisDatasetLoader import IrisDatasetLoader
+from ..datasets.provided_datasets.TitanicDatasetLoader import TitanicDatasetLoader
 
 
 def get_example_dataset(name: str):
@@ -13,6 +13,7 @@ def get_example_dataset(name: str):
                  - ionosphere
                  - adult
                  - titanic
+
     @return: DatasetLoader
     """
     if name == "iris":

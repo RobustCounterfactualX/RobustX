@@ -3,7 +3,7 @@ from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 
-from datasets.provided_datasets.ExampleDatasetLoader import ExampleDatasetLoader
+from RoCELib.datasets.provided_datasets.ExampleDatasetLoader import ExampleDatasetLoader
 
 
 class AdultDatasetLoader(ExampleDatasetLoader):

@@ -1,6 +1,6 @@
 import pandas as pd
 
-from tasks.Task import Task
+from RoCELib.tasks.Task import Task
 
 
 class ClassificationTask(Task):

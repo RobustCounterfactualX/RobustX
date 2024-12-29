@@ -7,7 +7,7 @@ from keras.metrics import Accuracy
 from keras.models import Sequential
 from keras.optimizers import Adam
 
-from models.BaseModel import BaseModel
+from RoCELib.models.BaseModel import BaseModel
 
 
 class SimpleKerasNNModel(BaseModel):

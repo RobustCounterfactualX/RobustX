@@ -1,5 +1,5 @@
-from datasets.ExampleDatasets import get_example_dataset
-from datasets.custom_datasets.CsvDatasetLoader import CsvDatasetLoader
+from RoCELib.datasets.ExampleDatasets import get_example_dataset
+from RoCELib.datasets.custom_datasets.CsvDatasetLoader import CsvDatasetLoader
 
 
 def test_csv_dataset_loader():

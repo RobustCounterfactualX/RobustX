@@ -2,7 +2,7 @@ import pandas as pd
 import torch
 from sklearn.neighbors import KDTree
 
-from recourse_methods.RecourseGenerator import RecourseGenerator
+from RoCELib.recourse_methods.RecourseGenerator import RecourseGenerator
 
 
 class KDTreeNNCE(RecourseGenerator):

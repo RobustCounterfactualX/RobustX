@@ -1,6 +1,6 @@
 from abc import abstractmethod, ABC
 
-from tasks.Task import Task
+from RoCELib.tasks.Task import Task
 
 
 class ModelChangesRobustnessEvaluator(ABC):

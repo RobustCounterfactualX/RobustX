@@ -3,7 +3,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 import numpy as np
-from models.BaseModel import BaseModel
+from RoCELib.models.BaseModel import BaseModel
 
 
 class SimpleNNModel(BaseModel):

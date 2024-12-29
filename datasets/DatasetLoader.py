@@ -10,7 +10,7 @@ class DatasetLoader(ABC):
     ...
 
     Attributes / Properties
-    -------
+    ------------------------
 
     _data: pd.DataFrame
         Stores the dataset as a DataFrame, only has value once load_data() called

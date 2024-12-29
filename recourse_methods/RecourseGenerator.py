@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 
 import pandas as pd
 
-from tasks.Task import Task
+from RoCELib.tasks.Task import Task
 
 
 class RecourseGenerator(ABC):
@@ -38,8 +38,7 @@ class RecourseGenerator(ABC):
         Generates counterfactuals for a given DataFrame of instances.
 
         @param instances: A DataFrame of instances for which you want to generate recourses.
-        @param distance_func: The method to calculate the distance between two points. Options are
-                              'l1' / 'manhattan', 'l2' / 'euclidean', and 'custom'.
+        @param distance_func: The method to calculate the distance between two points. Options are 'l1' / 'manhattan', 'l2' / 'euclidean', and 'custom'.
         @param column_name: The name of the target column.
         @param neg_value: The value considered negative in the target variable.
         @return: A DataFrame of the recourses for the provided instances.
@@ -60,8 +59,7 @@ class RecourseGenerator(ABC):
         Generates a counterfactual for a provided instance.
 
         @param instance: The instance for which you would like to generate a counterfactual.
-        @param distance_func: The method to calculate the distance between two points. Options are
-                              'l1' / 'manhattan', 'l2' / 'euclidean', and 'custom'.
+        @param distance_func: The method to calculate the distance between two points. Options are 'l1' / 'manhattan', 'l2' / 'euclidean', and 'custom'.
         @param column_name: The name of the target column.
         @param neg_value: The value considered negative in the target variable.
         @return: A DataFrame containing the recourse for the instance.
@@ -75,8 +73,7 @@ class RecourseGenerator(ABC):
 
         @param neg_value: The value in the target column which counts as a negative instance.
         @param column_name: The name of the target variable.
-        @param distance_func: The method to calculate the distance between two points. Options are
-                              'l1' / 'manhattan', 'l2' / 'euclidean', and 'custom'.
+        @param distance_func: The method to calculate the distance between two points. Options are 'l1' / 'manhattan', 'l2' / 'euclidean', and 'custom'.
         @return: A DataFrame of the recourses for all negative values.
         """
         negatives = self.task.training_data.get_negative_instances(neg_value, column_name=column_name)

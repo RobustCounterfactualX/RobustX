@@ -94,6 +94,7 @@ class BaseModel(ABC):
         """
         pass
 
+    @abstractmethod
     def predict_proba_tensor(self, X: torch.Tensor) -> torch.Tensor:
         """
         Predicts the probabilities of outcomes for tensor inputs.

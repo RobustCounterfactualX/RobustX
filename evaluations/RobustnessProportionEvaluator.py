@@ -1,6 +1,6 @@
-from evaluations.RecourseEvaluator import RecourseEvaluator
-from robustness_evaluations.DeltaRobustnessEvaluator import DeltaRobustnessEvaluator
-from robustness_evaluations.ModelChangesRobustnessEvaluator import ModelChangesRobustnessEvaluator
+from RoCELib.evaluations.RecourseEvaluator import RecourseEvaluator
+from RoCELib.robustness_evaluations.DeltaRobustnessEvaluator import DeltaRobustnessEvaluator
+from RoCELib.robustness_evaluations.ModelChangesRobustnessEvaluator import ModelChangesRobustnessEvaluator
 
 
 class RobustnessProportionEvaluator(RecourseEvaluator):

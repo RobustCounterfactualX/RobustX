@@ -1,8 +1,8 @@
-from datasets.ExampleDatasets import get_example_dataset
-from evaluations.ValidityEvaluator import ValidityEvaluator
-from models.pytorch_models.SimpleNNModel import SimpleNNModel
-from recourse_methods.Wachter import Wachter
-from tasks.ClassificationTask import ClassificationTask
+from RoCELib.datasets.ExampleDatasets import get_example_dataset
+from RoCELib.evaluations.ValidityEvaluator import ValidityEvaluator
+from RoCELib.models.pytorch_models.SimpleNNModel import SimpleNNModel
+from RoCELib.recourse_methods.Wachter import Wachter
+from RoCELib.tasks.ClassificationTask import ClassificationTask
 
 
 def test_wachter() -> None:

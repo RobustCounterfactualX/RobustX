@@ -6,7 +6,7 @@ from torch import nn
 from torch.autograd import Variable
 from torch.optim import Adam
 
-from recourse_methods.RecourseGenerator import RecourseGenerator
+from RoCELib.recourse_methods.RecourseGenerator import RecourseGenerator
 
 
 class CostLoss(nn.Module):

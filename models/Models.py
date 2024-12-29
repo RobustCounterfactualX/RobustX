@@ -1,6 +1,6 @@
-from models.sklearn_models.DecisionTreeModel import DecisionTreeModel
-from models.sklearn_models.LogisticRegressionModel import LogisticRegressionModel
-from models.sklearn_models.SVMModel import SVMModel
+from RoCELib.models.sklearn_models.DecisionTreeModel import DecisionTreeModel
+from RoCELib.models.sklearn_models.LogisticRegressionModel import LogisticRegressionModel
+from RoCELib.models.sklearn_models.SVMModel import SVMModel
 
 
 def get_sklearn_model(name: str):

@@ -2,9 +2,9 @@ import numpy as np
 import pandas as pd
 from sklearn.neighbors import KDTree
 
-from recourse_methods.RecourseGenerator import RecourseGenerator
-from robustness_evaluations.DeltaRobustnessEvaluator import DeltaRobustnessEvaluator
-from tasks.Task import Task
+from RoCELib.recourse_methods.RecourseGenerator import RecourseGenerator
+from RoCELib.robustness_evaluations.DeltaRobustnessEvaluator import DeltaRobustnessEvaluator
+from RoCELib.tasks.Task import Task
 from functools import lru_cache
 
 

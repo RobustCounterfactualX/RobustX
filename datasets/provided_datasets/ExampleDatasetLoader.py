@@ -5,7 +5,7 @@ import pandas as pd
 from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 
-from datasets.DatasetLoader import DatasetLoader
+from ..DatasetLoader import DatasetLoader
 
 
 class ExampleDatasetLoader(DatasetLoader, ABC):
@@ -15,7 +15,7 @@ class ExampleDatasetLoader(DatasetLoader, ABC):
         ...
 
     Attributes / Properties
-    -------
+    ------------------------
 
     _categorical: list[str]
         Stores the list of categorical column names

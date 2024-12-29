@@ -1,6 +1,6 @@
-from lib.distance_functions.DistanceFunctions import euclidean
-from recourse_methods.RecourseGenerator import RecourseGenerator
-from robustness_evaluations.DeltaRobustnessEvaluator import DeltaRobustnessEvaluator
+from RoCELib.lib.distance_functions.DistanceFunctions import euclidean
+from RoCELib.recourse_methods.RecourseGenerator import RecourseGenerator
+from RoCELib.robustness_evaluations.DeltaRobustnessEvaluator import DeltaRobustnessEvaluator
 
 
 class GuidedBinaryLinearSearch(RecourseGenerator):

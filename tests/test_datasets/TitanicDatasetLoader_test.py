@@ -1,4 +1,4 @@
-from datasets.ExampleDatasets import get_example_dataset
+from RoCELib.datasets.ExampleDatasets import get_example_dataset
 
 titanic = get_example_dataset("titanic")
 

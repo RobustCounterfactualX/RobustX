@@ -2,8 +2,8 @@ import numpy as np
 import pandas as pd
 import torch
 
-from lib.distance_functions.DistanceFunctions import euclidean
-from recourse_methods.RecourseGenerator import RecourseGenerator
+from RoCELib.lib.distance_functions.DistanceFunctions import euclidean
+from RoCELib.recourse_methods.RecourseGenerator import RecourseGenerator
 
 
 class NNCE(RecourseGenerator):

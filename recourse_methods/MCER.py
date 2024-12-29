@@ -1,7 +1,7 @@
-from recourse_methods.MCE import MCE
-from recourse_methods.RecourseGenerator import RecourseGenerator
-from robustness_evaluations.DeltaRobustnessEvaluator import DeltaRobustnessEvaluator
-from tasks.Task import Task
+from RoCELib.recourse_methods.MCE import MCE
+from RoCELib.recourse_methods.RecourseGenerator import RecourseGenerator
+from RoCELib.robustness_evaluations.DeltaRobustnessEvaluator import DeltaRobustnessEvaluator
+from RoCELib.tasks.Task import Task
 import pandas as pd
 
 

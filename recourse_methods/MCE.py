@@ -2,9 +2,9 @@ import pandas as pd
 from gurobipy import Model, GRB
 from gurobipy.gurobipy import quicksum
 
-from lib.OptSolver import OptSolver
-from recourse_methods.RecourseGenerator import RecourseGenerator
-from tasks.Task import Task
+from RoCELib.lib.OptSolver import OptSolver
+from RoCELib.recourse_methods.RecourseGenerator import RecourseGenerator
+from RoCELib.tasks.Task import Task
 
 
 class MCE(RecourseGenerator):

@@ -1,8 +1,8 @@
 from gurobipy import Model, GRB
 
-from lib.OptSolver import OptSolver
-from robustness_evaluations.ModelChangesRobustnessEvaluator import ModelChangesRobustnessEvaluator
-from tasks.Task import Task
+from RoCELib.lib.OptSolver import OptSolver
+from RoCELib.robustness_evaluations.ModelChangesRobustnessEvaluator import ModelChangesRobustnessEvaluator
+from RoCELib.tasks.Task import Task
 
 
 class DeltaRobustnessEvaluator(ModelChangesRobustnessEvaluator):

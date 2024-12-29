@@ -4,7 +4,7 @@ import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import DataLoader, TensorDataset
 
-from models.BaseModel import BaseModel
+from RoCELib.models.BaseModel import BaseModel
 
 
 class CustomPyTorchModel(BaseModel):

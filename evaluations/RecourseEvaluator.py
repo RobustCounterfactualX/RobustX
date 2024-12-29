@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from tasks.Task import Task
+from RoCELib.tasks.Task import Task
 
 
 class RecourseEvaluator(ABC):

@@ -1,6 +1,6 @@
 import pandas as pd
 
-from datasets.DatasetLoader import DatasetLoader
+from ..DatasetLoader import DatasetLoader
 
 
 class CsvDatasetLoader(DatasetLoader):

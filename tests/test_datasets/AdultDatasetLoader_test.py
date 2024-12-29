@@ -1,4 +1,4 @@
-from datasets.ExampleDatasets import get_example_dataset
+from RoCELib.datasets.ExampleDatasets import get_example_dataset
 
 adult = get_example_dataset("adult")
 print(adult.data.head())

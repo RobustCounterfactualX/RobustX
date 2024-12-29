@@ -1,7 +1,7 @@
 import numpy as np
 
-from evaluations.RecourseEvaluator import RecourseEvaluator
-from lib.distance_functions.DistanceFunctions import euclidean
+from RoCELib.evaluations.RecourseEvaluator import RecourseEvaluator
+from RoCELib.lib.distance_functions.DistanceFunctions import euclidean
 
 
 class DistanceEvaluator(RecourseEvaluator):

@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-from lib.distance_functions.DistanceFunctions import euclidean, manhattan
+from RoCELib.lib.distance_functions.DistanceFunctions import euclidean, manhattan
 
 
 def test_euclidean():

@@ -3,8 +3,8 @@ import pandas as pd
 from gurobipy import Model, GRB
 from gurobipy.gurobipy import quicksum
 
-from intabs.IntervalAbstractionPyTorch import IntervalAbstractionPytorch
-from tasks.Task import Task
+from RoCELib.intabs.IntervalAbstractionPyTorch import IntervalAbstractionPytorch
+from RoCELib.tasks.Task import Task
 
 
 class OptSolver:

@@ -1,11 +1,11 @@
 import pandas as pd
 
-from datasets.ExampleDatasets import get_example_dataset
-from evaluations.RobustnessProportionEvaluator import RobustnessProportionEvaluator
-from models.pytorch_models.SimpleNNModel import SimpleNNModel
-from recourse_methods.MCE import MCE
-from recourse_methods.STCE import TrexNN
-from tasks.ClassificationTask import ClassificationTask
+from RoCELib.datasets.ExampleDatasets import get_example_dataset
+from RoCELib.evaluations.RobustnessProportionEvaluator import RobustnessProportionEvaluator
+from RoCELib.models.pytorch_models.SimpleNNModel import SimpleNNModel
+from RoCELib.recourse_methods.MCE import MCE
+from RoCELib.recourse_methods.STCE import TrexNN
+from RoCELib.tasks.ClassificationTask import ClassificationTask
 
 
 def test_stce() -> None:

@@ -2,8 +2,8 @@ from abc import ABC, abstractmethod
 
 import pandas as pd
 
-from datasets.DatasetLoader import DatasetLoader
-from models.BaseModel import BaseModel
+from RoCELib.datasets.DatasetLoader import DatasetLoader
+from RoCELib.models.BaseModel import BaseModel
 
 
 class Task(ABC):

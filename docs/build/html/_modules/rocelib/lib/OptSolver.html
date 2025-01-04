@@ -1,0 +1,266 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>rocelib.lib.OptSolver &mdash; RoCELib  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            RoCELib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">rocelib</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">RoCELib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">rocelib.lib.OptSolver</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for rocelib.lib.OptSolver</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="kn">from</span> <span class="nn">gurobipy</span> <span class="kn">import</span> <span class="n">Model</span><span class="p">,</span> <span class="n">GRB</span>
+<span class="kn">from</span> <span class="nn">gurobipy.gurobipy</span> <span class="kn">import</span> <span class="n">quicksum</span>
+
+<span class="kn">from</span> <span class="nn">rocelib.intabs.IntervalAbstractionPyTorch</span> <span class="kn">import</span> <span class="n">IntervalAbstractionPytorch</span>
+<span class="kn">from</span> <span class="nn">rocelib.tasks.Task</span> <span class="kn">import</span> <span class="n">Task</span>
+
+
+<div class="viewcode-block" id="OptSolver">
+<a class="viewcode-back" href="../../../rocelib.lib.html#rocelib.lib.OptSolver.OptSolver">[docs]</a>
+<span class="k">class</span> <span class="nc">OptSolver</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A solver class that uses Gurobi to optimize a model based on a given task and instance.</span>
+
+<span class="sd">    Attributes / Properties</span>
+<span class="sd">    -------</span>
+<span class="sd">    task: Task</span>
+<span class="sd">        The task to be optimized.</span>
+<span class="sd">    gurobiModel: Model</span>
+<span class="sd">        The Gurobi optimization model.</span>
+<span class="sd">    inputNodes: dict</span>
+<span class="sd">        Dictionary to store Gurobi variables for input nodes.</span>
+<span class="sd">    outputNode: Gurobi variable</span>
+<span class="sd">        The Gurobi variable representing the output node.</span>
+
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+<span class="sd">    setup(instance, desired_output=1, delta=0.5, bias_delta=0, M=1000000000, epsilon=0.0001, fix_inputs=True):</span>
+<span class="sd">        Sets up the Gurobi model with constraints based on the provided instance and parameters.</span>
+
+<span class="sd">    -------</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ct</span><span class="p">:</span> <span class="n">Task</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes the OptSolver with a given Task.</span>
+
+<span class="sd">        @param ct: Task, The task to be optimized.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">task</span> <span class="o">=</span> <span class="n">ct</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gurobiModel</span> <span class="o">=</span> <span class="n">Model</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inputNodes</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">outputNode</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="OptSolver.setup">
+<a class="viewcode-back" href="../../../rocelib.lib.html#rocelib.lib.OptSolver.OptSolver.setup">[docs]</a>
+    <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">delta</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">bias_delta</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">M</span><span class="o">=</span><span class="mi">1000000000</span><span class="p">,</span> <span class="n">fix_inputs</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets up the Gurobi model with constraints based on the provided instance and parameters.</span>
+
+<span class="sd">        @param instance: pd.DataFrame or list, The input data instance for which to set up the model.</span>
+<span class="sd">        @param desired_output: int, Optional, The desired output value (default is 1).</span>
+<span class="sd">        @param delta: float, Optional, The delta value used in constraints (default is 0.5).</span>
+<span class="sd">        @param bias_delta: float, Optional, The bias delta value used in constraints (default is 0).</span>
+<span class="sd">        @param M: float, Optional, A large constant used in constraints (default is 1000000000).</span>
+<span class="sd">        @param epsilon: float, Optional, The epsilon value used in constraints (default is 0.0001).</span>
+<span class="sd">        @param fix_inputs: bool, Optional, Whether to fix input values or use variable bounds (default is True).</span>
+
+<span class="sd">        @return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Turn off the Gurobi output</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gurobiModel</span><span class="o">.</span><span class="n">setParam</span><span class="p">(</span><span class="s1">&#39;OutputFlag&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+        <span class="c1"># Convert instance to a list</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">ilist</span> <span class="o">=</span> <span class="n">instance</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Empty instance provided&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ilist</span> <span class="o">=</span> <span class="n">instance</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+        <span class="n">intabs</span> <span class="o">=</span> <span class="n">IntervalAbstractionPytorch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">task</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">delta</span><span class="p">,</span> <span class="n">bias_delta</span><span class="o">=</span><span class="n">bias_delta</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">inputNodes</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">all_nodes</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">activation_states</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">if</span> <span class="n">fix_inputs</span><span class="p">:</span>
+
+            <span class="c1"># Create the Gurobi variables for the inputs</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">task</span><span class="o">.</span><span class="n">training_data</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">)):</span>
+                <span class="n">key</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;v_0_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">inputNodes</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gurobiModel</span><span class="o">.</span><span class="n">addVar</span><span class="p">(</span><span class="n">lb</span><span class="o">=-</span><span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="n">key</span><span class="p">)</span>
+                <span class="n">all_nodes</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputNodes</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">gurobiModel</span><span class="o">.</span><span class="n">addConstr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputNodes</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">==</span> <span class="n">ilist</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;constr_input_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+
+            <span class="c1"># Create the Gurobi variables for the inputs</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">task</span><span class="o">.</span><span class="n">training_data</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">):</span>
+                <span class="n">key</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;v_0_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span>
+
+                <span class="c1"># Calculate the minimum and maximum values for the current column</span>
+                <span class="n">col_min</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">task</span><span class="o">.</span><span class="n">training_data</span><span class="o">.</span><span class="n">X</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+                <span class="n">col_max</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">task</span><span class="o">.</span><span class="n">training_data</span><span class="o">.</span><span class="n">X</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+
+                <span class="c1"># Use the calculated min and max for the bounds of the variable</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">inputNodes</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gurobiModel</span><span class="o">.</span><span class="n">addVar</span><span class="p">(</span><span class="n">lb</span><span class="o">=</span><span class="n">col_min</span><span class="p">,</span> <span class="n">ub</span><span class="o">=</span><span class="n">col_max</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">key</span><span class="p">)</span>
+                <span class="n">all_nodes</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputNodes</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">gurobiModel</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+
+        <span class="n">num_layers</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">intabs</span><span class="o">.</span><span class="n">layers</span><span class="p">)</span>
+
+        <span class="c1"># Iterate through all &quot;hidden&quot; layers</span>
+        <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_layers</span> <span class="o">-</span> <span class="mi">2</span><span class="p">):</span>
+
+            <span class="c1"># Go through each node in the current layer</span>
+            <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">intabs</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="n">layer</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]):</span>
+
+                <span class="n">var_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;v_</span><span class="si">{</span><span class="n">layer</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">node</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="n">activation_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;xi_</span><span class="si">{</span><span class="n">layer</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">node</span><span class="si">}</span><span class="s2">&quot;</span>
+
+                <span class="n">all_nodes</span><span class="p">[</span><span class="n">var_name</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gurobiModel</span><span class="o">.</span><span class="n">addVar</span><span class="p">(</span><span class="n">lb</span><span class="o">=-</span><span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="n">var_name</span><span class="p">)</span>
+                <span class="n">activation_states</span><span class="p">[</span><span class="n">activation_name</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gurobiModel</span><span class="o">.</span><span class="n">addVar</span><span class="p">(</span><span class="n">vtype</span><span class="o">=</span><span class="n">GRB</span><span class="o">.</span><span class="n">BINARY</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">activation_name</span><span class="p">)</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">gurobiModel</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+
+                <span class="c1"># 1) Add v_i_j &gt;= 0 constraint</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">gurobiModel</span><span class="o">.</span><span class="n">addConstr</span><span class="p">(</span><span class="n">all_nodes</span><span class="p">[</span><span class="n">var_name</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;constr1_&quot;</span> <span class="o">+</span> <span class="n">var_name</span><span class="p">)</span>
+
+                <span class="c1"># 2) Add v_i_j &lt;= M ( 1 - xi_i_j )</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">gurobiModel</span><span class="o">.</span><span class="n">addConstr</span><span class="p">(</span><span class="n">M</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">activation_states</span><span class="p">[</span><span class="n">activation_name</span><span class="p">])</span> <span class="o">&gt;=</span> <span class="n">all_nodes</span><span class="p">[</span><span class="n">var_name</span><span class="p">],</span>
+                                           <span class="n">name</span><span class="o">=</span><span class="s2">&quot;constr2_&quot;</span> <span class="o">+</span> <span class="n">var_name</span><span class="p">)</span>
+
+                <span class="c1"># 3) Add v_i_j &lt;= sum((W_i_j + delta)v_i-1_j + ... + M xi_i_j)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">gurobiModel</span><span class="o">.</span><span class="n">addConstr</span><span class="p">(</span><span class="n">quicksum</span><span class="p">((</span>
+                    <span class="n">intabs</span><span class="o">.</span><span class="n">weight_intervals</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;weight_l</span><span class="si">{</span><span class="n">layer</span><span class="si">}</span><span class="s1">_n</span><span class="si">{</span><span class="n">prev_node_index</span><span class="si">}</span><span class="s1">_to_l</span><span class="si">{</span><span class="n">layer</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s1">_n</span><span class="si">{</span><span class="n">node</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span>
+                    <span class="n">all_nodes</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;v_</span><span class="si">{</span><span class="n">layer</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">prev_node_index</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">prev_node_index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">intabs</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="n">layer</span><span class="p">])</span>
+                <span class="p">))</span> <span class="o">+</span> <span class="n">intabs</span><span class="o">.</span><span class="n">bias_intervals</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;bias_into_l</span><span class="si">{</span><span class="n">layer</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s1">_n</span><span class="si">{</span><span class="n">node</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">M</span> <span class="o">*</span> <span class="n">activation_states</span><span class="p">[</span>
+                                               <span class="n">activation_name</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">all_nodes</span><span class="p">[</span><span class="n">var_name</span><span class="p">],</span>
+                                           <span class="n">name</span><span class="o">=</span><span class="s2">&quot;constr3_&quot;</span> <span class="o">+</span> <span class="n">var_name</span><span class="p">)</span>
+
+                <span class="c1"># 4) Add v_i_j =&gt; sum((W_i_j - delta)v_i-1_j + ...)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">gurobiModel</span><span class="o">.</span><span class="n">addConstr</span><span class="p">(</span><span class="n">quicksum</span><span class="p">((</span>
+                    <span class="n">intabs</span><span class="o">.</span><span class="n">weight_intervals</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;weight_l</span><span class="si">{</span><span class="n">layer</span><span class="si">}</span><span class="s1">_n</span><span class="si">{</span><span class="n">prev_node_index</span><span class="si">}</span><span class="s1">_to_l</span><span class="si">{</span><span class="n">layer</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s1">_n</span><span class="si">{</span><span class="n">node</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span>
+                    <span class="n">all_nodes</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;v_</span><span class="si">{</span><span class="n">layer</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">prev_node_index</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">prev_node_index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">intabs</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="n">layer</span><span class="p">])</span>
+                <span class="p">))</span> <span class="o">+</span> <span class="n">intabs</span><span class="o">.</span><span class="n">bias_intervals</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;bias_into_l</span><span class="si">{</span><span class="n">layer</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s1">_n</span><span class="si">{</span><span class="n">node</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">all_nodes</span><span class="p">[</span><span class="n">var_name</span><span class="p">],</span>
+                                           <span class="n">name</span><span class="o">=</span><span class="s2">&quot;constr4_&quot;</span> <span class="o">+</span> <span class="n">var_name</span><span class="p">)</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">gurobiModel</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+
+        <span class="c1"># Create a singular output node</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">outputNode</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gurobiModel</span><span class="o">.</span><span class="n">addVar</span><span class="p">(</span><span class="n">lb</span><span class="o">=-</span><span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">),</span> <span class="n">vtype</span><span class="o">=</span><span class="n">GRB</span><span class="o">.</span><span class="n">CONTINUOUS</span><span class="p">,</span>
+                                                  <span class="n">name</span><span class="o">=</span><span class="s1">&#39;output_node&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Constraint 1: node &lt;= ub(W)x + ub(B)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gurobiModel</span><span class="o">.</span><span class="n">addConstr</span><span class="p">(</span><span class="n">quicksum</span><span class="p">((</span>
+            <span class="n">intabs</span><span class="o">.</span><span class="n">weight_intervals</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;weight_l</span><span class="si">{</span><span class="n">num_layers</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">2</span><span class="si">}</span><span class="s1">_n</span><span class="si">{</span><span class="n">prev_node_index</span><span class="si">}</span><span class="s1">_to_l</span><span class="si">{</span><span class="n">num_layers</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s1">_n</span><span class="si">{</span><span class="mi">0</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span>
+            <span class="n">all_nodes</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;v_</span><span class="si">{</span><span class="n">num_layers</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">2</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">prev_node_index</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">prev_node_index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">intabs</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="n">num_layers</span> <span class="o">-</span> <span class="mi">2</span><span class="p">])</span>
+        <span class="p">))</span> <span class="o">+</span> <span class="n">intabs</span><span class="o">.</span><span class="n">bias_intervals</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;bias_into_l</span><span class="si">{</span><span class="n">num_layers</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s1">_n</span><span class="si">{</span><span class="mi">0</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">outputNode</span><span class="p">,</span>
+                                   <span class="n">name</span><span class="o">=</span><span class="s2">&quot;output_node_C1&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Constraint 2: node =&gt; lb(W)x + lb(B)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gurobiModel</span><span class="o">.</span><span class="n">addConstr</span><span class="p">(</span><span class="n">quicksum</span><span class="p">((</span>
+            <span class="n">intabs</span><span class="o">.</span><span class="n">weight_intervals</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;weight_l</span><span class="si">{</span><span class="n">num_layers</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">2</span><span class="si">}</span><span class="s1">_n</span><span class="si">{</span><span class="n">prev_node_index</span><span class="si">}</span><span class="s1">_to_l</span><span class="si">{</span><span class="n">num_layers</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s1">_n</span><span class="si">{</span><span class="mi">0</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span>
+            <span class="n">all_nodes</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;v_</span><span class="si">{</span><span class="n">num_layers</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">2</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">prev_node_index</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">prev_node_index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">intabs</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="n">num_layers</span> <span class="o">-</span> <span class="mi">2</span><span class="p">])</span>
+        <span class="p">))</span> <span class="o">+</span> <span class="n">intabs</span><span class="o">.</span><span class="n">bias_intervals</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;bias_into_l</span><span class="si">{</span><span class="n">num_layers</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s1">_n</span><span class="si">{</span><span class="mi">0</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">outputNode</span><span class="p">,</span>
+                                   <span class="n">name</span><span class="o">=</span><span class="s2">&quot;output_node_C2&quot;</span><span class="p">)</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Aaryan Purohit.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,547 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>rocelib.recourse_methods package &mdash; RoCELib  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9a2dae69"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="rocelib.robustness_evaluations package" href="rocelib.robustness_evaluations.html" />
+    <link rel="prev" title="rocelib.models.sklearn_models package" href="rocelib.models.sklearn_models.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            RoCELib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">rocelib</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="rocelib.html">rocelib package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="rocelib.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="rocelib.datasets.html">rocelib.datasets package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rocelib.evaluations.html">rocelib.evaluations package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rocelib.intabs.html">rocelib.intabs package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rocelib.lib.html">rocelib.lib package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rocelib.model_evaluations.html">rocelib.model_evaluations package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rocelib.models.html">rocelib.models package</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">rocelib.recourse_methods package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rocelib.robustness_evaluations.html">rocelib.robustness_evaluations package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rocelib.tasks.html">rocelib.tasks package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rocelib.html#module-rocelib">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">RoCELib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">rocelib</a></li>
+          <li class="breadcrumb-item"><a href="rocelib.html">rocelib package</a></li>
+      <li class="breadcrumb-item active">rocelib.recourse_methods package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/rocelib.recourse_methods.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="rocelib-recourse-methods-package">
+<h1>rocelib.recourse_methods package<a class="headerlink" href="#rocelib-recourse-methods-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-rocelib.recourse_methods.BinaryLinearSearch">
+<span id="rocelib-recourse-methods-binarylinearsearch-module"></span><h2>rocelib.recourse_methods.BinaryLinearSearch module<a class="headerlink" href="#module-rocelib.recourse_methods.BinaryLinearSearch" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="rocelib.recourse_methods.BinaryLinearSearch.BinaryLinearSearch">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rocelib.recourse_methods.BinaryLinearSearch.</span></span><span class="sig-name descname"><span class="pre">BinaryLinearSearch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ct</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_distance_func</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rocelib/recourse_methods/BinaryLinearSearch.html#BinaryLinearSearch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rocelib.recourse_methods.BinaryLinearSearch.BinaryLinearSearch" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#rocelib.recourse_methods.RecourseGenerator.RecourseGenerator" title="rocelib.recourse_methods.RecourseGenerator.RecourseGenerator"><code class="xref py py-class docutils literal notranslate"><span class="pre">RecourseGenerator</span></code></a></p>
+<p>A recourse generator that uses binary linear search to find counterfactual explanations.</p>
+<p>Inherits from the RecourseGenerator class and implements the _generation_method to perform
+binary linear search for generating counterfactuals.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rocelib.recourse_methods.BinaryLinearSearch.BinaryLinearSearch._task">
+<span class="sig-name descname"><span class="pre">_task</span></span><a class="headerlink" href="#rocelib.recourse_methods.BinaryLinearSearch.BinaryLinearSearch._task" title="Link to this definition"></a></dt>
+<dd><p>The task to solve, inherited from RecourseGenerator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="rocelib.tasks.html#rocelib.tasks.Task.Task" title="rocelib.tasks.Task.Task">Task</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rocelib.recourse_methods.BinaryLinearSearch.BinaryLinearSearch.__customFunc">
+<span class="sig-name descname"><span class="pre">__customFunc</span></span><a class="headerlink" href="#rocelib.recourse_methods.BinaryLinearSearch.BinaryLinearSearch.__customFunc" title="Link to this definition"></a></dt>
+<dd><p>A custom distance function, inherited from RecourseGenerator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>callable, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-rocelib.recourse_methods.GuidedBinaryLinearSearch">
+<span id="rocelib-recourse-methods-guidedbinarylinearsearch-module"></span><h2>rocelib.recourse_methods.GuidedBinaryLinearSearch module<a class="headerlink" href="#module-rocelib.recourse_methods.GuidedBinaryLinearSearch" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="rocelib.recourse_methods.GuidedBinaryLinearSearch.GuidedBinaryLinearSearch">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rocelib.recourse_methods.GuidedBinaryLinearSearch.</span></span><span class="sig-name descname"><span class="pre">GuidedBinaryLinearSearch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ct</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_distance_func</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rocelib/recourse_methods/GuidedBinaryLinearSearch.html#GuidedBinaryLinearSearch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rocelib.recourse_methods.GuidedBinaryLinearSearch.GuidedBinaryLinearSearch" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#rocelib.recourse_methods.RecourseGenerator.RecourseGenerator" title="rocelib.recourse_methods.RecourseGenerator.RecourseGenerator"><code class="xref py py-class docutils literal notranslate"><span class="pre">RecourseGenerator</span></code></a></p>
+</dd></dl>
+
+</section>
+<section id="module-rocelib.recourse_methods.KDTreeNNCE">
+<span id="rocelib-recourse-methods-kdtreennce-module"></span><h2>rocelib.recourse_methods.KDTreeNNCE module<a class="headerlink" href="#module-rocelib.recourse_methods.KDTreeNNCE" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="rocelib.recourse_methods.KDTreeNNCE.KDTreeNNCE">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rocelib.recourse_methods.KDTreeNNCE.</span></span><span class="sig-name descname"><span class="pre">KDTreeNNCE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ct</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_distance_func</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rocelib/recourse_methods/KDTreeNNCE.html#KDTreeNNCE"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rocelib.recourse_methods.KDTreeNNCE.KDTreeNNCE" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#rocelib.recourse_methods.RecourseGenerator.RecourseGenerator" title="rocelib.recourse_methods.RecourseGenerator.RecourseGenerator"><code class="xref py py-class docutils literal notranslate"><span class="pre">RecourseGenerator</span></code></a></p>
+<p>A recourse generator that uses KD-Tree for nearest neighbor counterfactual explanations.</p>
+<p>Inherits from the RecourseGenerator class and implements the _generation_method to find
+counterfactual explanations using KD-Tree for nearest neighbors.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rocelib.recourse_methods.KDTreeNNCE.KDTreeNNCE._task">
+<span class="sig-name descname"><span class="pre">_task</span></span><a class="headerlink" href="#rocelib.recourse_methods.KDTreeNNCE.KDTreeNNCE._task" title="Link to this definition"></a></dt>
+<dd><p>The task to solve, inherited from RecourseGenerator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="rocelib.tasks.html#rocelib.tasks.Task.Task" title="rocelib.tasks.Task.Task">Task</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rocelib.recourse_methods.KDTreeNNCE.KDTreeNNCE.__customFunc">
+<span class="sig-name descname"><span class="pre">__customFunc</span></span><a class="headerlink" href="#rocelib.recourse_methods.KDTreeNNCE.KDTreeNNCE.__customFunc" title="Link to this definition"></a></dt>
+<dd><p>A custom distance function, inherited from RecourseGenerator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>callable, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-rocelib.recourse_methods.MCE">
+<span id="rocelib-recourse-methods-mce-module"></span><h2>rocelib.recourse_methods.MCE module<a class="headerlink" href="#module-rocelib.recourse_methods.MCE" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="rocelib.recourse_methods.MCE.MCE">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rocelib.recourse_methods.MCE.</span></span><span class="sig-name descname"><span class="pre">MCE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ct</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rocelib/recourse_methods/MCE.html#MCE"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rocelib.recourse_methods.MCE.MCE" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#rocelib.recourse_methods.RecourseGenerator.RecourseGenerator" title="rocelib.recourse_methods.RecourseGenerator.RecourseGenerator"><code class="xref py py-class docutils literal notranslate"><span class="pre">RecourseGenerator</span></code></a></p>
+<p>A recourse generator that uses Mixed-Integer Linear Programming (MILP) to find counterfactual explanations.</p>
+<p>Inherits from the RecourseGenerator class and implements the _generation_method to find
+counterfactual explanations using MILP with the Gurobi optimizer.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rocelib.recourse_methods.MCE.MCE._task">
+<span class="sig-name descname"><span class="pre">_task</span></span><a class="headerlink" href="#rocelib.recourse_methods.MCE.MCE._task" title="Link to this definition"></a></dt>
+<dd><p>The task to solve, inherited from RecourseGenerator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="rocelib.tasks.html#rocelib.tasks.Task.Task" title="rocelib.tasks.Task.Task">Task</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rocelib.recourse_methods.MCE.MCE.__customFunc">
+<span class="sig-name descname"><span class="pre">__customFunc</span></span><a class="headerlink" href="#rocelib.recourse_methods.MCE.MCE.__customFunc" title="Link to this definition"></a></dt>
+<dd><p>A custom distance function, inherited from RecourseGenerator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>callable, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rocelib.recourse_methods.MCE.MCE.opt">
+<span class="sig-name descname"><span class="pre">opt</span></span><a class="headerlink" href="#rocelib.recourse_methods.MCE.MCE.opt" title="Link to this definition"></a></dt>
+<dd><p>An optimizer instance for setting up and solving the MILP problem.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="rocelib.lib.html#rocelib.lib.OptSolver.OptSolver" title="rocelib.lib.OptSolver.OptSolver">OptSolver</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-rocelib.recourse_methods.MCER">
+<span id="rocelib-recourse-methods-mcer-module"></span><h2>rocelib.recourse_methods.MCER module<a class="headerlink" href="#module-rocelib.recourse_methods.MCER" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="rocelib.recourse_methods.MCER.MCER">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rocelib.recourse_methods.MCER.</span></span><span class="sig-name descname"><span class="pre">MCER</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ct</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evaluator=&lt;class</span> <span class="pre">'rocelib.robustness_evaluations.DeltaRobustnessEvaluator.DeltaRobustnessEvaluator'&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rocelib/recourse_methods/MCER.html#MCER"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rocelib.recourse_methods.MCER.MCER" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#rocelib.recourse_methods.RecourseGenerator.RecourseGenerator" title="rocelib.recourse_methods.RecourseGenerator.RecourseGenerator"><code class="xref py py-class docutils literal notranslate"><span class="pre">RecourseGenerator</span></code></a></p>
+<p>A recourse generator that uses the Mixed-Integer Linear Programming (MILP) method and a robustness evaluator
+to find counterfactual explanations that are robust against perturbations.</p>
+<p>Inherits from RecourseGenerator and combines MCE with a robustness evaluation mechanism.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rocelib.recourse_methods.MCER.MCER._task">
+<span class="sig-name descname"><span class="pre">_task</span></span><a class="headerlink" href="#rocelib.recourse_methods.MCER.MCER._task" title="Link to this definition"></a></dt>
+<dd><p>The task to solve, inherited from RecourseGenerator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="rocelib.tasks.html#rocelib.tasks.Task.Task" title="rocelib.tasks.Task.Task">Task</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rocelib.recourse_methods.MCER.MCER.__customFunc">
+<span class="sig-name descname"><span class="pre">__customFunc</span></span><a class="headerlink" href="#rocelib.recourse_methods.MCER.MCER.__customFunc" title="Link to this definition"></a></dt>
+<dd><p>A custom distance function, inherited from RecourseGenerator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>callable, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rocelib.recourse_methods.MCER.MCER.mce">
+<span class="sig-name descname"><span class="pre">mce</span></span><a class="headerlink" href="#rocelib.recourse_methods.MCER.MCER.mce" title="Link to this definition"></a></dt>
+<dd><p>An instance of the MCE class for generating counterfactuals using MILP.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#rocelib.recourse_methods.MCE.MCE" title="rocelib.recourse_methods.MCE.MCE">MCE</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rocelib.recourse_methods.MCER.MCER.evaluator">
+<span class="sig-name descname"><span class="pre">evaluator</span></span><a class="headerlink" href="#rocelib.recourse_methods.MCER.MCER.evaluator" title="Link to this definition"></a></dt>
+<dd><p>An instance of the DeltaRobustnessEvaluator for evaluating robustness.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="rocelib.robustness_evaluations.html#rocelib.robustness_evaluations.DeltaRobustnessEvaluator.DeltaRobustnessEvaluator" title="rocelib.robustness_evaluations.DeltaRobustnessEvaluator.DeltaRobustnessEvaluator">DeltaRobustnessEvaluator</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-rocelib.recourse_methods.ModelMultiplicityMILP">
+<span id="rocelib-recourse-methods-modelmultiplicitymilp-module"></span><h2>rocelib.recourse_methods.ModelMultiplicityMILP module<a class="headerlink" href="#module-rocelib.recourse_methods.ModelMultiplicityMILP" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="rocelib.recourse_methods.ModelMultiplicityMILP.ModelMultiplicityMILP">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rocelib.recourse_methods.ModelMultiplicityMILP.</span></span><span class="sig-name descname"><span class="pre">ModelMultiplicityMILP</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dl</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">models</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rocelib/recourse_methods/ModelMultiplicityMILP.html#ModelMultiplicityMILP"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rocelib.recourse_methods.ModelMultiplicityMILP.ModelMultiplicityMILP" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#rocelib.recourse_methods.RecourseGenerator.RecourseGenerator" title="rocelib.recourse_methods.RecourseGenerator.RecourseGenerator"><code class="xref py py-class docutils literal notranslate"><span class="pre">RecourseGenerator</span></code></a></p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="rocelib.recourse_methods.ModelMultiplicityMILP.create_weights_and_bias_dictionary">
+<span class="sig-prename descclassname"><span class="pre">rocelib.recourse_methods.ModelMultiplicityMILP.</span></span><span class="sig-name descname"><span class="pre">create_weights_and_bias_dictionary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rocelib/recourse_methods/ModelMultiplicityMILP.html#create_weights_and_bias_dictionary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rocelib.recourse_methods.ModelMultiplicityMILP.create_weights_and_bias_dictionary" title="Link to this definition"></a></dt>
+<dd><p>layer 0 is input layer</p>
+</dd></dl>
+
+</section>
+<section id="module-rocelib.recourse_methods.NNCE">
+<span id="rocelib-recourse-methods-nnce-module"></span><h2>rocelib.recourse_methods.NNCE module<a class="headerlink" href="#module-rocelib.recourse_methods.NNCE" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="rocelib.recourse_methods.NNCE.NNCE">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rocelib.recourse_methods.NNCE.</span></span><span class="sig-name descname"><span class="pre">NNCE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ct</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_distance_func</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rocelib/recourse_methods/NNCE.html#NNCE"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rocelib.recourse_methods.NNCE.NNCE" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#rocelib.recourse_methods.RecourseGenerator.RecourseGenerator" title="rocelib.recourse_methods.RecourseGenerator.RecourseGenerator"><code class="xref py py-class docutils literal notranslate"><span class="pre">RecourseGenerator</span></code></a></p>
+<p>A recourse generator that uses a nearest-neighbor counterfactual explanation (NNCE) approach.</p>
+<p>Inherits from RecourseGenerator and calculates counterfactual explanations based on the nearest neighbor
+in the training data with the desired prediction.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rocelib.recourse_methods.NNCE.NNCE._task">
+<span class="sig-name descname"><span class="pre">_task</span></span><a class="headerlink" href="#rocelib.recourse_methods.NNCE.NNCE._task" title="Link to this definition"></a></dt>
+<dd><p>The task to solve, inherited from RecourseGenerator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="rocelib.tasks.html#rocelib.tasks.Task.Task" title="rocelib.tasks.Task.Task">Task</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rocelib.recourse_methods.NNCE.NNCE.__customFunc">
+<span class="sig-name descname"><span class="pre">__customFunc</span></span><a class="headerlink" href="#rocelib.recourse_methods.NNCE.NNCE.__customFunc" title="Link to this definition"></a></dt>
+<dd><p>A custom distance function, inherited from RecourseGenerator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>callable, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-rocelib.recourse_methods.RNCE">
+<span id="rocelib-recourse-methods-rnce-module"></span><h2>rocelib.recourse_methods.RNCE module<a class="headerlink" href="#module-rocelib.recourse_methods.RNCE" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="rocelib.recourse_methods.RNCE.RNCE">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rocelib.recourse_methods.RNCE.</span></span><span class="sig-name descname"><span class="pre">RNCE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rocelib/recourse_methods/RNCE.html#RNCE"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rocelib.recourse_methods.RNCE.RNCE" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#rocelib.recourse_methods.RecourseGenerator.RecourseGenerator" title="rocelib.recourse_methods.RecourseGenerator.RecourseGenerator"><code class="xref py py-class docutils literal notranslate"><span class="pre">RecourseGenerator</span></code></a></p>
+<p>A recourse generator that finds robust nearest counterfactual examples using KDTree.</p>
+<p>Inherits from the RecourseGenerator class and implements the _generation_method to find counterfactual examples
+that are robust to perturbations. It leverages KDTree for nearest neighbor search and uses a robustness evaluator
+to identify robust instances in the training data.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rocelib.recourse_methods.RNCE.RNCE.intabs">
+<span class="sig-name descname"><span class="pre">intabs</span></span><a class="headerlink" href="#rocelib.recourse_methods.RNCE.RNCE.intabs" title="Link to this definition"></a></dt>
+<dd><p>An evaluator for checking the robustness of instances to perturbations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="rocelib.robustness_evaluations.html#rocelib.robustness_evaluations.DeltaRobustnessEvaluator.DeltaRobustnessEvaluator" title="rocelib.robustness_evaluations.DeltaRobustnessEvaluator.DeltaRobustnessEvaluator">DeltaRobustnessEvaluator</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rocelib.recourse_methods.RNCE.RNCE.getCandidates">
+<span class="sig-name descname"><span class="pre">getCandidates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">robustInit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bias_delta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'target'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">neg_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rocelib/recourse_methods/RNCE.html#RNCE.getCandidates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rocelib.recourse_methods.RNCE.RNCE.getCandidates" title="Link to this definition"></a></dt>
+<dd><p>Retrieves candidate instances from the dataset that are robust to perturbations.</p>
+<p>&#64;param robustInit: If True, only robust instances are considered.
+&#64;param delta: The tolerance for robustness in the feature space.
+&#64;param bias_delta: The bias tolerance for robustness in the feature space.
+&#64;param column_name: The name of the target column.
+&#64;param neg_value: The value considered negative in the target variable.
+&#64;return: A DataFrame containing robust instances from the dataset.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-rocelib.recourse_methods.RecourseGenerator">
+<span id="rocelib-recourse-methods-recoursegenerator-module"></span><h2>rocelib.recourse_methods.RecourseGenerator module<a class="headerlink" href="#module-rocelib.recourse_methods.RecourseGenerator" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="rocelib.recourse_methods.RecourseGenerator.RecourseGenerator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rocelib.recourse_methods.RecourseGenerator.</span></span><span class="sig-name descname"><span class="pre">RecourseGenerator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ct</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_distance_func</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rocelib/recourse_methods/RecourseGenerator.html#RecourseGenerator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rocelib.recourse_methods.RecourseGenerator.RecourseGenerator" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<p>Abstract class for generating counterfactual explanations for a given task.</p>
+<p>This class provides a framework for generating counterfactuals based on a distance function
+and a given task. It supports default distance functions such as Euclidean and Manhattan,
+and allows for custom distance functions.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rocelib.recourse_methods.RecourseGenerator.RecourseGenerator._task">
+<span class="sig-name descname"><span class="pre">_task</span></span><a class="headerlink" href="#rocelib.recourse_methods.RecourseGenerator.RecourseGenerator._task" title="Link to this definition"></a></dt>
+<dd><p>The task to solve.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="rocelib.tasks.html#rocelib.tasks.Task.Task" title="rocelib.tasks.Task.Task">Task</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rocelib.recourse_methods.RecourseGenerator.RecourseGenerator.__customFunc">
+<span class="sig-name descname"><span class="pre">__customFunc</span></span><a class="headerlink" href="#rocelib.recourse_methods.RecourseGenerator.RecourseGenerator.__customFunc" title="Link to this definition"></a></dt>
+<dd><p>A custom distance function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>callable, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rocelib.recourse_methods.RecourseGenerator.RecourseGenerator.custom_distance_func">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">custom_distance_func</span></span><a class="headerlink" href="#rocelib.recourse_methods.RecourseGenerator.RecourseGenerator.custom_distance_func" title="Link to this definition"></a></dt>
+<dd><p>Returns custom distance function passed at instantiation
+&#64;return: distance Function, (DataFrame, DataFrame) -&gt; Int</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rocelib.recourse_methods.RecourseGenerator.RecourseGenerator.generate">
+<span class="sig-name descname"><span class="pre">generate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">instances</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">neg_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'target'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rocelib/recourse_methods/RecourseGenerator.html#RecourseGenerator.generate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rocelib.recourse_methods.RecourseGenerator.RecourseGenerator.generate" title="Link to this definition"></a></dt>
+<dd><p>Generates counterfactuals for a given DataFrame of instances.</p>
+<p>&#64;param instances: A DataFrame of instances for which you want to generate recourses.
+&#64;param distance_func: The method to calculate the distance between two points. Options are ‘l1’ / ‘manhattan’, ‘l2’ / ‘euclidean’, and ‘custom’.
+&#64;param column_name: The name of the target column.
+&#64;param neg_value: The value considered negative in the target variable.
+&#64;return: A DataFrame of the recourses for the provided instances.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rocelib.recourse_methods.RecourseGenerator.RecourseGenerator.generate_for_all">
+<span class="sig-name descname"><span class="pre">generate_for_all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">neg_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'target'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rocelib/recourse_methods/RecourseGenerator.html#RecourseGenerator.generate_for_all"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rocelib.recourse_methods.RecourseGenerator.RecourseGenerator.generate_for_all" title="Link to this definition"></a></dt>
+<dd><p>Generates counterfactuals for all instances with a given negative value in their target column.</p>
+<p>&#64;param neg_value: The value in the target column which counts as a negative instance.
+&#64;param column_name: The name of the target variable.
+&#64;param distance_func: The method to calculate the distance between two points. Options are ‘l1’ / ‘manhattan’, ‘l2’ / ‘euclidean’, and ‘custom’.
+&#64;return: A DataFrame of the recourses for all negative values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rocelib.recourse_methods.RecourseGenerator.RecourseGenerator.generate_for_instance">
+<span class="sig-name descname"><span class="pre">generate_for_instance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">instance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">neg_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'target'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rocelib/recourse_methods/RecourseGenerator.html#RecourseGenerator.generate_for_instance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rocelib.recourse_methods.RecourseGenerator.RecourseGenerator.generate_for_instance" title="Link to this definition"></a></dt>
+<dd><p>Generates a counterfactual for a provided instance.</p>
+<p>&#64;param instance: The instance for which you would like to generate a counterfactual.
+&#64;param distance_func: The method to calculate the distance between two points. Options are ‘l1’ / ‘manhattan’, ‘l2’ / ‘euclidean’, and ‘custom’.
+&#64;param column_name: The name of the target column.
+&#64;param neg_value: The value considered negative in the target variable.
+&#64;return: A DataFrame containing the recourse for the instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rocelib.recourse_methods.RecourseGenerator.RecourseGenerator.task">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">task</span></span><a class="headerlink" href="#rocelib.recourse_methods.RecourseGenerator.RecourseGenerator.task" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-rocelib.recourse_methods.STCE">
+<span id="rocelib-recourse-methods-stce-module"></span><h2>rocelib.recourse_methods.STCE module<a class="headerlink" href="#module-rocelib.recourse_methods.STCE" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="rocelib.recourse_methods.STCE.TrexNN">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rocelib.recourse_methods.STCE.</span></span><span class="sig-name descname"><span class="pre">TrexNN</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ct</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_distance_func</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rocelib/recourse_methods/STCE.html#TrexNN"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rocelib.recourse_methods.STCE.TrexNN" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#rocelib.recourse_methods.RecourseGenerator.RecourseGenerator" title="rocelib.recourse_methods.RecourseGenerator.RecourseGenerator"><code class="xref py py-class docutils literal notranslate"><span class="pre">RecourseGenerator</span></code></a></p>
+<p>A recourse generator that uses the T-Rex method for finding robust counterfactual explanations.</p>
+<p>Inherits from the RecourseGenerator class and implements the _generation_method to find counterfactual examples
+with robustness checks using a specified base method and evaluator. The method iterates over positive instances
+and evaluates their robustness, returning those with stable counterfactuals.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">None</span> <span class="pre">specific</span> <span class="pre">to</span> <span class="pre">this</span> <span class="pre">class,</span> <span class="pre">but</span> <span class="pre">utilizes</span> <span class="pre">the</span> <span class="pre">task</span> <span class="pre">and</span> <span class="pre">model</span> <span class="pre">from</span> <span class="pre">the</span> <span class="pre">RecourseGenerator</span> <span class="pre">base</span> <span class="pre">class.</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rocelib.recourse_methods.STCE.TrexNN.counterfactual_stability">
+<span class="sig-name descname"><span class="pre">counterfactual_stability</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xp</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rocelib/recourse_methods/STCE.html#TrexNN.counterfactual_stability"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rocelib.recourse_methods.STCE.TrexNN.counterfactual_stability" title="Link to this definition"></a></dt>
+<dd><p>Evaluates the stability of a given counterfactual instance.</p>
+<p>&#64;param xp: The instance for which to evaluate counterfactual stability.
+&#64;return: A tensor representing the stability score of the counterfactual.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-rocelib.recourse_methods.Wachter">
+<span id="rocelib-recourse-methods-wachter-module"></span><h2>rocelib.recourse_methods.Wachter module<a class="headerlink" href="#module-rocelib.recourse_methods.Wachter" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="rocelib.recourse_methods.Wachter.CostLoss">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rocelib.recourse_methods.Wachter.</span></span><span class="sig-name descname"><span class="pre">CostLoss</span></span><a class="reference internal" href="_modules/rocelib/recourse_methods/Wachter.html#CostLoss"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rocelib.recourse_methods.Wachter.CostLoss" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code></p>
+<p>Custom loss function to calculate the absolute difference between two tensors.</p>
+<p>Inherits from nn.Module.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="rocelib.recourse_methods.Wachter.CostLoss.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rocelib/recourse_methods/Wachter.html#CostLoss.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rocelib.recourse_methods.Wachter.CostLoss.forward" title="Link to this definition"></a></dt>
+<dd><p>Computes the forward pass of the loss function.</p>
+<p>&#64;param x1: The first tensor (e.g., the original instance).
+&#64;param x2: The second tensor (e.g., the counterfactual instance).
+&#64;return: The absolute difference between x1 and x2.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="rocelib.recourse_methods.Wachter.Wachter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rocelib.recourse_methods.Wachter.</span></span><span class="sig-name descname"><span class="pre">Wachter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ct</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_distance_func</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rocelib/recourse_methods/Wachter.html#Wachter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rocelib.recourse_methods.Wachter.Wachter" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#rocelib.recourse_methods.RecourseGenerator.RecourseGenerator" title="rocelib.recourse_methods.RecourseGenerator.RecourseGenerator"><code class="xref py py-class docutils literal notranslate"><span class="pre">RecourseGenerator</span></code></a></p>
+<p>A recourse generator that uses Wachter’s method for finding counterfactual explanations.</p>
+<p>Inherits from RecourseGenerator and implements the _generation_method to find counterfactuals
+using gradient descent.</p>
+</dd></dl>
+
+</section>
+<section id="module-rocelib.recourse_methods">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-rocelib.recourse_methods" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="rocelib.models.sklearn_models.html" class="btn btn-neutral float-left" title="rocelib.models.sklearn_models package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="rocelib.robustness_evaluations.html" class="btn btn-neutral float-right" title="rocelib.robustness_evaluations package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Aaryan Purohit.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

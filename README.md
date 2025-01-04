@@ -41,11 +41,13 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-If you want to also run tests, regenerate docs, do the below (discussed more later)
+If you want to also run tests, regenerate docs, do the below, this installs rocelib itself as library:
 
 ```pip install .```
 
 You need Gurobi to run all tests.
+
+If you are on PyCharm, to run tests make sure that your default tester is pytest. (Settings > Tools > Python Integrated Tools > Default Test Runner > pytest)
 
 [//]: # (OLD DOCS, SAVING JUST IN CASE:)
 
@@ -105,12 +107,14 @@ You need Gurobi to run all tests.
 
 ## Generating docs
 
-Navigate to docs/source and run ```sphinx-build -b html . _build/html```?
+Navigate to docs/source and run ```make html```. If that doesn't work, try to run ```sphinx-build -b html . _build/html```?
 
 ## Examples
 
 Python notebooks demonstrating the usage of RoCELib are
-available [here](https://github.com/aaryanp2904/RoCELib/tree/main/examples).
+available [here](https://github.com/RoCELib/RoCELib/tree/main/examples).
+
+The docs can be accessed by opening ```index.html``` in the docs/build folder.
 
 For a step-by-step tutorial, you can also watch the video guide [here](https://youtu.be/z9pbCFg9xVA?si=MjgZPDVBMumQ7ccu)
 .

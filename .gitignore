@@ -3,4 +3,4 @@ __pycache__/
 .idea/
 .pytest_cache/
 RoCELib.egg-info/
-build/
+/build/

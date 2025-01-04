@@ -1,0 +1,285 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>rocelib.robustness_evaluations package &mdash; RoCELib  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9a2dae69"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="rocelib.tasks package" href="rocelib.tasks.html" />
+    <link rel="prev" title="rocelib.recourse_methods package" href="rocelib.recourse_methods.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            RoCELib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">rocelib</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="rocelib.html">rocelib package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="rocelib.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="rocelib.datasets.html">rocelib.datasets package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rocelib.evaluations.html">rocelib.evaluations package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rocelib.intabs.html">rocelib.intabs package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rocelib.lib.html">rocelib.lib package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rocelib.model_evaluations.html">rocelib.model_evaluations package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rocelib.models.html">rocelib.models package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rocelib.recourse_methods.html">rocelib.recourse_methods package</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">rocelib.robustness_evaluations package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rocelib.tasks.html">rocelib.tasks package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rocelib.html#module-rocelib">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">RoCELib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">rocelib</a></li>
+          <li class="breadcrumb-item"><a href="rocelib.html">rocelib package</a></li>
+      <li class="breadcrumb-item active">rocelib.robustness_evaluations package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/rocelib.robustness_evaluations.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="rocelib-robustness-evaluations-package">
+<h1>rocelib.robustness_evaluations package<a class="headerlink" href="#rocelib-robustness-evaluations-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-rocelib.robustness_evaluations.DeltaRobustnessEvaluator">
+<span id="rocelib-robustness-evaluations-deltarobustnessevaluator-module"></span><h2>rocelib.robustness_evaluations.DeltaRobustnessEvaluator module<a class="headerlink" href="#module-rocelib.robustness_evaluations.DeltaRobustnessEvaluator" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="rocelib.robustness_evaluations.DeltaRobustnessEvaluator.DeltaRobustnessEvaluator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rocelib.robustness_evaluations.DeltaRobustnessEvaluator.</span></span><span class="sig-name descname"><span class="pre">DeltaRobustnessEvaluator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ct</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rocelib/robustness_evaluations/DeltaRobustnessEvaluator.html#DeltaRobustnessEvaluator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rocelib.robustness_evaluations.DeltaRobustnessEvaluator.DeltaRobustnessEvaluator" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#rocelib.robustness_evaluations.ModelChangesRobustnessEvaluator.ModelChangesRobustnessEvaluator" title="rocelib.robustness_evaluations.ModelChangesRobustnessEvaluator.ModelChangesRobustnessEvaluator"><code class="xref py py-class docutils literal notranslate"><span class="pre">ModelChangesRobustnessEvaluator</span></code></a></p>
+<p>A robustness evaluator that uses a Mixed-Integer Linear Programming (MILP) approach to evaluate
+the robustness of a model’s predictions when perturbations are applied.</p>
+<p>This class inherits from ModelChangesRobustnessEvaluator and uses the Gurobi optimizer
+to determine if the model’s prediction remains stable under perturbations.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rocelib.robustness_evaluations.DeltaRobustnessEvaluator.DeltaRobustnessEvaluator.task">
+<span class="sig-name descname"><span class="pre">task</span></span><a class="headerlink" href="#rocelib.robustness_evaluations.DeltaRobustnessEvaluator.DeltaRobustnessEvaluator.task" title="Link to this definition"></a></dt>
+<dd><p>The task to solve, inherited from ModelChangesRobustnessEvaluator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="rocelib.tasks.html#rocelib.tasks.Task.Task" title="rocelib.tasks.Task.Task">Task</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rocelib.robustness_evaluations.DeltaRobustnessEvaluator.DeltaRobustnessEvaluator.opt">
+<span class="sig-name descname"><span class="pre">opt</span></span><a class="headerlink" href="#rocelib.robustness_evaluations.DeltaRobustnessEvaluator.DeltaRobustnessEvaluator.opt" title="Link to this definition"></a></dt>
+<dd><p>An optimizer instance for setting up and solving the MILP problem.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="rocelib.lib.html#rocelib.lib.OptSolver.OptSolver" title="rocelib.lib.OptSolver.OptSolver">OptSolver</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rocelib.robustness_evaluations.DeltaRobustnessEvaluator.DeltaRobustnessEvaluator.evaluate">
+<span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">instance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">desired_output</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bias_delta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">M</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000000000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0001</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rocelib/robustness_evaluations/DeltaRobustnessEvaluator.html#DeltaRobustnessEvaluator.evaluate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rocelib.robustness_evaluations.DeltaRobustnessEvaluator.DeltaRobustnessEvaluator.evaluate" title="Link to this definition"></a></dt>
+<dd><p>Evaluates whether the model’s prediction for a given instance is robust to changes in the input.</p>
+<p>&#64;param instance: The instance to evaluate.
+&#64;param desired_output: The desired output for the model (0 or 1).</p>
+<blockquote>
+<div><p>The evaluation will check if the model’s output matches this.</p>
+</div></blockquote>
+<p>&#64;param delta: The maximum allowable perturbation in the input features.
+&#64;param bias_delta: Additional bias to apply to the delta changes.
+&#64;param M: A large constant used in MILP formulation for modeling constraints.
+&#64;param epsilon: A small constant used to ensure numerical stability.
+&#64;return: A boolean indicating whether the model’s prediction is robust given the desired output.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-rocelib.robustness_evaluations.ModelChangesRobustnessEvaluator">
+<span id="rocelib-robustness-evaluations-modelchangesrobustnessevaluator-module"></span><h2>rocelib.robustness_evaluations.ModelChangesRobustnessEvaluator module<a class="headerlink" href="#module-rocelib.robustness_evaluations.ModelChangesRobustnessEvaluator" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="rocelib.robustness_evaluations.ModelChangesRobustnessEvaluator.ModelChangesRobustnessEvaluator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rocelib.robustness_evaluations.ModelChangesRobustnessEvaluator.</span></span><span class="sig-name descname"><span class="pre">ModelChangesRobustnessEvaluator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ct</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rocelib/robustness_evaluations/ModelChangesRobustnessEvaluator.html#ModelChangesRobustnessEvaluator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rocelib.robustness_evaluations.ModelChangesRobustnessEvaluator.ModelChangesRobustnessEvaluator" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<p>Abstract base class for evaluating the robustness of model predictions with respect to model changes.</p>
+<p>This class defines an interface for evaluating how robust a model’s predictions are
+when the model parameters are changed.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="rocelib.robustness_evaluations.ModelChangesRobustnessEvaluator.ModelChangesRobustnessEvaluator.evaluate">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">instance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">neg_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rocelib/robustness_evaluations/ModelChangesRobustnessEvaluator.html#ModelChangesRobustnessEvaluator.evaluate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rocelib.robustness_evaluations.ModelChangesRobustnessEvaluator.ModelChangesRobustnessEvaluator.evaluate" title="Link to this definition"></a></dt>
+<dd><p>Abstract method to evaluate the robustness of a model’s prediction on a given instance.</p>
+<p>Must be implemented by subclasses.</p>
+<dl class="simple">
+<dt>&#64;param instance: The instance for which to evaluate robustness.</dt><dd><p>This could be a single data point for the model.</p>
+</dd>
+<dt>&#64;param neg_value: The value considered negative in the target variable.</dt><dd><p>Used to determine if the counterfactual flips the prediction.</p>
+</dd>
+</dl>
+<p>&#64;return: Result of the robustness evaluation. The return type should be defined by the subclass.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-rocelib.robustness_evaluations.ModelChangesRobustnessScorer">
+<span id="rocelib-robustness-evaluations-modelchangesrobustnessscorer-module"></span><h2>rocelib.robustness_evaluations.ModelChangesRobustnessScorer module<a class="headerlink" href="#module-rocelib.robustness_evaluations.ModelChangesRobustnessScorer" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="rocelib.robustness_evaluations.ModelChangesRobustnessScorer.ModelChangesRobustnessScorer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rocelib.robustness_evaluations.ModelChangesRobustnessScorer.</span></span><span class="sig-name descname"><span class="pre">ModelChangesRobustnessScorer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ct</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rocelib/robustness_evaluations/ModelChangesRobustnessScorer.html#ModelChangesRobustnessScorer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rocelib.robustness_evaluations.ModelChangesRobustnessScorer.ModelChangesRobustnessScorer" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<p>Abstract base class for scoring the robustness of model predictions with respect to counterfactuals.</p>
+<p>This class defines an interface for assigning a robustness score to a model’s predictions
+when the model parameters are changed.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="rocelib.robustness_evaluations.ModelChangesRobustnessScorer.ModelChangesRobustnessScorer.score">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">instance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">neg_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rocelib/robustness_evaluations/ModelChangesRobustnessScorer.html#ModelChangesRobustnessScorer.score"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rocelib.robustness_evaluations.ModelChangesRobustnessScorer.ModelChangesRobustnessScorer.score" title="Link to this definition"></a></dt>
+<dd><p>Abstract method to calculate the robustness score for a model’s prediction on a given instance.</p>
+<p>Must be implemented by subclasses.</p>
+<dl class="simple">
+<dt>&#64;param instance: The instance for which to calculate the robustness score.</dt><dd><p>This could be a single data point for the model.</p>
+</dd>
+<dt>&#64;param neg_value: The value considered negative in the target variable.</dt><dd><p>Used to determine if the counterfactual flips the prediction.</p>
+</dd>
+</dl>
+<p>&#64;return: The calculated robustness score. The return type should be defined by the subclass.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-rocelib.robustness_evaluations.ModelChangesRobustnessSetEvaluator">
+<span id="rocelib-robustness-evaluations-modelchangesrobustnesssetevaluator-module"></span><h2>rocelib.robustness_evaluations.ModelChangesRobustnessSetEvaluator module<a class="headerlink" href="#module-rocelib.robustness_evaluations.ModelChangesRobustnessSetEvaluator" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="rocelib.robustness_evaluations.ModelChangesRobustnessSetEvaluator.ModelChangesRobustnessSetEvaluator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rocelib.robustness_evaluations.ModelChangesRobustnessSetEvaluator.</span></span><span class="sig-name descname"><span class="pre">ModelChangesRobustnessSetEvaluator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ct</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evaluator=&lt;class</span> <span class="pre">'rocelib.robustness_evaluations.ModelChangesRobustnessEvaluator.ModelChangesRobustnessEvaluator'&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rocelib/robustness_evaluations/ModelChangesRobustnessSetEvaluator.html#ModelChangesRobustnessSetEvaluator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rocelib.robustness_evaluations.ModelChangesRobustnessSetEvaluator.ModelChangesRobustnessSetEvaluator" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class for evaluating the robustness of model predictions over a set of instances.</p>
+<p>This class uses a specified evaluator to assess the robustness of model predictions for
+multiple instances.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rocelib.robustness_evaluations.ModelChangesRobustnessSetEvaluator.ModelChangesRobustnessSetEvaluator.task">
+<span class="sig-name descname"><span class="pre">task</span></span><a class="headerlink" href="#rocelib.robustness_evaluations.ModelChangesRobustnessSetEvaluator.ModelChangesRobustnessSetEvaluator.task" title="Link to this definition"></a></dt>
+<dd><p>The task for which robustness is being evaluated.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="rocelib.tasks.html#rocelib.tasks.Task.Task" title="rocelib.tasks.Task.Task">Task</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rocelib.robustness_evaluations.ModelChangesRobustnessSetEvaluator.ModelChangesRobustnessSetEvaluator.evaluator">
+<span class="sig-name descname"><span class="pre">evaluator</span></span><a class="headerlink" href="#rocelib.robustness_evaluations.ModelChangesRobustnessSetEvaluator.ModelChangesRobustnessSetEvaluator.evaluator" title="Link to this definition"></a></dt>
+<dd><p>An instance of a robustness evaluator used
+to assess each instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#rocelib.robustness_evaluations.ModelChangesRobustnessEvaluator.ModelChangesRobustnessEvaluator" title="rocelib.robustness_evaluations.ModelChangesRobustnessEvaluator.ModelChangesRobustnessEvaluator">ModelChangesRobustnessEvaluator</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rocelib.robustness_evaluations.ModelChangesRobustnessSetEvaluator.ModelChangesRobustnessSetEvaluator.evaluate">
+<span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">instances</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">neg_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rocelib/robustness_evaluations/ModelChangesRobustnessSetEvaluator.html#ModelChangesRobustnessSetEvaluator.evaluate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rocelib.robustness_evaluations.ModelChangesRobustnessSetEvaluator.ModelChangesRobustnessSetEvaluator.evaluate" title="Link to this definition"></a></dt>
+<dd><p>Evaluates the robustness of model predictions for a set of instances.</p>
+<p>&#64;param instances: A DataFrame containing the instances to evaluate.
+&#64;param neg_value: The value considered negative in the target variable, used</p>
+<blockquote>
+<div><p>to evaluate the robustness of the model’s prediction.</p>
+</div></blockquote>
+<p>&#64;return: A DataFrame containing the robustness evaluation results for each instance.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-rocelib.robustness_evaluations">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-rocelib.robustness_evaluations" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="rocelib.recourse_methods.html" class="btn btn-neutral float-left" title="rocelib.recourse_methods package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="rocelib.tasks.html" class="btn btn-neutral float-right" title="rocelib.tasks package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Aaryan Purohit.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

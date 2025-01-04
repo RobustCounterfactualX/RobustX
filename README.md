@@ -21,36 +21,91 @@ interpretability of machine learning models in critical applications.
 
 ## Setup
 
-To set up RoCELib locally, you will need Python 3.9 and the following dependencies: `numpy`, `pandas`, `scikit-learn`,
-and `pytest`.
+To set up do:
 
-If you are using Conda, follow these steps:
+(1) Create a virtual environment in the root
 
-1. Clone this repository:
-   ```bash
-   git clone https://github.com/aaryanp2904/RoCELib.git
-   cd RoCELib
-   ```
+```bash
+python -m venv venv
+```
 
-2. Create and activate a virtual environment:
-   ```bash
-   conda create -n RoCELib python=3.9
-   conda activate RoCELib
-   ```
+(2) Activate it. (You may have to use a different command depending on your platform)
 
-3. Install the required dependencies:
-   ```bash
-   conda install numpy pandas scikit-learn pytest
-   conda install pytorch torchvision torchaudio cpuonly -c pytorch
-   conda install tensorflow
-   conda install -c gurobi gurobi
-   conda install tqdm
-   conda install xgboost
-   conda install tabulate
-   ```
+```bash
+source venv/bin/activate
+```
+
+(3) Download dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+If you want to also run tests, regenerate docs, do the below (discussed more later)
+
+```pip install .```
+
+You need Gurobi to run all tests.
+
+[//]: # (OLD DOCS, SAVING JUST IN CASE:)
+
+[//]: # ()
+[//]: # (To set up RoCELib locally, you will need Python 3.9 and the following dependencies: `numpy`, `pandas`, `scikit-learn`,)
+
+[//]: # (and `pytest`.)
+
+[//]: # ()
+[//]: # (If you are using Conda, follow these steps:)
+
+[//]: # ()
+[//]: # (1. Clone this repository:)
+
+[//]: # (   ```bash)
+
+[//]: # (   git clone https://github.com/aaryanp2904/RoCELib.git)
+
+[//]: # (   cd RoCELib)
+
+[//]: # (   ```)
+
+[//]: # ()
+[//]: # (2. Create and activate a virtual environment:)
+
+[//]: # (   ```bash)
+
+[//]: # (   conda create -n RoCELib python=3.9)
+
+[//]: # (   conda activate RoCELib)
+
+[//]: # (   ```)
+
+[//]: # ()
+[//]: # (3. Install the required dependencies:)
+
+[//]: # (   ```bash)
+
+[//]: # (   conda install numpy pandas scikit-learn pytest)
+
+[//]: # (   conda install pytorch torchvision torchaudio cpuonly -c pytorch)
+
+[//]: # (   conda install tensorflow)
+
+[//]: # (   conda install -c gurobi gurobi)
+
+[//]: # (   conda install tqdm)
+
+[//]: # (   conda install xgboost)
+
+[//]: # (   conda install tabulate)
+
+[//]: # (   ```)
 
    > Gurobi offers academic licenses. You can obtain
    one [here](https://www.gurobi.com/downloads/end-user-license-agreement-academic/).
+
+## Generating docs
+
+Navigate to docs/source and run ```sphinx-build -b html . _build/html```?
 
 ## Examples
 

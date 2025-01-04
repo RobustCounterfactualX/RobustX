@@ -1,12 +1,12 @@
 import pandas as pd
 import torch
 
-from RoCELib.datasets.ExampleDatasets import get_example_dataset
-from RoCELib.datasets.custom_datasets.CsvDatasetLoader import CsvDatasetLoader
-from RoCELib.models.pytorch_models.SimpleNNModel import SimpleNNModel
-from RoCELib.recourse_methods.KDTreeNNCE import KDTreeNNCE
-from RoCELib.robustness_evaluations.DeltaRobustnessEvaluator import DeltaRobustnessEvaluator
-from RoCELib.tasks.ClassificationTask import ClassificationTask
+from rocelib.datasets.ExampleDatasets import get_example_dataset
+from rocelib.datasets.custom_datasets.CsvDatasetLoader import CsvDatasetLoader
+from rocelib.models.pytorch_models.SimpleNNModel import SimpleNNModel
+from rocelib.recourse_methods.KDTreeNNCE import KDTreeNNCE
+from rocelib.robustness_evaluations.DeltaRobustnessEvaluator import DeltaRobustnessEvaluator
+from rocelib.tasks.ClassificationTask import ClassificationTask
 
 
 def test_from_example_8_in_paper():

@@ -1,12 +1,12 @@
 import pandas as pd
 import torch
 
-from RoCELib.datasets.ExampleDatasets import get_example_dataset
-from RoCELib.datasets.custom_datasets.CsvDatasetLoader import CsvDatasetLoader
-from RoCELib.models.pytorch_models.SimpleNNModel import SimpleNNModel
-from RoCELib.recourse_methods.MCER import MCER
-from RoCELib.robustness_evaluations.DeltaRobustnessEvaluator import DeltaRobustnessEvaluator
-from RoCELib.tasks.ClassificationTask import ClassificationTask
+from rocelib.datasets.ExampleDatasets import get_example_dataset
+from rocelib.datasets.custom_datasets.CsvDatasetLoader import CsvDatasetLoader
+from rocelib.models.pytorch_models.SimpleNNModel import SimpleNNModel
+from rocelib.recourse_methods.MCER import MCER
+from rocelib.robustness_evaluations.DeltaRobustnessEvaluator import DeltaRobustnessEvaluator
+from rocelib.tasks.ClassificationTask import ClassificationTask
 
 
 def test_mcer_generates_all_robust():

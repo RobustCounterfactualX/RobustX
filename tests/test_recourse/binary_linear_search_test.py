@@ -1,12 +1,12 @@
 import numpy as np
 import pandas as pd
 
-from RoCELib.datasets.ExampleDatasets import get_example_dataset
-from RoCELib.datasets.custom_datasets.CsvDatasetLoader import CsvDatasetLoader
-from RoCELib.models.Models import get_sklearn_model
-from RoCELib.models.pytorch_models.SimpleNNModel import SimpleNNModel
-from RoCELib.recourse_methods.BinaryLinearSearch import BinaryLinearSearch
-from RoCELib.tasks.ClassificationTask import ClassificationTask
+from rocelib.datasets.ExampleDatasets import get_example_dataset
+from rocelib.datasets.custom_datasets.CsvDatasetLoader import CsvDatasetLoader
+from rocelib.models.Models import get_sklearn_model
+from rocelib.models.pytorch_models.SimpleNNModel import SimpleNNModel
+from rocelib.recourse_methods.BinaryLinearSearch import BinaryLinearSearch
+from rocelib.tasks.ClassificationTask import ClassificationTask
 
 
 def test_binary_linear_search_nn() -> None:

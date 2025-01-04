@@ -114,7 +114,7 @@ Navigate to docs/source and run ```make html```. If that doesn't work, try to ru
 Python notebooks demonstrating the usage of RoCELib are
 available [here](https://github.com/RoCELib/RoCELib/tree/main/examples).
 
-The docs can be accessed by opening ```index.html``` in the docs/build folder.
+The docs pages can be accessed by opening ```docs/build/html/index.html```.
 
 For a step-by-step tutorial, you can also watch the video guide [here](https://youtu.be/z9pbCFg9xVA?si=MjgZPDVBMumQ7ccu)
 .

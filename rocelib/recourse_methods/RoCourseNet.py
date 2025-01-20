@@ -1,32 +1,100 @@
 from rocelib.recourse_methods.RecourseGenerator import RecourseGenerator
+from rocelib.lib.distance_functions.DistanceFunctions import euclidean
+from rocelib.robustness_evaluations.DeltaRobustnessEvaluator import DeltaRobustnessEvaluator
+import pandas as pd
+import numpy as np
+import torch
+
+from rocelib.tasks.Task import Task
 
 
 class RoCourseNet(RecourseGenerator):
     """
-    A recourse generator that uses two stage approach to generating CEs. First, we discuss the attacker’s problem: 
-    (i) we propose a novel bi-level attacker problem to find the worstcase data shift that leads to an adversarially shifted ML model; 
-    and (ii) we propose a novel Virtual Data Shift (VDS) algorithm for solving this bi-level attacker problem. Second, we discuss the
-    defender’s problem: (i) we derive a novel tri-level learning problem based on the attacker’s bi-level problem; and (ii) we propose the 
-    RoCourseNet training framework for optimizing this tri-level optimization problem, which leads to the simultaneous generation of
-    accurate predictions and robust recourses.
-
-    Attributes:
-        _task (Task): The task to solve, inherited from RecourseGenerator.
-        __customFunc (callable, optional): A custom distance function, inherited from RecourseGenerator.
+    A recourse generator using the RoCourseNet methodology, integrated with the SimpleNNModel.
     """
 
-    def _generation_method(self, instance, gamma=0.1, column_name="target", neg_value=0,
-                           distance_func=euclidean, **kwargs) -> pd.DataFrame:
+    def __init__(self, task: Task):
         """
-        Generates a nearest-neighbor counterfactual explanation for a provided instance.
+        Initializes RoCourseNet with a given task and robustness evaluator.
 
-        @param instance: The instance for which to generate a counterfactual. Can be a DataFrame or Series.
-        @param gamma: The threshold for the distance between the instance and the counterfactual. (Not used in this method)
-        @param column_name: The name of the target column. (Not used in this method)
-        @param neg_value: The value considered negative in the target variable.
-        @param distance_func: The function used to calculate the distance between two points. Defaults to euclidean.
-        @param kwargs: Additional keyword arguments.
-        @return: A DataFrame containing the nearest-neighbor counterfactual explanation for the provided instance.
+        @param task: The task to solve, provided as a Task instance.
         """
-        # TODO
-        return None
+        super().__init__(task)
+        self.intabs = DeltaRobustnessEvaluator(task)
+        self.model= task.model  # Ensure the model is an instance of SimpleNNModel
+
+    def _generation_method(self, instance, gamma=0.1, column_name="target", neg_value=0,
+                           distance_func=euclidean, max_iter=50, lr=0.1, delta=0.01, **kwargs) -> pd.DataFrame:
+        """
+        Generates a robust counterfactual explanation for a given instance using the RoCourseNet approach.
+
+        @param instance: The instance for which to generate a counterfactual (Series or DataFrame row).
+        @param gamma: The regularization strength for proximity.
+        @param column_name: The name of the target column.
+        @param neg_value: The negative class value in the target variable.
+        @param distance_func: Function to calculate distances (default: Euclidean).
+        @param max_iter: Maximum number of optimization iterations.
+        @param lr: Learning rate for gradient updates.
+        @param delta: Magnitude of adversarial perturbation.
+        @param kwargs: Additional parameters.
+        @return: A DataFrame containing the generated counterfactual explanation.
+        """
+
+        def adversarial_loss(cf, perturbation):
+            """
+            Attacker problem: Simulates the worst-case data shift.
+            @param cf: Current counterfactual instance.
+            @param perturbation: Adversarial perturbation applied to the model.
+            @return: Loss value representing the impact of the attack.
+            """
+            shifted_weights = {k: v + perturbation.get(k, 0) for k, v in self.model.get_torch_model().state_dict().items()}
+            self.model.get_torch_model().load_state_dict(shifted_weights, strict=False)
+            pred_cf = self.model.predict_single(cf)
+            return (pred_cf - (1 - neg_value)) ** 2
+
+        def defender_loss(cf, original, perturbation):
+            """
+            Defender problem: Balances proximity and robustness.
+            @param cf: Current counterfactual instance.
+            @param original: Original input instance.
+            @param perturbation: Adversarial perturbation applied to the model.
+            @return: Loss value balancing robustness and proximity.
+            """
+            proximity_loss = distance_func(original.values, cf.values)
+            robustness_loss = adversarial_loss(cf, perturbation)
+            return robustness_loss + gamma * proximity_loss
+
+        # Initialize CF and perturbation
+        cf = instance.copy()
+        perturbation = {k: torch.zeros_like(v) for k, v in self.model.get_torch_model().state_dict().items()}
+
+        for _ in range(max_iter):
+            # Step 1: Solve the adversarial problem (Attacker)
+            for k, v in perturbation.items():
+                v.requires_grad = True
+            loss_adv = adversarial_loss(cf, perturbation)
+            loss_adv.backward()
+            with torch.no_grad():
+                for k, v in perturbation.items():
+                    v -= lr * v.grad  # Update perturbation
+                    v.clamp_(-delta, delta)  # Clamp values within [-delta, delta]
+                    v.grad = None  # Reset gradients
+
+            # Step 2: Solve the robust CF optimization (Defender)
+            cf_tensor = torch.tensor(cf.values, dtype=torch.float32, requires_grad=True)
+            loss_def = defender_loss(cf_tensor, instance, perturbation)
+            loss_def.backward()
+            with torch.no_grad():
+                cf_tensor -= lr * cf_tensor.grad  # Update counterfactual
+                cf_tensor.grad = None  # Reset gradients
+
+        # Convert CF back to DataFrame
+        cf = pd.DataFrame(cf_tensor.detach().numpy(), index=instance.index).T
+
+        # Validate CF
+        pred_cf = self.model.predict_single(cf)
+        if pred_cf <= neg_value:
+            print("Failed to generate valid counterfactual.")
+            return pd.DataFrame(instance).T
+
+        return cf

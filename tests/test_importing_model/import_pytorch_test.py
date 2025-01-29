@@ -11,10 +11,12 @@ def test_import_pytorch_model_file() -> None:
     model = TrainablePyTorchModel(34, [8], 1)
     dl = get_example_dataset("ionosphere")
 
+    dl.default_preprocess()
+    model.train(dl.X, dl.y)
+
     ct = ClassificationTask(model, dl)
 
-    dl.default_preprocess()
-    ct.train()
+
 
     #Save Model
     torch.save(ct.model.get_torch_model(), "./model.pt")
@@ -37,10 +39,12 @@ def test_import_pytorch_model_instance() -> None:
     model = TrainablePyTorchModel(34, [8], 1)
     dl = get_example_dataset("ionosphere")
 
+    dl.default_preprocess()
+    model.train(dl.X, dl.y)
+
+
     ct = ClassificationTask(model, dl)
 
-    dl.default_preprocess()
-    ct.train()
 
     torch_model = ct.model.get_torch_model()
 

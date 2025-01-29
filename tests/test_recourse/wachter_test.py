@@ -8,13 +8,13 @@ from rocelib.tasks.ClassificationTask import ClassificationTask
 def test_wachter() -> None:
 
     dl = get_example_dataset("ionosphere")
+    dl.default_preprocess()
 
     model = TrainablePyTorchModel(34, [8], 1)
+    model.train(dl.X, dl.y)
 
     ct = ClassificationTask(model, dl)
 
-    dl.default_preprocess()
-    ct.train()
 
     recourse = Wachter(ct)
 

@@ -13,9 +13,10 @@ def test_binary_linear_search_nn() -> None:
     # Create a new classification task and train the model on our data
     model = TrainablePyTorchModel(10, [7], 1)
     dl = CsvDatasetLoader('./assets/recruitment_data.csv', "HiringDecision")
+
+    model.train(dl.X, dl.y)
     ct = ClassificationTask(model, dl)
 
-    ct.train()
 
     # Use BinaryLinearSearch to generate a recourse for each negative value
     recourse = BinaryLinearSearch(ct)
@@ -30,10 +31,11 @@ def test_binary_linear_search_dt() -> None:
     model = get_sklearn_model("decision_tree")
     dl = get_example_dataset("ionosphere")
 
+    dl.default_preprocess()
+    model.train(dl.X, dl.y)
+
     ct = ClassificationTask(model, dl)
 
-    dl.default_preprocess()
-    ct.train()
 
     recourse = BinaryLinearSearch(ct)
 
@@ -46,10 +48,12 @@ def test_binary_linear_search_lr() -> None:
     model = get_sklearn_model("log_reg")
     dl = get_example_dataset("ionosphere")
 
+    dl.default_preprocess()
+    model.train(dl.X, dl.y)
+
     ct = ClassificationTask(model, dl)
 
-    dl.default_preprocess()
-    ct.train()
+
 
     def euclidean_copy(x: pd.DataFrame, c: pd.DataFrame) -> pd.DataFrame:
         return np.sqrt(np.sum((x.values - c.values) ** 2))

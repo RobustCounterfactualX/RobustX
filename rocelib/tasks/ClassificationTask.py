@@ -15,13 +15,6 @@ class ClassificationTask(Task):
         _training_data: The dataset used for training the model.
     """
 
-    def train(self, **kwargs):
-        """
-        Trains the model using the training data.
-
-        This method uses the features (X) and labels (y) from the training data to fit the model.
-        """
-        self.model.train(self._training_data.X, self._training_data.y, **kwargs)
 
     def get_random_positive_instance(self, neg_value, column_name="target") -> pd.Series:
         """

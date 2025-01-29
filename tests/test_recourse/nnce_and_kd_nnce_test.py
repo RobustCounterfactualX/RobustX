@@ -11,10 +11,11 @@ def test_kdtree_nnce() -> None:
     model = get_sklearn_model("log_reg")
     dl = get_example_dataset("ionosphere")
     dl.default_preprocess()
+    model.train(dl.X, dl.y)
+
 
     ct = ClassificationTask(model, dl)
 
-    ct.train()
 
     kdrecourse = KDTreeNNCE(ct)
 
@@ -27,9 +28,10 @@ def test_kdtree_nnce_same_as_nnce() -> None:
     model = TrainablePyTorchModel(10, [7], 1)
     dl = CsvDatasetLoader('./assets/recruitment_data.csv', "HiringDecision")
 
+    model.train(dl.X, dl.y)
+
     ct = ClassificationTask(model, dl)
 
-    ct.train()
 
     kdrecourse = KDTreeNNCE(ct)
 

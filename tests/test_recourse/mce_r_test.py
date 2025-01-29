@@ -47,11 +47,13 @@ def test_mcer_generates_all_robust_custom():
 
     dl = get_example_dataset("ionosphere")
 
-    ct = ClassificationTask(model, dl)
-
     dl.default_preprocess()
 
-    ct.train()
+    model.train(dl.X, dl.y)
+
+    ct = ClassificationTask(model, dl)
+
+
 
     mcer = MCER(ct)
 

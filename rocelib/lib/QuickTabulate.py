@@ -33,10 +33,10 @@ def quick_tabulate(dl: DatasetLoader, model: TrainableModel, methods: Dict[str, 
     if preprocess and isinstance(dl, ExampleDatasetLoader):
         dl.default_preprocess()
 
+    model.train(dl.X, dl.y)
+
     # Create and train task
     ct = ClassificationTask(model, dl)
-
-    ct.train()
 
     results = []
 

@@ -12,12 +12,13 @@ def test_rocoursenet() -> None:
     model = TrainablePyTorchModel(34, [8], 1)  # Neural network with input size 34, hidden layer [8], and output size 1
     dl = get_example_dataset("ionosphere")  # Load the "ionosphere" dataset
 
+
+    dl.default_preprocess()  # Preprocess the dataset (e.g., scaling, normalization)
+
+    model.train(dl.X, dl.y)
     # Step 2: Set up the classification task
     ct = ClassificationTask(model, dl)
 
-    # Step 3: Preprocess the data and train the model
-    dl.default_preprocess()  # Preprocess the dataset (e.g., scaling, normalization)
-    ct.train()  # Train the model on the dataset
 
     recourse = RoCourseNet(ct)
 

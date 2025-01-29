@@ -10,10 +10,12 @@ def test_validity():
     model = get_sklearn_model("decision_tree")
     dl = get_example_dataset("ionosphere")
 
+    dl.default_preprocess()
+    model.train(dl.X, dl.y)
+
     ct = ClassificationTask(model, dl)
 
-    dl.default_preprocess()
-    ct.train()
+
 
     recourse = BinaryLinearSearch(ct)
 

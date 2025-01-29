@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import torch
+from multimethod import multimethod
 
 from rocelib.models.TrainedModel import TrainedModel
 
@@ -55,6 +56,7 @@ class PytorchModel(TrainedModel):
             x = torch.tensor(x.values, dtype=torch.float32)
         return 0 if self.predict_proba(x).iloc[0, 0] > 0.5 else 1
 
+    @multimethod
     def predict_proba(self, x: pd.DataFrame) -> pd.DataFrame:
         """
         Predicts class probabilities.
@@ -78,7 +80,8 @@ class PytorchModel(TrainedModel):
         res[1] = temp
         return res
 
-    def predict_proba_tensor(self, X: torch.Tensor) -> torch.Tensor:
+    @multimethod
+    def predict_proba(self, X: torch.Tensor) -> torch.Tensor:
         """
         Predicts the class probabilities for a tensor input.
 

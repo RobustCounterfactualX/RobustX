@@ -18,7 +18,7 @@ class PytorchModel(TrainedModel):
         self.model.eval()  # Set to evaluation mode
 
     @classmethod
-    def from_model(cls, model, device: str = "cpu"):
+    def from_model(cls, model, device: str = "cpu") -> 'PytorchModel':
         """
         Alternative constructor to initialize PytorchModel from a PyTorch model instance.
 
@@ -48,7 +48,7 @@ class PytorchModel(TrainedModel):
         """
         Predicts a single outcome as an integer.
 
-        :param X: pd.DataFrame, Instance to predict.
+        :param x: pd.DataFrame, Instance to predict.
         :return: int, Single integer prediction.
         """
         if not isinstance(x, torch.Tensor):
@@ -59,7 +59,7 @@ class PytorchModel(TrainedModel):
         """
         Predicts class probabilities.
 
-        :param X: pd.DataFrame, Instances to predict.
+        :param x: pd.DataFrame, Instances to predict.
         :return: pd.DataFrame, Probabilities for each class.
         """
         if isinstance(x, pd.DataFrame) or isinstance(x, pd.Series):
@@ -89,13 +89,13 @@ class PytorchModel(TrainedModel):
         with torch.no_grad():
             return torch.nn.functional.softmax(self.model(X), dim=1)
 
-    def evaluate(self, X: pd.DataFrame, y: pd.DataFrame):
+    def evaluate(self, X: pd.DataFrame, y: pd.DataFrame) -> float:
         """
         Evaluates the model using accuracy or other relevant metrics.
 
         :param X: pd.DataFrame, The feature variables.
         :param y: pd.DataFrame, The target variable.
-        :return: A dictionary containing evaluation metrics.
+        :return: Accuracy of the model as a float.
         """
         predictions = self.predict(X)
         accuracy = (predictions.view(-1) == torch.tensor(y.values)).float().mean()

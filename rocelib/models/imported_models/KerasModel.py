@@ -66,13 +66,12 @@ class KerasModel(TrainedModel):
 
         :param X: pd.DataFrame, The feature variables.
         :param y: pd.DataFrame, The target variable.
-        :return: A dictionary containing evaluation metrics.
+        :return: Accuracy of the model as a float.
         """
         _, accuracy = self.model.evaluate(X, y)
         return accuracy
 
 
-# TODO: decide what evaluate should return and update PM, TM
 # TODO: decide what to do about predict_proba_tensor, update PM, TM
 # TODO: copy tests for PM and tweak them for KM
 # TODO: improve test coverage (ie evaluate)

@@ -49,13 +49,13 @@ class TrainedModel(ABC):
         pass
 
     @abstractmethod
-    def evaluate(self, X: pd.DataFrame, y: pd.DataFrame):
+    def evaluate(self, X: pd.DataFrame, y: pd.DataFrame) -> float:
         """
         Evaluates the model's performance on the provided feature and target data.
 
         @param X: pd.DataFrame, The feature variables.
         @param y: pd.DataFrame, The target variable.
 
-        @return: Evaluation result of the model.
+        @return: Accuracy of the model as a float.
         """
         pass

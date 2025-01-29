@@ -1,10 +1,12 @@
 import pandas as pd
 import numpy as np
 
+from rocelib.models.TrainedModel import TrainedModel
+
 
 import torch
 
-class PytorchModel:
+class PytorchModel(TrainedModel):
     def __init__(self, model_path: str, device: str = "cpu"):
         """
         Initialize the PytorchModel by loading the saved PyTorch model.

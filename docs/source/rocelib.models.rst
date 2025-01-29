@@ -14,10 +14,10 @@ Subpackages
 Submodules
 ----------
 
-rocelib.models.BaseModel module
+rocelib.models.TrainableModel module
 -------------------------------
 
-.. automodule:: rocelib.models.BaseModel
+.. automodule:: rocelib.models.TrainableModel
    :members:
    :undoc-members:
    :show-inheritance:

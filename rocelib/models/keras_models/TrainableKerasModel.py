@@ -7,10 +7,10 @@ from keras.metrics import Accuracy
 from keras.models import Sequential
 from keras.optimizers import Adam
 
-from rocelib.models.BaseModel import BaseModel
+from rocelib.models.TrainableModel import TrainableModel
 
 
-class SimpleKerasNNModel(BaseModel):
+class TrainableKerasModel(TrainableModel):
     """
     A simple feedforward neural network model using Keras for binary classification.
 

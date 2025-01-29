@@ -1,5 +1,5 @@
 from rocelib.datasets.ExampleDatasets import get_example_dataset
-from rocelib.models.pytorch_models.SimpleNNModel import SimpleNNModel
+from rocelib.models.pytorch_models.TrainablePyTorchModel import TrainablePyTorchModel
 from rocelib.tasks.ClassificationTask import ClassificationTask
 from rocelib.models.imported_models.PytorchModel import PytorchModel
 import torch
@@ -8,7 +8,7 @@ import os
 
 def test_import_pytorch_model_file() -> None:
     #Create Model
-    model = SimpleNNModel(34, [8], 1)
+    model = TrainablePyTorchModel(34, [8], 1)
     dl = get_example_dataset("ionosphere")
 
     ct = ClassificationTask(model, dl)
@@ -34,7 +34,7 @@ def test_import_pytorch_model_file() -> None:
 
 def test_import_pytorch_model_instance() -> None:
     #Create Model
-    model = SimpleNNModel(34, [8], 1)
+    model = TrainablePyTorchModel(34, [8], 1)
     dl = get_example_dataset("ionosphere")
 
     ct = ClassificationTask(model, dl)

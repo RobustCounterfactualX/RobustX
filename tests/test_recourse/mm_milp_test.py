@@ -1,13 +1,13 @@
 from rocelib.datasets.ExampleDatasets import get_example_dataset
-from rocelib.models.pytorch_models.SimpleNNModel import SimpleNNModel
+from rocelib.models.pytorch_models.TrainablePyTorchModel import TrainablePyTorchModel
 from rocelib.recourse_methods.ModelMultiplicityMILP import ModelMultiplicityMILP
 from rocelib.tasks.ClassificationTask import ClassificationTask
 
 
 def test_mce_predicts_positive_instances():
-    model1 = SimpleNNModel(34, [8], 1)
-    model2 = SimpleNNModel(34, [16, 8], 1)
-    model3 = SimpleNNModel(34, [16, 8, 4], 1)
+    model1 = TrainablePyTorchModel(34, [8], 1)
+    model2 = TrainablePyTorchModel(34, [16, 8], 1)
+    model3 = TrainablePyTorchModel(34, [16, 8, 4], 1)
 
     dl = get_example_dataset("ionosphere")
 

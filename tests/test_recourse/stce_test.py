@@ -2,14 +2,14 @@ import pandas as pd
 
 from rocelib.datasets.ExampleDatasets import get_example_dataset
 from rocelib.evaluations.RobustnessProportionEvaluator import RobustnessProportionEvaluator
-from rocelib.models.pytorch_models.SimpleNNModel import SimpleNNModel
+from rocelib.models.pytorch_models.TrainablePyTorchModel import TrainablePyTorchModel
 from rocelib.recourse_methods.MCE import MCE
 from rocelib.recourse_methods.STCE import TrexNN
 from rocelib.tasks.ClassificationTask import ClassificationTask
 
 
 def test_stce() -> None:
-    model = SimpleNNModel(34, [8], 1)
+    model = TrainablePyTorchModel(34, [8], 1)
     dl = get_example_dataset("ionosphere")
 
     ct = ClassificationTask(model, dl)

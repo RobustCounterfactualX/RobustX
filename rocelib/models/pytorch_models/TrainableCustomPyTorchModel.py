@@ -4,10 +4,10 @@ import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import DataLoader, TensorDataset
 
-from rocelib.models.BaseModel import BaseModel
+from rocelib.models.TrainableModel import TrainableModel
 
 
-class CustomPyTorchModel(BaseModel):
+class TrainableCustomPyTorchModel(TrainableModel):
     """
     A custom PyTorch model that can be trained, used for predictions, and evaluated for performance.
 
@@ -40,7 +40,7 @@ class CustomPyTorchModel(BaseModel):
 
     def __init__(self, model, criterion=nn.CrossEntropyLoss(), optimizer_class=optim.Adam, learning_rate=0.001):
         """
-        Initializes the CustomPyTorchModel with a specified model, loss function, and optimizer.
+        Initializes the TrainableCustomPyTorchModel with a specified model, loss function, and optimizer.
 
         @param model: The PyTorch model architecture.
         @param criterion: The loss function, default is CrossEntropyLoss.

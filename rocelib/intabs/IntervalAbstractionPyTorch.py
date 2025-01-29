@@ -1,4 +1,4 @@
-from rocelib.models.pytorch_models.SimpleNNModel import SimpleNNModel
+from rocelib.models.pytorch_models.TrainablePyTorchModel import TrainablePyTorchModel
 
 
 class IntervalAbstractionPytorch:
@@ -21,7 +21,7 @@ class IntervalAbstractionPytorch:
     layers: list[int]
         Stores the number of nodes in each layer in a list
 
-    model: BaseModel
+    model: TrainableModel
         The original model
 
     delta: int
@@ -40,9 +40,9 @@ class IntervalAbstractionPytorch:
 
     -------
     """
-    def __init__(self, model: SimpleNNModel, delta: float, bias_delta=None):
+    def __init__(self, model: TrainablePyTorchModel, delta: float, bias_delta=None):
         """
-        @param model: SimpleNNModel, the Neural network to create an INN of
+        @param model: TrainablePyTorchModel, the Neural network to create an INN of
         @param delta: int, perturbation to weights
         @param bias_delta: int, perturbation to bias, default is delta itself
         """

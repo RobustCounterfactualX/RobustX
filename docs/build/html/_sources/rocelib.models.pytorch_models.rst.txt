@@ -4,18 +4,18 @@ rocelib.models.pytorch\_models package
 Submodules
 ----------
 
-rocelib.models.pytorch\_models.CustomPyTorchModel module
+rocelib.models.pytorch\_models.TrainableCustomPyTorchModel module
 --------------------------------------------------------
 
-.. automodule:: rocelib.models.pytorch_models.CustomPyTorchModel
+.. automodule:: rocelib.models.pytorch_models.TrainableCustomPyTorchModel
    :members:
    :undoc-members:
    :show-inheritance:
 
-rocelib.models.pytorch\_models.SimpleNNModel module
+rocelib.models.pytorch\_models.TrainablePyTorchModel module
 ---------------------------------------------------
 
-.. automodule:: rocelib.models.pytorch_models.SimpleNNModel
+.. automodule:: rocelib.models.pytorch_models.TrainablePyTorchModel
    :members:
    :undoc-members:
    :show-inheritance:

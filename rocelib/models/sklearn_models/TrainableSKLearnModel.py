@@ -2,20 +2,20 @@ import pandas as pd
 import torch
 from sklearn.metrics import accuracy_score, f1_score
 
-from rocelib.models.BaseModel import BaseModel
+from rocelib.models.TrainableModel import TrainableModel
 
 
-class SklearnModel(BaseModel):
+class TrainableSKLearnModel(TrainableModel):
     """
     A base class for scikit-learn models.
 
     This class wraps a scikit-learn model and provides methods for training, predicting,
-    and evaluating the model. Inherits from BaseModel.
+    and evaluating the model. Inherits from TrainableModel.
     """
 
     def __init__(self, model):
         """
-        Initializes the SklearnModel with a scikit-learn model.
+        Initializes the TrainableSKLearnModel with a scikit-learn model.
 
         @param model: The scikit-learn model instance to be wrapped.
         """

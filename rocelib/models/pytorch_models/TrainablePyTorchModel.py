@@ -3,10 +3,10 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 import numpy as np
-from rocelib.models.BaseModel import BaseModel
+from rocelib.models.TrainableModel import TrainableModel
 
 
-class SimpleNNModel(BaseModel):
+class TrainablePyTorchModel(TrainableModel):
     """
     A simple neural network model using PyTorch. This model can be customized with different numbers of hidden layers and units.
 
@@ -55,7 +55,7 @@ class SimpleNNModel(BaseModel):
 
     def __init__(self, input_dim, hidden_dim, output_dim):
         """
-        Initializes the SimpleNNModel with specified dimensions.
+        Initializes the TrainablePyTorchModel with specified dimensions.
 
         @param input_dim: Number of input features.
         @param hidden_dim: List specifying the number of neurons in each hidden layer.
@@ -106,6 +106,8 @@ class SimpleNNModel(BaseModel):
             loss = self.criterion(outputs, y_tensor)
             loss.backward()
             self.optimizer.step()
+        
+        
 
     def set_weights(self, weights):
         """

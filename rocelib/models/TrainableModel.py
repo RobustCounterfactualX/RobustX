@@ -3,7 +3,7 @@ import pandas as pd
 import torch
 
 
-class BaseModel(ABC):
+class TrainableModel(ABC):
     """
     Abstract base class to define the essential methods that all model types must implement, providing template for
     training, predicting, and evaluating models in a standardized way.
@@ -41,7 +41,7 @@ class BaseModel(ABC):
 
     def __init__(self, model):
         """
-        Initializes the BaseModel with a specific model.
+        Initializes the TrainableModel with a specific model.
 
         @param model: The model object to be used (e.g., a scikit-learn or PyTorch model).
         """

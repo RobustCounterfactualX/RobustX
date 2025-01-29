@@ -1,6 +1,6 @@
-from rocelib.models.sklearn_models.DecisionTreeModel import DecisionTreeModel
-from rocelib.models.sklearn_models.LogisticRegressionModel import LogisticRegressionModel
-from rocelib.models.sklearn_models.SVMModel import SVMModel
+from rocelib.models.sklearn_models.TrainableDecisionTreeModel import TrainableDecisionTreeModel
+from rocelib.models.sklearn_models.TrainableLogisticRegressionModel import TrainableLogisticRegressionModel
+from rocelib.models.sklearn_models.TrainableSVMModel import TrainableSVMModel
 
 
 def get_sklearn_model(name: str):
@@ -12,15 +12,15 @@ def get_sklearn_model(name: str):
         - "decision_tree" for Decision Tree
         - "svm" for Support Vector Machine
 
-    @return: An instance of the requested scikit-learn model. The model class should be a subclass of BaseModel.
+    @return: An instance of the requested scikit-learn model. The model class should be a subclass of TrainableModel.
 
     @raises ValueError: If the provided model name does not match any of the predefined options.
     """
     if name == "log_reg":
-        return LogisticRegressionModel()
+        return TrainableLogisticRegressionModel()
     elif name == "decision_tree":
-        return DecisionTreeModel()
+        return TrainableDecisionTreeModel()
     elif name == "svm":
-        return SVMModel()
+        return TrainableSVMModel()
     else:
         raise ValueError(f"Unknown model name: {name}")

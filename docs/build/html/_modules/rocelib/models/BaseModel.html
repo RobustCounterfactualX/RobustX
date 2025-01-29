@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>rocelib.models.BaseModel &mdash; RoCELib  documentation</title>
+  <title>rocelib.models.TrainableModel &mdash; RoCELib  documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
 
@@ -59,7 +59,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">rocelib.models.BaseModel</li>
+      <li class="breadcrumb-item active">rocelib.models.TrainableModel</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -68,15 +68,15 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for rocelib.models.BaseModel</h1><div class="highlight"><pre>
+  <h1>Source code for rocelib.models.TrainableModel</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">torch</span>
 
 
-<div class="viewcode-block" id="BaseModel">
-<a class="viewcode-back" href="../../../rocelib.models.html#rocelib.models.BaseModel.BaseModel">[docs]</a>
-<span class="k">class</span> <span class="nc">BaseModel</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+<div class="viewcode-block" id="TrainableModel">
+<a class="viewcode-back" href="../../../rocelib.models.html#rocelib.models.TrainableModel.TrainableModel">[docs]</a>
+<span class="k">class</span> <span class="nc">TrainableModel</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Abstract base class to define the essential methods that all model types must implement, providing template for</span>
 <span class="sd">    training, predicting, and evaluating models in a standardized way.</span>
@@ -114,14 +114,14 @@
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initializes the BaseModel with a specific model.</span>
+<span class="sd">        Initializes the TrainableModel with a specific model.</span>
 
 <span class="sd">        @param model: The model object to be used (e.g., a scikit-learn or PyTorch model).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_model</span> <span class="o">=</span> <span class="n">model</span>
 
-<div class="viewcode-block" id="BaseModel.train">
-<a class="viewcode-back" href="../../../rocelib.models.html#rocelib.models.BaseModel.BaseModel.train">[docs]</a>
+<div class="viewcode-block" id="TrainableModel.train">
+<a class="viewcode-back" href="../../../rocelib.models.html#rocelib.models.TrainableModel.TrainableModel.train">[docs]</a>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -137,8 +137,8 @@
         <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="BaseModel.predict">
-<a class="viewcode-back" href="../../../rocelib.models.html#rocelib.models.BaseModel.BaseModel.predict">[docs]</a>
+<div class="viewcode-block" id="TrainableModel.predict">
+<a class="viewcode-back" href="../../../rocelib.models.html#rocelib.models.TrainableModel.TrainableModel.predict">[docs]</a>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -151,8 +151,8 @@
         <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="BaseModel.predict_single">
-<a class="viewcode-back" href="../../../rocelib.models.html#rocelib.models.BaseModel.BaseModel.predict_single">[docs]</a>
+<div class="viewcode-block" id="TrainableModel.predict_single">
+<a class="viewcode-back" href="../../../rocelib.models.html#rocelib.models.TrainableModel.TrainableModel.predict_single">[docs]</a>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">predict_single</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -165,8 +165,8 @@
         <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="BaseModel.predict_proba">
-<a class="viewcode-back" href="../../../rocelib.models.html#rocelib.models.BaseModel.BaseModel.predict_proba">[docs]</a>
+<div class="viewcode-block" id="TrainableModel.predict_proba">
+<a class="viewcode-back" href="../../../rocelib.models.html#rocelib.models.TrainableModel.TrainableModel.predict_proba">[docs]</a>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">predict_proba</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -179,8 +179,8 @@
         <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="BaseModel.predict_proba_tensor">
-<a class="viewcode-back" href="../../../rocelib.models.html#rocelib.models.BaseModel.BaseModel.predict_proba_tensor">[docs]</a>
+<div class="viewcode-block" id="TrainableModel.predict_proba_tensor">
+<a class="viewcode-back" href="../../../rocelib.models.html#rocelib.models.TrainableModel.TrainableModel.predict_proba_tensor">[docs]</a>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">predict_proba_tensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -193,8 +193,8 @@
         <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="BaseModel.evaluate">
-<a class="viewcode-back" href="../../../rocelib.models.html#rocelib.models.BaseModel.BaseModel.evaluate">[docs]</a>
+<div class="viewcode-block" id="TrainableModel.evaluate">
+<a class="viewcode-back" href="../../../rocelib.models.html#rocelib.models.TrainableModel.TrainableModel.evaluate">[docs]</a>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>

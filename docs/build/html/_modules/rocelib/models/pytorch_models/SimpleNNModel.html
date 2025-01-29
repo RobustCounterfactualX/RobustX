@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>rocelib.models.pytorch_models.SimpleNNModel &mdash; RoCELib  documentation</title>
+  <title>rocelib.models.pytorch_models.TrainablePyTorchModel &mdash; RoCELib  documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
 
@@ -59,7 +59,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">rocelib.models.pytorch_models.SimpleNNModel</li>
+      <li class="breadcrumb-item active">rocelib.models.pytorch_models.TrainablePyTorchModel</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -68,18 +68,18 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for rocelib.models.pytorch_models.SimpleNNModel</h1><div class="highlight"><pre>
+  <h1>Source code for rocelib.models.pytorch_models.TrainablePyTorchModel</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">torch</span>
 <span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
 <span class="kn">import</span> <span class="nn">torch.optim</span> <span class="k">as</span> <span class="nn">optim</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">rocelib.models.BaseModel</span> <span class="kn">import</span> <span class="n">BaseModel</span>
+<span class="kn">from</span> <span class="nn">rocelib.models.TrainableModel</span> <span class="kn">import</span> <span class="n">TrainableModel</span>
 
 
-<div class="viewcode-block" id="SimpleNNModel">
-<a class="viewcode-back" href="../../../../rocelib.models.pytorch_models.html#rocelib.models.pytorch_models.SimpleNNModel.SimpleNNModel">[docs]</a>
-<span class="k">class</span> <span class="nc">SimpleNNModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<div class="viewcode-block" id="TrainablePyTorchModel">
+<a class="viewcode-back" href="../../../../rocelib.models.pytorch_models.html#rocelib.models.pytorch_models.TrainablePyTorchModel.TrainablePyTorchModel">[docs]</a>
+<span class="k">class</span> <span class="nc">TrainablePyTorchModel</span><span class="p">(</span><span class="n">TrainableModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A simple neural network model using PyTorch. This model can be customized with different numbers of hidden layers and units.</span>
 
@@ -128,7 +128,7 @@
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_dim</span><span class="p">,</span> <span class="n">hidden_dim</span><span class="p">,</span> <span class="n">output_dim</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initializes the SimpleNNModel with specified dimensions.</span>
+<span class="sd">        Initializes the TrainablePyTorchModel with specified dimensions.</span>
 
 <span class="sd">        @param input_dim: Number of input features.</span>
 <span class="sd">        @param hidden_dim: List specifying the number of neurons in each hidden layer.</span>
@@ -162,8 +162,8 @@
 
         <span class="k">return</span> <span class="n">model</span>
 
-<div class="viewcode-block" id="SimpleNNModel.train">
-<a class="viewcode-back" href="../../../../rocelib.models.pytorch_models.html#rocelib.models.pytorch_models.SimpleNNModel.SimpleNNModel.train">[docs]</a>
+<div class="viewcode-block" id="TrainablePyTorchModel.train">
+<a class="viewcode-back" href="../../../../rocelib.models.pytorch_models.html#rocelib.models.pytorch_models.TrainablePyTorchModel.TrainablePyTorchModel.train">[docs]</a>
     <span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Trains the neural network model.</span>
@@ -183,8 +183,8 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="SimpleNNModel.set_weights">
-<a class="viewcode-back" href="../../../../rocelib.models.pytorch_models.html#rocelib.models.pytorch_models.SimpleNNModel.SimpleNNModel.set_weights">[docs]</a>
+<div class="viewcode-block" id="TrainablePyTorchModel.set_weights">
+<a class="viewcode-back" href="../../../../rocelib.models.pytorch_models.html#rocelib.models.pytorch_models.TrainablePyTorchModel.TrainablePyTorchModel.set_weights">[docs]</a>
     <span class="k">def</span> <span class="nf">set_weights</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">weights</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sets custom weights for the model.</span>
@@ -202,8 +202,8 @@
                 <span class="n">layer_idx</span> <span class="o">+=</span> <span class="mi">1</span></div>
 
 
-<div class="viewcode-block" id="SimpleNNModel.predict">
-<a class="viewcode-back" href="../../../../rocelib.models.pytorch_models.html#rocelib.models.pytorch_models.SimpleNNModel.SimpleNNModel.predict">[docs]</a>
+<div class="viewcode-block" id="TrainablePyTorchModel.predict">
+<a class="viewcode-back" href="../../../../rocelib.models.pytorch_models.html#rocelib.models.pytorch_models.TrainablePyTorchModel.TrainablePyTorchModel.predict">[docs]</a>
     <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Predicts outcomes for the given input data.</span>
@@ -216,8 +216,8 @@
         <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span></div>
 
 
-<div class="viewcode-block" id="SimpleNNModel.predict_single">
-<a class="viewcode-back" href="../../../../rocelib.models.pytorch_models.html#rocelib.models.pytorch_models.SimpleNNModel.SimpleNNModel.predict_single">[docs]</a>
+<div class="viewcode-block" id="TrainablePyTorchModel.predict_single">
+<a class="viewcode-back" href="../../../../rocelib.models.pytorch_models.html#rocelib.models.pytorch_models.TrainablePyTorchModel.TrainablePyTorchModel.predict_single">[docs]</a>
     <span class="k">def</span> <span class="nf">predict_single</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Predicts the outcome for a single instance.</span>
@@ -230,8 +230,8 @@
         <span class="k">return</span> <span class="mi">0</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.5</span> <span class="k">else</span> <span class="mi">1</span></div>
 
 
-<div class="viewcode-block" id="SimpleNNModel.evaluate">
-<a class="viewcode-back" href="../../../../rocelib.models.pytorch_models.html#rocelib.models.pytorch_models.SimpleNNModel.SimpleNNModel.evaluate">[docs]</a>
+<div class="viewcode-block" id="TrainablePyTorchModel.evaluate">
+<a class="viewcode-back" href="../../../../rocelib.models.pytorch_models.html#rocelib.models.pytorch_models.TrainablePyTorchModel.TrainablePyTorchModel.evaluate">[docs]</a>
     <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Evaluates the model&#39;s accuracy.</span>
@@ -245,8 +245,8 @@
         <span class="k">return</span> <span class="n">accuracy</span><span class="o">.</span><span class="n">item</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="SimpleNNModel.predict_proba">
-<a class="viewcode-back" href="../../../../rocelib.models.pytorch_models.html#rocelib.models.pytorch_models.SimpleNNModel.SimpleNNModel.predict_proba">[docs]</a>
+<div class="viewcode-block" id="TrainablePyTorchModel.predict_proba">
+<a class="viewcode-back" href="../../../../rocelib.models.pytorch_models.html#rocelib.models.pytorch_models.TrainablePyTorchModel.TrainablePyTorchModel.predict_proba">[docs]</a>
     <span class="k">def</span> <span class="nf">predict_proba</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Predicts probabilities of outcomes.</span>
@@ -271,8 +271,8 @@
         <span class="k">return</span> <span class="n">res</span></div>
 
 
-<div class="viewcode-block" id="SimpleNNModel.predict_proba_tensor">
-<a class="viewcode-back" href="../../../../rocelib.models.pytorch_models.html#rocelib.models.pytorch_models.SimpleNNModel.SimpleNNModel.predict_proba_tensor">[docs]</a>
+<div class="viewcode-block" id="TrainablePyTorchModel.predict_proba_tensor">
+<a class="viewcode-back" href="../../../../rocelib.models.pytorch_models.html#rocelib.models.pytorch_models.TrainablePyTorchModel.TrainablePyTorchModel.predict_proba_tensor">[docs]</a>
     <span class="k">def</span> <span class="nf">predict_proba_tensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Predicts probabilities of outcomes using the model.</span>
@@ -283,8 +283,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="SimpleNNModel.get_torch_model">
-<a class="viewcode-back" href="../../../../rocelib.models.pytorch_models.html#rocelib.models.pytorch_models.SimpleNNModel.SimpleNNModel.get_torch_model">[docs]</a>
+<div class="viewcode-block" id="TrainablePyTorchModel.get_torch_model">
+<a class="viewcode-back" href="../../../../rocelib.models.pytorch_models.html#rocelib.models.pytorch_models.TrainablePyTorchModel.TrainablePyTorchModel.get_torch_model">[docs]</a>
     <span class="k">def</span> <span class="nf">get_torch_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieves the underlying PyTorch model.</span>

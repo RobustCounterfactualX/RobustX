@@ -77,7 +77,7 @@
 <span class="kn">from</span> <span class="nn">rocelib.evaluations.ManifoldEvaluator</span> <span class="kn">import</span> <span class="n">ManifoldEvaluator</span>
 <span class="kn">from</span> <span class="nn">rocelib.evaluations.RobustnessProportionEvaluator</span> <span class="kn">import</span> <span class="n">RobustnessProportionEvaluator</span>
 <span class="kn">from</span> <span class="nn">rocelib.evaluations.ValidityEvaluator</span> <span class="kn">import</span> <span class="n">ValidityEvaluator</span>
-<span class="kn">from</span> <span class="nn">rocelib.models.BaseModel</span> <span class="kn">import</span> <span class="n">BaseModel</span>
+<span class="kn">from</span> <span class="nn">rocelib.models.TrainableModel</span> <span class="kn">import</span> <span class="n">TrainableModel</span>
 <span class="kn">from</span> <span class="nn">rocelib.recourse_methods.RecourseGenerator</span> <span class="kn">import</span> <span class="n">RecourseGenerator</span>
 <span class="kn">from</span> <span class="nn">rocelib.tasks.ClassificationTask</span> <span class="kn">import</span> <span class="n">ClassificationTask</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
@@ -87,13 +87,13 @@
 
 <div class="viewcode-block" id="quick_tabulate">
 <a class="viewcode-back" href="../../../rocelib.lib.html#rocelib.lib.QuickTabulate.quick_tabulate">[docs]</a>
-<span class="k">def</span> <span class="nf">quick_tabulate</span><span class="p">(</span><span class="n">dl</span><span class="p">:</span> <span class="n">DatasetLoader</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">methods</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">RecourseGenerator</span><span class="o">.</span><span class="vm">__class__</span><span class="p">],</span>
+<span class="k">def</span> <span class="nf">quick_tabulate</span><span class="p">(</span><span class="n">dl</span><span class="p">:</span> <span class="n">DatasetLoader</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="n">TrainableModel</span><span class="p">,</span> <span class="n">methods</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">RecourseGenerator</span><span class="o">.</span><span class="vm">__class__</span><span class="p">],</span>
                    <span class="n">subset</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">preprocess</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generates and prints a table summarizing the performance of different recourse generation methods.</span>
 
 <span class="sd">    @param dl: DatasetLoader, The dataset loader to preprocess and provide data for the classification task.</span>
-<span class="sd">    @param model: BaseModel, The model to be trained and evaluated.</span>
+<span class="sd">    @param model: TrainableModel, The model to be trained and evaluated.</span>
 <span class="sd">    @param methods: Dict[str, RecourseGenerator.__class__], A dictionary where keys are method names and values are</span>
 <span class="sd">                    classes of recourse generation methods to evaluate.</span>
 <span class="sd">    @param subset: optional DataFrame, subset of instances you would like to generate CEs on</span>

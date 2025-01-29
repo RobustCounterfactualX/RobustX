@@ -69,9 +69,9 @@
            <div itemprop="articleBody">
              
   <h1>Source code for rocelib.models.Models</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">rocelib.models.sklearn_models.DecisionTreeModel</span> <span class="kn">import</span> <span class="n">DecisionTreeModel</span>
-<span class="kn">from</span> <span class="nn">rocelib.models.sklearn_models.LogisticRegressionModel</span> <span class="kn">import</span> <span class="n">LogisticRegressionModel</span>
-<span class="kn">from</span> <span class="nn">rocelib.models.sklearn_models.SVMModel</span> <span class="kn">import</span> <span class="n">SVMModel</span>
+<span></span><span class="kn">from</span> <span class="nn">rocelib.models.sklearn_models.TrainableDecisionTreeModel</span> <span class="kn">import</span> <span class="n">TrainableDecisionTreeModel</span>
+<span class="kn">from</span> <span class="nn">rocelib.models.sklearn_models.TrainableLogisticRegressionModel</span> <span class="kn">import</span> <span class="n">TrainableLogisticRegressionModel</span>
+<span class="kn">from</span> <span class="nn">rocelib.models.sklearn_models.TrainableSVMModel</span> <span class="kn">import</span> <span class="n">TrainableSVMModel</span>
 
 
 <div class="viewcode-block" id="get_sklearn_model">
@@ -85,16 +85,16 @@
 <span class="sd">        - &quot;decision_tree&quot; for Decision Tree</span>
 <span class="sd">        - &quot;svm&quot; for Support Vector Machine</span>
 
-<span class="sd">    @return: An instance of the requested scikit-learn model. The model class should be a subclass of BaseModel.</span>
+<span class="sd">    @return: An instance of the requested scikit-learn model. The model class should be a subclass of TrainableModel.</span>
 
 <span class="sd">    @raises ValueError: If the provided model name does not match any of the predefined options.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;log_reg&quot;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">LogisticRegressionModel</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">TrainableLogisticRegressionModel</span><span class="p">()</span>
     <span class="k">elif</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;decision_tree&quot;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">DecisionTreeModel</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">TrainableDecisionTreeModel</span><span class="p">()</span>
     <span class="k">elif</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;svm&quot;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">SVMModel</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">TrainableSVMModel</span><span class="p">()</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown model name: </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 

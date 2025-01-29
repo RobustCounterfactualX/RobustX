@@ -3,6 +3,8 @@ import torch
 from sklearn.metrics import accuracy_score, f1_score
 
 from rocelib.models.TrainableModel import TrainableModel
+from rocelib.models.TrainedModel import TrainedModel
+
 
 
 class TrainableSKLearnModel(TrainableModel):
@@ -21,7 +23,7 @@ class TrainableSKLearnModel(TrainableModel):
         """
         super().__init__(model)
 
-    def train(self, X: pd.DataFrame, y: pd.DataFrame, **kwargs) -> None:
+    def train(self, X: pd.DataFrame, y: pd.DataFrame, **kwargs) -> TrainedModel:
         """
         Trains the scikit-learn model.
 
@@ -29,6 +31,7 @@ class TrainableSKLearnModel(TrainableModel):
         @param y: The target variable, should be a DataFrame.
         """
         self.model.fit(X, y)
+        return None # TODO
 
     def predict(self, X: pd.DataFrame) -> pd.DataFrame:
         """

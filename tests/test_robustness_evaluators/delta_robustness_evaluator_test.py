@@ -99,11 +99,12 @@ def test_ionosphere_kdtree_robustness():
     model = TrainablePyTorchModel(34, [8], 1)
     # dl = CsvDatasetLoader('../assets/recruitment_data.csv', "HiringDecision")
     dl = get_example_dataset("ionosphere")
-    ct = ClassificationTask(model, dl)
-
     dl.default_preprocess()
 
-    ct.train()
+    model.train(dl.X, dl.y)
+    ct = ClassificationTask(model, dl)
+
+
 
     kdtree = KDTreeNNCE(ct)
 

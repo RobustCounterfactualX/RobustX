@@ -12,9 +12,9 @@ def test_mce_predicts_positive_instances():
     dl = get_example_dataset("ionosphere")
 
     dl.default_preprocess()
-    ct1.train(dl.X, dl.y)
-    ct2.train(dl.X, dl.y)
-    ct3.train(dl.X, dl.y)
+    model1.train(dl.X, dl.y)
+    model2.train(dl.X, dl.y)
+    model3.train(dl.X, dl.y)
 
     ct1 = ClassificationTask(model1, dl)
     ct2 = ClassificationTask(model2, dl)

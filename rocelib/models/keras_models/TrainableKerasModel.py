@@ -8,6 +8,8 @@ from keras.models import Sequential
 from keras.optimizers import Adam
 
 from rocelib.models.TrainableModel import TrainableModel
+from rocelib.models.TrainedModel import TrainedModel
+
 
 
 class TrainableKerasModel(TrainableModel):
@@ -57,7 +59,7 @@ class TrainableKerasModel(TrainableModel):
         model.compile(optimizer=Adam(learning_rate=0.001), loss=BinaryCrossentropy(), metrics=[Accuracy()])
         super().__init__(model)
 
-    def train(self, X: pd.DataFrame, y: pd.DataFrame, epochs: int = 100, batch_size: int = 32, **kwargs) -> None:
+    def train(self, X: pd.DataFrame, y: pd.DataFrame, epochs: int = 100, batch_size: int = 32, **kwargs) -> TrainedModel:
         """
         Trains the model on the provided data.
 
@@ -67,6 +69,7 @@ class TrainableKerasModel(TrainableModel):
         @param batch_size: The batch size used in training (default is 32).
         """
         self.model.fit(X, y, epochs=epochs, batch_size=batch_size, verbose=1)
+        return None # TODO: return trained model
 
     def predict(self, X: pd.DataFrame) -> pd.DataFrame:
         """

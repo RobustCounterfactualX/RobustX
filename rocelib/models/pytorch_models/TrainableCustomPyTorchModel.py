@@ -5,6 +5,8 @@ import torch.optim as optim
 from torch.utils.data import DataLoader, TensorDataset
 
 from rocelib.models.TrainableModel import TrainableModel
+from rocelib.models.TrainedModel import TrainedModel
+
 
 
 class TrainableCustomPyTorchModel(TrainableModel):
@@ -51,7 +53,7 @@ class TrainableCustomPyTorchModel(TrainableModel):
         self.criterion = criterion
         self.optimizer = optimizer_class(self._model.parameters(), lr=learning_rate)
 
-    def train(self, X: pd.DataFrame, y: pd.DataFrame, epochs=10, batch_size=32, **kwargs):
+    def train(self, X: pd.DataFrame, y: pd.DataFrame, epochs=10, batch_size=32, **kwargs) -> TrainedModel:
         """
         Train the PyTorch model using the provided data.
 
@@ -79,6 +81,8 @@ class TrainableCustomPyTorchModel(TrainableModel):
                 running_loss += loss.item()
 
             print(f"Epoch {epoch + 1}/{epochs}, Loss: {running_loss / len(loader)}")
+        
+        return None # TODO
 
     def predict(self, X: pd.DataFrame) -> pd.DataFrame:
         """

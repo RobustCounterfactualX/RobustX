@@ -4,6 +4,8 @@ import torch.nn as nn
 import torch.optim as optim
 import numpy as np
 from rocelib.models.TrainableModel import TrainableModel
+from rocelib.models.TrainedModel import TrainedModel
+
 
 
 class TrainablePyTorchModel(TrainableModel):
@@ -89,7 +91,7 @@ class TrainablePyTorchModel(TrainableModel):
 
         return model
 
-    def train(self, X, y, epochs=100, **kwargs):
+    def train(self, X, y, epochs=100, **kwargs) -> TrainedModel:
         """
         Trains the neural network model.
 
@@ -107,6 +109,7 @@ class TrainablePyTorchModel(TrainableModel):
             loss.backward()
             self.optimizer.step()
         
+        return None # TODO
         
 
     def set_weights(self, weights):

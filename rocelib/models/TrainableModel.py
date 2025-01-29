@@ -2,6 +2,8 @@ from abc import ABC, abstractmethod
 import pandas as pd
 import torch
 
+from rocelib.models.TrainedModel import TrainedModel
+
 
 class TrainableModel(ABC):
     """
@@ -48,7 +50,7 @@ class TrainableModel(ABC):
         self._model = model
 
     @abstractmethod
-    def train(self, X: pd.DataFrame, y: pd.DataFrame, **kwargs) -> None:
+    def train(self, X: pd.DataFrame, y: pd.DataFrame, **kwargs) -> TrainedModel:
         """
         Trains the model using X feature variables and y target variable. Each implementing class
         can decide how to train their model and can add additional parameters, but X and y must be of

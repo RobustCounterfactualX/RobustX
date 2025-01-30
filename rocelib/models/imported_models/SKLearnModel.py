@@ -1,51 +1,40 @@
 import pandas as pd
+import numpy as np
 import torch
+import joblib
+from multimethod import multimethod
 from sklearn.base import BaseEstimator
 from sklearn.metrics import accuracy_score, f1_score
 from rocelib.models.TrainedModel import TrainedModel
 
 
 class SKLearnModel(TrainedModel):
-    """
-    Wrapper class for scikit-learn models.
-    Provides methods for training, predicting, and evaluating models.
-    """
-
-    def __init__(self, model: BaseEstimator):
+    def __init__(self, model_path: str):
         """
-        Initializes the SKLearnModel with a scikit-learn model.
+        Initialize the SKLearnModel by loading the saved scikit-learn model.
 
-        :param model: A scikit-learn model instance
+        :param model_path: Path to the saved model file (.pkl)
         """
-        self.model = model
+        self.model = joblib.load(model_path)  # Load the saved model
 
     @classmethod
     def from_model(cls, model: BaseEstimator) -> 'SKLearnModel':
         """
-        Alternative constructor to initialize SKLearnModel from an existing model instance.
+        Alternative constructor to initialize SKLearnModel from a scikit-learn model instance.
 
         :param model: A scikit-learn model instance
         :return: An instance of SKLearnModel
         """
-        instance = cls.__new__(cls)  # Create a new instance without calling __init__
-        instance.model = model
+        instance = cls.__new__(cls)  # Create an instance without calling __init__
+        instance.model = model  # Directly assign the model
         return instance
-
-    def train(self, X: pd.DataFrame, y: pd.Series, **kwargs) -> None:
-        """
-        Trains the scikit-learn model. Not sure if this is required
-
-        :param X: Feature variables (DataFrame)
-        :param y: Target variable (Series)
-        """
-        self.model.fit(X, y, **kwargs)
 
     def predict(self, X: pd.DataFrame) -> pd.DataFrame:
         """
-        Predicts the outcomes for given feature variables.
+        Predicts the outcome using the scikit-learn model.
 
-        :param X: Feature variables (DataFrame)
-        :return: Predictions as a DataFrame
+        :param X: pd.DataFrame, Instances to predict.
+        :return: pd.DataFrame, Predictions for each instance.
         """
         predictions = self.model.predict(X)
         return pd.DataFrame(predictions, columns=["prediction"])
@@ -54,44 +43,46 @@ class SKLearnModel(TrainedModel):
         """
         Predicts a single outcome as an integer.
 
-        :param x: Single instance (DataFrame)
-        :return: Integer prediction
+        :param x: pd.DataFrame, Instance to predict.
+        :return: int, Single integer prediction.
         """
-        prediction = self.predict(x).iloc[0, 0]
-        return int(prediction)
+        prediction = self.predict(x)
 
+        if prediction.empty or prediction.isna().any().any():
+            raise ValueError("Prediction returned NaN or empty result. Check model training and inputs.")
+
+        return int(prediction.iloc[0, 0])
+
+    @multimethod
     def predict_proba(self, X: pd.DataFrame) -> pd.DataFrame:
         """
-        Predicts class probabilities for given instances.
+        Predicts class probabilities.
 
-        :param X: Feature variables (DataFrame)
-        :return: Probabilities as a DataFrame
+        :param X: pd.DataFrame, Instances to predict.
+        :return: pd.DataFrame, Probabilities for each class.
         """
         probabilities = self.model.predict_proba(X)
         return pd.DataFrame(probabilities)
 
-    def predict_proba_tensor(self, X: pd.DataFrame) -> torch.Tensor:
+    @multimethod
+    def predict_proba(self, X: torch.Tensor) -> torch.Tensor:
         """
-        Predicts class probabilities and returns them as a PyTorch tensor. Not sure if this is required
+        Predicts class probabilities for a tensor input.
 
-        :param X: Feature variables (DataFrame)
-        :return: Probabilities as a torch.Tensor
+        :param X: torch.Tensor, Instances to predict.
+        :return: torch.Tensor, Probabilities of each outcome.
         """
-        probabilities = self.model.predict_proba(X)
+        X_numpy = X.cpu().numpy() if isinstance(X, torch.Tensor) else X
+        probabilities = self.model.predict_proba(X_numpy)
         return torch.tensor(probabilities, dtype=torch.float32)
 
-    def evaluate(self, X: pd.DataFrame, y: pd.Series) -> dict:
+    def evaluate(self, X: pd.DataFrame, y: pd.Series) -> float:
         """
-        Evaluates the model's performance using accuracy and F1 score.
+        Evaluates the model using accuracy.
 
-        :param X: Feature variables (DataFrame)
-        :param y: True target values (Series)
-        :return: Dictionary containing "accuracy" and "f1_score"
+        :param X: pd.DataFrame, The feature variables.
+        :param y: pd.Series, The target variable.
+        :return: Accuracy of the model as a float.
         """
-        y_pred = self.predict(X)["prediction"].values
-        return {
-            "accuracy": accuracy_score(y, y_pred),
-            "f1_score": f1_score(y, y_pred, average='weighted')
-        }
-
-    #TODO: check if train and predict_proba_tensor methods are required
+        predictions = self.predict(X)["prediction"].values
+        return accuracy_score(y, predictions)

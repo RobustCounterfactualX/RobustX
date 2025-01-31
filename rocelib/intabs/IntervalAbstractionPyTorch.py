@@ -43,7 +43,7 @@ class IntervalAbstractionPytorch:
     """
     def __init__(self, model: PytorchModel, delta: float, bias_delta=None):
         """
-        @param model: TrainablePyTorchModel, the Neural network to create an INN of
+        @param model: PytorchModel, the Neural network to create an INN of
         @param delta: int, perturbation to weights
         @param bias_delta: int, perturbation to bias, default is delta itself
         """

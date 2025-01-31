@@ -18,22 +18,21 @@ def test_mce_predicts_positive_instances():
     ct2 = ClassificationTask(trained_model2, dl)
     trained_model3 = model3.train(dl.X, dl.y)
     ct3 = ClassificationTask(trained_model3, dl)
-    # TODO : changed MILP to trainedModel
     
 
 
-    recourse = ModelMultiplicityMILP(dl, [model1, model2, model3])
+    recourse = ModelMultiplicityMILP(dl, [trained_model1, trained_model2, trained_model3])
 
     for _, neg in dl.get_negative_instances(neg_value=0).iterrows():
 
         res = recourse.generate_for_instance(neg)
 
         if not res.empty:
-            prediction1 = model1.predict_single(res)
+            prediction1 = trained_model1.predict_single(res)
 
-            prediction2 = model2.predict_single(res)
+            prediction2 = trained_model2.predict_single(res)
 
-            prediction3 = model3.predict_single(res)
+            prediction3 = trained_model3.predict_single(res)
 
             assert prediction1
             assert prediction2

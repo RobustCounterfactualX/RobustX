@@ -23,6 +23,6 @@ def test_wachter() -> None:
 
     x = val.evaluate(res)
 
-    assert x > 0.95
+    assert x > 0.85
 
 

@@ -15,7 +15,7 @@ def create_weights_and_bias_dictionary(model):
 
     # Extract the weights and biases as numpy arrays for each layer
     params = {}
-    for name, param in model.get_torch_model().named_parameters():
+    for name, param in model.model.named_parameters():
         params[name] = param.detach().numpy()
 
     weight_dict = {}

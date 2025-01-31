@@ -79,7 +79,9 @@ class Wachter(RecourseGenerator):
         # the total loss in the instructions: loss = validity_loss + lamb * cost_loss
 
         # compute class probability
-        class_prob = self.task.model.predict_proba_tensor(wac)
+        # class_prob = self.task.model.predict_proba(wac)
+        class_prob = self.task.model.model(wac)
+
         wac_valid = False
         iterations = 0
         if y_target == 0 and class_prob < 0.5 or y_target == 1 and class_prob >= 0.5:
@@ -93,7 +95,9 @@ class Wachter(RecourseGenerator):
         while not wac_valid and iterations <= max_iter:
 
             optimiser.zero_grad()
-            class_prob = self.task.model.predict_proba_tensor(wac)
+            # class_prob = self.task.model.predict_proba(wac)
+            class_prob = self.task.model.model(wac)
+
             wac_loss = validity_loss(class_prob, y_target) + lamb * cost_loss(x, wac)
             wac_loss.sum().backward()
             optimiser.step()

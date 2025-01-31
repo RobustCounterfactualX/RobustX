@@ -21,7 +21,7 @@ class PytorchModel(TrainedModel):
         self.device = torch.device(device)
         self.model = torch.load(model_path, map_location=self.device)  # Load full model
         self.model.eval()  # Set to evaluation mode
-        (self.input_dim, self.hidden_dim, self.output_dim) = self.get_model_dimensions_and_hidden_layers(self.model)
+        (self.input_dim, self.hidden_dim, self.output_dim) = get_model_dimensions_and_hidden_layers(self.model)
 
     @classmethod
     def from_model(cls, model, device: str = "cpu") -> 'PytorchModel':
@@ -37,11 +37,7 @@ class PytorchModel(TrainedModel):
         instance.model = model.to(instance.device)
         instance.model.eval()  # Set to evaluation mode
 
-        (cls.input_dim, cls.hidden_dim, cls.output_dim) = cls.get_model_dimensions_and_hidden_layers(model)
-        print(cls.input_dim)
-        print(cls.hidden_dim)
-        print(cls.output_dim)
-
+        (cls.input_dim, cls.hidden_dim, cls.output_dim) = get_model_dimensions_and_hidden_layers(model)
        
         return instance
 
@@ -67,29 +63,19 @@ class PytorchModel(TrainedModel):
         if not isinstance(x, torch.Tensor):
             x = torch.tensor(x.values, dtype=torch.float32)
         return 0 if self.predict_proba(x).iloc[0, 0] > 0.5 else 1
-
-    @multimethod
-    def predict_proba(self, x: pd.DataFrame) -> pd.DataFrame:
+    
+    
+    def predict_proba(self, x: torch.Tensor) -> pd.DataFrame:
         """
-        Predicts class probabilities.
+        Predicts probabilities of outcomes.
 
-        :param X: pd.DataFrame, Instances to predict.
-        :return: pd.DataFrame, Probabilities for each class.
+        @param x: Input data as a torch tensor.
+        @return: Probabilities of each outcome as a pandas DataFrame.
         """
         if isinstance(x, pd.DataFrame) or isinstance(x, pd.Series):
             x = torch.tensor(x.values, dtype=torch.float32)
         elif isinstance(x, np.ndarray):
             x = torch.from_numpy(x).float()
-        return self.predict_proba(x)
-
-    @multimethod
-    def predict_proba(self, x: torch.Tensor) -> torch.Tensor:
-        """
-        Predicts the class probabilities for a tensor input.
-
-        :param X: torch.Tensor, Instances to predict.
-        :return: torch.Tensor, Probabilities of each outcome.
-        """
         res = self.model(x)
         res = pd.DataFrame(res.detach().numpy())
 
@@ -114,27 +100,28 @@ class PytorchModel(TrainedModel):
         accuracy = (predictions.view(-1) == torch.tensor(y.values)).float().mean()
         return accuracy.item()
     
-    def get_model_dimensions_and_hidden_layers(self, model):
-        """
-        Returns the input dimension, output dimension, and number of hidden layers in a PyTorch model.
 
-        :param model: A PyTorch model instance
-        :return: (input_dim, output_dim, num_hidden_layers)
-        """
-        layers = list(model.children())  # Get all model layers
-        if not layers:
-            raise ValueError("The model has no layers.")
+def get_model_dimensions_and_hidden_layers(model):
+    """
+    Returns the input dimension, output dimension, and number of hidden layers in a PyTorch model.
 
-        first_layer = layers[0]  # First layer (input)
+    :param model: A PyTorch model instance
+    :return: (input_dim, output_dim, num_hidden_layers)
+    """
+    layers = list(model.children())  # Get all model layers
+    if not layers:
+        raise ValueError("The model has no layers.")
 
-        # Extract input and output dimensions
-        input_dim = getattr(first_layer, 'in_features', None)
+    first_layer = layers[0]  # First layer (input)
 
-        hidden_dims = []
-        for layer in layers:
-            if hasattr(layer, 'out_features'):
-                hidden_dims.append(layer.out_features)
-        output_dim = hidden_dims.pop()
+    # Extract input and output dimensions
+    input_dim = getattr(first_layer, 'in_features', None)
+
+    hidden_dims = []
+    for layer in layers:
+        if hasattr(layer, 'out_features'):
+            hidden_dims.append(layer.out_features)
+    output_dim = hidden_dims.pop()
 
 
-        return input_dim, hidden_dims, output_dim
+    return input_dim, hidden_dims, output_dim

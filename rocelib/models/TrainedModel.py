@@ -29,7 +29,7 @@ class TrainedModel(ABC):
         pass
 
     @abstractmethod
-    def predict_proba(self, X: pd.DataFrame | torch.Tensor) -> pd.DataFrame | torch.Tensor:
+    def predict_proba(self, X: pd.DataFrame) -> pd.DataFrame:
         """
         Predicts the probabilities of outcomes.
 

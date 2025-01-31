@@ -68,7 +68,7 @@ class PytorchModel(TrainedModel):
             x = torch.tensor(x.values, dtype=torch.float32)
         elif isinstance(x, np.ndarray):
             x = torch.from_numpy(x).float()
-        self.predict_proba(x)
+        return self.predict_proba(x)
 
     @multimethod
     def predict_proba(self, x: torch.Tensor) -> torch.Tensor:

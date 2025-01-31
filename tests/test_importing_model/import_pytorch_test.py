@@ -6,7 +6,7 @@ import torch
 import os
 
 
-def test_import_pytorch_model_file() -> None:
+def test_imported_pytorch_model_file_same_as_original() -> None:
     #Create Model
     model = TrainablePyTorchModel(34, [8], 1)
     dl = get_example_dataset("ionosphere")
@@ -34,7 +34,7 @@ def test_import_pytorch_model_file() -> None:
 
 
 
-def test_import_pytorch_model_instance() -> None:
+def test_imported_pytorch_model_from_instance_same_as_original() -> None:
     #Create Model
     model = TrainablePyTorchModel(34, [8], 1)
     dl = get_example_dataset("ionosphere")

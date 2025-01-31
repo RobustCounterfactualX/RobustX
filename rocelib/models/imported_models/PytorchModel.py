@@ -5,6 +5,10 @@ from rocelib.models.TrainedModel import TrainedModel
 
 
 import torch
+from multimethod import multimethod
+
+from rocelib.models.TrainedModel import TrainedModel
+
 
 class PytorchModel(TrainedModel):
     def __init__(self, model_path: str, device: str = "cpu"):
@@ -19,7 +23,7 @@ class PytorchModel(TrainedModel):
         self.model.eval()  # Set to evaluation mode
 
     @classmethod
-    def from_model(cls, model, device: str = "cpu"):
+    def from_model(cls, model, device: str = "cpu") -> 'PytorchModel':
         """
         Alternative constructor to initialize PytorchModel from a PyTorch model instance.
 
@@ -49,13 +53,14 @@ class PytorchModel(TrainedModel):
         """
         Predicts a single outcome as an integer.
 
-        :param X: pd.DataFrame, Instance to predict.
+        :param x: pd.DataFrame, Instance to predict.
         :return: int, Single integer prediction.
         """
         if not isinstance(x, torch.Tensor):
             x = torch.tensor(x.values, dtype=torch.float32)
         return 0 if self.predict_proba(x).iloc[0, 0] > 0.5 else 1
 
+    @multimethod
     def predict_proba(self, x: pd.DataFrame) -> pd.DataFrame:
         """
         Predicts class probabilities.
@@ -67,6 +72,16 @@ class PytorchModel(TrainedModel):
             x = torch.tensor(x.values, dtype=torch.float32)
         elif isinstance(x, np.ndarray):
             x = torch.from_numpy(x).float()
+        return self.predict_proba(x)
+
+    @multimethod
+    def predict_proba(self, x: torch.Tensor) -> torch.Tensor:
+        """
+        Predicts the class probabilities for a tensor input.
+
+        :param X: torch.Tensor, Instances to predict.
+        :return: torch.Tensor, Probabilities of each outcome.
+        """
         res = self.model(x)
         res = pd.DataFrame(res.detach().numpy())
 
@@ -79,24 +94,13 @@ class PytorchModel(TrainedModel):
         res[1] = temp
         return res
 
-    def predict_proba_tensor(self, X: torch.Tensor) -> torch.Tensor:
-        """
-        Predicts the class probabilities for a tensor input.
-
-        :param X: torch.Tensor, Instances to predict.
-        :return: torch.Tensor, Probabilities of each outcome.
-        """
-        X = X.to(self.device)
-        with torch.no_grad():
-            return torch.nn.functional.softmax(self.model(X), dim=1)
-
-    def evaluate(self, X: pd.DataFrame, y: pd.DataFrame):
+    def evaluate(self, X: pd.DataFrame, y: pd.DataFrame) -> float:
         """
         Evaluates the model using accuracy or other relevant metrics.
 
         :param X: pd.DataFrame, The feature variables.
         :param y: pd.DataFrame, The target variable.
-        :return: A dictionary containing evaluation metrics.
+        :return: Accuracy of the model as a float.
         """
         predictions = self.predict(X)
         accuracy = (predictions.view(-1) == torch.tensor(y.values)).float().mean()

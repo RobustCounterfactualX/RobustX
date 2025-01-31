@@ -13,6 +13,13 @@ class KerasModel(TrainedModel):
         :param model_path: Path to the saved Keras model file (.keras)
         """
         # self.device = keras.device(device)
+        if model_path.endswith('.h5'):
+            raise ValueError(
+                f"File type not supported: filepath={model_path}. "
+                ".h5 files should not be used by themselves, "
+                "instead please save the model as a `.keras` "
+                "zip file."
+            )
         self.model = keras.saving.load_model(model_path)
 
     @classmethod
@@ -23,6 +30,11 @@ class KerasModel(TrainedModel):
         :param model: A Keras model instance
         :return: An instance of KerasModel
         """
+        if not isinstance(model, keras.Model):
+            raise TypeError(
+                f"Incorrect type of model={model}, "
+                f"expected type keras.Model, got {type(model)}"
+            )
         instance = cls.__new__(cls)  # Create a new instance without calling __init__
         instance.model = model
         return instance

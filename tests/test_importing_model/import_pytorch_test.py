@@ -1,3 +1,4 @@
+from exceptions.invalid_pytorch_model_error import InvalidPytorchModelError
 from rocelib.datasets.ExampleDatasets import get_example_dataset
 from rocelib.models.pytorch_models.SimpleNNModel import SimpleNNModel
 from rocelib.tasks.ClassificationTask import ClassificationTask
@@ -100,10 +101,9 @@ def test_throws_wrong_file_type_error() -> None:
         trained_model = PytorchModel("./test.txt")
 
 def test_throws_error_if_underlying_model_not_pytorch() -> None:
-    pass
-    #TODO
-
-
-#TODO: add error handling
-#model relies on some other class
-
+    with pytest.raises(InvalidPytorchModelError):
+        ct = trained_classification_task()
+        #Save The SimpleNNModel rather than Torch Model
+        torch.save(ct.model, "./model.pt")
+        #Import Model
+        trained_model = PytorchModel("./model.pt")

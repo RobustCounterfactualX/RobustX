@@ -13,6 +13,12 @@ class KerasModel(TrainedModel):
         :param model_path: Path to the saved Keras model file (.keras)
         """
         # self.device = keras.device(device)
+        if not isinstance(model_path, str):
+            raise TypeError(
+                f"Incorrect input type for model path: {model_path}, "
+                f"expected str, got {type(model_path)}"
+            )
+
         if model_path.endswith('.h5'):
             raise ValueError(
                 f"File type not supported: filepath={model_path}. "

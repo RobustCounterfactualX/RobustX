@@ -61,13 +61,23 @@ class PytorchModel(TrainedModel):
         """
         Predicts class probabilities.
 
-        :param x: pd.DataFrame, Instances to predict.
+        :param X: pd.DataFrame, Instances to predict.
         :return: pd.DataFrame, Probabilities for each class.
         """
         if isinstance(x, pd.DataFrame) or isinstance(x, pd.Series):
             x = torch.tensor(x.values, dtype=torch.float32)
         elif isinstance(x, np.ndarray):
             x = torch.from_numpy(x).float()
+        self.predict_proba(x)
+
+    @multimethod
+    def predict_proba(self, x: torch.Tensor) -> torch.Tensor:
+        """
+        Predicts the class probabilities for a tensor input.
+
+        :param X: torch.Tensor, Instances to predict.
+        :return: torch.Tensor, Probabilities of each outcome.
+        """
         res = self.model(x)
         res = pd.DataFrame(res.detach().numpy())
 
@@ -79,18 +89,6 @@ class PytorchModel(TrainedModel):
         # The probability it is 1 is the probability returned by the model
         res[1] = temp
         return res
-
-    @multimethod
-    def predict_proba(self, X: torch.Tensor) -> torch.Tensor:
-        """
-        Predicts the class probabilities for a tensor input.
-
-        :param X: torch.Tensor, Instances to predict.
-        :return: torch.Tensor, Probabilities of each outcome.
-        """
-        X = X.to(self.device)
-        with torch.no_grad():
-            return torch.nn.functional.softmax(self.model(X), dim=1)
 
     def evaluate(self, X: pd.DataFrame, y: pd.DataFrame) -> float:
         """

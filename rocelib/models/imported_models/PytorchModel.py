@@ -14,6 +14,9 @@ class PytorchModel(TrainedModel):
         :param model_path: Path to the saved PyTorch model file (.pt or .pth)
         :param device: Device to load the model on ('cpu' or 'cuda')
         """
+        if not model_path.endswith((".pt", ".pth")):
+            raise TypeError(f"Invalid file type: {model_path}. Expected a '.pt' or '.pth' file.")
+
         self.device = torch.device(device)
         self.model = torch.load(model_path, map_location=self.device)  # Load full model
         self.model.eval()  # Set to evaluation mode

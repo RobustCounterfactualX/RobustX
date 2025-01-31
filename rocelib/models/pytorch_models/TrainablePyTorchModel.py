@@ -5,6 +5,7 @@ import torch.optim as optim
 import numpy as np
 from rocelib.models.TrainableModel import TrainableModel
 from rocelib.models.TrainedModel import TrainedModel
+from rocelib.models.imported_models.PytorchModel import PytorchModel
 
 
 
@@ -109,7 +110,7 @@ class TrainablePyTorchModel(TrainableModel):
             loss.backward()
             self.optimizer.step()
         
-        return None # TODO
+        return PytorchModel.from_model(self.get_torch_model())
         
 
     def set_weights(self, weights):

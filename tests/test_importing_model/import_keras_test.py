@@ -5,7 +5,7 @@ from rocelib.tasks.ClassificationTask import ClassificationTask
 import os
 
 
-def test_import_keras_model_file() -> None:
+def test_import_keras_model_file_same_as_original() -> None:
     # Create Model
     model = SimpleKerasNNModel(34, 8, 1)
     dl = get_example_dataset("ionosphere")
@@ -30,7 +30,7 @@ def test_import_keras_model_file() -> None:
     os.remove('./model.keras')
 
 
-def test_import_keras_model_instance() -> None:
+def test_import_keras_model_instance_same_as_original() -> None:
     # Create Model
     model = SimpleKerasNNModel(34, 8, 1)
     dl = get_example_dataset("ionosphere")
@@ -49,4 +49,3 @@ def test_import_keras_model_instance() -> None:
     predictions_2 = trained_model.predict(ct.training_data.data.drop("target", axis=1))
 
     assert predictions_1.equals(predictions_2)
-    

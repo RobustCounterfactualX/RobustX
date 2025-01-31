@@ -11,10 +11,8 @@ def test_wachter() -> None:
     dl.default_preprocess()
 
     model = TrainablePyTorchModel(34, [8], 1)
-    # trained_model = model.train(dl.X, dl.y)
-    model.train(dl.X, dl.y)
-
-    ct = ClassificationTask(model, dl)
+    trained_model = model.train(dl.X, dl.y)
+    ct = ClassificationTask(trained_model, dl)
 
 
     recourse = Wachter(ct)

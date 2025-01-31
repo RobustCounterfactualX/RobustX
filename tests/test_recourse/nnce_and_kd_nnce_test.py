@@ -28,9 +28,9 @@ def test_kdtree_nnce_same_as_nnce() -> None:
     model = TrainablePyTorchModel(10, [7], 1)
     dl = CsvDatasetLoader('./assets/recruitment_data.csv', "HiringDecision")
 
-    model.train(dl.X, dl.y)
+    trained_model = model.train(dl.X, dl.y)
 
-    ct = ClassificationTask(model, dl)
+    ct = ClassificationTask(trained_model, dl)
 
 
     kdrecourse = KDTreeNNCE(ct)

@@ -1,4 +1,5 @@
-from rocelib.models.pytorch_models.TrainablePyTorchModel import TrainablePyTorchModel
+# from rocelib.models.pytorch_models.TrainablePyTorchModel import TrainablePyTorchModel
+from rocelib.models.imported_models.PytorchModel import PytorchModel
 
 
 class IntervalAbstractionPytorch:
@@ -40,7 +41,7 @@ class IntervalAbstractionPytorch:
 
     -------
     """
-    def __init__(self, model: TrainablePyTorchModel, delta: float, bias_delta=None):
+    def __init__(self, model: PytorchModel, delta: float, bias_delta=None):
         """
         @param model: TrainablePyTorchModel, the Neural network to create an INN of
         @param delta: int, perturbation to weights
@@ -62,7 +63,7 @@ class IntervalAbstractionPytorch:
 
         # Extract the weights and biases as numpy arrays for each layer
         params = {}
-        for name, param in self.model.get_torch_model().named_parameters():
+        for name, param in self.model.model.named_parameters():
             params[name] = param.detach().numpy()
 
         weight_dict = {}

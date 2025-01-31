@@ -84,64 +84,64 @@ class TrainableCustomPyTorchModel(TrainableModel):
         
         return None # TODO
 
-    def predict(self, X: pd.DataFrame) -> pd.DataFrame:
-        """
-        Predict outcomes for the given features X (multiple instances).
+    # def predict(self, X: pd.DataFrame) -> pd.DataFrame:
+    #     """
+    #     Predict outcomes for the given features X (multiple instances).
 
-        @param X: Input data as a pandas DataFrame.
-        @return: Predictions as a pandas DataFrame.
-        """
-        self._model.eval()
-        with torch.no_grad():
-            X_tensor = torch.tensor(X.values, dtype=torch.float32)
-            outputs = self._model(X_tensor)
-            _, predicted = torch.max(outputs, 1)
-        return pd.DataFrame(predicted.numpy(), columns=['Prediction'])
+    #     @param X: Input data as a pandas DataFrame.
+    #     @return: Predictions as a pandas DataFrame.
+    #     """
+    #     self._model.eval()
+    #     with torch.no_grad():
+    #         X_tensor = torch.tensor(X.values, dtype=torch.float32)
+    #         outputs = self._model(X_tensor)
+    #         _, predicted = torch.max(outputs, 1)
+    #     return pd.DataFrame(predicted.numpy(), columns=['Prediction'])
 
-    def predict_single(self, X: pd.DataFrame) -> int:
-        """
-        Predict the outcome for a single instance.
+    # def predict_single(self, X: pd.DataFrame) -> int:
+    #     """
+    #     Predict the outcome for a single instance.
 
-        @param X: Input data for a single instance as a pandas DataFrame.
-        @return: Predicted class as an integer.
-        """
-        self._model.eval()
-        with torch.no_grad():
-            X_tensor = torch.tensor(X.values, dtype=torch.float32)
-            outputs = self._model(X_tensor)
-            _, predicted = torch.max(outputs, 1)
-        return int(predicted.item())
+    #     @param X: Input data for a single instance as a pandas DataFrame.
+    #     @return: Predicted class as an integer.
+    #     """
+    #     self._model.eval()
+    #     with torch.no_grad():
+    #         X_tensor = torch.tensor(X.values, dtype=torch.float32)
+    #         outputs = self._model(X_tensor)
+    #         _, predicted = torch.max(outputs, 1)
+    #     return int(predicted.item())
 
-    def predict_proba(self, X: pd.DataFrame) -> pd.DataFrame:
-        """
-        Predict the probability of outcomes for multiple instances.
+    # def predict_proba(self, X: pd.DataFrame) -> pd.DataFrame:
+    #     """
+    #     Predict the probability of outcomes for multiple instances.
 
-        @param X: Input data as a pandas DataFrame.
-        @return: Probabilities as a pandas DataFrame.
-        """
-        self._model.eval()
-        with torch.no_grad():
-            X_tensor = torch.tensor(X.values, dtype=torch.float32)
-            outputs = self._model(X_tensor)
-            probabilities = torch.nn.functional.softmax(outputs, dim=1)
-        return pd.DataFrame(probabilities.numpy())
+    #     @param X: Input data as a pandas DataFrame.
+    #     @return: Probabilities as a pandas DataFrame.
+    #     """
+    #     self._model.eval()
+    #     with torch.no_grad():
+    #         X_tensor = torch.tensor(X.values, dtype=torch.float32)
+    #         outputs = self._model(X_tensor)
+    #         probabilities = torch.nn.functional.softmax(outputs, dim=1)
+    #     return pd.DataFrame(probabilities.numpy())
 
-    def evaluate(self, X: pd.DataFrame, y: pd.DataFrame) -> float:
-        """
-        Evaluate the model's performance on a test set (X, y).
+    # def evaluate(self, X: pd.DataFrame, y: pd.DataFrame) -> float:
+    #     """
+    #     Evaluate the model's performance on a test set (X, y).
 
-        @param X: Feature variables as a pandas DataFrame.
-        @param y: Target variable as a pandas DataFrame.
-        @return: Accuracy of the model as a float.
-        """
-        self._model.eval()
-        X_tensor = torch.tensor(X.values, dtype=torch.float32)
-        y_tensor = torch.tensor(y.values, dtype=torch.long)
+    #     @param X: Feature variables as a pandas DataFrame.
+    #     @param y: Target variable as a pandas DataFrame.
+    #     @return: Accuracy of the model as a float.
+    #     """
+    #     self._model.eval()
+    #     X_tensor = torch.tensor(X.values, dtype=torch.float32)
+    #     y_tensor = torch.tensor(y.values, dtype=torch.long)
 
-        with torch.no_grad():
-            outputs = self._model(X_tensor)
-            _, predicted = torch.max(outputs, 1)
-            correct = (predicted == y_tensor).sum().item()
-            total = y_tensor.size(0)
-        accuracy = correct / total
-        return accuracy
+    #     with torch.no_grad():
+    #         outputs = self._model(X_tensor)
+    #         _, predicted = torch.max(outputs, 1)
+    #         correct = (predicted == y_tensor).sum().item()
+    #         total = y_tensor.size(0)
+    #     accuracy = correct / total
+    #     return accuracy

@@ -12,14 +12,14 @@ def test_mce_predicts_positive_instances():
     dl = get_example_dataset("ionosphere")
 
     dl.default_preprocess()
-    model1.train(dl.X, dl.y)
-    model2.train(dl.X, dl.y)
-    model3.train(dl.X, dl.y)
-
-    ct1 = ClassificationTask(model1, dl)
-    ct2 = ClassificationTask(model2, dl)
-    ct3 = ClassificationTask(model3, dl)
-
+    trained_model1 = model1.train(dl.X, dl.y)
+    ct1 = ClassificationTask(trained_model1, dl)
+    trained_model2 = model2.train(dl.X, dl.y)
+    ct2 = ClassificationTask(trained_model2, dl)
+    trained_model3 = model3.train(dl.X, dl.y)
+    ct3 = ClassificationTask(trained_model3, dl)
+    # TODO : changed MILP to trainedModel
+    
 
 
     recourse = ModelMultiplicityMILP(dl, [model1, model2, model3])

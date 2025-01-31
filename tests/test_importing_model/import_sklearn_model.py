@@ -15,10 +15,11 @@ def test_import_sklearn_model_file() -> None:
     # Create and train a model
     model = SimpleNNModel(34, [8], 1)
     dl = get_example_dataset("ionosphere")
-    ct = ClassificationTask(model, dl)
-
     dl.default_preprocess()
-    ct.train()
+    trained_model = model.train(dl.X, dl.y)
+    ct = ClassificationTask(trained_model, dl)
+
+
 
     # Save model to file
     joblib.dump(ct.model, "./model.pkl")
@@ -41,10 +42,11 @@ def test_import_sklearn_model_instance() -> None:
     # Create and train a model
     model = SimpleNNModel(34, [8], 1)
     dl = get_example_dataset("ionosphere")
-    ct = ClassificationTask(model, dl)
-
     dl.default_preprocess()
-    ct.train()
+
+    trained_model = model.train(dl.X, dl.y)
+    ct = ClassificationTask(trained_model, dl)
+
 
     # Extract trained scikit-learn model
     sklearn_model = ct.model

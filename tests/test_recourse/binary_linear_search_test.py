@@ -14,8 +14,8 @@ def test_binary_linear_search_nn() -> None:
     model = TrainablePyTorchModel(10, [7], 1)
     dl = CsvDatasetLoader('./assets/recruitment_data.csv', "HiringDecision")
 
-    model.train(dl.X, dl.y)
-    ct = ClassificationTask(model, dl)
+    trained_model = model.train(dl.X, dl.y)
+    ct = ClassificationTask(trained_model, dl)
 
 
     # Use BinaryLinearSearch to generate a recourse for each negative value
@@ -32,9 +32,8 @@ def test_binary_linear_search_dt() -> None:
     dl = get_example_dataset("ionosphere")
 
     dl.default_preprocess()
-    model.train(dl.X, dl.y)
-
-    ct = ClassificationTask(model, dl)
+    trained_model = model.train(dl.X, dl.y)
+    ct = ClassificationTask(trained_model, dl)
 
 
     recourse = BinaryLinearSearch(ct)
@@ -49,9 +48,8 @@ def test_binary_linear_search_lr() -> None:
     dl = get_example_dataset("ionosphere")
 
     dl.default_preprocess()
-    model.train(dl.X, dl.y)
-
-    ct = ClassificationTask(model, dl)
+    trained_model = model.train(dl.X, dl.y)
+    ct = ClassificationTask(trained_model, dl)
 
 
 

@@ -7,6 +7,8 @@ from rocelib.evaluations.ManifoldEvaluator import ManifoldEvaluator
 from rocelib.evaluations.RobustnessProportionEvaluator import RobustnessProportionEvaluator
 from rocelib.evaluations.ValidityEvaluator import ValidityEvaluator
 from rocelib.models.TrainableModel import TrainableModel
+from rocelib.models.TrainedModel import TrainedModel
+
 from rocelib.recourse_methods.RecourseGenerator import RecourseGenerator
 from rocelib.tasks.ClassificationTask import ClassificationTask
 from typing import Dict
@@ -33,10 +35,10 @@ def quick_tabulate(dl: DatasetLoader, model: TrainableModel, methods: Dict[str, 
     if preprocess and isinstance(dl, ExampleDatasetLoader):
         dl.default_preprocess()
 
-    model.train(dl.X, dl.y)
+    trained_model = model.train(dl.X, dl.y)
 
     # Create and train task
-    ct = ClassificationTask(model, dl)
+    ct = ClassificationTask(trained_model, dl)
 
     results = []
 

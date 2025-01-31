@@ -13,10 +13,9 @@ def test_import_keras_model_file() -> None:
     dl = get_example_dataset("ionosphere")
 
     dl.default_preprocess()
-    model.train(dl.X, dl.y)
+    trained_model = model.train(dl.X, dl.y)
 
-    ct = ClassificationTask(model, dl)
-
+    ct = ClassificationTask(trained_model, dl)
 
     # Save Model
     model.model.save("./model.keras")
@@ -39,13 +38,13 @@ def test_import_keras_model_instance() -> None:
     dl = get_example_dataset("ionosphere")
 
     dl.default_preprocess()
-    model.train(dl.X, dl.y)
+    trained_model = model.train(dl.X, dl.y)
 
-    ct = ClassificationTask(model, dl)
+    ct = ClassificationTask(trained_model, dl)
 
 
 
-    keras_model = ct.model.get_keras_model()
+    keras_model = ct.model.model
 
     # Import Model
     trained_model = KerasModel.from_model(keras_model)

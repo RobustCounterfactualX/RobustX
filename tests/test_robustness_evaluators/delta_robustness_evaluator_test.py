@@ -101,8 +101,8 @@ def test_ionosphere_kdtree_robustness():
     dl = get_example_dataset("ionosphere")
     dl.default_preprocess()
 
-    model.train(dl.X, dl.y)
-    ct = ClassificationTask(model, dl)
+    trained_model = model.train(dl.X, dl.y)
+    ct = ClassificationTask(trained_model, dl)
 
 
 

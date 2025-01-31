@@ -78,7 +78,7 @@ class RoCourseNet(RecourseGenerator):
                             requires_grad=True)  # this is a leaf
 
         # 2) Forward pass
-        out = self.model.get_torch_model()(x_leaf)  # shape (1,1)
+        out = self.model.model(x_leaf)  # shape (1,1)
 
         # 3) Convert out to log-odds
         p_val = out.item()  # float in (0,1)

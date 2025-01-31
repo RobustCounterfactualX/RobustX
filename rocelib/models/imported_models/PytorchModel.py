@@ -21,6 +21,7 @@ class PytorchModel(TrainedModel):
         self.device = torch.device(device)
         self.model = torch.load(model_path, map_location=self.device)  # Load full model
         self.model.eval()  # Set to evaluation mode
+        (self.input_dim, self.hidden_dim, self.output_dim) = self.get_model_dimensions_and_hidden_layers(self.model)
 
     @classmethod
     def from_model(cls, model, device: str = "cpu") -> 'PytorchModel':
@@ -35,6 +36,13 @@ class PytorchModel(TrainedModel):
         instance.device = torch.device(device)
         instance.model = model.to(instance.device)
         instance.model.eval()  # Set to evaluation mode
+
+        (cls.input_dim, cls.hidden_dim, cls.output_dim) = cls.get_model_dimensions_and_hidden_layers(model)
+        print(cls.input_dim)
+        print(cls.hidden_dim)
+        print(cls.output_dim)
+
+       
         return instance
 
     def predict(self, X: pd.DataFrame) -> pd.DataFrame:
@@ -105,3 +113,28 @@ class PytorchModel(TrainedModel):
         predictions = self.predict(X)
         accuracy = (predictions.view(-1) == torch.tensor(y.values)).float().mean()
         return accuracy.item()
+    
+    def get_model_dimensions_and_hidden_layers(self, model):
+        """
+        Returns the input dimension, output dimension, and number of hidden layers in a PyTorch model.
+
+        :param model: A PyTorch model instance
+        :return: (input_dim, output_dim, num_hidden_layers)
+        """
+        layers = list(model.children())  # Get all model layers
+        if not layers:
+            raise ValueError("The model has no layers.")
+
+        first_layer = layers[0]  # First layer (input)
+
+        # Extract input and output dimensions
+        input_dim = getattr(first_layer, 'in_features', None)
+
+        hidden_dims = []
+        for layer in layers:
+            if hasattr(layer, 'out_features'):
+                hidden_dims.append(layer.out_features)
+        output_dim = hidden_dims.pop()
+
+
+        return input_dim, hidden_dims, output_dim

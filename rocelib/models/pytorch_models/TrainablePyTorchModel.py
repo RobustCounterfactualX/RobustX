@@ -129,71 +129,71 @@ class TrainablePyTorchModel(TrainableModel):
                     layer.bias = nn.Parameter(weights[f'fc{layer_idx}_bias'])
                 layer_idx += 1
 
-    def predict(self, X) -> pd.DataFrame:
-        """
-        Predicts outcomes for the given input data.
+    # def predict(self, X) -> pd.DataFrame:
+    #     """
+    #     Predicts outcomes for the given input data.
 
-        @param X: Input data as a pandas DataFrame or torch tensor.
-        @return: Predictions as a pandas DataFrame.
-        """
-        if not isinstance(X, torch.Tensor):
-            X = torch.tensor(X.values, dtype=torch.float32)
-        return pd.DataFrame(self._model(X).detach().numpy())
+    #     @param X: Input data as a pandas DataFrame or torch tensor.
+    #     @return: Predictions as a pandas DataFrame.
+    #     """
+    #     if not isinstance(X, torch.Tensor):
+    #         X = torch.tensor(X.values, dtype=torch.float32)
+    #     return pd.DataFrame(self._model(X).detach().numpy())
 
-    def predict_single(self, x) -> int:
-        """
-        Predicts the outcome for a single instance.
+    # def predict_single(self, x) -> int:
+    #     """
+    #     Predicts the outcome for a single instance.
 
-        @param x: Single input instance as a pandas DataFrame or torch tensor.
-        @return: Prediction as an integer (0 or 1).
-        """
-        if not isinstance(x, torch.Tensor):
-            x = torch.tensor(x.values, dtype=torch.float32)
-        return 0 if self.predict_proba(x).iloc[0, 0] > 0.5 else 1
+    #     @param x: Single input instance as a pandas DataFrame or torch tensor.
+    #     @return: Prediction as an integer (0 or 1).
+    #     """
+    #     if not isinstance(x, torch.Tensor):
+    #         x = torch.tensor(x.values, dtype=torch.float32)
+    #     return 0 if self.predict_proba(x).iloc[0, 0] > 0.5 else 1
 
-    def evaluate(self, X, y):
-        """
-        Evaluates the model's accuracy.
+    # def evaluate(self, X, y):
+    #     """
+    #     Evaluates the model's accuracy.
 
-        @param X: Feature variables as a pandas DataFrame.
-        @param y: Target variable as a pandas DataFrame.
-        @return: Accuracy of the model as a float.
-        """
-        predictions = self.predict(X)
-        accuracy = (predictions.view(-1) == torch.tensor(y.values)).float().mean()
-        return accuracy.item()
+    #     @param X: Feature variables as a pandas DataFrame.
+    #     @param y: Target variable as a pandas DataFrame.
+    #     @return: Accuracy of the model as a float.
+    #     """
+    #     predictions = self.predict(X)
+    #     accuracy = (predictions.view(-1) == torch.tensor(y.values)).float().mean()
+    #     return accuracy.item()
 
-    def predict_proba(self, x: torch.Tensor) -> pd.DataFrame:
-        """
-        Predicts probabilities of outcomes.
+    # def predict_proba(self, x: torch.Tensor) -> pd.DataFrame:
+    #     """
+    #     Predicts probabilities of outcomes.
 
-        @param x: Input data as a torch tensor.
-        @return: Probabilities of each outcome as a pandas DataFrame.
-        """
-        if isinstance(x, pd.DataFrame) or isinstance(x, pd.Series):
-            x = torch.tensor(x.values, dtype=torch.float32)
-        elif isinstance(x, np.ndarray):
-            x = torch.from_numpy(x).float()
-        res = self._model(x)
-        res = pd.DataFrame(res.detach().numpy())
+    #     @param x: Input data as a torch tensor.
+    #     @return: Probabilities of each outcome as a pandas DataFrame.
+    #     """
+    #     if isinstance(x, pd.DataFrame) or isinstance(x, pd.Series):
+    #         x = torch.tensor(x.values, dtype=torch.float32)
+    #     elif isinstance(x, np.ndarray):
+    #         x = torch.from_numpy(x).float()
+    #     res = self._model(x)
+    #     res = pd.DataFrame(res.detach().numpy())
 
-        temp = res[0]
+    #     temp = res[0]
 
-        # The probability that it is 0 is 1 - the probability returned by model
-        res[0] = 1 - res[0]
+    #     # The probability that it is 0 is 1 - the probability returned by model
+    #     res[0] = 1 - res[0]
 
-        # The probability it is 1 is the probability returned by the model
-        res[1] = temp
-        return res
+    #     # The probability it is 1 is the probability returned by the model
+    #     res[1] = temp
+    #     return res
 
-    def predict_proba_tensor(self, x: torch.Tensor) -> torch.Tensor:
-        """
-        Predicts probabilities of outcomes using the model.
+    # def predict_proba_tensor(self, x: torch.Tensor) -> torch.Tensor:
+    #     """
+    #     Predicts probabilities of outcomes using the model.
 
-        @param x: Input data as a torch tensor.
-        @return: Probabilities of each outcome as a torch tensor.
-        """
-        return self._model(x)
+    #     @param x: Input data as a torch tensor.
+    #     @return: Probabilities of each outcome as a torch tensor.
+    #     """
+    #     return self._model(x)
 
     def get_torch_model(self):
         """

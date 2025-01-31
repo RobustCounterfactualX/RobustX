@@ -31,54 +31,54 @@ class TrainableSKLearnModel(TrainableModel):
         @param y: The target variable, should be a DataFrame.
         """
         self.model.fit(X, y)
-        return None # TODO
+        return SKLearnModel.from_model(self._model)
 
-    def predict(self, X: pd.DataFrame) -> pd.DataFrame:
-        """
-        Predicts the outcomes for given feature variables.
+    # def predict(self, X: pd.DataFrame) -> pd.DataFrame:
+    #     """
+    #     Predicts the outcomes for given feature variables.
 
-        @param X: The feature variables, should be a DataFrame.
-        @return: Predictions for each instance, returned as a DataFrame.
-        """
-        return self.model.predict(X)
+    #     @param X: The feature variables, should be a DataFrame.
+    #     @return: Predictions for each instance, returned as a DataFrame.
+    #     """
+    #     return self.model.predict(X)
 
-    def predict_single(self, X: pd.DataFrame) -> int:
-        """
-        Predicts the outcome for a single instance.
+    # def predict_single(self, X: pd.DataFrame) -> int:
+    #     """
+    #     Predicts the outcome for a single instance.
 
-        @param X: The feature variables for a single instance, should be a DataFrame.
-        @return: Prediction for the single instance, returned as an integer.
-        """
-        return self.predict(X)[0]
+    #     @param X: The feature variables for a single instance, should be a DataFrame.
+    #     @return: Prediction for the single instance, returned as an integer.
+    #     """
+    #     return self.predict(X)[0]
 
-    def predict_proba(self, X: pd.DataFrame) -> pd.DataFrame:
-        """
-        Predicts the probabilities of outcomes for given feature variables.
+    # def predict_proba(self, X: pd.DataFrame) -> pd.DataFrame:
+    #     """
+    #     Predicts the probabilities of outcomes for given feature variables.
 
-        @param X: The feature variables, should be a DataFrame.
-        @return: Probabilities of each outcome, returned as a DataFrame.
-        """
-        return self.model.predict_proba(X)
+    #     @param X: The feature variables, should be a DataFrame.
+    #     @return: Probabilities of each outcome, returned as a DataFrame.
+    #     """
+    #     return self.model.predict_proba(X)
 
-    def predict_proba_tensor(self, X: pd.DataFrame) -> torch.Tensor:
-        """
-        Predicts the probabilities of outcomes for given feature variables.
+    # def predict_proba_tensor(self, X: pd.DataFrame) -> torch.Tensor:
+    #     """
+    #     Predicts the probabilities of outcomes for given feature variables.
 
-        @param X: The feature variables, should be a DataFrame.
-        @return: Probabilities of each outcome, returned as a DataFrame.
-        """
-        return torch.tensor(self.model.predict_proba(X))
+    #     @param X: The feature variables, should be a DataFrame.
+    #     @return: Probabilities of each outcome, returned as a DataFrame.
+    #     """
+    #     return torch.tensor(self.model.predict_proba(X))
 
-    def evaluate(self, X: pd.DataFrame, y: pd.DataFrame) -> dict:
-        """
-        Evaluates the model's performance using accuracy and F1 score.
+    # def evaluate(self, X: pd.DataFrame, y: pd.DataFrame) -> dict:
+    #     """
+    #     Evaluates the model's performance using accuracy and F1 score.
 
-        @param X: The feature variables, should be a DataFrame.
-        @param y: The true target values, should be a DataFrame.
-        @return: A dictionary with "accuracy" and "f1_score" of the model.
-        """
-        y_pred = self.predict(X)
-        return {
-            "accuracy": accuracy_score(y, y_pred),
-            "f1_score": f1_score(y, y_pred, average='weighted')
-        }
+    #     @param X: The feature variables, should be a DataFrame.
+    #     @param y: The true target values, should be a DataFrame.
+    #     @return: A dictionary with "accuracy" and "f1_score" of the model.
+    #     """
+    #     y_pred = self.predict(X)
+    #     return {
+    #         "accuracy": accuracy_score(y, y_pred),
+    #         "f1_score": f1_score(y, y_pred, average='weighted')
+    #     }

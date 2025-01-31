@@ -62,6 +62,16 @@ class KerasModel(TrainedModel):
         :param x: pd.DataFrame, Instance to predict.
         :return: int, Single integer prediction.
         """
+        if isinstance(x, pd.Series):
+            x = x.to_frame().T  # Convert Series to row DataFrame
+
+        expected_input = self.model.input_shape[-1]
+
+        if x.shape != (1, expected_input):
+            raise ValueError(
+                f"Expected input shape (1, {expected_input}), got {x.shape}. "
+                "For multiple predictions, use the 'predict' method instead "
+            )
         prediction = self.predict(x)
         return 0 if prediction.iloc[0, 0] > 0.5 else 1
 

@@ -18,11 +18,11 @@ class TrainedModel(ABC):
         pass
 
     @abstractmethod
-    def predict_single(self, X: pd.DataFrame) -> int:
+    def predict_single(self, x: pd.DataFrame) -> int:
         """
         Predicts the outcome of a single instance and returns an integer.
 
-        @param X: pd.DataFrame, Instance to predict.
+        @param x: pd.DataFrame, Instance to predict.
 
         @return: int, Prediction as an integer.
         """

@@ -85,6 +85,8 @@ class SimpleKerasNNModel(BaseModel):
         @param x: The instance to predict, as a DataFrame.
         @return: The predicted class label (0 or 1).
         """
+        if isinstance(x, pd.Series):
+            x = x.to_frame().T  # Convert Series to row DataFrame
         prediction = self.predict(x)
         return 0 if prediction.iloc[0, 0] > 0.5 else 1
 

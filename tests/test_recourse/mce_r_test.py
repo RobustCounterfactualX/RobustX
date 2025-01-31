@@ -3,10 +3,10 @@ import torch
 
 from rocelib.datasets.ExampleDatasets import get_example_dataset
 from rocelib.datasets.custom_datasets.CsvDatasetLoader import CsvDatasetLoader
-from rocelib.models.pytorch_models.SimpleNNModel import SimpleNNModel
-from rocelib.recourse_methods.MCER import MCER
+from rocelib.lib.models.pytorch_models.SimpleNNModel import SimpleNNModel
+from rocelib.generators.robust_recourse_methods.MCER import MCER
 from rocelib.robustness_evaluations.DeltaRobustnessEvaluator import DeltaRobustnessEvaluator
-from rocelib.tasks.ClassificationTask import ClassificationTask
+from rocelib.lib.tasks.ClassificationTask import ClassificationTask
 
 
 def test_mcer_generates_all_robust():

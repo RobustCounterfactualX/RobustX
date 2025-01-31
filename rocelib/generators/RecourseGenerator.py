@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 
 import pandas as pd
 
-from rocelib.tasks.Task import Task
+from rocelib.lib.tasks.Task import Task
 
 
 class RecourseGenerator(ABC):

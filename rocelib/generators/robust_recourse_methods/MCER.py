@@ -1,7 +1,7 @@
-from rocelib.recourse_methods.MCE import MCE
-from rocelib.recourse_methods.RecourseGenerator import RecourseGenerator
+from rocelib.generators.recourse_methods.MCE import MCE
+from rocelib.generators.RecourseGenerator import RecourseGenerator
 from rocelib.robustness_evaluations.DeltaRobustnessEvaluator import DeltaRobustnessEvaluator
-from rocelib.tasks.Task import Task
+from rocelib.lib.tasks.Task import Task
 import pandas as pd
 
 

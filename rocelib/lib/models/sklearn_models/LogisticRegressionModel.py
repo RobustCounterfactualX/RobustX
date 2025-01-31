@@ -1,6 +1,5 @@
 from sklearn.linear_model import LogisticRegression
-
-from rocelib.models.sklearn_models.SklearnModel import SklearnModel
+from rocelib.lib.models.sklearn_models.SklearnModel import SklearnModel
 
 
 class LogisticRegressionModel(SklearnModel):

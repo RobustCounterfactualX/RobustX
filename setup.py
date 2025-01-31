@@ -10,7 +10,7 @@ if __name__ == "__main__":
             'pandas',
             'scikit-learn',
         ],
-        author='Aaryan Purohit',
+        author='Aaryan Purohit, Junqi Jiang, Luca Marzari, Francesco Leofante',
         description='A library for generating robust counterfactual explanations.',
         python_requires='>=3.7',
     )

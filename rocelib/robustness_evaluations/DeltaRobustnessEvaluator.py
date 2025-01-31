@@ -2,7 +2,7 @@ from gurobipy import Model, GRB
 
 from rocelib.lib.OptSolver import OptSolver
 from rocelib.robustness_evaluations.ModelChangesRobustnessEvaluator import ModelChangesRobustnessEvaluator
-from rocelib.tasks.Task import Task
+from rocelib.lib.tasks.Task import Task
 
 
 class DeltaRobustnessEvaluator(ModelChangesRobustnessEvaluator):

@@ -1,4 +1,4 @@
-from rocelib.models.pytorch_models.SimpleNNModel import SimpleNNModel
+from rocelib.lib.models.pytorch_models.SimpleNNModel import SimpleNNModel
 
 
 class IntervalAbstractionPytorch:

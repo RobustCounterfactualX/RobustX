@@ -1,9 +1,7 @@
 from abc import ABC, abstractmethod
-
 import pandas as pd
-
 from rocelib.datasets.DatasetLoader import DatasetLoader
-from rocelib.models.BaseModel import BaseModel
+from rocelib.lib.models.BaseModel import BaseModel
 
 
 class Task(ABC):

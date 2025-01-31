@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import torch
 
-from rocelib.recourse_methods.RecourseGenerator import RecourseGenerator
+from rocelib.generators.RecourseGenerator import RecourseGenerator
 from rocelib.robustness_evaluations.DeltaRobustnessEvaluator import DeltaRobustnessEvaluator
 from rocelib.robustness_evaluations.ModelChangesRobustnessEvaluator import ModelChangesRobustnessEvaluator
 

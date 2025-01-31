@@ -2,10 +2,10 @@ import pandas as pd
 
 from rocelib.datasets.ExampleDatasets import get_example_dataset
 from rocelib.evaluations.RobustnessProportionEvaluator import RobustnessProportionEvaluator
-from rocelib.models.pytorch_models.SimpleNNModel import SimpleNNModel
-from rocelib.recourse_methods.MCE import MCE
-from rocelib.recourse_methods.STCE import TrexNN
-from rocelib.tasks.ClassificationTask import ClassificationTask
+from rocelib.lib.models.pytorch_models.SimpleNNModel import SimpleNNModel
+from rocelib.generators.recourse_methods.MCE import MCE
+from rocelib.generators.robust_recourse_methods.STCE import TrexNN
+from rocelib.lib.tasks.ClassificationTask import ClassificationTask
 
 
 def test_stce() -> None:

@@ -3,9 +3,9 @@ from gurobipy import Model
 from gurobipy.gurobipy import quicksum, GRB
 
 from rocelib.datasets.DatasetLoader import DatasetLoader
-from rocelib.models.pytorch_models.SimpleNNModel import SimpleNNModel
-from rocelib.recourse_methods.RecourseGenerator import RecourseGenerator
-from rocelib.tasks.ClassificationTask import ClassificationTask
+from rocelib.lib.models.pytorch_models.SimpleNNModel import SimpleNNModel
+from rocelib.generators.RecourseGenerator import RecourseGenerator
+from rocelib.lib.tasks.ClassificationTask import ClassificationTask
 
 
 def create_weights_and_bias_dictionary(model):

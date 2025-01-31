@@ -1,6 +1,5 @@
 from sklearn.svm import SVC
-
-from rocelib.models.sklearn_models.SklearnModel import SklearnModel
+from rocelib.lib.models.sklearn_models.SklearnModel import SklearnModel
 
 
 class SVMModel(SklearnModel):

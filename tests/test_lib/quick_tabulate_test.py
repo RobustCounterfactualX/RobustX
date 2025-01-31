@@ -4,13 +4,13 @@ from sklearn.preprocessing import StandardScaler
 from rocelib.datasets.ExampleDatasets import get_example_dataset
 from rocelib.datasets.custom_datasets.CsvDatasetLoader import CsvDatasetLoader
 from rocelib.lib.QuickTabulate import quick_tabulate
-from rocelib.models.pytorch_models.SimpleNNModel import SimpleNNModel
-from rocelib.recourse_methods.STCE import TrexNN
-from rocelib.recourse_methods.BinaryLinearSearch import BinaryLinearSearch
-from rocelib.recourse_methods.MCE import MCE
-from rocelib.recourse_methods.MCER import MCER
-from rocelib.recourse_methods.RNCE import RNCE
-from rocelib.recourse_methods.Wachter import Wachter
+from rocelib.lib.models.pytorch_models.SimpleNNModel import SimpleNNModel
+from rocelib.generators.robust_recourse_methods.STCE import TrexNN
+from rocelib.generators.recourse_methods.BinaryLinearSearch import BinaryLinearSearch
+from rocelib.generators.recourse_methods.MCE import MCE
+from rocelib.generators.robust_recourse_methods.MCER import MCER
+from rocelib.generators.robust_recourse_methods.RNCE import RNCE
+from rocelib.generators.recourse_methods.Wachter import Wachter
 
 
 def test_quick_tabulate():

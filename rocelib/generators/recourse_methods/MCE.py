@@ -3,8 +3,8 @@ from gurobipy import Model, GRB
 from gurobipy.gurobipy import quicksum
 
 from rocelib.lib.OptSolver import OptSolver
-from rocelib.recourse_methods.RecourseGenerator import RecourseGenerator
-from rocelib.tasks.Task import Task
+from rocelib.generators.RecourseGenerator import RecourseGenerator
+from rocelib.lib.tasks.Task import Task
 
 
 class MCE(RecourseGenerator):

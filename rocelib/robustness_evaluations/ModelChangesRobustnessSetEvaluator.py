@@ -1,7 +1,7 @@
 import pandas as pd
 
 from rocelib.robustness_evaluations.ModelChangesRobustnessEvaluator import ModelChangesRobustnessEvaluator
-from rocelib.tasks.Task import Task
+from rocelib.lib.tasks.Task import Task
 
 
 class ModelChangesRobustnessSetEvaluator:

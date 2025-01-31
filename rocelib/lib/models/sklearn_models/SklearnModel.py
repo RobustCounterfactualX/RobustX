@@ -1,8 +1,7 @@
 import pandas as pd
 import torch
 from sklearn.metrics import accuracy_score, f1_score
-
-from rocelib.models.BaseModel import BaseModel
+from rocelib.lib.models.BaseModel import BaseModel
 
 
 class SklearnModel(BaseModel):

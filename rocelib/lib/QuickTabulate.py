@@ -6,9 +6,9 @@ from rocelib.evaluations.DistanceEvaluator import DistanceEvaluator
 from rocelib.evaluations.ManifoldEvaluator import ManifoldEvaluator
 from rocelib.evaluations.RobustnessProportionEvaluator import RobustnessProportionEvaluator
 from rocelib.evaluations.ValidityEvaluator import ValidityEvaluator
-from rocelib.models.BaseModel import BaseModel
-from rocelib.recourse_methods.RecourseGenerator import RecourseGenerator
-from rocelib.tasks.ClassificationTask import ClassificationTask
+from rocelib.lib.models.BaseModel import BaseModel
+from rocelib.generators.RecourseGenerator import RecourseGenerator
+from rocelib.lib.tasks.ClassificationTask import ClassificationTask
 from typing import Dict
 import time
 from tabulate import tabulate

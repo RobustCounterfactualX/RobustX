@@ -3,7 +3,7 @@ import pandas as pd
 import torch
 
 from rocelib.lib.distance_functions.DistanceFunctions import euclidean
-from rocelib.recourse_methods.RecourseGenerator import RecourseGenerator
+from rocelib.generators.RecourseGenerator import RecourseGenerator
 
 
 class NNCE(RecourseGenerator):

@@ -1,7 +1,7 @@
 from rocelib.datasets.ExampleDatasets import get_example_dataset
-from rocelib.models.pytorch_models.SimpleNNModel import SimpleNNModel
-from rocelib.recourse_methods.MCE import MCE
-from rocelib.tasks.ClassificationTask import ClassificationTask
+from rocelib.lib.models.pytorch_models.SimpleNNModel import SimpleNNModel
+from rocelib.generators.recourse_methods.MCE import MCE
+from rocelib.lib.tasks.ClassificationTask import ClassificationTask
 
 
 def test_mce_predicts_positive_instances():

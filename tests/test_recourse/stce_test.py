@@ -13,7 +13,6 @@ def test_stce() -> None:
     dl = get_example_dataset("ionosphere")
     dl.default_preprocess()
 
-
     model.train(dl.X, dl.y)
     ct = ClassificationTask(model, dl)
 

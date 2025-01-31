@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 import pandas as pd
 
 from rocelib.datasets.DatasetLoader import DatasetLoader
-from rocelib.models.TrainedModel import TrainedModel
+from rocelib.models.TrainableModel import TrainableModel
 
 
 class Task(ABC):
@@ -16,7 +16,7 @@ class Task(ABC):
         __model (TrainableModel): The model to be trained and used for predictions.
     """
 
-    def __init__(self, model: TrainedModel, training_data: DatasetLoader):
+    def __init__(self, model: TrainableModel, training_data: DatasetLoader):
         """
         Initializes the Task with a model and training data.
 

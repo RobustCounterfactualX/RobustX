@@ -94,16 +94,16 @@ class BaseModel(ABC):
         """
         pass
 
-    @abstractmethod
-    def predict_proba_tensor(self, X: torch.Tensor) -> torch.Tensor:
-        """
-        Predicts the probabilities of outcomes for tensor inputs.
-
-        @param X: torch.Tensor, Instances to predict.
-
-        @return: torch.Tensor, Probabilities of each outcome.
-        """
-        pass
+    # @abstractmethod
+    # def predict_proba_tensor(self, X: torch.Tensor) -> torch.Tensor:
+    #     """
+    #     Predicts the probabilities of outcomes for tensor inputs.
+    #
+    #     @param X: torch.Tensor, Instances to predict.
+    #
+    #     @return: torch.Tensor, Probabilities of each outcome.
+    #     """
+    #     pass
 
     @abstractmethod
     def evaluate(self, X: pd.DataFrame, y: pd.DataFrame):

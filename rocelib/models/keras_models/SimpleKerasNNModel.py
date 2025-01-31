@@ -111,3 +111,11 @@ class SimpleKerasNNModel(BaseModel):
         probabilities_df[0] = 1 - probabilities_df[0]
         probabilities_df[1] = 1 - probabilities_df[0]
         return probabilities_df
+
+    def get_keras_model(self):
+        """
+        Retrieves the underlying Keras model.
+
+        @return: The Keras model.
+        """
+        return self._model

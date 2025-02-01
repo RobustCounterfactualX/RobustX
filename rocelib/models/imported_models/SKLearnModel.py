@@ -1,37 +1,44 @@
+import joblib
 import pandas as pd
 import numpy as np
-import torch
-import joblib
-from multimethod import multimethod
 from sklearn.base import BaseEstimator
-from sklearn.metrics import accuracy_score, f1_score
 from rocelib.models.TrainedModel import TrainedModel
 
 
 class SKLearnModel(TrainedModel):
     def __init__(self, model_path: str):
         """
-        Initialize the SKLearnModel by loading the saved scikit-learn model.
+        Initialize the SKLearnModel by loading the saved sklearn model.
 
-        :param model_path: Path to the saved model file (.pkl)
+        :param model_path: Path to the saved sklearn model file (.pkl)
         """
-        self.model = joblib.load(model_path)  # Load the saved model
+        if not isinstance(model_path, str):
+            raise TypeError(f"Expected 'model_path' to be a str, but got {type(model_path)}")
+
+        if not model_path.endswith(".pkl"):
+            raise ValueError(f"Invalid file format: {model_path}. Expected a .pkl file.")
+
+        self.model = joblib.load(model_path)  # Load model from file
+        self.check_model_is_sklearn_class(self.model)
 
     @classmethod
     def from_model(cls, model: BaseEstimator) -> 'SKLearnModel':
         """
-        Alternative constructor to initialize SKLearnModel from a scikit-learn model instance.
+        Alternative constructor to initialize SKLearnModel from an existing sklearn model.
 
-        :param model: A scikit-learn model instance
+        :param model: A trained sklearn model instance
         :return: An instance of SKLearnModel
         """
-        instance = cls.__new__(cls)  # Create an instance without calling __init__
-        instance.model = model  # Directly assign the model
+        if not isinstance(model, BaseEstimator):
+            raise TypeError(f"Expected 'model' to be an instance of sklearn BaseEstimator, but got {type(model)}")
+
+        instance = cls.__new__(cls)  # Create a new instance without calling __init__
+        instance.model = model
         return instance
 
     def predict(self, X: pd.DataFrame) -> pd.DataFrame:
         """
-        Predicts the outcome using the scikit-learn model.
+        Predicts the outcome using an sklearn model from Pandas DataFrame input.
 
         :param X: pd.DataFrame, Instances to predict.
         :return: pd.DataFrame, Predictions for each instance.
@@ -46,43 +53,47 @@ class SKLearnModel(TrainedModel):
         :param x: pd.DataFrame, Instance to predict.
         :return: int, Single integer prediction.
         """
-        prediction = self.predict(x)
+        if isinstance(x, pd.Series):
+            x = x.to_frame().T  # Convert Series to single-row DataFrame
 
-        if prediction.empty or prediction.isna().any().any():
-            raise ValueError("Prediction returned NaN or empty result. Check model training and inputs.")
+        # Convert DataFrame to NumPy array (forcing 2D)
+        x_array = np.array(x).reshape(1, -1)  # Ensure (1, n_features) shape
 
-        return int(prediction.iloc[0, 0])
+        prediction = self.model.predict(x_array)  # Ensure sklearn gets the correct format
+        return int(prediction[0])
 
-    @multimethod
-    def predict_proba(self, X: pd.DataFrame) -> pd.DataFrame:
+    def predict_proba(self, x: pd.DataFrame) -> pd.DataFrame:
         """
         Predicts class probabilities.
 
-        :param X: pd.DataFrame, Instances to predict.
+        :param x: pd.DataFrame, Instances to predict.
         :return: pd.DataFrame, Probabilities for each class.
         """
-        probabilities = self.model.predict_proba(X)
-        return pd.DataFrame(probabilities)
+        if hasattr(self.model, "predict_proba"):
+            probabilities = self.model.predict_proba(x)
+            return pd.DataFrame(probabilities, columns=[0, 1])
+        else:
+            raise AttributeError("This model does not support probability prediction.")
 
-    @multimethod
-    def predict_proba(self, X: torch.Tensor) -> torch.Tensor:
+    def evaluate(self, X: pd.DataFrame, y: pd.DataFrame) -> float:
         """
-        Predicts class probabilities for a tensor input.
-
-        :param X: torch.Tensor, Instances to predict.
-        :return: torch.Tensor, Probabilities of each outcome.
-        """
-        X_numpy = X.cpu().numpy() if isinstance(X, torch.Tensor) else X
-        probabilities = self.model.predict_proba(X_numpy)
-        return torch.tensor(probabilities, dtype=torch.float32)
-
-    def evaluate(self, X: pd.DataFrame, y: pd.Series) -> float:
-        """
-        Evaluates the model using accuracy.
+        Evaluates the model using accuracy score.
 
         :param X: pd.DataFrame, The feature variables.
-        :param y: pd.Series, The target variable.
+        :param y: pd.DataFrame, The target variable.
         :return: Accuracy of the model as a float.
         """
-        predictions = self.predict(X)["prediction"].values
-        return accuracy_score(y, predictions)
+        accuracy = self.model.score(X, y)
+        return accuracy
+
+    def check_model_is_sklearn_class(self, model):
+        """
+        Check if the loaded model is an sklearn-compatible model.
+
+        :param model: Model instance to check.
+        """
+        if not isinstance(model, BaseEstimator):
+            raise TypeError(
+                f"Expected an sklearn model (BaseEstimator), but got {type(model).__name__}. "
+                "Ensure you are loading a properly trained sklearn model."
+            )

@@ -48,6 +48,8 @@ class CsvDatasetLoader(DatasetLoader):
         super().__init__()
         self._target_col = target_column
         self.__load_data(csv, header, names)
+        if target_column not in self._data.columns:
+            raise ValueError(f"Target column {target_column} not found in dataset")
 
     def __load_data(self, csv, header, names):
         """
@@ -57,10 +59,16 @@ class CsvDatasetLoader(DatasetLoader):
         @param names: optional list[str], Column labels
         @return:
         """
-        if names is None:
-            self._data = pd.read_csv(csv, header=header)
-        else:
-            self._data = pd.read_csv(csv, header=header, names=names)
+        try:
+
+            if names is None:
+                self._data = pd.read_csv(csv, header=header)
+            else:
+                self._data = pd.read_csv(csv, header=header, names=names)
+        except FileNotFoundError:
+            raise FileNotFoundError(f"File {csv} not found")
+
+
 
     @property
     def X(self):

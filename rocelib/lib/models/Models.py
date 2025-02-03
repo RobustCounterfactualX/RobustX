@@ -1,6 +1,6 @@
-from rocelib.models.sklearn_models.DecisionTreeModel import DecisionTreeModel
-from rocelib.models.sklearn_models.LogisticRegressionModel import LogisticRegressionModel
-from rocelib.models.sklearn_models.SVMModel import SVMModel
+from rocelib.lib.models.sklearn_models.DecisionTreeModel import DecisionTreeModel
+from rocelib.lib.models.sklearn_models.LogisticRegressionModel import LogisticRegressionModel
+from rocelib.lib.models.sklearn_models.SVMModel import SVMModel
 
 
 def get_sklearn_model(name: str):

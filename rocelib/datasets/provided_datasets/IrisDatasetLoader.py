@@ -10,11 +10,11 @@ class IrisDatasetLoader(ExampleDatasetLoader):
     A DataLoader class responsible for loading the Iris dataset
     """
 
-    def __init__(self):
+    def __init__(self,seed=None):
         categoricals = []
         numericals = ['sepal length (cm)', 'sepal width (cm)', 'petal length (cm)',
                       'petal width (cm)']
-        super().__init__(categoricals, numericals)
+        super().__init__(categoricals, numericals, seed=seed)
 
     def load_data(self):
         iris = load_iris(as_frame=True)

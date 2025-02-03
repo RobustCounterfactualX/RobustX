@@ -57,7 +57,7 @@ class ExampleDatasetLoader(DatasetLoader, ABC):
     -------
     """
 
-    def __init__(self, categoricals, numericals, missing_val_num=np.nan, missing_val_cat=np.nan):
+    def __init__(self, categoricals, numericals, missing_val_num=np.nan, missing_val_cat=np.nan, seed=None):
         """
         Initializes the ExampleDatasetLoader with categorical and numerical features, as well as values for missing data.
 
@@ -66,7 +66,7 @@ class ExampleDatasetLoader(DatasetLoader, ABC):
         @param missing_val_num: optional, Value to represent missing numerical data (default: np.nan)
         @param missing_val_cat: optional, Value to represent missing categorical data (default: np.nan)
         """
-        super().__init__()
+        super().__init__(seed=seed)
         self._categorical = categoricals
         self._numerical = numericals
         self.__missing_num = missing_val_num

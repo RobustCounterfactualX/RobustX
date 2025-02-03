@@ -53,7 +53,7 @@ class SimpleNNModel(BaseModel):
         Returns the underlying PyTorch model.
     """
 
-    def __init__(self, input_dim, hidden_dim, output_dim):
+    def __init__(self, input_dim, hidden_dim, output_dim, seed=None):
         """
         Initializes the SimpleNNModel with specified dimensions.
 
@@ -64,6 +64,8 @@ class SimpleNNModel(BaseModel):
         self.input_dim = input_dim
         self.hidden_dim = hidden_dim
         self.output_dim = output_dim
+        if seed is not None:
+            torch.manual_seed(seed)
         super().__init__(self.__create_model())
         self.criterion = nn.BCELoss()
         self.optimizer = optim.Adam(self._model.parameters(), lr=0.001)

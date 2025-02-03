@@ -10,10 +10,10 @@ from rocelib.datasets.provided_datasets.ExampleDatasetLoader import ExampleDatas
 
 class TitanicDatasetLoader(ExampleDatasetLoader):
 
-    def __init__(self):
+    def __init__(self, seed):
         categoricals = ["Pclass", "Sex", "Embarked", "Cabin"]
         numericals = ["Age", "SibSp", "Parch", "Fare"]
-        super().__init__(categoricals, numericals)
+        super().__init__(categoricals, numericals, seed=seed)
 
     @property
     def X(self) -> pd.DataFrame:

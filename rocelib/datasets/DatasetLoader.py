@@ -35,8 +35,9 @@ class DatasetLoader(ABC):
     -------
     """
 
-    def __init__(self):
+    def __init__(self, seed=None):
         self._data = None
+        self._seed = seed
 
     @property
     def data(self) -> pd.DataFrame:
@@ -84,4 +85,4 @@ class DatasetLoader(ABC):
         @param column_name: Target column's name
         @return: Random instance in dataset with positive target value
         """
-        return self.data[self.data[column_name] != neg_value].drop(columns=[column_name]).sample()
+        return self.data[self.data[column_name] != neg_value].drop(columns=[column_name]).sample(random_state=self._seed)

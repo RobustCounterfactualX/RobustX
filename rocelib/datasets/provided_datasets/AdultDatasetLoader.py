@@ -8,13 +8,13 @@ from rocelib.datasets.provided_datasets.ExampleDatasetLoader import ExampleDatas
 
 class AdultDatasetLoader(ExampleDatasetLoader):
 
-    def __init__(self):
+    def __init__(self, seed=None):
         categoricals = [
             "workclass", "education", "marital-status", "occupation",
             "relationship", "race", "sex", "native-country"
         ]
         numericals = ["age", "fnlwgt", "education-num", "capital-gain", "capital-loss", "hours-per-week"]
-        super().__init__(categoricals, numericals, missing_val_cat='?')
+        super().__init__(categoricals, numericals, missing_val_cat='?', seed=seed)
 
     @property
     def X(self) -> pd.DataFrame:

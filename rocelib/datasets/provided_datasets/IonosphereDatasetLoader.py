@@ -9,10 +9,10 @@ class IonosphereDatasetLoader(ExampleDatasetLoader):
     A DataLoader class responsible for loading the Ionosphere dataset
     """
 
-    def __init__(self):
+    def __init__(self, seed=None):
         categoricals = []
         numericals = [f"feature_{i}" for i in range(34)]
-        super().__init__(categoricals, numericals)
+        super().__init__(categoricals, numericals, seed=seed)
 
     def load_data(self):
         url = "https://archive.ics.uci.edu/ml/machine-learning-databases/ionosphere/ionosphere.data"

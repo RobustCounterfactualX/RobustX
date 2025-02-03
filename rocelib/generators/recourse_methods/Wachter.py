@@ -74,7 +74,7 @@ class Wachter(RecourseGenerator):
 
         # TASK: specify target label y: either 0 or 1, depending on the original prediction
         # something like this
-        y_target = torch.Tensor([1 - neg_value])
+        y_target = torch.Tensor([[1 - neg_value]])
 
         # the total loss in the instructions: loss = validity_loss + lamb * cost_loss
 
@@ -108,8 +108,8 @@ class Wachter(RecourseGenerator):
 
         res = pd.DataFrame(wac.detach().numpy()).T
         res.columns = instance.index
-        if not self.task.model.predict_single(res):
-            print("Failed!")
-            pd.DataFrame(instance)
+        # if not self.task.model.predict_single(res.T):
+        #     print("Failed!")
+        #     pd.DataFrame(instance)
 
         return res

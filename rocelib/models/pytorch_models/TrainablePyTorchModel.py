@@ -113,7 +113,7 @@ class TrainablePyTorchModel(TrainableModel):
         return PytorchModel.from_model(self.get_torch_model())
         
 
-    def set_weights(self, weights):
+    def set_weights(self, weights) -> TrainedModel:
         """
         Sets custom weights for the model.
 
@@ -128,6 +128,7 @@ class TrainablePyTorchModel(TrainableModel):
                     layer.weight = nn.Parameter(weights[f'fc{layer_idx}_weight'])
                     layer.bias = nn.Parameter(weights[f'fc{layer_idx}_bias'])
                 layer_idx += 1
+        return PytorchModel.from_model(self.get_torch_model())
 
 
     def get_torch_model(self):

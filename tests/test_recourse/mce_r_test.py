@@ -22,10 +22,10 @@ def test_mcer_generates_all_robust():
     }
 
     # Set the custom weights
-    model.set_weights(weights)
+    trained_model = model.set_weights(weights)
 
     dl = CsvDatasetLoader('./assets/random_normal_values.csv', "target")
-    ct = ClassificationTask(model, dl)
+    ct = ClassificationTask(trained_model, dl)
 
     mcer = MCER(ct)
 

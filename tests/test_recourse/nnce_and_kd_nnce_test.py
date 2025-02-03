@@ -11,10 +11,9 @@ def test_kdtree_nnce() -> None:
     model = get_sklearn_model("log_reg")
     dl = get_example_dataset("ionosphere")
     dl.default_preprocess()
-    model.train(dl.X, dl.y)
+    trained_model = model.train(dl.X, dl.y)
 
-
-    ct = ClassificationTask(model, dl)
+    ct = ClassificationTask(trained_model, dl)
 
 
     kdrecourse = KDTreeNNCE(ct)

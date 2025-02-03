@@ -20,11 +20,11 @@ def test_from_example_8_in_paper():
     }
 
     # Set the custom weights
-    model.set_weights(weights)
+    trained_model = model.set_weights(weights)
 
     # Load dummy dataset and create task
     dl = CsvDatasetLoader('./assets/random_normal_values.csv', "target")
-    ct = ClassificationTask(model, dl)
+    ct = ClassificationTask(trained_model, dl)
 
     # Create robustness checker
     opt = DeltaRobustnessEvaluator(ct)
@@ -76,10 +76,10 @@ def test_mix_of_robustness_from_example_7_in_paper():
     }
 
     # Set the custom weights
-    model.set_weights(weights)
+    trained_model = model.set_weights(weights)
 
     dl = CsvDatasetLoader('./assets/random_normal_values.csv', "target")
-    ct = ClassificationTask(model, dl)
+    ct = ClassificationTask(trained_model, dl)
 
     kdtree = KDTreeNNCE(ct)
 

@@ -9,9 +9,9 @@ from rocelib.tasks.ClassificationTask import ClassificationTask
 def test_distance():
     model = get_sklearn_model("decision_tree")
     dl = get_example_dataset("ionosphere")
-    model.train(dl.X, dl.y)
+    trained_model = model.train(dl.X, dl.y)
 
-    ct = ClassificationTask(model, dl)
+    ct = ClassificationTask(trained_model, dl)
 
     dl.default_preprocess()
 

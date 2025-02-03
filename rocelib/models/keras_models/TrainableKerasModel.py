@@ -9,6 +9,8 @@ from keras.optimizers import Adam
 
 from rocelib.models.TrainableModel import TrainableModel
 from rocelib.models.TrainedModel import TrainedModel
+from rocelib.models.imported_models.KerasModel import KerasModel
+
 
 
 
@@ -69,48 +71,12 @@ class TrainableKerasModel(TrainableModel):
         @param batch_size: The batch size used in training (default is 32).
         """
         self.model.fit(X, y, epochs=epochs, batch_size=batch_size, verbose=1)
-        return None # TODO: return trained model
+        return KerasModel.from_model(self.get_keras_model())
 
-    def predict(self, X: pd.DataFrame) -> pd.DataFrame:
+    def get_keras_model(self):
         """
-        Predicts outcomes for a set of instances.
+        Retrieves the underlying Keras model.
 
-        @param X: The instances to predict, as a DataFrame.
-        @return: Predictions as a DataFrame.
+        @return: The Keras model.
         """
-        predictions = self.model.predict(X)
-        return pd.DataFrame(predictions)
-
-    def predict_single(self, x: pd.DataFrame) -> int:
-        """
-        Predicts the outcome for a single instance.
-
-        @param x: The instance to predict, as a DataFrame.
-        @return: The predicted class label (0 or 1).
-        """
-        prediction = self.predict(x)
-        return 0 if prediction.iloc[0, 0] > 0.5 else 1
-
-    def evaluate(self, X: pd.DataFrame, y: pd.DataFrame) -> Dict[str, float]:
-        """
-        Evaluates the model on the provided data.
-
-        @param X: The feature variables for evaluation, as a DataFrame.
-        @param y: The target variable for evaluation, as a DataFrame.
-        @return: A dictionary containing the loss and accuracy of the model.
-        """
-        loss, accuracy = self.model.evaluate(X, y)
-        return {'loss': loss, 'accuracy': accuracy}
-
-    def predict_proba(self, x: pd.DataFrame) -> pd.DataFrame:
-        """
-        Predicts the probabilities of outcomes for a set of instances.
-
-        @param x: The instances to predict, as a DataFrame.
-        @return: Probabilities of each outcome as a DataFrame.
-        """
-        probabilities = self.model.predict(x)
-        probabilities_df = pd.DataFrame(probabilities)
-        probabilities_df[0] = 1 - probabilities_df[0]
-        probabilities_df[1] = 1 - probabilities_df[0]
-        return probabilities_df
+        return self._model

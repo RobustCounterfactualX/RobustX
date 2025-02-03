@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from abc import ABC, abstractmethod
 import pandas as pd
 import torch
@@ -38,24 +40,13 @@ class TrainedModel(ABC):
         pass
 
     @abstractmethod
-    def predict_proba_tensor(self, X: torch.Tensor) -> torch.Tensor:
-        """
-        Predicts the probabilities of outcomes for tensor inputs.
-
-        @param X: torch.Tensor, Instances to predict.
-
-        @return: torch.Tensor, Probabilities of each outcome.
-        """
-        pass
-
-    @abstractmethod
-    def evaluate(self, X: pd.DataFrame, y: pd.DataFrame):
+    def evaluate(self, X: pd.DataFrame, y: pd.DataFrame) -> float:
         """
         Evaluates the model's performance on the provided feature and target data.
 
         @param X: pd.DataFrame, The feature variables.
         @param y: pd.DataFrame, The target variable.
 
-        @return: Evaluation result of the model.
+        @return: Accuracy of the model as a float.
         """
         pass

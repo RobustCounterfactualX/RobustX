@@ -8,9 +8,8 @@ def test_mce_predicts_positive_instances():
     model = TrainablePyTorchModel(34, [8], 1)
     dl = get_example_dataset("ionosphere")
     dl.default_preprocess()
-    model.train(dl.X, dl.y)
-
-    ct = ClassificationTask(model, dl)
+    trained_model = model.train(dl.X, dl.y)
+    ct = ClassificationTask(trained_model, dl)
 
 
 
@@ -23,6 +22,6 @@ def test_mce_predicts_positive_instances():
         res = recourse.generate_for_instance(neg)
 
         if not res.empty:
-            prediction = model.predict_single(res)
+            prediction = ct.model.predict_single(res)
 
             assert prediction

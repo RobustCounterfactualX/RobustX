@@ -15,9 +15,8 @@ def test_rocoursenet() -> None:
 
     dl.default_preprocess()  # Preprocess the dataset (e.g., scaling, normalization)
 
-    model.train(dl.X, dl.y)
-    # Step 2: Set up the classification task
-    ct = ClassificationTask(model, dl)
+    trained_model = model.train(dl.X, dl.y)
+    ct = ClassificationTask(trained_model, dl)
 
 
     recourse = RoCourseNet(ct)

@@ -63,61 +63,6 @@ class TrainableModel(ABC):
         """
         pass
 
-    @abstractmethod
-    def predict(self, X: pd.DataFrame) -> pd.DataFrame:
-        """
-        Uses the model to predict the outcomes for any number of instances.
-
-        @param X: pd.DataFrame, Instances to predict.
-
-        @return: pd.DataFrame, Predictions for each instance.
-        """
-        pass
-
-    @abstractmethod
-    def predict_single(self, X: pd.DataFrame) -> int:
-        """
-        Predicts the outcome of a single instance and returns an integer.
-
-        @param X: pd.DataFrame, Instance to predict.
-
-        @return: int, Prediction as an integer.
-        """
-        pass
-
-    @abstractmethod
-    def predict_proba(self, X: pd.DataFrame) -> pd.DataFrame:
-        """
-        Predicts the probabilities of outcomes.
-
-        @param X: pd.DataFrame, Instances to predict.
-
-        @return: pd.DataFrame, Probabilities of each outcome.
-        """
-        pass
-
-    @abstractmethod
-    def predict_proba_tensor(self, X: torch.Tensor) -> torch.Tensor:
-        """
-        Predicts the probabilities of outcomes for tensor inputs.
-
-        @param X: torch.Tensor, Instances to predict.
-
-        @return: torch.Tensor, Probabilities of each outcome.
-        """
-        pass
-
-    @abstractmethod
-    def evaluate(self, X: pd.DataFrame, y: pd.DataFrame):
-        """
-        Evaluates the model's performance on the provided feature and target data.
-
-        @param X: pd.DataFrame, The feature variables.
-        @param y: pd.DataFrame, The target variable.
-
-        @return: Evaluation result of the model.
-        """
-        pass
 
     @property
     def model(self):

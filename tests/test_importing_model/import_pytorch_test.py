@@ -6,51 +6,50 @@ import torch
 import os
 
 
-def test_import_pytorch_model_file() -> None:
+def test_imported_pytorch_model_file_same_as_original() -> None:
     #Create Model
     model = TrainablePyTorchModel(34, [8], 1)
     dl = get_example_dataset("ionosphere")
 
     dl.default_preprocess()
-    model.train(dl.X, dl.y)
+    trained_model = model.train(dl.X, dl.y)
 
-    ct = ClassificationTask(model, dl)
+    ct = ClassificationTask(trained_model, dl)
 
 
 
     #Save Model
-    torch.save(ct.model.get_torch_model(), "./model.pt")
+    torch.save(ct.model.model, "./model.pt")
 
     #Import Model
 
-    trained_model = PytorchModel("./model.pt")
+    imported_model = PytorchModel("./model.pt")
 
     for _, instance in ct.training_data.data.iterrows():
         instance_x = instance.drop("target")
-        assert ct.model.predict_single(instance_x) == trained_model.predict_single(instance_x)
+        assert ct.model.predict_single(instance_x) == imported_model.predict_single(instance_x)
 
     os.remove('./model.pt')
 
 
 
 
-def test_import_pytorch_model_instance() -> None:
+def test_imported_pytorch_model_from_instance_same_as_original() -> None:
     #Create Model
     model = TrainablePyTorchModel(34, [8], 1)
     dl = get_example_dataset("ionosphere")
 
     dl.default_preprocess()
-    model.train(dl.X, dl.y)
+    trained_model = model.train(dl.X, dl.y)
+
+    ct = ClassificationTask(trained_model, dl)
 
 
-    ct = ClassificationTask(model, dl)
-
-
-    torch_model = ct.model.get_torch_model()
+    torch_model = ct.model.model
 
     #Import Model
-    trained_model = PytorchModel.from_model(torch_model)
+    imported_model = PytorchModel.from_model(torch_model)
 
     for _, instance in ct.training_data.data.iterrows():
         instance_x = instance.drop("target")
-        assert ct.model.predict_single(instance_x) == trained_model.predict_single(instance_x)
+        assert ct.model.predict_single(instance_x) == imported_model.predict_single(instance_x)

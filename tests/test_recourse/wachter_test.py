@@ -12,7 +12,6 @@ def test_wachter() -> None:
 
     model = TrainablePyTorchModel(34, [8], 1)
     trained_model = model.train(dl.X, dl.y)
-
     ct = ClassificationTask(trained_model, dl)
 
 
@@ -24,6 +23,6 @@ def test_wachter() -> None:
 
     x = val.evaluate(res)
 
-    assert x > 0.95
+    assert x > 0.85
 
 

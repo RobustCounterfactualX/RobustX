@@ -12,28 +12,27 @@ def test_mce_predicts_positive_instances():
     dl = get_example_dataset("ionosphere")
 
     dl.default_preprocess()
-    model1.train(dl.X, dl.y)
-    model2.train(dl.X, dl.y)
-    model3.train(dl.X, dl.y)
+    trained_model1 = model1.train(dl.X, dl.y)
+    ct1 = ClassificationTask(trained_model1, dl)
+    trained_model2 = model2.train(dl.X, dl.y)
+    ct2 = ClassificationTask(trained_model2, dl)
+    trained_model3 = model3.train(dl.X, dl.y)
+    ct3 = ClassificationTask(trained_model3, dl)
+    
 
-    ct1 = ClassificationTask(model1, dl)
-    ct2 = ClassificationTask(model2, dl)
-    ct3 = ClassificationTask(model3, dl)
 
-
-
-    recourse = ModelMultiplicityMILP(dl, [model1, model2, model3])
+    recourse = ModelMultiplicityMILP(dl, [trained_model1, trained_model2, trained_model3])
 
     for _, neg in dl.get_negative_instances(neg_value=0).iterrows():
 
         res = recourse.generate_for_instance(neg)
 
         if not res.empty:
-            prediction1 = model1.predict_single(res)
+            prediction1 = trained_model1.predict_single(res)
 
-            prediction2 = model2.predict_single(res)
+            prediction2 = trained_model2.predict_single(res)
 
-            prediction3 = model3.predict_single(res)
+            prediction3 = trained_model3.predict_single(res)
 
             assert prediction1
             assert prediction2

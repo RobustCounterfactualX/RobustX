@@ -4,6 +4,7 @@ from sklearn.metrics import accuracy_score, f1_score
 
 from rocelib.models.TrainableModel import TrainableModel
 from rocelib.models.TrainedModel import TrainedModel
+from rocelib.models.imported_models.SKLearnModel import SKLearnModel
 
 
 

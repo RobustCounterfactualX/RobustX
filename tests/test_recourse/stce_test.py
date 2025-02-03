@@ -26,6 +26,6 @@ def test_stce() -> None:
     for _, neg in dl.get_negative_instances(neg_value=0).iterrows():
         res = recourse.generate_for_instance(neg, delta=0.005)
         ces.append(res)
-        assert model.predict_single(res)
+        assert ct.model.predict_single(res)
     ce_df = pd.concat(ces)
     print(re.evaluate(ce_df, delta=0.005))

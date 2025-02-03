@@ -13,6 +13,19 @@ class KerasModel(TrainedModel):
         :param model_path: Path to the saved Keras model file (.keras)
         """
         # self.device = keras.device(device)
+        if not isinstance(model_path, str):
+            raise TypeError(
+                f"Incorrect input type for model path: {model_path}, "
+                f"expected str, got {type(model_path)}"
+            )
+
+        if model_path.endswith('.h5'):
+            raise ValueError(
+                f"File type not supported: filepath={model_path}. "
+                ".h5 files should not be used by themselves, "
+                "instead please save the model as a `.keras` "
+                "zip file."
+            )
         self.model = keras.saving.load_model(model_path)
 
     @classmethod
@@ -23,6 +36,11 @@ class KerasModel(TrainedModel):
         :param model: A Keras model instance
         :return: An instance of KerasModel
         """
+        if not isinstance(model, keras.Model):
+            raise TypeError(
+                f"Incorrect type of model={model}, "
+                f"expected type keras.Model, got {type(model)}"
+            )
         instance = cls.__new__(cls)  # Create a new instance without calling __init__
         instance.model = model
         return instance
@@ -44,6 +62,16 @@ class KerasModel(TrainedModel):
         :param x: pd.DataFrame, Instance to predict.
         :return: int, Single integer prediction.
         """
+        if isinstance(x, pd.Series):
+            x = x.to_frame().T  # Convert Series to row DataFrame
+
+        expected_input = self.model.input_shape[-1]
+
+        if x.shape != (1, expected_input):
+            raise ValueError(
+                f"Expected input shape (1, {expected_input}), got {x.shape}. "
+                "For multiple predictions, use the 'predict' method instead "
+            )
         prediction = self.predict(x)
         return 0 if prediction.iloc[0, 0] > 0.5 else 1
 

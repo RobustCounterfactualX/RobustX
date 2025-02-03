@@ -3,7 +3,7 @@ from gurobipy import Model
 from gurobipy.gurobipy import quicksum, GRB
 
 from rocelib.datasets.DatasetLoader import DatasetLoader
-from rocelib.models.pytorch_models.SimpleNNModel import SimpleNNModel
+from rocelib.models.imported_models.PytorchModel import PytorchModel
 from rocelib.recourse_methods.RecourseGenerator import RecourseGenerator
 from rocelib.tasks.ClassificationTask import ClassificationTask
 
@@ -15,7 +15,7 @@ def create_weights_and_bias_dictionary(model):
 
     # Extract the weights and biases as numpy arrays for each layer
     params = {}
-    for name, param in model.get_torch_model().named_parameters():
+    for name, param in model.model.named_parameters():
         params[name] = param.detach().numpy()
 
     weight_dict = {}
@@ -45,7 +45,7 @@ def create_weights_and_bias_dictionary(model):
 
 class ModelMultiplicityMILP(RecourseGenerator):
 
-    def __init__(self, dl: DatasetLoader, models: list[SimpleNNModel]):
+    def __init__(self, dl: DatasetLoader, models: list[PytorchModel]):
         super().__init__(ClassificationTask(models[0], dl))
         self.gurobiModel = Model()
         self.models = models

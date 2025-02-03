@@ -69,7 +69,7 @@
            <div itemprop="articleBody">
              
   <h1>Source code for rocelib.intabs.IntervalAbstractionPyTorch</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">rocelib.models.pytorch_models.SimpleNNModel</span> <span class="kn">import</span> <span class="n">SimpleNNModel</span>
+<span></span><span class="kn">from</span> <span class="nn">rocelib.models.pytorch_models.TrainablePyTorchModel</span> <span class="kn">import</span> <span class="n">TrainablePyTorchModel</span>
 
 
 <div class="viewcode-block" id="IntervalAbstractionPytorch">
@@ -94,7 +94,7 @@
 <span class="sd">    layers: list[int]</span>
 <span class="sd">        Stores the number of nodes in each layer in a list</span>
 
-<span class="sd">    model: BaseModel</span>
+<span class="sd">    model: TrainableModel</span>
 <span class="sd">        The original model</span>
 
 <span class="sd">    delta: int</span>
@@ -113,9 +113,9 @@
 
 <span class="sd">    -------</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="n">SimpleNNModel</span><span class="p">,</span> <span class="n">delta</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">bias_delta</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="n">TrainablePyTorchModel</span><span class="p">,</span> <span class="n">delta</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">bias_delta</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        @param model: SimpleNNModel, the Neural network to create an INN of</span>
+<span class="sd">        @param model: TrainablePyTorchModel, the Neural network to create an INN of</span>
 <span class="sd">        @param delta: int, perturbation to weights</span>
 <span class="sd">        @param bias_delta: int, perturbation to bias, default is delta itself</span>
 <span class="sd">        &quot;&quot;&quot;</span>

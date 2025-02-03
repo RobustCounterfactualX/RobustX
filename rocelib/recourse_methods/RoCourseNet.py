@@ -5,18 +5,18 @@ from rocelib.recourse_methods.RecourseGenerator import RecourseGenerator
 from rocelib.lib.distance_functions.DistanceFunctions import euclidean
 from rocelib.robustness_evaluations.DeltaRobustnessEvaluator import DeltaRobustnessEvaluator
 from rocelib.tasks.Task import Task
-from rocelib.models.BaseModel import BaseModel
+from rocelib.models.TrainableModel import TrainableModel
 
 
 class RoCourseNet(RecourseGenerator):
     """
-    A recourse generator using the RoCourseNet methodology, integrated with the SimpleNNModel.
+    A recourse generator using the RoCourseNet methodology, integrated with the TrainablePyTorchModel.
     """
 
     def __init__(self, task: Task):
         super().__init__(task)
         self.intabs = DeltaRobustnessEvaluator(task)
-        self.model = task.model  # Should be your SimpleNNModel or any BaseModel
+        self.model = task.model  # Should be your TrainablePyTorchModel or any TrainableModel
 
     def _generation_method(
         self, 
@@ -78,7 +78,7 @@ class RoCourseNet(RecourseGenerator):
                             requires_grad=True)  # this is a leaf
 
         # 2) Forward pass
-        out = self.model.get_torch_model()(x_leaf)  # shape (1,1)
+        out = self.model.model(x_leaf)  # shape (1,1)
 
         # 3) Convert out to log-odds
         p_val = out.item()  # float in (0,1)
@@ -177,7 +177,7 @@ class RoCourseNet(RecourseGenerator):
         Utility to get model's probability predictions for a single instance 
         shaped (1, d). Returns np.array of shape (1,2): [p0, p1].
         """
-        # This depends on your SimpleNNModel implementation
+        # This depends on your TrainablePyTorchModel implementation
         # We'll assume .predict_proba(x) returns a DataFrame with columns [0,1].
         out_df = self.model.predict_proba(x_np_2d)
         return out_df.values  # shape (1,2)

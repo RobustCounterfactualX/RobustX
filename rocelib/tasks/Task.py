@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 import pandas as pd
 
 from rocelib.datasets.DatasetLoader import DatasetLoader
-from rocelib.models.BaseModel import BaseModel
+from rocelib.models.TrainedModel import TrainedModel
 
 
 class Task(ABC):
@@ -13,26 +13,19 @@ class Task(ABC):
 
     Attributes:
         _training_data (DatasetLoader): The dataset used for training the model.
-        __model (BaseModel): The model to be trained and used for predictions.
+        __model (TrainableModel): The model to be trained and used for predictions.
     """
 
-    def __init__(self, model: BaseModel, training_data: DatasetLoader):
+    def __init__(self, model: TrainedModel, training_data: DatasetLoader):
         """
         Initializes the Task with a model and training data.
 
-        @param model: An instance of a model that extends BaseModel
+        @param model: An instance of a model that extends TrainableModel
         @param training_data: An instance of DatasetLoader containing the training data.
         """
         self._training_data = training_data
         self.__model = model
 
-    @abstractmethod
-    def train(self, **kwargs):
-        """
-        Abstract method to train the model on the provided training data.
-        Must be implemented by subclasses.
-        """
-        pass
 
     def get_random_positive_instance(self, neg_value, column_name="target") -> pd.Series:
         """
@@ -58,6 +51,6 @@ class Task(ABC):
         """
         Property to access the model.
 
-        @return: The model instance that extends BaseModel
+        @return: The model instance that extends TrainableModel
         """
         return self.__model

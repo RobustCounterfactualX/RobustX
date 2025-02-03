@@ -7,10 +7,14 @@ from keras.metrics import Accuracy
 from keras.models import Sequential
 from keras.optimizers import Adam
 
-from rocelib.models.BaseModel import BaseModel
+from rocelib.models.TrainableModel import TrainableModel
+from rocelib.models.TrainedModel import TrainedModel
+from rocelib.models.imported_models.KerasModel import KerasModel
 
 
-class SimpleKerasNNModel(BaseModel):
+
+
+class TrainableKerasModel(TrainableModel):
     """
     A simple feedforward neural network model using Keras for binary classification.
 
@@ -57,7 +61,7 @@ class SimpleKerasNNModel(BaseModel):
         model.compile(optimizer=Adam(learning_rate=0.001), loss=BinaryCrossentropy(), metrics=[Accuracy()])
         super().__init__(model)
 
-    def train(self, X: pd.DataFrame, y: pd.DataFrame, epochs: int = 100, batch_size: int = 32, **kwargs) -> None:
+    def train(self, X: pd.DataFrame, y: pd.DataFrame, epochs: int = 100, batch_size: int = 32, **kwargs) -> TrainedModel:
         """
         Trains the model on the provided data.
 
@@ -67,6 +71,7 @@ class SimpleKerasNNModel(BaseModel):
         @param batch_size: The batch size used in training (default is 32).
         """
         self.model.fit(X, y, epochs=epochs, batch_size=batch_size, verbose=1)
+        return KerasModel.from_model(self.get_keras_model())
 
     def predict(self, X: pd.DataFrame) -> pd.DataFrame:
         """
@@ -85,6 +90,8 @@ class SimpleKerasNNModel(BaseModel):
         @param x: The instance to predict, as a DataFrame.
         @return: The predicted class label (0 or 1).
         """
+        if isinstance(x, pd.Series):
+            x = x.to_frame().T  # Convert Series to row DataFrame
         prediction = self.predict(x)
         return 0 if prediction.iloc[0, 0] > 0.5 else 1
 
@@ -111,3 +118,11 @@ class SimpleKerasNNModel(BaseModel):
         probabilities_df[0] = 1 - probabilities_df[0]
         probabilities_df[1] = 1 - probabilities_df[0]
         return probabilities_df
+
+    def get_keras_model(self):
+        """
+        Retrieves the underlying Keras model.
+
+        @return: The Keras model.
+        """
+        return self._model

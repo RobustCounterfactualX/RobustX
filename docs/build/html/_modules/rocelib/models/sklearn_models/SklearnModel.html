@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>rocelib.models.sklearn_models.SklearnModel &mdash; RoCELib  documentation</title>
+  <title>rocelib.models.sklearn_models.TrainableSKLearnModel &mdash; RoCELib  documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
 
@@ -59,7 +59,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">rocelib.models.sklearn_models.SklearnModel</li>
+      <li class="breadcrumb-item active">rocelib.models.sklearn_models.TrainableSKLearnModel</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -68,34 +68,34 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for rocelib.models.sklearn_models.SklearnModel</h1><div class="highlight"><pre>
+  <h1>Source code for rocelib.models.sklearn_models.TrainableSKLearnModel</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">torch</span>
 <span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span><span class="p">,</span> <span class="n">f1_score</span>
 
-<span class="kn">from</span> <span class="nn">rocelib.models.BaseModel</span> <span class="kn">import</span> <span class="n">BaseModel</span>
+<span class="kn">from</span> <span class="nn">rocelib.models.TrainableModel</span> <span class="kn">import</span> <span class="n">TrainableModel</span>
 
 
-<div class="viewcode-block" id="SklearnModel">
-<a class="viewcode-back" href="../../../../rocelib.models.sklearn_models.html#rocelib.models.sklearn_models.SklearnModel.SklearnModel">[docs]</a>
-<span class="k">class</span> <span class="nc">SklearnModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<div class="viewcode-block" id="TrainableSKLearnModel">
+<a class="viewcode-back" href="../../../../rocelib.models.sklearn_models.html#rocelib.models.sklearn_models.TrainableSKLearnModel.TrainableSKLearnModel">[docs]</a>
+<span class="k">class</span> <span class="nc">TrainableSKLearnModel</span><span class="p">(</span><span class="n">TrainableModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A base class for scikit-learn models.</span>
 
 <span class="sd">    This class wraps a scikit-learn model and provides methods for training, predicting,</span>
-<span class="sd">    and evaluating the model. Inherits from BaseModel.</span>
+<span class="sd">    and evaluating the model. Inherits from TrainableModel.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initializes the SklearnModel with a scikit-learn model.</span>
+<span class="sd">        Initializes the TrainableSKLearnModel with a scikit-learn model.</span>
 
 <span class="sd">        @param model: The scikit-learn model instance to be wrapped.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
 
-<div class="viewcode-block" id="SklearnModel.train">
-<a class="viewcode-back" href="../../../../rocelib.models.sklearn_models.html#rocelib.models.sklearn_models.SklearnModel.SklearnModel.train">[docs]</a>
+<div class="viewcode-block" id="TrainableSKLearnModel.train">
+<a class="viewcode-back" href="../../../../rocelib.models.sklearn_models.html#rocelib.models.sklearn_models.TrainableSKLearnModel.TrainableSKLearnModel.train">[docs]</a>
     <span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Trains the scikit-learn model.</span>
@@ -106,8 +106,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="SklearnModel.predict">
-<a class="viewcode-back" href="../../../../rocelib.models.sklearn_models.html#rocelib.models.sklearn_models.SklearnModel.SklearnModel.predict">[docs]</a>
+<div class="viewcode-block" id="TrainableSKLearnModel.predict">
+<a class="viewcode-back" href="../../../../rocelib.models.sklearn_models.html#rocelib.models.sklearn_models.TrainableSKLearnModel.TrainableSKLearnModel.predict">[docs]</a>
     <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Predicts the outcomes for given feature variables.</span>
@@ -118,8 +118,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="SklearnModel.predict_single">
-<a class="viewcode-back" href="../../../../rocelib.models.sklearn_models.html#rocelib.models.sklearn_models.SklearnModel.SklearnModel.predict_single">[docs]</a>
+<div class="viewcode-block" id="TrainableSKLearnModel.predict_single">
+<a class="viewcode-back" href="../../../../rocelib.models.sklearn_models.html#rocelib.models.sklearn_models.TrainableSKLearnModel.TrainableSKLearnModel.predict_single">[docs]</a>
     <span class="k">def</span> <span class="nf">predict_single</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Predicts the outcome for a single instance.</span>
@@ -130,8 +130,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span></div>
 
 
-<div class="viewcode-block" id="SklearnModel.predict_proba">
-<a class="viewcode-back" href="../../../../rocelib.models.sklearn_models.html#rocelib.models.sklearn_models.SklearnModel.SklearnModel.predict_proba">[docs]</a>
+<div class="viewcode-block" id="TrainableSKLearnModel.predict_proba">
+<a class="viewcode-back" href="../../../../rocelib.models.sklearn_models.html#rocelib.models.sklearn_models.TrainableSKLearnModel.TrainableSKLearnModel.predict_proba">[docs]</a>
     <span class="k">def</span> <span class="nf">predict_proba</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Predicts the probabilities of outcomes for given feature variables.</span>
@@ -142,8 +142,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="SklearnModel.predict_proba_tensor">
-<a class="viewcode-back" href="../../../../rocelib.models.sklearn_models.html#rocelib.models.sklearn_models.SklearnModel.SklearnModel.predict_proba_tensor">[docs]</a>
+<div class="viewcode-block" id="TrainableSKLearnModel.predict_proba_tensor">
+<a class="viewcode-back" href="../../../../rocelib.models.sklearn_models.html#rocelib.models.sklearn_models.TrainableSKLearnModel.TrainableSKLearnModel.predict_proba_tensor">[docs]</a>
     <span class="k">def</span> <span class="nf">predict_proba_tensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Predicts the probabilities of outcomes for given feature variables.</span>
@@ -154,8 +154,8 @@
         <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="SklearnModel.evaluate">
-<a class="viewcode-back" href="../../../../rocelib.models.sklearn_models.html#rocelib.models.sklearn_models.SklearnModel.SklearnModel.evaluate">[docs]</a>
+<div class="viewcode-block" id="TrainableSKLearnModel.evaluate">
+<a class="viewcode-back" href="../../../../rocelib.models.sklearn_models.html#rocelib.models.sklearn_models.TrainableSKLearnModel.TrainableSKLearnModel.evaluate">[docs]</a>
     <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Evaluates the model&#39;s performance using accuracy and F1 score.</span>

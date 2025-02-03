@@ -2,8 +2,8 @@
 #
 # from datasets.ExampleDatasets import get_example_dataset
 # from lib.PyTorchConversions import keras_to_pytorch
-# from models.pytorch_models.CustomPyTorchModel import CustomPyTorchModel
-# from models.pytorch_models.SimpleNNModel import SimpleNNModel
+# from models.pytorch_models.TrainableCustomPyTorchModel import TrainableCustomPyTorchModel
+# from models.pytorch_models.TrainablePyTorchModel import TrainablePyTorchModel
 # from recourse_methods.KDTreeNNCE import KDTreeNNCE
 # from robustness_evaluations.DeltaRobustnessEvaluator import DeltaRobustnessEvaluator
 # from tasks.ClassificationTask import ClassificationTask
@@ -21,12 +21,12 @@
 #     # Convert the Keras model to PyTorch
 #     pytorch_model = keras_to_pytorch(keras_model)
 #
-#     model = SimpleNNModel(34, [8], 1)
+#     model = TrainablePyTorchModel(34, [8], 1)
 #     # dl = CsvDatasetLoader('../assets/recruitment_data.csv', "HiringDecision")
 #     dl = get_example_dataset("ionosphere")
 #     ct_pytorch = ClassificationTask(model, dl)
 #
-#     ct_converted = ClassificationTask(CustomPyTorchModel(pytorch_model), dl)
+#     ct_converted = ClassificationTask(TrainableCustomPyTorchModel(pytorch_model), dl)
 #
 #     dl.default_preprocess()
 #

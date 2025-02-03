@@ -4,34 +4,34 @@ rocelib.models.sklearn\_models package
 Submodules
 ----------
 
-rocelib.models.sklearn\_models.DecisionTreeModel module
+rocelib.models.sklearn\_models.TrainableDecisionTreeModel module
 -------------------------------------------------------
 
-.. automodule:: rocelib.models.sklearn_models.DecisionTreeModel
+.. automodule:: rocelib.models.sklearn_models.TrainableDecisionTreeModel
    :members:
    :undoc-members:
    :show-inheritance:
 
-rocelib.models.sklearn\_models.LogisticRegressionModel module
+rocelib.models.sklearn\_models.TrainableLogisticRegressionModel module
 -------------------------------------------------------------
 
-.. automodule:: rocelib.models.sklearn_models.LogisticRegressionModel
+.. automodule:: rocelib.models.sklearn_models.TrainableLogisticRegressionModel
    :members:
    :undoc-members:
    :show-inheritance:
 
-rocelib.models.sklearn\_models.SVMModel module
+rocelib.models.sklearn\_models.TrainableSVMModel module
 ----------------------------------------------
 
-.. automodule:: rocelib.models.sklearn_models.SVMModel
+.. automodule:: rocelib.models.sklearn_models.TrainableSVMModel
    :members:
    :undoc-members:
    :show-inheritance:
 
-rocelib.models.sklearn\_models.SklearnModel module
+rocelib.models.sklearn\_models.TrainableSKLearnModel module
 --------------------------------------------------
 
-.. automodule:: rocelib.models.sklearn_models.SklearnModel
+.. automodule:: rocelib.models.sklearn_models.TrainableSKLearnModel
    :members:
    :undoc-members:
    :show-inheritance:

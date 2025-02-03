@@ -6,7 +6,9 @@ from rocelib.evaluations.DistanceEvaluator import DistanceEvaluator
 from rocelib.evaluations.ManifoldEvaluator import ManifoldEvaluator
 from rocelib.evaluations.RobustnessProportionEvaluator import RobustnessProportionEvaluator
 from rocelib.evaluations.ValidityEvaluator import ValidityEvaluator
-from rocelib.models.BaseModel import BaseModel
+from rocelib.models.TrainableModel import TrainableModel
+from rocelib.models.TrainedModel import TrainedModel
+
 from rocelib.recourse_methods.RecourseGenerator import RecourseGenerator
 from rocelib.tasks.ClassificationTask import ClassificationTask
 from typing import Dict
@@ -14,13 +16,13 @@ import time
 from tabulate import tabulate
 
 
-def quick_tabulate(dl: DatasetLoader, model: BaseModel, methods: Dict[str, RecourseGenerator.__class__],
+def quick_tabulate(dl: DatasetLoader, model: TrainableModel, methods: Dict[str, RecourseGenerator.__class__],
                    subset: pd.DataFrame = None, preprocess=True, **params):
     """
     Generates and prints a table summarizing the performance of different recourse generation methods.
 
     @param dl: DatasetLoader, The dataset loader to preprocess and provide data for the classification task.
-    @param model: BaseModel, The model to be trained and evaluated.
+    @param model: TrainableModel, The model to be trained and evaluated.
     @param methods: Dict[str, RecourseGenerator.__class__], A dictionary where keys are method names and values are
                     classes of recourse generation methods to evaluate.
     @param subset: optional DataFrame, subset of instances you would like to generate CEs on
@@ -33,10 +35,10 @@ def quick_tabulate(dl: DatasetLoader, model: BaseModel, methods: Dict[str, Recou
     if preprocess and isinstance(dl, ExampleDatasetLoader):
         dl.default_preprocess()
 
-    # Create and train task
-    ct = ClassificationTask(model, dl)
+    trained_model = model.train(dl.X, dl.y)
 
-    ct.train()
+    # Create and train task
+    ct = ClassificationTask(trained_model, dl)
 
     results = []
 

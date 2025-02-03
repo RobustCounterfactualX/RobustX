@@ -4,10 +4,10 @@ rocelib.models.keras\_models package
 Submodules
 ----------
 
-rocelib.models.keras\_models.SimpleKerasNNModel module
+rocelib.models.keras\_models.TrainableKerasModel module
 ------------------------------------------------------
 
-.. automodule:: rocelib.models.keras_models.SimpleKerasNNModel
+.. automodule:: rocelib.models.keras_models.TrainableKerasModel
    :members:
    :undoc-members:
    :show-inheritance:

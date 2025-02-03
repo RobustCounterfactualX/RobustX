@@ -3,7 +3,7 @@ import torch
 
 from rocelib.datasets.ExampleDatasets import get_example_dataset
 from rocelib.datasets.custom_datasets.CsvDatasetLoader import CsvDatasetLoader
-from rocelib.models.pytorch_models.SimpleNNModel import SimpleNNModel
+from rocelib.models.pytorch_models.TrainablePyTorchModel import TrainablePyTorchModel
 from rocelib.recourse_methods.KDTreeNNCE import KDTreeNNCE
 from rocelib.robustness_evaluations.DeltaRobustnessEvaluator import DeltaRobustnessEvaluator
 from rocelib.tasks.ClassificationTask import ClassificationTask
@@ -11,7 +11,7 @@ from rocelib.tasks.ClassificationTask import ClassificationTask
 
 def test_from_example_8_in_paper():
     # Create the model instance
-    model = SimpleNNModel(input_dim=2, hidden_dim=[], output_dim=1)
+    model = TrainablePyTorchModel(input_dim=2, hidden_dim=[], output_dim=1)
 
     # Define the weights and biases according to the logistic regression model M_theta (x) = sigmoid(−x1 + x2)
     weights = {
@@ -20,11 +20,11 @@ def test_from_example_8_in_paper():
     }
 
     # Set the custom weights
-    model.set_weights(weights)
+    trained_model = model.set_weights(weights)
 
     # Load dummy dataset and create task
     dl = CsvDatasetLoader('./assets/random_normal_values.csv', "target")
-    ct = ClassificationTask(model, dl)
+    ct = ClassificationTask(trained_model, dl)
 
     # Create robustness checker
     opt = DeltaRobustnessEvaluator(ct)
@@ -65,7 +65,7 @@ def test_from_example_8_in_paper():
 
 def test_mix_of_robustness_from_example_7_in_paper():
     # Create the model instance
-    model = SimpleNNModel(input_dim=2, hidden_dim=[2], output_dim=1)
+    model = TrainablePyTorchModel(input_dim=2, hidden_dim=[2], output_dim=1)
 
     # Define the weights and biases according to the image provided
     weights = {
@@ -76,10 +76,10 @@ def test_mix_of_robustness_from_example_7_in_paper():
     }
 
     # Set the custom weights
-    model.set_weights(weights)
+    trained_model = model.set_weights(weights)
 
     dl = CsvDatasetLoader('./assets/random_normal_values.csv', "target")
-    ct = ClassificationTask(model, dl)
+    ct = ClassificationTask(trained_model, dl)
 
     kdtree = KDTreeNNCE(ct)
 
@@ -96,14 +96,15 @@ def test_mix_of_robustness_from_example_7_in_paper():
 
 def test_ionosphere_kdtree_robustness():
     # Instantiate the neural network and the IntervalAbstractionPytorch class
-    model = SimpleNNModel(34, [8], 1)
+    model = TrainablePyTorchModel(34, [8], 1)
     # dl = CsvDatasetLoader('../assets/recruitment_data.csv', "HiringDecision")
     dl = get_example_dataset("ionosphere")
-    ct = ClassificationTask(model, dl)
-
     dl.default_preprocess()
 
-    ct.train()
+    trained_model = model.train(dl.X, dl.y)
+    ct = ClassificationTask(trained_model, dl)
+
+
 
     kdtree = KDTreeNNCE(ct)
 

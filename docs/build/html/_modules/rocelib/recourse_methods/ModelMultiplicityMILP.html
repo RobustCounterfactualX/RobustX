@@ -74,7 +74,7 @@
 <span class="kn">from</span> <span class="nn">gurobipy.gurobipy</span> <span class="kn">import</span> <span class="n">quicksum</span><span class="p">,</span> <span class="n">GRB</span>
 
 <span class="kn">from</span> <span class="nn">rocelib.datasets.DatasetLoader</span> <span class="kn">import</span> <span class="n">DatasetLoader</span>
-<span class="kn">from</span> <span class="nn">rocelib.models.pytorch_models.SimpleNNModel</span> <span class="kn">import</span> <span class="n">SimpleNNModel</span>
+<span class="kn">from</span> <span class="nn">rocelib.models.pytorch_models.TrainablePyTorchModel</span> <span class="kn">import</span> <span class="n">TrainablePyTorchModel</span>
 <span class="kn">from</span> <span class="nn">rocelib.recourse_methods.RecourseGenerator</span> <span class="kn">import</span> <span class="n">RecourseGenerator</span>
 <span class="kn">from</span> <span class="nn">rocelib.tasks.ClassificationTask</span> <span class="kn">import</span> <span class="n">ClassificationTask</span>
 
@@ -121,7 +121,7 @@
 <a class="viewcode-back" href="../../../rocelib.recourse_methods.html#rocelib.recourse_methods.ModelMultiplicityMILP.ModelMultiplicityMILP">[docs]</a>
 <span class="k">class</span> <span class="nc">ModelMultiplicityMILP</span><span class="p">(</span><span class="n">RecourseGenerator</span><span class="p">):</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dl</span><span class="p">:</span> <span class="n">DatasetLoader</span><span class="p">,</span> <span class="n">models</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">SimpleNNModel</span><span class="p">]):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dl</span><span class="p">:</span> <span class="n">DatasetLoader</span><span class="p">,</span> <span class="n">models</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">TrainablePyTorchModel</span><span class="p">]):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">ClassificationTask</span><span class="p">(</span><span class="n">models</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dl</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">gurobiModel</span> <span class="o">=</span> <span class="n">Model</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">models</span> <span class="o">=</span> <span class="n">models</span>

@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>rocelib.models.keras_models.SimpleKerasNNModel &mdash; RoCELib  documentation</title>
+  <title>rocelib.models.keras_models.TrainableKerasModel &mdash; RoCELib  documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
 
@@ -59,7 +59,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">rocelib.models.keras_models.SimpleKerasNNModel</li>
+      <li class="breadcrumb-item active">rocelib.models.keras_models.TrainableKerasModel</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -68,7 +68,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for rocelib.models.keras_models.SimpleKerasNNModel</h1><div class="highlight"><pre>
+  <h1>Source code for rocelib.models.keras_models.TrainableKerasModel</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
 
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
@@ -78,12 +78,12 @@
 <span class="kn">from</span> <span class="nn">keras.models</span> <span class="kn">import</span> <span class="n">Sequential</span>
 <span class="kn">from</span> <span class="nn">keras.optimizers</span> <span class="kn">import</span> <span class="n">Adam</span>
 
-<span class="kn">from</span> <span class="nn">rocelib.models.BaseModel</span> <span class="kn">import</span> <span class="n">BaseModel</span>
+<span class="kn">from</span> <span class="nn">rocelib.models.TrainableModel</span> <span class="kn">import</span> <span class="n">TrainableModel</span>
 
 
-<div class="viewcode-block" id="SimpleKerasNNModel">
-<a class="viewcode-back" href="../../../../rocelib.models.keras_models.html#rocelib.models.keras_models.SimpleKerasNNModel.SimpleKerasNNModel">[docs]</a>
-<span class="k">class</span> <span class="nc">SimpleKerasNNModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<div class="viewcode-block" id="TrainableKerasModel">
+<a class="viewcode-back" href="../../../../rocelib.models.keras_models.html#rocelib.models.keras_models.TrainableKerasModel.TrainableKerasModel">[docs]</a>
+<span class="k">class</span> <span class="nc">TrainableKerasModel</span><span class="p">(</span><span class="n">TrainableModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A simple feedforward neural network model using Keras for binary classification.</span>
 
@@ -130,8 +130,8 @@
         <span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="n">Adam</span><span class="p">(</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.001</span><span class="p">),</span> <span class="n">loss</span><span class="o">=</span><span class="n">BinaryCrossentropy</span><span class="p">(),</span> <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="n">Accuracy</span><span class="p">()])</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
 
-<div class="viewcode-block" id="SimpleKerasNNModel.train">
-<a class="viewcode-back" href="../../../../rocelib.models.keras_models.html#rocelib.models.keras_models.SimpleKerasNNModel.SimpleKerasNNModel.train">[docs]</a>
+<div class="viewcode-block" id="TrainableKerasModel.train">
+<a class="viewcode-back" href="../../../../rocelib.models.keras_models.html#rocelib.models.keras_models.TrainableKerasModel.TrainableKerasModel.train">[docs]</a>
     <span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">epochs</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">32</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Trains the model on the provided data.</span>
@@ -144,8 +144,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="n">epochs</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="SimpleKerasNNModel.predict">
-<a class="viewcode-back" href="../../../../rocelib.models.keras_models.html#rocelib.models.keras_models.SimpleKerasNNModel.SimpleKerasNNModel.predict">[docs]</a>
+<div class="viewcode-block" id="TrainableKerasModel.predict">
+<a class="viewcode-back" href="../../../../rocelib.models.keras_models.html#rocelib.models.keras_models.TrainableKerasModel.TrainableKerasModel.predict">[docs]</a>
     <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Predicts outcomes for a set of instances.</span>
@@ -157,8 +157,8 @@
         <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="SimpleKerasNNModel.predict_single">
-<a class="viewcode-back" href="../../../../rocelib.models.keras_models.html#rocelib.models.keras_models.SimpleKerasNNModel.SimpleKerasNNModel.predict_single">[docs]</a>
+<div class="viewcode-block" id="TrainableKerasModel.predict_single">
+<a class="viewcode-back" href="../../../../rocelib.models.keras_models.html#rocelib.models.keras_models.TrainableKerasModel.TrainableKerasModel.predict_single">[docs]</a>
     <span class="k">def</span> <span class="nf">predict_single</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Predicts the outcome for a single instance.</span>
@@ -170,8 +170,8 @@
         <span class="k">return</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">prediction</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.5</span> <span class="k">else</span> <span class="mi">1</span></div>
 
 
-<div class="viewcode-block" id="SimpleKerasNNModel.evaluate">
-<a class="viewcode-back" href="../../../../rocelib.models.keras_models.html#rocelib.models.keras_models.SimpleKerasNNModel.SimpleKerasNNModel.evaluate">[docs]</a>
+<div class="viewcode-block" id="TrainableKerasModel.evaluate">
+<a class="viewcode-back" href="../../../../rocelib.models.keras_models.html#rocelib.models.keras_models.TrainableKerasModel.TrainableKerasModel.evaluate">[docs]</a>
     <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Evaluates the model on the provided data.</span>
@@ -184,8 +184,8 @@
         <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;loss&#39;</span><span class="p">:</span> <span class="n">loss</span><span class="p">,</span> <span class="s1">&#39;accuracy&#39;</span><span class="p">:</span> <span class="n">accuracy</span><span class="p">}</span></div>
 
 
-<div class="viewcode-block" id="SimpleKerasNNModel.predict_proba">
-<a class="viewcode-back" href="../../../../rocelib.models.keras_models.html#rocelib.models.keras_models.SimpleKerasNNModel.SimpleKerasNNModel.predict_proba">[docs]</a>
+<div class="viewcode-block" id="TrainableKerasModel.predict_proba">
+<a class="viewcode-back" href="../../../../rocelib.models.keras_models.html#rocelib.models.keras_models.TrainableKerasModel.TrainableKerasModel.predict_proba">[docs]</a>
     <span class="k">def</span> <span class="nf">predict_proba</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Predicts the probabilities of outcomes for a set of instances.</span>

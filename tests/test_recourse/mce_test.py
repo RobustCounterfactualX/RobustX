@@ -1,17 +1,17 @@
 from rocelib.datasets.ExampleDatasets import get_example_dataset
-from rocelib.models.pytorch_models.SimpleNNModel import SimpleNNModel
+from rocelib.models.pytorch_models.TrainablePyTorchModel import TrainablePyTorchModel
 from rocelib.recourse_methods.MCE import MCE
 from rocelib.tasks.ClassificationTask import ClassificationTask
 
 
 def test_mce_predicts_positive_instances():
-    model = SimpleNNModel(34, [8], 1)
+    model = TrainablePyTorchModel(34, [8], 1)
     dl = get_example_dataset("ionosphere")
-
-    ct = ClassificationTask(model, dl)
-
     dl.default_preprocess()
-    ct.train()
+    trained_model = model.train(dl.X, dl.y)
+    ct = ClassificationTask(trained_model, dl)
+
+
 
     recourse = MCE(ct)
 
@@ -22,6 +22,6 @@ def test_mce_predicts_positive_instances():
         res = recourse.generate_for_instance(neg)
 
         if not res.empty:
-            prediction = model.predict_single(res)
+            prediction = ct.model.predict_single(res)
 
             assert prediction

@@ -3,10 +3,13 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 import numpy as np
-from rocelib.models.BaseModel import BaseModel
+from rocelib.models.TrainableModel import TrainableModel
+from rocelib.models.TrainedModel import TrainedModel
+from rocelib.models.imported_models.PytorchModel import PytorchModel
 
 
-class SimpleNNModel(BaseModel):
+
+class TrainablePyTorchModel(TrainableModel):
     """
     A simple neural network model using PyTorch. This model can be customized with different numbers of hidden layers and units.
 
@@ -55,7 +58,7 @@ class SimpleNNModel(BaseModel):
 
     def __init__(self, input_dim, hidden_dim, output_dim):
         """
-        Initializes the SimpleNNModel with specified dimensions.
+        Initializes the TrainablePyTorchModel with specified dimensions.
 
         @param input_dim: Number of input features.
         @param hidden_dim: List specifying the number of neurons in each hidden layer.
@@ -89,7 +92,7 @@ class SimpleNNModel(BaseModel):
 
         return model
 
-    def train(self, X, y, epochs=100, **kwargs):
+    def train(self, X, y, epochs=100, **kwargs) -> TrainedModel:
         """
         Trains the neural network model.
 
@@ -106,8 +109,11 @@ class SimpleNNModel(BaseModel):
             loss = self.criterion(outputs, y_tensor)
             loss.backward()
             self.optimizer.step()
+        
+        return PytorchModel.from_model(self.get_torch_model())
+        
 
-    def set_weights(self, weights):
+    def set_weights(self, weights) -> TrainedModel:
         """
         Sets custom weights for the model.
 
@@ -122,72 +128,8 @@ class SimpleNNModel(BaseModel):
                     layer.weight = nn.Parameter(weights[f'fc{layer_idx}_weight'])
                     layer.bias = nn.Parameter(weights[f'fc{layer_idx}_bias'])
                 layer_idx += 1
+        return PytorchModel.from_model(self.get_torch_model())
 
-    def predict(self, X) -> pd.DataFrame:
-        """
-        Predicts outcomes for the given input data.
-
-        @param X: Input data as a pandas DataFrame or torch tensor.
-        @return: Predictions as a pandas DataFrame.
-        """
-        if not isinstance(X, torch.Tensor):
-            X = torch.tensor(X.values, dtype=torch.float32)
-        return pd.DataFrame(self._model(X).detach().numpy())
-
-    def predict_single(self, x) -> int:
-        """
-        Predicts the outcome for a single instance.
-
-        @param x: Single input instance as a pandas DataFrame or torch tensor.
-        @return: Prediction as an integer (0 or 1).
-        """
-        if not isinstance(x, torch.Tensor):
-            x = torch.tensor(x.values, dtype=torch.float32)
-        return 0 if self.predict_proba(x).iloc[0, 0] > 0.5 else 1
-
-    def evaluate(self, X, y):
-        """
-        Evaluates the model's accuracy.
-
-        @param X: Feature variables as a pandas DataFrame.
-        @param y: Target variable as a pandas DataFrame.
-        @return: Accuracy of the model as a float.
-        """
-        predictions = self.predict(X)
-        accuracy = (predictions.view(-1) == torch.tensor(y.values)).float().mean()
-        return accuracy.item()
-
-    def predict_proba(self, x: torch.Tensor) -> pd.DataFrame:
-        """
-        Predicts probabilities of outcomes.
-
-        @param x: Input data as a torch tensor.
-        @return: Probabilities of each outcome as a pandas DataFrame.
-        """
-        if isinstance(x, pd.DataFrame) or isinstance(x, pd.Series):
-            x = torch.tensor(x.values, dtype=torch.float32)
-        elif isinstance(x, np.ndarray):
-            x = torch.from_numpy(x).float()
-        res = self._model(x)
-        res = pd.DataFrame(res.detach().numpy())
-
-        temp = res[0]
-
-        # The probability that it is 0 is 1 - the probability returned by model
-        res[0] = 1 - res[0]
-
-        # The probability it is 1 is the probability returned by the model
-        res[1] = temp
-        return res
-
-    def predict_proba_tensor(self, x: torch.Tensor) -> torch.Tensor:
-        """
-        Predicts probabilities of outcomes using the model.
-
-        @param x: Input data as a torch tensor.
-        @return: Probabilities of each outcome as a torch tensor.
-        """
-        return self._model(x)
 
     def get_torch_model(self):
         """

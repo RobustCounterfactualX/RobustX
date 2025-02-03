@@ -3,7 +3,7 @@ import torch
 
 from rocelib.datasets.ExampleDatasets import get_example_dataset
 from rocelib.datasets.custom_datasets.CsvDatasetLoader import CsvDatasetLoader
-from rocelib.models.pytorch_models.SimpleNNModel import SimpleNNModel
+from rocelib.models.pytorch_models.TrainablePyTorchModel import TrainablePyTorchModel
 from rocelib.recourse_methods.MCER import MCER
 from rocelib.robustness_evaluations.DeltaRobustnessEvaluator import DeltaRobustnessEvaluator
 from rocelib.tasks.ClassificationTask import ClassificationTask
@@ -11,7 +11,7 @@ from rocelib.tasks.ClassificationTask import ClassificationTask
 
 def test_mcer_generates_all_robust():
     # Create the model instance
-    model = SimpleNNModel(input_dim=2, hidden_dim=[2], output_dim=1)
+    model = TrainablePyTorchModel(input_dim=2, hidden_dim=[2], output_dim=1)
 
     # Define the weights and biases according to the image provided
     weights = {
@@ -22,10 +22,10 @@ def test_mcer_generates_all_robust():
     }
 
     # Set the custom weights
-    model.set_weights(weights)
+    trained_model = model.set_weights(weights)
 
     dl = CsvDatasetLoader('./assets/random_normal_values.csv', "target")
-    ct = ClassificationTask(model, dl)
+    ct = ClassificationTask(trained_model, dl)
 
     mcer = MCER(ct)
 
@@ -43,15 +43,16 @@ def test_mcer_generates_all_robust():
 
 def test_mcer_generates_all_robust_custom():
     # Create the model instance
-    model = SimpleNNModel(input_dim=34, hidden_dim=[10], output_dim=1)
+    model = TrainablePyTorchModel(input_dim=34, hidden_dim=[10], output_dim=1)
 
     dl = get_example_dataset("ionosphere")
 
-    ct = ClassificationTask(model, dl)
-
     dl.default_preprocess()
 
-    ct.train()
+    trained_model = model.train(dl.X, dl.y)
+    ct = ClassificationTask(trained_model, dl)
+
+
 
     mcer = MCER(ct)
 

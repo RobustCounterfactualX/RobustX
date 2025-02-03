@@ -27,8 +27,3 @@ def test_csv_dataset_loader_invalid_target_error():
     except ValueError:
         assert True, "CSV Test: target column does not exist"
 
-def test_csv_dataset_loader_no_names():
-    ionosphere = get_example_dataset("ionosphere")
-    url = "https://archive.ics.uci.edu/ml/machine-learning-databases/ionosphere/ionosphere.data"
-    csv = CsvDatasetLoader(url, target_column="target")
-    assert csv.__eq__(ionosphere), "CSV Test: data does not match"

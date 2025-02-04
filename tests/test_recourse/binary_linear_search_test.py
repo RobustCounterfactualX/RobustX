@@ -3,10 +3,13 @@ import pandas as pd
 
 from rocelib.datasets.ExampleDatasets import get_example_dataset
 from rocelib.datasets.custom_datasets.CsvDatasetLoader import CsvDatasetLoader
+from enums.dataset_enums import Dataset
+from enums.model_enums import ModelType
 from rocelib.models.Models import get_sklearn_model
 from rocelib.models.pytorch_models.TrainablePyTorchModel import TrainablePyTorchModel
 from rocelib.recourse_methods.BinaryLinearSearch import BinaryLinearSearch
 from rocelib.tasks.ClassificationTask import ClassificationTask
+from test_helpers.TestingModels import TestingModel
 
 
 def test_binary_linear_search_nn() -> None:
@@ -27,14 +30,15 @@ def test_binary_linear_search_nn() -> None:
     assert not res.empty
 
 
-def test_binary_linear_search_dt() -> None:
-    model = get_sklearn_model("decision_tree")
-    dl = get_example_dataset("ionosphere")
+def test_binary_linear_search_dt(tm=TestingModel()) -> None:
+    # model = get_sklearn_model("decision_tree")
+    # dl = get_example_dataset("ionosphere")
+    #
+    # dl.default_preprocess()
+    # trained_model = model.train(dl.X, dl.y)
+    # ct = ClassificationTask(trained_model, dl)
 
-    dl.default_preprocess()
-    trained_model = model.train(dl.X, dl.y)
-    ct = ClassificationTask(trained_model, dl)
-
+    ct, _ = tm.get(Dataset.IONOSPHERE, ModelType.DECISION_TREE)
 
     recourse = BinaryLinearSearch(ct)
 

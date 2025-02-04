@@ -14,9 +14,6 @@ def test_distance():
 
     ct = ClassificationTask(trained_model, dl)
 
-    dl.default_preprocess()
-
-
     recourse = BinaryLinearSearch(ct)
 
     res = recourse.generate_for_all(neg_value=0, column_name="target", distance_func=manhattan)

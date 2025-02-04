@@ -22,13 +22,14 @@ class TestingModels:
     def create_and_train(self, dataset: Dataset, model_type: ModelType, args) -> (ClassificationTask, DatasetLoader):
         if dataset == Dataset.IONOSPHERE:
             dl = get_example_dataset("ionosphere")
+            dl.default_preprocess()
+
         elif dataset == Dataset.RECRUITMENT:
             dl = CsvDatasetLoader('./assets/recruitment_data.csv', "HiringDecision")
+
         else:
             dl = None
             # TODO: throw error for not recognised dataset
-
-        dl.default_preprocess()
 
         if model_type == ModelType.NEURALNET:
             input_layer = args[0]

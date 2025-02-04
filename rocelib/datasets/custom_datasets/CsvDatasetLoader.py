@@ -63,10 +63,8 @@ class CsvDatasetLoader(DatasetLoader):
 
             if names is None:
                 self._data = pd.read_csv(csv, header=header)
-                print("no names", self._data)
             else:
                 self._data = pd.read_csv(csv, header=header, names=names)
-                print("with names", self._data)
         except FileNotFoundError:
             raise FileNotFoundError(f"File {csv} not found")
 

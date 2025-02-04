@@ -15,7 +15,7 @@ def test_rocoursenet() -> None:
 
     dl.default_preprocess()  # Preprocess the dataset (e.g., scaling, normalization)
 
-    trained_model = model.train(dl.X, dl.y)
+    trained_model = model.train(dl)
     ct = ClassificationTask(trained_model, dl)
 
 

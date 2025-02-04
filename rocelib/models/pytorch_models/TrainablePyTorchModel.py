@@ -92,17 +92,16 @@ class TrainablePyTorchModel(TrainableModel):
 
         return model
 
-    def train(self, X, y, epochs=100, **kwargs) -> TrainedModel:
+    def train(self, dataset_loader, epochs=100, **kwargs) -> TrainedModel:
         """
         Trains the neural network model.
 
-        @param X: Feature variables as a pandas DataFrame.
-        @param y: Target variable as a pandas DataFrame.
+        @param dataset_loader: Feature and target variables as a DatasetLoader
         @param epochs: Number of training epochs.
         """
         self.model.train()
-        X_tensor = torch.tensor(X.values, dtype=torch.float32)
-        y_tensor = torch.tensor(y.values, dtype=torch.float32).view(-1, 1)
+        X_tensor = torch.tensor(dataset_loader.X.values, dtype=torch.float32)
+        y_tensor = torch.tensor(dataset_loader.y.values, dtype=torch.float32).view(-1, 1)
         for epoch in range(epochs):
             self.optimizer.zero_grad()
             outputs = self._model(X_tensor)

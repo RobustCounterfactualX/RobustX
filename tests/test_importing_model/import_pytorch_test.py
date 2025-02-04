@@ -12,7 +12,7 @@ def trained_classification_task():
     model = TrainablePyTorchModel(34, [8], 1)
     dl = get_example_dataset("ionosphere")
     dl.default_preprocess()
-    trained_model = model.train(dl.X, dl.y) 
+    trained_model = model.train(dl)
     ct = ClassificationTask(trained_model, dl)
 
     return ct

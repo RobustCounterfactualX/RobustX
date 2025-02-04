@@ -44,11 +44,9 @@ class RecourseGenerator(ABC):
         @return: A DataFrame of the recourses for the provided instances.
         """
         cs = []
-
         for _, instance in instances.iterrows():
             cs.append(self.generate_for_instance(instance, neg_value=neg_value,
                                                  column_name=column_name, **kwargs))
-
         res = pd.concat(cs)
 
         return res

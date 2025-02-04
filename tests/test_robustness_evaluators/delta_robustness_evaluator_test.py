@@ -78,7 +78,7 @@ def test_mix_of_robustness_from_example_7_in_paper():
     # Set the custom weights
     trained_model = model.set_weights(weights)
 
-    dl = CsvDatasetLoader('./assets/random_normal_values.csv', "target")
+    dl = CsvDatasetLoader('../assets/random_normal_values.csv', "target")
     ct = ClassificationTask(trained_model, dl)
 
     kdtree = KDTreeNNCE(ct)
@@ -101,7 +101,7 @@ def test_ionosphere_kdtree_robustness():
     dl = get_example_dataset("ionosphere")
     dl.default_preprocess()
 
-    trained_model = model.train(dl.X, dl.y)
+    trained_model = model.train(dl)
     ct = ClassificationTask(trained_model, dl)
 
 

@@ -14,7 +14,7 @@ def test_binary_linear_search_nn() -> None:
     model = TrainablePyTorchModel(10, [7], 1)
     dl = CsvDatasetLoader('./assets/recruitment_data.csv', "HiringDecision")
 
-    trained_model = model.train(dl.X, dl.y)
+    trained_model = model.train(dl)
     ct = ClassificationTask(trained_model, dl)
 
 
@@ -32,7 +32,7 @@ def test_binary_linear_search_dt() -> None:
     dl = get_example_dataset("ionosphere")
 
     dl.default_preprocess()
-    trained_model = model.train(dl.X, dl.y)
+    trained_model = model.train(dl)
     ct = ClassificationTask(trained_model, dl)
 
 
@@ -48,7 +48,7 @@ def test_binary_linear_search_lr() -> None:
     dl = get_example_dataset("ionosphere")
 
     dl.default_preprocess()
-    trained_model = model.train(dl.X, dl.y)
+    trained_model = model.train(dl)
     ct = ClassificationTask(trained_model, dl)
 
 

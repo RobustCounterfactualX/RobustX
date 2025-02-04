@@ -49,7 +49,7 @@ def test_mcer_generates_all_robust_custom():
 
     dl.default_preprocess()
 
-    trained_model = model.train(dl.X, dl.y)
+    trained_model = model.train(dl)
     ct = ClassificationTask(trained_model, dl)
 
 

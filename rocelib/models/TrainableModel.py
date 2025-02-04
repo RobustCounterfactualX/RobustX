@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 import pandas as pd
 import torch
 
+from rocelib.datasets.DatasetLoader import DatasetLoader
 from rocelib.models.TrainedModel import TrainedModel
 
 
@@ -50,14 +51,13 @@ class TrainableModel(ABC):
         self._model = model
 
     @abstractmethod
-    def train(self, X: pd.DataFrame, y: pd.DataFrame, **kwargs) -> TrainedModel:
+    def train(self, dataset_loader: DatasetLoader, **kwargs) -> TrainedModel:
         """
         Trains the model using X feature variables and y target variable. Each implementing class
         can decide how to train their model and can add additional parameters, but X and y must be of
         type DataFrame.
 
-        @param X: pd.DataFrame, The feature variables.
-        @param y: pd.DataFrame, The target variable.
+        @param dataset_loader: dataset loader containing the feature and target variables.
 
         @return: None
         """

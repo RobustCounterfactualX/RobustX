@@ -12,7 +12,7 @@ def test_import_keras_model_file() -> None:
     dl = get_example_dataset("ionosphere")
 
     dl.default_preprocess()
-    trained_model = model.train(dl.X, dl.y)
+    trained_model = model.train(dl)
 
     ct = ClassificationTask(trained_model, dl)
 
@@ -37,7 +37,7 @@ def test_imported_keras_model_from_instance_predict_single_same_as_original() ->
     dl = get_example_dataset("ionosphere")
 
     dl.default_preprocess()
-    trained_model = model.train(dl.X, dl.y)
+    trained_model = model.train(dl)
 
     ct = ClassificationTask(trained_model, dl)
 

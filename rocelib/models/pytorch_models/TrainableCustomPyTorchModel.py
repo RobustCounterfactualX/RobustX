@@ -4,6 +4,7 @@ import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import DataLoader, TensorDataset
 
+from rocelib.datasets.DatasetLoader import DatasetLoader
 from rocelib.models.TrainableModel import TrainableModel
 from rocelib.models.TrainedModel import TrainedModel
 
@@ -53,18 +54,17 @@ class TrainableCustomPyTorchModel(TrainableModel):
         self.criterion = criterion
         self.optimizer = optimizer_class(self._model.parameters(), lr=learning_rate)
 
-    def train(self, X: pd.DataFrame, y: pd.DataFrame, epochs=10, batch_size=32, **kwargs) -> TrainedModel:
+    def train(self, dataset_loader: DatasetLoader, epochs=10, batch_size=32, **kwargs) -> TrainedModel:
         """
         Train the PyTorch model using the provided data.
 
-        @param X: Feature variables as a pandas DataFrame.
-        @param y: Target variable as a pandas DataFrame.
+        @param dataset_loader: Feature and target variables as a DatasetLoader
         @param epochs: Number of training epochs, default is 10.
         @param batch_size: Size of each mini-batch, default is 32.
         """
         # Convert pandas DataFrames to torch tensors
-        X_tensor = torch.tensor(X.values, dtype=torch.float32)
-        y_tensor = torch.tensor(y.values, dtype=torch.float32)  # Assuming y is for classification
+        X_tensor = torch.tensor(dataset_loader.X.values, dtype=torch.float32)
+        y_tensor = torch.tensor(dataset_loader.y.values, dtype=torch.float32)  # Assuming y is for classification
 
         dataset = TensorDataset(X_tensor, y_tensor)
         loader = DataLoader(dataset, batch_size=batch_size, shuffle=True)

@@ -7,6 +7,7 @@ from keras.metrics import Accuracy
 from keras.models import Sequential
 from keras.optimizers import Adam
 
+from rocelib.datasets.DatasetLoader import DatasetLoader
 from rocelib.models.TrainableModel import TrainableModel
 from rocelib.models.TrainedModel import TrainedModel
 from rocelib.models.imported_models.KerasModel import KerasModel
@@ -61,16 +62,15 @@ class TrainableKerasModel(TrainableModel):
         model.compile(optimizer=Adam(learning_rate=0.001), loss=BinaryCrossentropy(), metrics=[Accuracy()])
         super().__init__(model)
 
-    def train(self, X: pd.DataFrame, y: pd.DataFrame, epochs: int = 100, batch_size: int = 32, **kwargs) -> TrainedModel:
+    def train(self, dataset_loader: DatasetLoader, epochs: int = 100, batch_size: int = 32, **kwargs) -> TrainedModel:
         """
         Trains the model on the provided data.
 
-        @param X: The feature variables as a DataFrame.
-        @param y: The target variable as a DataFrame.
+        @param dataset_loader: Feature and target variables as a DatasetLoader
         @param epochs: The number of epochs to train the model (default is 100).
         @param batch_size: The batch size used in training (default is 32).
         """
-        self.model.fit(X, y, epochs=epochs, batch_size=batch_size, verbose=1)
+        self.model.fit(dataset_loader.X, dataset_loader.y, epochs=epochs, batch_size=batch_size, verbose=1)
         return KerasModel.from_model(self.get_keras_model())
 
     def predict(self, X: pd.DataFrame) -> pd.DataFrame:

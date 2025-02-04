@@ -8,7 +8,7 @@ def test_mce_predicts_positive_instances():
     model = TrainablePyTorchModel(34, [8], 1)
     dl = get_example_dataset("ionosphere")
     dl.default_preprocess()
-    trained_model = model.train(dl.X, dl.y)
+    trained_model = model.train(dl)
     ct = ClassificationTask(trained_model, dl)
 
 

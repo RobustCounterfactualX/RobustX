@@ -30,9 +30,9 @@ class RNCE(RecourseGenerator):
         self.intabs = DeltaRobustnessEvaluator(task)
 
     def _generation_method(self, x, robustInit=True, optimal=True, column_name="target", neg_value=0, delta=0.005,
-                           bias_delta=0, **kwargs):
+                           bias_delta=0, k=1, **kwargs):
         """
-        Generates a counterfactual explanation using nearest neighbor search.
+        Generates counterfactual explanations using nearest neighbor search.
 
         @param x: The instance for which to generate a counterfactual. Can be a DataFrame or Series.
         @param robustInit: If True, only robust instances are considered for counterfactual generation.
@@ -40,6 +40,7 @@ class RNCE(RecourseGenerator):
         @param neg_value: The value considered negative in the target variable.
         @param delta: The tolerance for robustness in the feature space.
         @param bias_delta: The bias tolerance for robustness in the feature space.
+        @param k: The number of counterfactuals to return
         @param kwargs: Additional keyword arguments.
         @return: A DataFrame containing the counterfactual explanation.
         """
@@ -50,8 +51,11 @@ class RNCE(RecourseGenerator):
 
         treer = KDTree(S, leaf_size=40)
         x_df = pd.DataFrame(x).T
-        idxs = np.array(treer.query(x_df)[1]).flatten()
-        res = pd.DataFrame(S.iloc[idxs[0]]).T
+        idxs = np.array(treer.query(x_df, k=k)[1]).flatten()
+        if k > 1:
+            res = pd.DataFrame(S.iloc[idxs])
+        else:
+            res = pd.DataFrame(S.iloc[idxs[0]]).T
         return res
 
     @lru_cache()

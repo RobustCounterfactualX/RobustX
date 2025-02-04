@@ -34,7 +34,7 @@ class NNCE(RecourseGenerator):
         model = self.task.model
 
         # Convert X values of dataset to tensor
-        X_tensor = torch.tensor(self.task.training_data.X.values, dtype=torch.float32)
+        X_tensor = torch.tensor(self.task.dataset.X.values, dtype=torch.float32)
 
         # Get all model predictions of model, turning them to 0s or 1s
         model_labels = model.predict(X_tensor)
@@ -53,7 +53,7 @@ class NNCE(RecourseGenerator):
         else:
             negative_df = instance
 
-        preds = self.task.training_data.X
+        preds = self.task.dataset.X
         preds["predicted"] = model_labels
 
         # Iterate through each model prediction

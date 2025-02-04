@@ -76,7 +76,7 @@ class RecourseGenerator(ABC):
         @param distance_func: The method to calculate the distance between two points. Options are 'l1' / 'manhattan', 'l2' / 'euclidean', and 'custom'.
         @return: A DataFrame of the recourses for all negative values.
         """
-        negatives = self.task.training_data.get_negative_instances(neg_value, column_name=column_name)
+        negatives = self.task.dataset.get_negative_instances(neg_value, column_name=column_name)
 
         recourses = self.generate(
             negatives,

@@ -12,7 +12,7 @@ class ClassificationTask(Task):
 
     Attributes:
         model: The model to be trained and used for predictions.
-        _training_data: The dataset used for training the model.
+        _dataset: The dataset used for training the model.
     """
 
 
@@ -28,10 +28,10 @@ class ClassificationTask(Task):
         @return: A Pandas Series representing a random positive instance.
         """
         # Get a random positive instance from the training data
-        pos_instance = self._training_data.get_random_positive_instance(neg_value, column_name=column_name)
+        pos_instance = self._dataset.get_random_positive_instance(neg_value, column_name=column_name)
 
         # Loop until a positive instance whose prediction is positive is found
         while self.model.predict_single(pos_instance) == neg_value:
-            pos_instance = self._training_data.get_random_positive_instance(neg_value, column_name=column_name)
+            pos_instance = self._dataset.get_random_positive_instance(neg_value, column_name=column_name)
 
         return pos_instance

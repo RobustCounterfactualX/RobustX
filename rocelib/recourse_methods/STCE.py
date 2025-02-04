@@ -36,7 +36,7 @@ class TrexNN(RecourseGenerator):
         @param kwargs: Additional keyword arguments.
         @return: A DataFrame containing the counterfactual explanation if found, otherwise the original instance.
         """
-        positives = self.task.training_data.data[self.task.training_data.data[column_name]
+        positives = self.task.dataset.data[self.task.dataset.data[column_name]
                                                  == neg_value].drop(columns=[column_name])
 
         # Compute Euclidean distances between the instance and each positive sample

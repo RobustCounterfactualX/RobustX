@@ -55,10 +55,16 @@ class PytorchModel(TrainedModel):
         :param X: pd.DataFrame, Instances to predict.
         :return: pd.DataFrame, Predictions for each instance.
         """
-        X_tensor = torch.tensor(X.values, dtype=torch.float32).to(self.device)
-        with torch.no_grad():
-            predictions = self.model(X_tensor).cpu().numpy()
-        return pd.DataFrame(predictions)
+        # Ensure X is a tensor
+        if isinstance(X, pd.DataFrame):
+            X_values = X.values
+            X_tensor = torch.tensor(X_values, dtype=torch.float32).to(self.device)
+        elif isinstance(X, torch.Tensor):
+            X_tensor = X.to(self.device)  # Ensure it's on the correct device
+        else:
+            raise TypeError(f"Unsupported type for X: {type(X)}")
+
+        return self.model(X_tensor).detach().cpu().numpy()
 
     def predict_single(self, x: pd.DataFrame) -> int:
         """

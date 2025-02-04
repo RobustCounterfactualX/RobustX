@@ -48,7 +48,7 @@ def test_imported_pytorch_model_file_predict_all_same_as_original() -> None:
 
     predictions_1 = ct.model.predict(ct.training_data.data.drop("target", axis=1))
     predictions_2 = trained_model.predict(ct.training_data.data.drop("target", axis=1))
-    assert predictions_1.equals(predictions_2)
+    assert predictions_1.all() == predictions_2.all()
 
     os.remove('./model.pt')
 

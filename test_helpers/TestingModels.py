@@ -4,8 +4,8 @@ from rocelib.datasets.custom_datasets.CsvDatasetLoader import CsvDatasetLoader
 from rocelib.models.Models import get_sklearn_model
 from rocelib.models.pytorch_models.TrainablePyTorchModel import TrainablePyTorchModel
 from rocelib.tasks.ClassificationTask import ClassificationTask
-from rocelib.enums.dataset_enums import Dataset
-from rocelib.enums.model_enums import ModelType
+from enums.dataset_enums import Dataset
+from enums.model_enums import ModelType
 
 
 class TestingModels:

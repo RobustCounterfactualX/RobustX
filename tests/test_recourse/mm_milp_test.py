@@ -15,9 +15,9 @@ def test_mce_predicts_positive_instances(testing_models):
     recourse = ModelMultiplicityMILP(dl, [trained_model1, trained_model2, trained_model3])
 
     for _, neg in dl.get_negative_instances(neg_value=0).iterrows():
-
         res = recourse.generate_for_instance(neg)
 
+        # TODO can we just assert not res.empty?
         if not res.empty:
             prediction1 = trained_model1.predict_single(res)
 

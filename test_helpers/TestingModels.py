@@ -28,19 +28,20 @@ class TestingModels:
             dl = CsvDatasetLoader('./assets/recruitment_data.csv', "HiringDecision")
 
         else:
-            dl = None
-            # TODO: throw error for not recognised dataset
+            raise ValueError(f"Unknown dataset: {dataset}")
 
         if model_type == ModelType.NEURALNET:
+            if len(args) < 2:
+                raise TypeError(
+                    f"Expected at least 2 layer dimension, received {len(args)}: "
+                    f"{args}"
+                )
+
             input_layer = args[0]
             output_layer = args[-1]
             hidden_layer = list(args[1:-1])
 
-            model = TrainablePyTorchModel(input_layer, hidden_layer , output_layer)
-
-            # TODO: currently if args = (2), NN(2, [], 2) is generated
-            # check if we can have one layer NN, if not throw an error here
-            # if len(args) < 2
+            model = TrainablePyTorchModel(input_layer, hidden_layer, output_layer)
 
         elif model_type == ModelType.DECISION_TREE:
             model = get_sklearn_model("decision_tree")
@@ -49,8 +50,7 @@ class TestingModels:
             model = get_sklearn_model("log_reg")
 
         else:
-            model = None
-            # TODO: throw error here
+            raise ValueError(f"Unknown model type: {model_type}")
 
         trained_model = model.train(dl.X, dl.y)
         ct = ClassificationTask(trained_model, dl)

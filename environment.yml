@@ -1,0 +1,21 @@
+name: RoCELib
+channels:
+  - pytorch
+  - https://conda.anaconda.org/gurobi
+  - defaults
+dependencies:
+  - python=3.9
+  - pytorch=2.4.1
+  - notebook
+  - scikit-learn
+  - pandas
+  - scipy
+  - tqdm
+  - tabulate
+  - pip
+  - pip:
+      - gurobipy==10.0.2
+      - clingo>=5.6.2
+      - tensorflow==2.16.2
+      - keras==3.0.5
+      - pytest

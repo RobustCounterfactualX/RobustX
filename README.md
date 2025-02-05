@@ -21,33 +21,19 @@ interpretability of machine learning models in critical applications.
 
 ## Setup
 
-To set up do:
+The core required packages for working on RoCELib are listed in ```environment.yml``` and ```requirements.txt```.
 
-(1) Create a virtual environment in the root
-
-```bash
-python -m venv venv
-```
-
-(2) Activate it. (You may have to use a different command depending on your platform)
+To set up a new virtual environment with Conda, use ```environment.yml```. This will install the required packages into a new environment called RoCELib.
 
 ```bash
-source venv/bin/activate
+conda env create -f environment.yml
+conda activate RoCELib
 ```
 
-(3) Download dependencies:
+Alternatively, run ```pip install -r requirements.txt``` in a Python virtual environment if using an existing one. 
 
-```bash
-pip install -r requirements.txt
-```
+Note that one needs [Gurobi](https://www.gurobi.com/) optimizer to run mixed integer programming based methods. Gurobi offers [free academic licenses](https://www.gurobi.com/downloads/end-user-license-agreement-academic/).
 
-If you want to also run tests, regenerate docs, do the below, this installs rocelib itself as library:
-
-```pip install .```
-
-You need Gurobi to run all tests.
-
-If you are on PyCharm, to run tests make sure that your default tester is pytest. (Settings > Tools > Python Integrated Tools > Default Test Runner > pytest)
 
 [//]: # (OLD DOCS, SAVING JUST IN CASE:)
 
@@ -101,9 +87,6 @@ If you are on PyCharm, to run tests make sure that your default tester is pytest
 [//]: # (   conda install tabulate)
 
 [//]: # (   ```)
-
-   > Gurobi offers academic licenses. You can obtain
-   one [here](https://www.gurobi.com/downloads/end-user-license-agreement-academic/).
 
 ## Generating docs
 

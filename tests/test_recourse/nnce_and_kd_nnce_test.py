@@ -10,7 +10,7 @@ from rocelib.tasks.ClassificationTask import ClassificationTask
 
 
 def test_kdtree_nnce(testing_models) -> None:
-    ct, _ = testing_models.get(Dataset.IONOSPHERE, ModelType.LOGISTIC_REGRESSION)
+    ct, _, _ = testing_models.get(Dataset.IONOSPHERE, ModelType.LOGISTIC_REGRESSION)
 
     kdrecourse = KDTreeNNCE(ct)
     res = kdrecourse.generate_for_all()
@@ -19,7 +19,7 @@ def test_kdtree_nnce(testing_models) -> None:
 
 
 def test_kdtree_nnce_same_as_nnce(testing_models) -> None:
-    ct, dl = testing_models.get(Dataset.RECRUITMENT, ModelType.NEURALNET, 10, 7, 1)
+    ct, dl, _ = testing_models.get(Dataset.RECRUITMENT, ModelType.NEURALNET, 10, 7, 1)
 
     kdrecourse = KDTreeNNCE(ct)
     nncerecourse = NNCE(ct)

@@ -55,7 +55,7 @@ class TestingModels:
         trained_model = model.train(dl.X, dl.y)
         ct = ClassificationTask(trained_model, dl)
 
-        # TODO: should dl be a public attr of ct, so can do ct.dataset instead of returning both?
-        self.models[(dataset, model_type, args)] = (ct, dl)
+        # TODO: should dl and trained_model be a public attr of ct, so can do ct.dataset and just return ct?
+        self.models[(dataset, model_type, args)] = (ct, dl, trained_model)
 
-        return ct, dl
+        return ct, dl, trained_model

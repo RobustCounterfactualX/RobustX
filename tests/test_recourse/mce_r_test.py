@@ -1,6 +1,8 @@
 import pandas as pd
 import torch
 
+from enums.dataset_enums import Dataset
+from enums.model_enums import ModelType
 from rocelib.datasets.ExampleDatasets import get_example_dataset
 from rocelib.datasets.custom_datasets.CsvDatasetLoader import CsvDatasetLoader
 from rocelib.models.pytorch_models.TrainablePyTorchModel import TrainablePyTorchModel
@@ -41,18 +43,9 @@ def test_mcer_generates_all_robust():
         assert robust
 
 
-def test_mcer_generates_all_robust_custom():
+def test_mcer_generates_all_robust_custom(testing_models):
     # Create the model instance
-    model = TrainablePyTorchModel(input_dim=34, hidden_dim=[10], output_dim=1)
-
-    dl = get_example_dataset("ionosphere")
-
-    dl.default_preprocess()
-
-    trained_model = model.train(dl.X, dl.y)
-    ct = ClassificationTask(trained_model, dl)
-
-
+    ct, dl = testing_models.get(Dataset.IONOSPHERE, ModelType.NEURALNET, 34, 10, 1)
 
     mcer = MCER(ct)
 

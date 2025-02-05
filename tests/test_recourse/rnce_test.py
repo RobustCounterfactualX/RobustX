@@ -1,3 +1,5 @@
+from enums.dataset_enums import Dataset
+from enums.model_enums import ModelType
 from rocelib.datasets.ExampleDatasets import get_example_dataset
 from rocelib.models.pytorch_models.TrainablePyTorchModel import TrainablePyTorchModel
 from rocelib.recourse_methods.RNCE import RNCE
@@ -6,14 +8,8 @@ from rocelib.evaluations.ValidityEvaluator import ValidityEvaluator
 
 
 
-def test_rnce() -> None:
-    model = TrainablePyTorchModel(34, [8], 1)
-    dl = get_example_dataset("ionosphere")
-    dl.default_preprocess()
-
-    trained_model = model.train(dl.X, dl.y)
-    ct = ClassificationTask(trained_model, dl)
-
+def test_rnce(testing_models) -> None:
+    ct, _, _ = testing_models.get(Dataset.IONOSPHERE, ModelType.NEURALNET, 34, 8, 1)
 
     delta = 0.01
 

@@ -38,7 +38,7 @@ class DatasetLoader(ABC):
     def __init__(self, target_column_index=None, target_column_label=None):
         self._data = None
         if target_column_index is None and target_column_label is None:
-            raise Exception('Both target index and target label cannot be None')
+            raise ValueError("Either target_column_label or target_column_index must be provided")
         self._target_column_index = target_column_index
         self._target_column_label = target_column_label
 

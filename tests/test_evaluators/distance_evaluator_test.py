@@ -2,7 +2,7 @@ from rocelib.datasets.ExampleDatasets import get_example_dataset
 from rocelib.evaluations.DistanceEvaluator import DistanceEvaluator
 from rocelib.lib.distance_functions.DistanceFunctions import manhattan
 from rocelib.lib.models.Models import get_sklearn_model
-from rocelib.generators.recourse_methods.BinaryLinearSearch import BinaryLinearSearch
+from rocelib.generators.CE_methods.BinaryLinearSearch import BinaryLinearSearch
 from rocelib.lib.tasks.ClassificationTask import ClassificationTask
 
 

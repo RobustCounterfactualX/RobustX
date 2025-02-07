@@ -7,25 +7,25 @@ from rocelib.evaluations.ManifoldEvaluator import ManifoldEvaluator
 from rocelib.evaluations.RobustnessProportionEvaluator import RobustnessProportionEvaluator
 from rocelib.evaluations.ValidityEvaluator import ValidityEvaluator
 from rocelib.lib.models.BaseModel import BaseModel
-from rocelib.generators.RecourseGenerator import RecourseGenerator
+from rocelib.generators.CEGenerator import CEGenerator
 from rocelib.lib.tasks.ClassificationTask import ClassificationTask
 from typing import Dict
 import time
 from tabulate import tabulate
 
 
-def quick_tabulate(dl: DatasetLoader, model: BaseModel, methods: Dict[str, RecourseGenerator.__class__],
+def quick_tabulate(dl: DatasetLoader, model: BaseModel, methods: Dict[str, CEGenerator.__class__],
                    subset: pd.DataFrame = None, preprocess=True, **params):
     """
-    Generates and prints a table summarizing the performance of different recourse generation methods.
+    Generates and prints a table summarizing the performance of different counterfactual explanation generation methods.
 
     @param dl: DatasetLoader, The dataset loader to preprocess and provide data for the classification task.
     @param model: BaseModel, The model to be trained and evaluated.
     @param methods: Dict[str, RecourseGenerator.__class__], A dictionary where keys are method names and values are
-                    classes of recourse generation methods to evaluate.
+                    classes of CE generation methods to evaluate.
     @param subset: optional DataFrame, subset of instances you would like to generate CEs on
     @param preprocess: optional Boolean, whether you want to preprocess the dataset or not, example datasets only
-    @param **params: Additional parameters to be passed to the recourse generation methods and evaluators.
+    @param **params: Additional parameters to be passed to the CE generation methods and evaluators.
     @return: None
     """
 
@@ -47,17 +47,17 @@ def quick_tabulate(dl: DatasetLoader, model: BaseModel, methods: Dict[str, Recou
 
     for method_name in methods:
 
-        # Instantiate recourse method
-        recourse = methods[method_name](ct)
+        # Instantiate ce_generator method
+        ce_generator = methods[method_name](ct)
 
         # Start timer
         start_time = time.perf_counter()
 
-        # Generate CE
+        # Generate CEs
         if subset is None:
-            ces = recourse.generate_for_all(**params)
+            ces = ce_generator.generate_for_all(**params)
         else:
-            ces = recourse.generate(subset, **params)
+            ces = ce_generator.generate(subset, **params)
 
         # End timer
         end_time = time.perf_counter()

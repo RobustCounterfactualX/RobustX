@@ -1,11 +1,11 @@
-from rocelib.evaluations.RecourseEvaluator import RecourseEvaluator
+from rocelib.evaluations.CEEvaluator import CEEvaluator
 from rocelib.robustness_evaluations.DeltaRobustnessEvaluator import DeltaRobustnessEvaluator
 from rocelib.robustness_evaluations.ModelChangesRobustnessEvaluator import ModelChangesRobustnessEvaluator
 
 
-class RobustnessProportionEvaluator(RecourseEvaluator):
+class RobustnessProportionEvaluator(CEEvaluator):
     """
-     An Evaluator class which evaluates the proportion of recourses which are robust
+     An Evaluator class which evaluates the proportion of counterfactuals which are robust
 
         ...
 
@@ -35,12 +35,12 @@ class RobustnessProportionEvaluator(RecourseEvaluator):
     -------
     """
 
-    def evaluate(self, recourses, delta=0.05, bias_delta=0, M=1000000, epsilon=0.001, valid_val=1, column_name="target",
+    def evaluate(self, counterfactuals, delta=0.05, bias_delta=0, M=1000000, epsilon=0.001, valid_val=1, column_name="target",
                  robustness_evaluator: ModelChangesRobustnessEvaluator.__class__ = DeltaRobustnessEvaluator,
                  **kwargs):
         """
         Evaluate the proportion of CEs which are robust for the given parameters
-        @param recourses: pd.DataFrame, the CEs to evaluate
+        @param counterfactuals: pd.DataFrame, the CEs to evaluate
         @param delta: int, delta needed for robustness evaluator
         @param bias_delta: int, bias delta needed for robustness evaluator
         @param M: int, large M needed for robustness evaluator
@@ -54,7 +54,7 @@ class RobustnessProportionEvaluator(RecourseEvaluator):
         cnt = 0
 
         # Get only the feature variables from the CEs
-        instances = recourses.drop(columns=[column_name, "loss"], errors='ignore')
+        instances = counterfactuals.drop(columns=[column_name, "loss"], errors='ignore')
 
         robustness_evaluator = robustness_evaluator(self.task)
 

@@ -2,19 +2,19 @@ import pandas as pd
 import torch
 from sklearn.neighbors import KDTree
 
-from rocelib.generators.RecourseGenerator import RecourseGenerator
+from rocelib.generators.CEGenerator import CEGenerator
 
 
-class KDTreeNNCE(RecourseGenerator):
+class KDTreeNNCE(CEGenerator):
     """
-    A recourse generator that uses KD-Tree for nearest neighbor counterfactual explanations.
+    A counterfactual explanation generator that uses KD-Tree for nearest neighbor counterfactual explanations.
 
-    Inherits from the RecourseGenerator class and implements the _generation_method to find
+    Inherits from the CEGenerator class and implements the _generation_method to find
     counterfactual explanations using KD-Tree for nearest neighbors.
 
     Attributes:
-        _task (Task): The task to solve, inherited from RecourseGenerator.
-        __customFunc (callable, optional): A custom distance function, inherited from RecourseGenerator.
+        _task (Task): The task to solve, inherited from CEGenerator.
+        __customFunc (callable, optional): A custom distance function, inherited from CEGenerator.
     """
 
     def _generation_method(self, instance, gamma=0.1,

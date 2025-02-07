@@ -1,10 +1,10 @@
 import pandas as pd
 from rocelib.datasets.ExampleDatasets import get_example_dataset
 from rocelib.datasets.custom_datasets.CsvDatasetLoader import CsvDatasetLoader
-from rocelib.generators.recourse_methods.KDTreeNNCE import KDTreeNNCE
-from rocelib.generators.recourse_methods.Wachter import Wachter
+from rocelib.generators.CE_methods.KDTreeNNCE import KDTreeNNCE
+from rocelib.generators.CE_methods.Wachter import Wachter
 from rocelib.lib.models.pytorch_models.SimpleNNModel import SimpleNNModel
-from rocelib.generators.robust_recourse_methods.APAS import APAS
+from rocelib.generators.robust_CE_methods.APAS import APAS
 from rocelib.lib.tasks.ClassificationTask import ClassificationTask
 import warnings
 import torch
@@ -14,7 +14,7 @@ warnings.filterwarnings("ignore")
 
 
 def test_apas() -> None:
-   
+
     # Load dataset
     # csv_path = "../../examples/test.csv"  # Path to the CSV file
     # target_column = "target"  # Name of the target column
@@ -53,17 +53,17 @@ def test_apas() -> None:
     pos_instance = task.get_random_positive_instance(neg_value=counterfactual_label, column_name="target")
     
     # instanciate the robust_recourse_generator method. The APAS method is used to generate robust recourse
-    robust_recourse = APAS(task, KDTreeNNCE)
+    confidence = 0.999
+    robust_ce_generator = APAS(task, KDTreeNNCE, confidence)
 
     # generate robust recourse
     delta = 0.05
-    robust_evaluator = ApproximateDeltaRobustnessEvaluator(ct=task, alpha=0.999, R=0.995)
-    robust_ce = robust_recourse._generation_method(pos_instance, target_column="target", desired_outcome=counterfactual_label, robustness_check=robust_evaluator, delta_max=delta)
+    robust_ce = robust_ce_generator._generation_method(pos_instance, target_column="target", desired_outcome=counterfactual_label, delta_max=delta)
 
     if robust_ce is None:
         print(f"\nNo counterfactual explanation robust to Δ={delta} model changes was found.")
     else:
-        print(f"\nA counterfactual explanation robust to Δ={delta} model changes with probability ≥ {round((robust_evaluator.alpha)*100, 4)}% is:\n", robust_ce)
+        print(f"\nA counterfactual explanation robust to Δ={delta} model changes with probability ≥ {round((confidence)*100, 4)}% is:\n", robust_ce)
         print("\nwith prediction: ", task.model.predict_single(robust_ce))
 
 

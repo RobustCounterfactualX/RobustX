@@ -2,21 +2,21 @@ import numpy as np
 import pandas as pd
 import torch
 
-from rocelib.generators.RecourseGenerator import RecourseGenerator
+from rocelib.generators.CEGenerator import CEGenerator
 from rocelib.robustness_evaluations.DeltaRobustnessEvaluator import DeltaRobustnessEvaluator
 from rocelib.robustness_evaluations.ModelChangesRobustnessEvaluator import ModelChangesRobustnessEvaluator
 
 
-class TrexNN(RecourseGenerator):
+class TrexNN(CEGenerator):
     """
-    A recourse generator that uses the T-Rex method for finding robust counterfactual explanations.
+    A counterfactual explanation generator that uses the T-Rex method for finding robust counterfactual explanations.
 
-    Inherits from the RecourseGenerator class and implements the _generation_method to find counterfactual examples
+    Inherits from the CEGenerator class and implements the _generation_method to find counterfactual examples
     with robustness checks using a specified base method and evaluator. The method iterates over positive instances
     and evaluates their robustness, returning those with stable counterfactuals.
 
     Attributes:
-        None specific to this class, but utilizes the task and model from the RecourseGenerator base class.
+        None specific to this class, but utilizes the task and model from the CEGenerator base class.
     """
 
     def _generation_method(self, instance,

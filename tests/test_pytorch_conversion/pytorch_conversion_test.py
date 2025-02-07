@@ -4,7 +4,7 @@
 # from lib.PyTorchConversions import keras_to_pytorch
 # from models.pytorch_models.CustomPyTorchModel import CustomPyTorchModel
 # from models.pytorch_models.SimpleNNModel import SimpleNNModel
-# from recourse_methods.KDTreeNNCE import KDTreeNNCE
+# from CE_methods.KDTreeNNCE import KDTreeNNCE
 # from robustness_evaluations.DeltaRobustnessEvaluator import DeltaRobustnessEvaluator
 # from tasks.ClassificationTask import ClassificationTask
 #

@@ -1,12 +1,10 @@
 import datetime
-
 import pandas as pd
 import torch
 from torch import nn
 from torch.autograd import Variable
 from torch.optim import Adam
-
-from rocelib.generators.RecourseGenerator import RecourseGenerator
+from rocelib.generators.CEGenerator import CEGenerator
 
 
 class CostLoss(nn.Module):
@@ -34,11 +32,11 @@ class CostLoss(nn.Module):
         return dist
 
 
-class Wachter(RecourseGenerator):
+class Wachter(CEGenerator):
     """
-    A recourse generator that uses Wachter's method for finding counterfactual explanations.
+    A counterfactual explanation generator that uses Wachter's method for finding counterfactual explanations.
 
-    Inherits from RecourseGenerator and implements the _generation_method to find counterfactuals
+    Inherits from CEGenerator and implements the _generation_method to find counterfactuals
     using gradient descent.
     """
 

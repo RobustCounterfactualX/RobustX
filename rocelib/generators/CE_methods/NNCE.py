@@ -3,19 +3,19 @@ import pandas as pd
 import torch
 
 from rocelib.lib.distance_functions.DistanceFunctions import euclidean
-from rocelib.generators.RecourseGenerator import RecourseGenerator
+from rocelib.generators.CEGenerator import CEGenerator
 
 
-class NNCE(RecourseGenerator):
+class NNCE(CEGenerator):
     """
-    A recourse generator that uses a nearest-neighbor counterfactual explanation (NNCE) approach.
+    A counterfactual explanation generator that uses a nearest-neighbor counterfactual explanation (NNCE) approach.
 
-    Inherits from RecourseGenerator and calculates counterfactual explanations based on the nearest neighbor
+    Inherits from CEGenerator and calculates counterfactual explanations based on the nearest neighbor
     in the training data with the desired prediction.
 
     Attributes:
-        _task (Task): The task to solve, inherited from RecourseGenerator.
-        __customFunc (callable, optional): A custom distance function, inherited from RecourseGenerator.
+        _task (Task): The task to solve, inherited from CEGenerator.
+        __customFunc (callable, optional): A custom distance function, inherited from CEGenerator.
     """
 
     def _generation_method(self, instance, gamma=0.1, column_name="target", neg_value=0,

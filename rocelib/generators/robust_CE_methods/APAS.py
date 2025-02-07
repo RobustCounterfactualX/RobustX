@@ -1,54 +1,49 @@
-from tqdm import tqdm
-from rocelib.generators.RecourseGenerator import RecourseGenerator
-from rocelib.generators.recourse_methods.KDTreeNNCE import KDTreeNNCE
-from rocelib.generators.recourse_methods.Wachter import Wachter
-from rocelib.robustness_evaluations import ApproximateDeltaRobustnessEvaluator
-from rocelib.robustness_evaluations.DeltaRobustnessEvaluator import DeltaRobustnessEvaluator
-from rocelib.robustness_evaluations.ModelChangesRobustnessEvaluator import ModelChangesRobustnessEvaluator
+from rocelib.generators.CEGenerator import CEGenerator
+from rocelib.robustness_evaluations.ApproximateDeltaRobustnessEvaluator import ApproximateDeltaRobustnessEvaluator
 from rocelib.lib.tasks.Task import Task
-import pandas as pd
-import numpy as np
 
 
-class APAS(RecourseGenerator):
+class APAS(CEGenerator):
     """
-    A recourse generator that uses the Mixed-Integer Linear Programming (MILP) method and a DeltaRobustnessEvaluator evaluator
-    to find counterfactual explanations that are robust against model changes.
+    A counterfactual explanation generator that uses any CEGenerator class and a ApproximateDeltaRobustnessEvaluator evaluator
+    to find counterfactual explanations that are approximately robust against model changes.
 
-    Inherits from the RecourseGenerator class and implements the _generation_method to find counterfactual examples
-    with robustness checks using a specified base method and evaluator. The method iterates over positive instances
+    Inherits from the CEGenerator class and implements the _generation_method to generate counterfactual examples
+    with approximate robustness checks using a specified confidence alpha. The method iterates over positive instances
     and evaluates their robustness, returning those with stable counterfactuals.
 
+    This is a similar implementation of Marzari et. al "Rigorous Probabilistic Guarantees for Robust Counterfactual Explanations", ECAI 2024
+
     Attributes:
-        None specific to this class, but utilizes the task and model from the RecourseGenerator base class.
+        CE_generator specific to this class, but utilizes the task and model from the RecourseCE base class.
+        alpha = confidence level in the robustness evaluator
     """
 
-    def __init__(self, task: Task, recourse_generator: KDTreeNNCE):
+    def __init__(self, task: Task, CE_generator: CEGenerator, alpha: float):
         """
-        Initializes the APAS recourse generator with a given task and a CE generator.
+        Initializes the APAS CE generator with a given task and a CE generator.
 
         @param task: The task to generate counterfactual explanations for.
         """
 
         super().__init__(task)
-        self.rg = recourse_generator(task)
-        
+        self.rg = CE_generator(task)
+        self.alpha = alpha
+
 
     def _generation_method(self,
                             original_input, 
                             target_column_name="target",
-                            desired_outcome=0, 
-                            robustness_check= ApproximateDeltaRobustnessEvaluator,
+                            desired_outcome=0,
                             delta_max=0.5,
                             maximum_iterations=1000,
                            **kwargs):
         
         """
-        Generates the first counterfactual explanation for a given input using the APΔS method, i.e., a combination of exponential and binary search with a Wachter delta robustness model changes check.
+        Generates the first counterfactual explanation for a given input using the APΔS method, i.e., a combination of exponential and binary search with a probabilistic delta robustness model changes check.
 
         @param target_column_name: The name of the target column.
         @param desired_outcome: The value considered for the generation of the counterfactual in the target_column_name.
-        @param robustness_check: The robustness evaluator to check model changes with respect to model changes (default).
         @param delta_max: Maximum perturbation allowed in the model for the robustness_check.
         @param maximum_iterations: The maximum number of iterations to run the APΔS method.
 
@@ -57,6 +52,8 @@ class APAS(RecourseGenerator):
         
         
         iterations = 0
+        robustness_check = ApproximateDeltaRobustnessEvaluator(self.task, self.alpha)
+
         print("original_input\n", original_input)
         print("\nwith prediction: ", self._task.model.predict_single(original_input))
      

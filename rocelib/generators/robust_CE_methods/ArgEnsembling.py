@@ -3,8 +3,8 @@ import numpy as np
 import clingo
 
 from rocelib.datasets.DatasetLoader import DatasetLoader
-from rocelib.generators.RecourseGenerator import RecourseGenerator
-from rocelib.generators.recourse_methods.NNCE import NNCE
+from rocelib.generators.CEGenerator import CEGenerator
+from rocelib.generators.CE_methods.NNCE import NNCE
 from rocelib.lib.tasks.ClassificationTask import ClassificationTask
 
 BAF_ENCODING = """
@@ -189,9 +189,9 @@ outN(X) :- spoil, arg(X), not input_error.
 """
 
 
-class ArgEnsembling(RecourseGenerator):
+class ArgEnsembling(CEGenerator):
     """
-    A recourse generator that deals with the model multiplicity / predictive multiplicity scenario. Use computational
+    A counterfactual explanation generator that deals with the model multiplicity / predictive multiplicity scenario. Use computational
     argumentation to resolve conflicts, select the models which agree on classification results,
     and whose counterfactuals are valid on the other models in the set.
 
@@ -203,7 +203,7 @@ class ArgEnsembling(RecourseGenerator):
 
     def __init__(self, dl: DatasetLoader, models):
         """
-        Initializes the Argumentative Ensembling recourse generator with a dataset and a list of models.
+        Initializes the Argumentative Ensembling CE generator with a dataset and a list of models.
 
         Args:
             dl: dataset loader
@@ -215,11 +215,11 @@ class ArgEnsembling(RecourseGenerator):
 
     def _generation_method(self, instance, **kwargs) -> pd.DataFrame:
         """
-        Generate recourse for the instance with a set of models possibly giving conflicting predictions.
+        Generate CE for the instance with a set of models possibly giving conflicting predictions.
         Can return one or more counterfactual explanation points
 
         Args:
-            instance: The input point for which recourse is generated
+            instance: The input point for which CE is generated
             **kwargs: Additional keyword arguments
 
         Returns:

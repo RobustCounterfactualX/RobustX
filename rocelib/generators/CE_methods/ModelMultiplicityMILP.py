@@ -4,12 +4,12 @@ from gurobipy.gurobipy import quicksum, GRB
 
 from rocelib.datasets.DatasetLoader import DatasetLoader
 from rocelib.lib.models.pytorch_models.SimpleNNModel import SimpleNNModel
-from rocelib.generators.RecourseGenerator import RecourseGenerator
+from rocelib.generators.CEGenerator import CEGenerator
 from rocelib.lib.tasks.ClassificationTask import ClassificationTask
 from rocelib.lib.intabs.WeightBiasDictionary import create_weights_and_bias_dictionary
 
 
-class ModelMultiplicityMILP(RecourseGenerator):
+class ModelMultiplicityMILP(CEGenerator):
 
     def __init__(self, dl: DatasetLoader, models: list[SimpleNNModel]):
         super().__init__(ClassificationTask(models[0], dl))

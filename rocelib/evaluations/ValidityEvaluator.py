@@ -1,11 +1,11 @@
 import pandas as pd
 
-from rocelib.evaluations.RecourseEvaluator import RecourseEvaluator
+from rocelib.evaluations.CEEvaluator import CEEvaluator
 
 
-class ValidityEvaluator(RecourseEvaluator):
+class ValidityEvaluator(CEEvaluator):
     """
-     An Evaluator class which evaluates the proportion of recourses which are valid
+     An Evaluator class which evaluates the proportion of counterfactuals which are valid
 
         ...
 
@@ -39,10 +39,10 @@ class ValidityEvaluator(RecourseEvaluator):
         # Return if prediction is valid
         return self.task.model.predict_single(instance) == valid_val
 
-    def evaluate(self, recourses, valid_val=1, column_name="target", **kwargs):
+    def evaluate(self, counterfactuals, valid_val=1, column_name="target", **kwargs):
         """
         Evaluates the proportion of CEs are valid
-        @param recourses: pd.DataFrame, set of CEs which we want to evaluate
+        @param counterfactuals: pd.DataFrame, set of CEs which we want to evaluate
         @param valid_val: int, target column value which denotes a valid instance
         @param column_name: str, name of target column
         @param kwargs: other arguments
@@ -52,7 +52,7 @@ class ValidityEvaluator(RecourseEvaluator):
         cnt = 0
 
         # Remove redundant columns
-        instances = recourses.drop(columns=[column_name, "loss"], errors='ignore')
+        instances = counterfactuals.drop(columns=[column_name, "loss"], errors='ignore')
 
         for _, instance in instances.iterrows():
 

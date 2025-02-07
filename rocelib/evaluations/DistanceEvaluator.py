@@ -1,12 +1,12 @@
 import numpy as np
 
-from rocelib.evaluations.RecourseEvaluator import RecourseEvaluator
+from rocelib.evaluations.CEEvaluator import CEEvaluator
 from rocelib.lib.distance_functions.DistanceFunctions import euclidean
 
 
-class DistanceEvaluator(RecourseEvaluator):
+class DistanceEvaluator(CEEvaluator):
     """
-     An Evaluator class which evaluates the average distance of recourses from their original instance
+     An Evaluator class which evaluates the average distance of counterfactuals from their original instance
 
         ...
 
@@ -33,10 +33,10 @@ class DistanceEvaluator(RecourseEvaluator):
     -------
     """
 
-    def evaluate(self, recourses, valid_val=1, distance_func=euclidean, column_name="target", subset=None, **kwargs):
+    def evaluate(self, counterfactuals, valid_val=1, distance_func=euclidean, column_name="target", subset=None, **kwargs):
         """
         Determines the average distance of the CEs from their original instances
-        @param recourses: pd.DataFrame, dataset containing CEs in same order as negative instances in dataset
+        @param counterfactuals: pd.DataFrame, dataset containing CEs in same order as negative instances in dataset
         @param valid_val: int, what the target value of a valid counterfactual is defined as, default 1
         @param distance_func: Function, function which takes in 2 dataframes and returns an integer representing
                               distance, defaulted to euclidean
@@ -45,7 +45,7 @@ class DistanceEvaluator(RecourseEvaluator):
         @param kwargs: other arguments
         @return: int, average distance of CEs from their original instances
         """
-        df1 = recourses.drop(columns=[column_name, "loss"], errors='ignore')
+        df1 = counterfactuals.drop(columns=[column_name, "loss"], errors='ignore')
 
         if subset is None:
             df2 = self.task.training_data.get_negative_instances(neg_value=1 - valid_val, column_name=column_name)

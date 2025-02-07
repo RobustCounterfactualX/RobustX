@@ -1,27 +1,27 @@
-from rocelib.generators.recourse_methods.MCE import MCE
-from rocelib.generators.RecourseGenerator import RecourseGenerator
+from rocelib.generators.CE_methods.MCE import MCE
+from rocelib.generators.CEGenerator import CEGenerator
 from rocelib.robustness_evaluations.DeltaRobustnessEvaluator import DeltaRobustnessEvaluator
 from rocelib.lib.tasks.Task import Task
 import pandas as pd
 
 
-class MCER(RecourseGenerator):
+class MCER(CEGenerator):
     """
-    A recourse generator that uses the Mixed-Integer Linear Programming (MILP) method and a robustness evaluator
+    A counterfactual explanation generator that uses the Mixed-Integer Linear Programming (MILP) method and a robustness evaluator
     to find counterfactual explanations that are robust against perturbations.
 
-    Inherits from RecourseGenerator and combines MCE with a robustness evaluation mechanism.
+    Inherits from CEGenerator and combines MCE with a robustness evaluation mechanism.
 
     Attributes:
-        _task (Task): The task to solve, inherited from RecourseGenerator.
-        __customFunc (callable, optional): A custom distance function, inherited from RecourseGenerator.
+        _task (Task): The task to solve, inherited from CEGenerator.
+        __customFunc (callable, optional): A custom distance function, inherited from CEGenerator.
         mce (MCE): An instance of the MCE class for generating counterfactuals using MILP.
         evaluator (DeltaRobustnessEvaluator): An instance of the DeltaRobustnessEvaluator for evaluating robustness.
     """
 
     def __init__(self, ct: Task, evaluator=DeltaRobustnessEvaluator):
         """
-        Initializes the MCER recourse generator with a given task and evaluator.
+        Initializes the MCER CEGenerator with a given task and evaluator.
 
         @param ct: The task to solve, provided as a Task instance.
         @param evaluator: The evaluator class used to assess the robustness of the counterfactuals. Defaults to DeltaRobustnessEvaluator.
@@ -64,7 +64,7 @@ class MCER(RecourseGenerator):
         # Iterate up to threshold
         while i < threshold:
 
-            # Use MCE to generate recourse
+            # Use MCE to generate counterfactual explanation
             ce = self.mce.generate_for_instance(instance, neg_value=neg_value,
                                                 column_name=column_name, minimum_distance=minimum_distance)
 

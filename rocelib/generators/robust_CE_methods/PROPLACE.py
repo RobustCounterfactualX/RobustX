@@ -2,17 +2,17 @@ import pandas as pd
 from gurobipy import Model, GRB
 from gurobipy.gurobipy import quicksum
 
-from rocelib.generators.RecourseGenerator import RecourseGenerator
-from rocelib.generators.robust_recourse_methods.RNCE import RNCE
+from rocelib.generators.CEGenerator import CEGenerator
+from rocelib.generators.robust_CE_methods.RNCE import RNCE
 from rocelib.lib.tasks.Task import Task
 from rocelib.lib.intabs.WeightBiasDictionary import create_weights_and_bias_dictionary
 
 
-class PROPLACE(RecourseGenerator):
+class PROPLACE(CEGenerator):
     """
-    A recourse generator that finds provably robust counterfactual explanations for MLPs.
+    A counterfactual explanation generator that finds provably robust counterfactual explanations for MLPs.
 
-    Inherits from the RecourseGenerator class and implements the _generation_method to perform MILP based
+    Inherits from the CEGenerator class and implements the _generation_method to perform MILP based
     robust optimisation.
 
     Attributes:

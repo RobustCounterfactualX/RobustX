@@ -1,22 +1,21 @@
 import pandas as pd
 from gurobipy import Model, GRB
 from gurobipy.gurobipy import quicksum
-
 from rocelib.lib.OptSolver import OptSolver
-from rocelib.generators.RecourseGenerator import RecourseGenerator
+from rocelib.generators.CEGenerator import CEGenerator
 from rocelib.lib.tasks.Task import Task
 
 
-class MCE(RecourseGenerator):
+class MCE(CEGenerator):
     """
-    A recourse generator that uses Mixed-Integer Linear Programming (MILP) to find counterfactual explanations.
+    A counterfactual explanation generator that uses Mixed-Integer Linear Programming (MILP) to find counterfactual explanations.
 
-    Inherits from the RecourseGenerator class and implements the _generation_method to find
+    Inherits from the CEGenerator class and implements the _generation_method to find
     counterfactual explanations using MILP with the Gurobi optimizer.
 
     Attributes:
-        _task (Task): The task to solve, inherited from RecourseGenerator.
-        __customFunc (callable, optional): A custom distance function, inherited from RecourseGenerator.
+        _task (Task): The task to solve, inherited from CEGenerator.
+        __customFunc (callable, optional): A custom distance function, inherited from CEGenerator.
         opt (OptSolver): An optimizer instance for setting up and solving the MILP problem.
     """
 

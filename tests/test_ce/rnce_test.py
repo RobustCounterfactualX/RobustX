@@ -1,6 +1,6 @@
 from rocelib.datasets.ExampleDatasets import get_example_dataset
 from rocelib.lib.models.pytorch_models.SimpleNNModel import SimpleNNModel
-from rocelib.generators.robust_recourse_methods.RNCE import RNCE
+from rocelib.generators.robust_CE_methods.RNCE import RNCE
 from rocelib.lib.tasks.ClassificationTask import ClassificationTask
 
 

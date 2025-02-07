@@ -5,7 +5,7 @@ import pandas as pd
 from rocelib.lib.tasks.Task import Task
 
 
-class RecourseGenerator(ABC):
+class CEGenerator(ABC):
     """
     Abstract class for generating counterfactual explanations for a given task.
 
@@ -20,7 +20,7 @@ class RecourseGenerator(ABC):
 
     def __init__(self, ct: Task, custom_distance_func=None):
         """
-        Initializes the RecourseGenerator with a task and an optional custom distance function.
+        Initializes the CEGenerator with a task and an optional custom distance function.
 
         @param ct: The Task instance to solve.
         @param custom_distance_func: An optional custom distance function.
@@ -37,11 +37,11 @@ class RecourseGenerator(ABC):
         """
         Generates counterfactuals for a given DataFrame of instances.
 
-        @param instances: A DataFrame of instances for which you want to generate recourses.
+        @param instances: A DataFrame of instances for which you want to generate counterfactuals explanations.
         @param distance_func: The method to calculate the distance between two points. Options are 'l1' / 'manhattan', 'l2' / 'euclidean', and 'custom'.
         @param column_name: The name of the target column.
         @param neg_value: The value considered negative in the target variable.
-        @return: A DataFrame of the recourses for the provided instances.
+        @return: A DataFrame of the counterfactual explanations for the provided instances.
         """
         cs = []
 
@@ -62,7 +62,7 @@ class RecourseGenerator(ABC):
         @param distance_func: The method to calculate the distance between two points. Options are 'l1' / 'manhattan', 'l2' / 'euclidean', and 'custom'.
         @param column_name: The name of the target column.
         @param neg_value: The value considered negative in the target variable.
-        @return: A DataFrame containing the recourse for the instance.
+        @return: A DataFrame containing the counterfactual explanations for the instance.
         """
 
         return self._generation_method(instance, neg_value=neg_value, column_name=column_name, **kwargs)
@@ -74,19 +74,19 @@ class RecourseGenerator(ABC):
         @param neg_value: The value in the target column which counts as a negative instance.
         @param column_name: The name of the target variable.
         @param distance_func: The method to calculate the distance between two points. Options are 'l1' / 'manhattan', 'l2' / 'euclidean', and 'custom'.
-        @return: A DataFrame of the recourses for all negative values.
+        @return: A DataFrame of the counterfactuals for all negative values.
         """
         negatives = self.task.training_data.get_negative_instances(neg_value, column_name=column_name)
 
-        recourses = self.generate(
+        counterfactuals = self.generate(
             negatives,
             column_name=column_name,
             neg_value=neg_value,
             **kwargs
         )
 
-        recourses.index = negatives.index
-        return recourses
+        counterfactuals.index = negatives.index
+        return counterfactuals
 
     @abstractmethod
     def _generation_method(self, instance,

@@ -2,8 +2,8 @@ from rocelib.datasets.ExampleDatasets import get_example_dataset
 from rocelib.datasets.custom_datasets.CsvDatasetLoader import CsvDatasetLoader
 from rocelib.lib.models.Models import get_sklearn_model
 from rocelib.lib.models.pytorch_models.SimpleNNModel import SimpleNNModel
-from rocelib.generators.recourse_methods.KDTreeNNCE import KDTreeNNCE
-from rocelib.generators.recourse_methods.NNCE import NNCE
+from rocelib.generators.CE_methods.KDTreeNNCE import KDTreeNNCE
+from rocelib.generators.CE_methods.NNCE import NNCE
 from rocelib.lib.tasks.ClassificationTask import ClassificationTask
 
 

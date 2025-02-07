@@ -5,7 +5,7 @@ from rocelib.datasets.ExampleDatasets import get_example_dataset
 from rocelib.datasets.custom_datasets.CsvDatasetLoader import CsvDatasetLoader
 from rocelib.lib.models.Models import get_sklearn_model
 from rocelib.lib.models.pytorch_models.SimpleNNModel import SimpleNNModel
-from rocelib.generators.recourse_methods.BinaryLinearSearch import BinaryLinearSearch
+from rocelib.generators.CE_methods.BinaryLinearSearch import BinaryLinearSearch
 from rocelib.lib.tasks.ClassificationTask import ClassificationTask
 
 

@@ -60,16 +60,16 @@ class ApproximateDeltaRobustnessEvaluator(ModelChangesRobustnessEvaluator):
 
             for l in range(0,len(old_weights)):
                 layer_weights = old_weights[l]
-                if bias_delta: layer_biases  = old_weights[l]
+                if bias_delta > 0: layer_biases = old_weights[l]
                 
                 weights_perturbation = np.random.uniform(-delta, delta, layer_weights.shape)
-                if bias_delta: biases_perturbation = np.random.uniform(-bias_delta, bias_delta, layer_biases.shape)
+                if bias_delta > 0: biases_perturbation = np.random.uniform(-bias_delta, bias_delta, layer_biases.shape)
 
                 #print(weights_perturbation)
                 #if bias_delta: print(biases_perturbation)
                 layer_weights = layer_weights+weights_perturbation
              
-                if bias_delta: 
+                if bias_delta > 0:
                     layer_biases = layer_biases+biases_perturbation
                     preactivated_res = np.dot(layer_weights, input_features) + layer_biases
                 else:
@@ -83,11 +83,9 @@ class ApproximateDeltaRobustnessEvaluator(ModelChangesRobustnessEvaluator):
                     activated_res = 1/(1 + np.exp(-preactivated_res))
                 
                 input_features = activated_res
-            
 
             if input_features.item() < 0.5 and desired_outcome == 1:
-                return 0 
-
+                return 0
             elif input_features.item() >= 0.5 and desired_outcome == 0:
                 return 0 
             

@@ -2,17 +2,17 @@ import numpy as np
 import pandas as pd
 from sklearn.neighbors import KDTree
 
-from rocelib.generators.RecourseGenerator import RecourseGenerator
+from rocelib.generators.CEGenerator import CEGenerator
 from rocelib.robustness_evaluations.DeltaRobustnessEvaluator import DeltaRobustnessEvaluator
 from rocelib.lib.tasks.Task import Task
 from functools import lru_cache
 
 
-class RNCE(RecourseGenerator):
+class RNCE(CEGenerator):
     """
     A recourse generator that finds robust nearest counterfactual examples using KDTree.
 
-    Inherits from the RecourseGenerator class and implements the _generation_method to find counterfactual examples 
+    Inherits from the CEGenerator class and implements the _generation_method to find counterfactual examples 
     that are robust to perturbations. It leverages KDTree for nearest neighbor search and uses a robustness evaluator 
     to identify robust instances in the training data.
 

@@ -1,9 +1,9 @@
 from rocelib.lib.distance_functions.DistanceFunctions import euclidean
-from rocelib.generators.RecourseGenerator import RecourseGenerator
+from rocelib.generators.CEGenerator import CEGenerator
 from rocelib.robustness_evaluations.DeltaRobustnessEvaluator import DeltaRobustnessEvaluator
 
 
-class GuidedBinaryLinearSearch(RecourseGenerator):
+class GuidedBinaryLinearSearch(CEGenerator):
 
     def _generation_method(self, instance, gamma=0.1, column_name="target", neg_value=0,
                            distance_func=euclidean, **kwargs):

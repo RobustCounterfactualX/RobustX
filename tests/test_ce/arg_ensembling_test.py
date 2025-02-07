@@ -1,7 +1,7 @@
 from rocelib.datasets.ExampleDatasets import get_example_dataset
 from rocelib.lib.models.pytorch_models.SimpleNNModel import SimpleNNModel
 from rocelib.lib.tasks.ClassificationTask import ClassificationTask
-from rocelib.generators.robust_recourse_methods.ArgEnsembling import ArgEnsembling
+from rocelib.generators.robust_CE_methods.ArgEnsembling import ArgEnsembling
 
 
 def test_proplace() -> None:

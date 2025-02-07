@@ -1,18 +1,18 @@
 from rocelib.lib.distance_functions.DistanceFunctions import euclidean
-from rocelib.generators.RecourseGenerator import RecourseGenerator
+from rocelib.generators.CEGenerator import CEGenerator
 import pandas as pd
 
 
-class BinaryLinearSearch(RecourseGenerator):
+class BinaryLinearSearch(CEGenerator):
     """
-    A recourse generator that uses binary linear search to find counterfactual explanations.
+    A counterfactual explanation generator that uses binary linear search to find counterfactual explanations.
 
-    Inherits from the RecourseGenerator class and implements the _generation_method to perform
+    Inherits from the CEGenerator class and implements the _generation_method to perform
     binary linear search for generating counterfactuals.
 
     Attributes:
-        _task (Task): The task to solve, inherited from RecourseGenerator.
-        __customFunc (callable, optional): A custom distance function, inherited from RecourseGenerator.
+        _task (Task): The task to solve, inherited from CEGenerator.
+        __customFunc (callable, optional): A custom distance function, inherited from CEGenerator.
     """
 
     def _generation_method(self, instance, gamma=0.1, column_name="target", neg_value=0,

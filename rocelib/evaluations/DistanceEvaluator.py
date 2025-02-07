@@ -48,7 +48,7 @@ class DistanceEvaluator(RecourseEvaluator):
         df1 = recourses.drop(columns=[column_name, "loss"], errors='ignore')
 
         if subset is None:
-            df2 = self.task.training_data.get_negative_instances(neg_value=1 - valid_val, column_name=column_name)
+            df2 = self.task.dataset.get_negative_instances(neg_value=1 - valid_val, column_name=column_name)
         else:
             df2 = subset
 

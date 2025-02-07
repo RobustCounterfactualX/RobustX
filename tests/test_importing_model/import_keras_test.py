@@ -23,8 +23,8 @@ def test_import_keras_model_file() -> None:
 
     trained_model = KerasModel("./model.keras")
 
-    predictions_1 = ct.model.predict(ct.training_data.data.drop("target", axis=1))
-    predictions_2 = trained_model.predict(ct.training_data.data.drop("target", axis=1))
+    predictions_1 = ct.model.predict(ct.dataset.data.drop("target", axis=1))
+    predictions_2 = trained_model.predict(ct.dataset.data.drop("target", axis=1))
 
     assert predictions_1.equals(predictions_2)
 
@@ -48,8 +48,8 @@ def test_imported_keras_model_from_instance_predict_single_same_as_original() ->
     # Import Model
     trained_model = KerasModel.from_model(keras_model)
 
-    predictions_1 = ct.model.predict(ct.training_data.data.drop("target", axis=1))
-    predictions_2 = trained_model.predict(ct.training_data.data.drop("target", axis=1))
+    predictions_1 = ct.model.predict(ct.dataset.data.drop("target", axis=1))
+    predictions_2 = trained_model.predict(ct.dataset.data.drop("target", axis=1))
 
     assert predictions_1.equals(predictions_2)
 

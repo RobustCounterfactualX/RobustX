@@ -77,7 +77,7 @@ class OptSolver:
         if fix_inputs:
 
             # Create the Gurobi variables for the inputs
-            for i in range(len(self.task.training_data.X.columns)):
+            for i in range(len(self.task.dataset.X.columns)):
                 key = f"v_0_{i}"
                 self.inputNodes[key] = self.gurobiModel.addVar(lb=-float('inf'), name=key)
                 all_nodes[key] = self.inputNodes[key]
@@ -87,12 +87,12 @@ class OptSolver:
         else:
 
             # Create the Gurobi variables for the inputs
-            for i, col in enumerate(self.task.training_data.X.columns):
+            for i, col in enumerate(self.task.dataset.X.columns):
                 key = f"v_0_{i}"
 
                 # Calculate the minimum and maximum values for the current column
-                col_min = self.task.training_data.X[col].min()
-                col_max = self.task.training_data.X[col].max()
+                col_min = self.task.dataset.X[col].min()
+                col_max = self.task.dataset.X[col].max()
 
                 # Use the calculated min and max for the bounds of the variable
                 self.inputNodes[key] = self.gurobiModel.addVar(lb=col_min, ub=col_max, name=key)

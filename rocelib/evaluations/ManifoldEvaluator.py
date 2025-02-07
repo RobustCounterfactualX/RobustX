@@ -40,7 +40,7 @@ class ManifoldEvaluator(RecourseEvaluator):
         on_manifold = 0
         cnt = 0
 
-        data = self.task.training_data.X
+        data = self.task.dataset.X
         recourses = recourses.drop(columns=[column_name, "loss"], errors='ignore')
 
         # TODO: Compute raw LoF score, proplace code to see what else is working

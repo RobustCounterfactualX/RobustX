@@ -68,7 +68,7 @@ class RNCE(RecourseGenerator):
         """
         S = []
 
-        for _, instance in self.task.training_data.data.iterrows():
+        for _, instance in self.task.dataset.data.iterrows():
             instance_x = instance.drop(column_name)
             if robustInit:
                 if self.intabs.evaluate(instance_x, delta=delta, bias_delta=bias_delta, desired_output=1-neg_value):

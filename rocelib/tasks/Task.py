@@ -12,18 +12,18 @@ class Task(ABC):
     on a specific dataset.
 
     Attributes:
-        _training_data (DatasetLoader): The dataset used for training the model.
+        _dataset (DatasetLoader): The dataset used for training the model.
         __model (TrainableModel): The model to be trained and used for predictions.
     """
 
-    def __init__(self, model: TrainedModel, training_data: DatasetLoader):
+    def __init__(self, model: TrainedModel, dataset: DatasetLoader):
         """
         Initializes the Task with a model and training data.
 
         @param model: An instance of a model that extends TrainableModel
-        @param training_data: An instance of DatasetLoader containing the training data.
+        @param dataset: An instance of DatasetLoader containing the training data.
         """
-        self._training_data = training_data
+        self._dataset = dataset
         self.__model = model
 
 
@@ -38,13 +38,13 @@ class Task(ABC):
         pass
 
     @property
-    def training_data(self):
+    def dataset(self):
         """
         Property to access the training data.
 
         @return: The training data loaded from DatasetLoader.
         """
-        return self._training_data
+        return self._dataset
 
     @property
     def model(self):

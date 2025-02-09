@@ -145,7 +145,7 @@ class SimpleNNModel(BaseModel):
         """
         if not isinstance(x, torch.Tensor):
             x = torch.tensor(x.values, dtype=torch.float32)
-        return 0 if self.predict_proba(x).iloc[0, 0] > 0.5 else 1
+        return 0 if self.predict_proba(x).iloc[0, 0] < 0.5 else 1
 
     def evaluate(self, X, y):
         """

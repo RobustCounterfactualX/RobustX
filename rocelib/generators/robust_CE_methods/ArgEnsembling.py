@@ -198,7 +198,9 @@ class ArgEnsembling(CEGenerator):
     This is a simplified version of Jiang et al. AAMAS 2024 paper, not implementing preferences over models.
 
     Attributes:
-        None
+        _task (Task): The task to solve, inherited from CEGenerator.
+        models: The set of models with which the model multiplicity problem is instantiated
+        dl: The dataset
     """
 
     def __init__(self, dl: DatasetLoader, models):

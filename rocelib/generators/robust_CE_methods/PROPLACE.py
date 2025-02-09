@@ -16,6 +16,7 @@ class PROPLACE(CEGenerator):
     robust optimisation.
 
     Attributes:
+        _task (Task): The task to solve, inherited from CEGenerator.
         achieved: boolean variable indicating whether to end the robust optimisation procedure
         x_prime_star: optimal counterfactual
         x_prime_current: current counterfactual as the robust optimisation proceeds

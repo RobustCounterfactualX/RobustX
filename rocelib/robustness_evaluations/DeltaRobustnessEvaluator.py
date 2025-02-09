@@ -27,18 +27,18 @@ class DeltaRobustnessEvaluator(ModelChangesRobustnessEvaluator):
         super().__init__(ct)
         self.opt = OptSolver(ct)
 
-    def evaluate(self, instance, desired_output=1, delta=0.5, bias_delta=0, M=1000000000, epsilon=0.0001):
+    def evaluate(self, instance, desired_output=1, delta=0.5, bias_delta=0, M=10000, epsilon=0.0001):
         """
-        Evaluates whether the model's prediction for a given instance is robust to changes in the input.
+        Evaluates whether the instance is Delta-robust.
 
         @param instance: The instance to evaluate.
         @param desired_output: The desired output for the model (0 or 1).
                                The evaluation will check if the model's output matches this.
-        @param delta: The maximum allowable perturbation in the input features.
+        @param delta: The maximum allowable perturbation in the model parameters.
         @param bias_delta: Additional bias to apply to the delta changes.
         @param M: A large constant used in MILP formulation for modeling constraints.
         @param epsilon: A small constant used to ensure numerical stability.
-        @return: A boolean indicating whether the model's prediction is robust given the desired output.
+        @return: A boolean indicating Delta-robust or not.
         """
 
         # Initialize the Gurobi model

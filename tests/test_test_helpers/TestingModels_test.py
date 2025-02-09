@@ -6,10 +6,11 @@ from test_helpers.TestingModels import TestingModels
 def test_binary_linear_search_dt() -> None:
     tm = TestingModels()
 
-    ct1, dl1, _ = tm.get(Dataset.IONOSPHERE, ModelType.DECISION_TREE)
-    ct2, dl2, _ = tm.get(Dataset.IONOSPHERE, ModelType.DECISION_TREE)
-
+    ct1 = tm.get("ionosphere", "ionosphere", "decision tree")
+    ct2 = tm.get("ionosphere", "ionosphere", "decision tree")
     # check that these are the same object (only one model trained)
-    assert id(ct1) == id(ct2)
-    assert id(dl1) == id(dl2)
+    assert id(ct1.model) == id(ct2.model)
+    assert id(ct1.dataset) == id(ct2.dataset)
+
+
 

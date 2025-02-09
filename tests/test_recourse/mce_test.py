@@ -7,16 +7,10 @@ from rocelib.tasks.ClassificationTask import ClassificationTask
 
 
 def test_mce_predicts_positive_instances(testing_models):
-    ct, dl, _ = testing_models.get(Dataset.IONOSPHERE, ModelType.NEURALNET, 34, 8, 1)
+    ct = testing_models.get("ionosphere", "ionosphere", "pytorch", 34, 8, 1)
 
     recourse = MCE(ct)
-    # _, neg = list(dl.get_negative_instances(neg_value=0).iterrows())[0]
+    res = recourse.generate_for_all(neg_value=0, column_name="target")
 
-    for _, neg in dl.get_negative_instances(neg_value=0).iterrows():
-        res = recourse.generate_for_instance(neg)
+    assert not res.empty
 
-        # TODO can we just assert not res.empty?
-        if not res.empty:
-            prediction = ct.model.predict_single(res)
-
-            assert prediction

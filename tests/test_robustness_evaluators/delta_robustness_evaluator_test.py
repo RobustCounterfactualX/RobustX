@@ -94,23 +94,15 @@ def test_mix_of_robustness_from_example_7_in_paper():
         print("######################################################")
 
 
-def test_ionosphere_kdtree_robustness():
+def test_ionosphere_kdtree_robustness(testing_models):
     # Instantiate the neural network and the IntervalAbstractionPytorch class
-    model = TrainablePyTorchModel(34, [8], 1)
-    # dl = CsvDatasetLoader('../assets/recruitment_data.csv', "HiringDecision")
-    dl = get_example_dataset("ionosphere")
-    dl.default_preprocess()
-
-    trained_model = model.train(dl.X, dl.y)
-    ct = ClassificationTask(trained_model, dl)
-
-
+    ct = testing_models.get("ionosphere", "ionosphere", "pytorch", 34, 8, 1)
 
     kdtree = KDTreeNNCE(ct)
 
     opt = DeltaRobustnessEvaluator(ct)
 
-    for _, neg in dl.get_negative_instances(neg_value=0).iterrows():
+    for _, neg in ct.dataset.get_negative_instances(neg_value=0).iterrows():
         ce = kdtree.generate_for_instance(neg)
         robust = opt.evaluate(ce, delta=0.0000000000000000001)
         print("######################################################")

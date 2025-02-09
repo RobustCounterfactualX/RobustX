@@ -10,16 +10,9 @@ from rocelib.models.imported_models.SKLearnModel import SKLearnModel
 from rocelib.models.sklearn_models.TrainableLogisticRegressionModel import TrainableLogisticRegressionModel
 
 
-def trained_classification_task():
-    dl = get_example_dataset("ionosphere")
-    dl.default_preprocess()
-    ct = TaskBuilder().add_sklearn_model("logistic regression", dl).add_data(dl).build()
-    return ct
-
-
-def test_imported_sklearn_model_file_predict_single_same_as_original() -> None:
+def test_imported_sklearn_model_file_predict_single_same_as_original(testing_models) -> None:
     # Create Model
-    ct = trained_classification_task()
+    ct = testing_models.get("ionosphere", "ionosphere", "logistic regression", 34, 8, 1)
 
     # Save Model
     joblib.dump(ct.model.model, "./model.pkl")
@@ -38,9 +31,9 @@ def test_imported_sklearn_model_file_predict_single_same_as_original() -> None:
     os.remove("./model.pkl")
 
 
-def test_imported_sklearn_model_file_predict_all_same_as_original() -> None:
+def test_imported_sklearn_model_file_predict_all_same_as_original(testing_models) -> None:
     # Create Model
-    ct = trained_classification_task()
+    ct = testing_models.get("ionosphere", "ionosphere", "logistic regression", 34, 8, 1)
 
     # Save Model
     joblib.dump(ct.model.model, "./model.pkl")
@@ -59,9 +52,9 @@ def test_imported_sklearn_model_file_predict_all_same_as_original() -> None:
     os.remove("./model.pkl")
 
 
-def test_imported_sklearn_model_from_instance_predict_single_same_as_original() -> None:
+def test_imported_sklearn_model_from_instance_predict_single_same_as_original(testing_models) -> None:
     # Create Model
-    ct = trained_classification_task()
+    ct = testing_models.get("ionosphere", "ionosphere", "logistic regression", 34, 8, 1)
 
     sklearn_model = ct.model.model  # Extract the actual scikit-learn model
 

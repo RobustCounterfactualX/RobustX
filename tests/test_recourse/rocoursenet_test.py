@@ -10,7 +10,7 @@ from rocelib.evaluations.ValidityEvaluator import ValidityEvaluator
 
 
 def test_rocoursenet(testing_models) -> None:
-    ct, _, _ = testing_models.get(Dataset.IONOSPHERE, ModelType.NEURALNET, 34, 8, 1)
+    ct = testing_models.get("ionosphere", "ionosphere", "pytorch", 34, 8, 1)
 
     recourse = RoCourseNet(ct)
     res = recourse.generate_for_all()

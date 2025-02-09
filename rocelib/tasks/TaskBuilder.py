@@ -6,9 +6,9 @@ from rocelib.models.imported_models.SKLearnModel import SKLearnModel
 from rocelib.models.imported_models.KerasModel import KerasModel
 from rocelib.models.pytorch_models.TrainablePyTorchModel import TrainablePyTorchModel
 from rocelib.models.keras_models.TrainableKerasModel import TrainableKerasModel
-import rocelib.models.sklearn_models.TrainableDecisionTreeModel as TrainableDecisionTreeModel
-import rocelib.models.sklearn_models.TrainableLogisticRegressionModel as TrainableLogisticRegressionModel
-import rocelib.models.sklearn_models.TrainableSVMModel as TrainableSVMModel
+from rocelib.models.sklearn_models.TrainableDecisionTreeModel import TrainableDecisionTreeModel
+from rocelib.models.sklearn_models.TrainableLogisticRegressionModel import TrainableLogisticRegressionModel
+from rocelib.models.sklearn_models.TrainableSVMModel import TrainableSVMModel
 
 import os
 

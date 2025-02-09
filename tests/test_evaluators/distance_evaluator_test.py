@@ -6,13 +6,8 @@ from rocelib.recourse_methods.BinaryLinearSearch import BinaryLinearSearch
 from rocelib.tasks.ClassificationTask import ClassificationTask
 
 
-def test_distance():
-    model = get_sklearn_model("decision_tree")
-    dl = get_example_dataset("ionosphere")
-    dl.default_preprocess()
-    trained_model = model.train(dl.X, dl.y)
-
-    ct = ClassificationTask(trained_model, dl)
+def test_distance(testing_models):
+    ct = testing_models.get("ionosphere", "ionosphere", "decision tree")
 
     recourse = BinaryLinearSearch(ct)
 

@@ -6,8 +6,8 @@ import os
 import pytest
 
 
-def test_import_keras_model_file() -> None:
-    # Create Model
+def test_import_keras_model_file(testing_models) -> None:
+    # # Create Model
     model = TrainableKerasModel(34, 8, 1)
     dl = get_example_dataset("ionosphere")
 
@@ -15,6 +15,9 @@ def test_import_keras_model_file() -> None:
     trained_model = model.train(dl.X, dl.y)
 
     ct = ClassificationTask(trained_model, dl)
+
+    # ct = testing_models.get("ionosphere", "ionosphere", "keras", 34, 8, 1)
+
 
     # Save Model
     ct.model.model.save("./model.keras")
@@ -31,8 +34,8 @@ def test_import_keras_model_file() -> None:
     os.remove('./model.keras')
 
 
-def test_imported_keras_model_from_instance_predict_single_same_as_original() -> None:
-    # Create Model
+def test_imported_keras_model_from_instance_predict_single_same_as_original(testing_models) -> None:
+    # # Create Model
     model = TrainableKerasModel(34, 8, 1)
     dl = get_example_dataset("ionosphere")
 
@@ -40,6 +43,7 @@ def test_imported_keras_model_from_instance_predict_single_same_as_original() ->
     trained_model = model.train(dl.X, dl.y)
 
     ct = ClassificationTask(trained_model, dl)
+    # ct = testing_models.get("ionosphere", "ionosphere", "keras", 34, 8, 1)
 
 
 

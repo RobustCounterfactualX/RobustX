@@ -4,58 +4,67 @@ from rocelib.datasets.custom_datasets.CsvDatasetLoader import CsvDatasetLoader
 from rocelib.models.Models import get_sklearn_model
 from rocelib.models.pytorch_models.TrainablePyTorchModel import TrainablePyTorchModel
 from rocelib.tasks.ClassificationTask import ClassificationTask
+from rocelib.tasks.Task import Task
+
+from rocelib.tasks.TaskBuilder import TaskBuilder
 from enums.dataset_enums import Dataset
 from enums.model_enums import ModelType
 
 
 class TestingModels:
     def __init__(self):
-        # dictionary of singletons
+        # dictionary of singletons (dataset, model_type, args) -> Task
         self.models = {}
 
-    def get(self, dataset: Dataset, model_type: ModelType, *args) -> (ClassificationTask, DatasetLoader):
-        if (dataset, model_type, args) not in self.models:
-            return self.create_and_train(dataset, model_type, args)
+    def get(self, training_dataset: str, dataset: str, model_type: str, *args) -> Task:
+        if (training_dataset, model_type, args) not in self.models:
+            print(self.models)
+            return self.create_and_train(training_dataset, model_type, dataset, args)
         else:
-            return self.models[(dataset, model_type, args)]
+            print(self.models)
 
-    def create_and_train(self, dataset: Dataset, model_type: ModelType, args) -> (ClassificationTask, DatasetLoader):
-        if dataset == Dataset.IONOSPHERE:
-            dl = get_example_dataset("ionosphere")
-            dl.default_preprocess()
+            return self.models[(training_dataset, model_type, args)]
 
-        elif dataset == Dataset.RECRUITMENT:
-            dl = CsvDatasetLoader('./assets/recruitment_data.csv', "HiringDecision")
+    def create_and_train(self, training_dataset: str, model_type: str, dataset: str, args) -> Task:
+        tb = TaskBuilder()
+        dl_training = get_example_dataset(training_dataset)
+        dl = get_example_dataset(dataset)
 
-        else:
-            raise ValueError(f"Unknown dataset: {dataset}")
-
-        if model_type == ModelType.NEURALNET:
+        if model_type == "pytorch":
             if len(args) < 2:
                 raise TypeError(
                     f"Expected at least 2 layer dimension, received {len(args)}: "
                     f"{args}"
                 )
-
             input_layer = args[0]
-            output_layer = args[-1]
             hidden_layer = list(args[1:-1])
+            output_layer = args[2]
 
-            model = TrainablePyTorchModel(input_layer, hidden_layer, output_layer)
+            tb.add_pytorch_model(input_layer, hidden_layer, output_layer, dl_training)
+        elif model_type == "keras":
+            if len(args) < 2:
+                raise TypeError(
+                    f"Expected at least 2 layer dimension, received {len(args)}: "
+                    f"{args}"
+                )
+            input_layer = args[0]
+            hidden_layer = list(args[1:-1])
+            output_layer = args[2]
 
-        elif model_type == ModelType.DECISION_TREE:
-            model = get_sklearn_model("decision_tree")
-
-        elif model_type == ModelType.LOGISTIC_REGRESSION:
-            model = get_sklearn_model("log_reg")
-
+            tb.add_keras_model(input_layer, hidden_layer, output_layer, dl_training)
+        elif model_type == "decision tree":
+            tb.add_sklearn_model(model_type, dl_training)
+        elif model_type == "logistic regression":
+            tb.add_sklearn_model(model_type, dl_training)
+        elif model_type == "svm":
+            tb.add_sklearn_model(model_type, dl_training)
         else:
-            raise ValueError(f"Unknown model type: {model_type}")
+            tb.add_model_from_path(model_type)
+        
+        tb.add_data(dl)
+        
+        ct = tb.build()
 
-        trained_model = model.train(dl.X, dl.y)
-        ct = ClassificationTask(trained_model, dl)
+        self.models[(training_dataset, model_type, args)] = ct
 
-        # TODO: should dl and trained_model be a public attr of ct, so can do ct.dataset and just return ct?
-        self.models[(dataset, model_type, args)] = (ct, dl, trained_model)
-
-        return ct, dl, trained_model
+        return ct

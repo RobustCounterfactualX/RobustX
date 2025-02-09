@@ -8,7 +8,7 @@ from rocelib.tasks.ClassificationTask import ClassificationTask
 
 
 def test_wachter(testing_models) -> None:
-    ct, _, _ = testing_models.get(Dataset.IONOSPHERE, ModelType.NEURALNET, 34, 8, 1)
+    ct = testing_models.get("ionosphere", "ionosphere", "pytorch", 34, 8, 1)
 
     recourse = Wachter(ct)
     res = recourse.generate_for_all(neg_value=0)

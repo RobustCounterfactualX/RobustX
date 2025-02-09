@@ -10,20 +10,9 @@ import os
 import pytest
 
 
-def trained_classification_task():
-    # model = TrainablePyTorchModel(34, [8], 1)
-    dl = get_example_dataset("ionosphere")
-    dl.default_preprocess()
-    # trained_model = model.train(dl.X, dl.y) 
-    # ct = ClassificationTask(trained_model, dl)
-    ct = TaskBuilder().add_pytorch_model(34, [8], 1, dl).add_data(dl).build()
-
-    return ct
-
-
-def test_imported_pytorch_model_file_predict_single_same_as_original() -> None:
+def test_imported_pytorch_model_file_predict_single_same_as_original(testing_models) -> None:
     # Create Model
-    ct = trained_classification_task()
+    ct = testing_models.get("ionosphere", "ionosphere", "pytorch", 34, 8, 1)
 
     # Save Model
     torch.save(ct.model.model, "./model.pt")
@@ -39,9 +28,9 @@ def test_imported_pytorch_model_file_predict_single_same_as_original() -> None:
     os.remove('./model.pt')
 
 
-def test_imported_pytorch_model_file_predict_all_same_as_original() -> None:
+def test_imported_pytorch_model_file_predict_all_same_as_original(testing_models) -> None:
     # Create Model
-    ct = trained_classification_task()
+    ct = testing_models.get("ionosphere", "ionosphere", "pytorch", 34, 8, 1)
 
     # Save Model
     torch.save(ct.model.model, "./model.pt")
@@ -56,9 +45,9 @@ def test_imported_pytorch_model_file_predict_all_same_as_original() -> None:
     os.remove('./model.pt')
 
 
-def test_imported_pytorch_model_from_instance_predict_single_same_as_original() -> None:
+def test_imported_pytorch_model_from_instance_predict_single_same_as_original(testing_models) -> None:
     # Create Model
-    ct = trained_classification_task()
+    ct = testing_models.get("ionosphere", "ionosphere", "pytorch", 34, 8, 1)
 
     torch_model = ct.model.model
 
@@ -80,9 +69,9 @@ def test_throws_wrong_file_type_error() -> None:
         trained_model = PytorchModel("./test.txt")
 
 
-def test_throws_error_if_underlying_model_not_pytorch() -> None:
+def test_throws_error_if_underlying_model_not_pytorch(testing_models) -> None:
     with pytest.raises(InvalidPytorchModelError):
-        ct = trained_classification_task()
+        ct = testing_models.get("ionosphere", "ionosphere", "pytorch", 34, 8, 1)
         # Save The SimpleNNModel rather than Torch Model
         torch.save(ct.model, "./model.pt")
         # Import Model

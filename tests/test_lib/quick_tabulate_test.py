@@ -25,6 +25,7 @@ def test_quick_tabulate():
     methods = {"BLS": BinaryLinearSearch, "MCE": MCE, "MCER": MCER, "Wachter": Wachter, "RNCE": RNCE}
     model = TrainablePyTorchModel(34, [10], 1)
     dl = get_example_dataset("ionosphere")
+    # dl.default_preprocess()
 
     quick_tabulate(dl, model, methods, neg_value=0, column_name="target", delta=0.05)
 

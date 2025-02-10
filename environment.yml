@@ -13,6 +13,9 @@ dependencies:
   - tqdm
   - tabulate
   - pip
+  - streamlit
+  - matplotlib
+  - seaborn
   - pip:
       - gurobipy==10.0.2
       - clingo>=5.6.2

@@ -126,6 +126,5 @@ class BaseModel(ABC):
         """
         return self._model
     
-    @abstractmethod
     def __repr__(self):
-        pass
+        return str(self._model)

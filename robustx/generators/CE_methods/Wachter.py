@@ -80,7 +80,7 @@ class Wachter(CEGenerator):
         class_prob = self.task.model.predict_proba_tensor(wac)
         wac_valid = False
         iterations = 0
-        if y_target == 0 and class_prob >= 0.5 or y_target == 1 and class_prob < 0.5:
+        if y_target == 0 and class_prob < 0.5 or y_target == 1 and class_prob >= 0.5:
             wac_valid = True
 
         # set maximum allowed time for computing 1 counterfactual
@@ -98,7 +98,7 @@ class Wachter(CEGenerator):
 
             # break conditions
             p = class_prob[0].item()
-            if (neg_value and p + epsilon >= 0.5) or (not neg_value and p - epsilon < 0.5):
+            if (neg_value and p + epsilon < 0.5) or (not neg_value and p - epsilon >= 0.5):
                 wac_valid = True
             if datetime.datetime.now() - t0 > t_max:
                 break

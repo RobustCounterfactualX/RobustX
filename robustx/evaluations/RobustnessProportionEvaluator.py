@@ -35,7 +35,7 @@ class RobustnessProportionEvaluator(CEEvaluator):
     -------
     """
 
-    def evaluate(self, counterfactuals, delta=0.05, bias_delta=0, M=1000000, epsilon=0.001, valid_val=1, column_name="target",
+    def evaluate(self, counterfactuals, delta=0.005, bias_delta=0.005, M=1000000, epsilon=0.001, valid_val=1, column_name="target",
                  robustness_evaluator: ModelChangesRobustnessEvaluator.__class__ = DeltaRobustnessEvaluator,
                  **kwargs):
         """

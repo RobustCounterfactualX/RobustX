@@ -1,6 +1,6 @@
 import pandas as pd
 from gurobipy import Model, GRB
-from gurobipy.gurobipy import quicksum
+from gurobipy.gurobipy import quicksum, abs_
 from robustx.lib.OptSolver import OptSolver
 from robustx.generators.CEGenerator import CEGenerator
 from robustx.lib.tasks.Task import Task
@@ -28,7 +28,7 @@ class MCE(CEGenerator):
         super().__init__(ct)
         self.opt = OptSolver(ct)
 
-    def _generation_method(self, instance, column_name="target", neg_value=0, M=1000, epsilon=0.0001,
+    def _generation_method(self, instance, column_name="target", neg_value=0, M=10000, epsilon=0.0001,
                            minimum_distance=0.0, **kwargs) -> pd.DataFrame:
         """
         Generates a counterfactual explanation for a provided instance using MILP.
@@ -62,13 +62,22 @@ class MCE(CEGenerator):
             self.opt.gurobiModel.addConstr(self.opt.outputNode + epsilon <= minimum_distance, name="output_node_ub_<=0")
 
         # Set minimising objective
-        objective = self.opt.gurobiModel.addVar(name="objective")
+        # objective = self.opt.gurobiModel.addVar(name="objective")
+        # self.opt.gurobiModel.addConstr(objective == quicksum(
+        #     (self.opt.inputNodes[f'v_0_{i}'] - ilist[i]) ** 2 for i in range(len(self.task.training_data.X.columns))))
 
-        self.opt.gurobiModel.addConstr(objective == quicksum(
-            (self.opt.inputNodes[f'v_0_{i}'] - ilist[i]) ** 2 for i in range(len(self.task.training_data.X.columns))))
-
-        self.opt.gurobiModel.update()
+        # Set minimising objective with L1
+        obj_vars_l1 = []
+        for i in range(len(self.task.training_data.X.columns)):
+            self.opt.gurobiModel.update()
+            key = f"v_0_{i}"
+            this_obj_var_l1 = self.opt.gurobiModel.addVar(vtype=GRB.SEMICONT, lb=-GRB.INFINITY, name=f"objl1_feat_{i}")
+            self.opt.gurobiModel.addConstr(this_obj_var_l1 >= ilist[i] - self.opt.inputNodes[key])
+            self.opt.gurobiModel.addConstr(this_obj_var_l1 >= self.opt.inputNodes[key] - ilist[i])
+            obj_vars_l1.append(this_obj_var_l1)
+        self.opt.gurobiModel.setObjective(quicksum(obj_vars_l1), GRB.MINIMIZE)
         self.opt.gurobiModel.Params.NonConvex = 2
+        self.opt.gurobiModel.update()
         self.opt.gurobiModel.optimize()
 
         status = self.opt.gurobiModel.status

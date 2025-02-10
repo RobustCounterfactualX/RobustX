@@ -14,28 +14,18 @@ import time
 from tabulate import tabulate
 
 
-def quick_tabulate(dl: DatasetLoader, model: BaseModel, methods: Dict[str, CEGenerator.__class__],
-                   subset: pd.DataFrame = None, preprocess=True, **params):
+def default_benchmark(ct: ClassificationTask, methods: Dict[str, CEGenerator.__class__],
+                   subset: pd.DataFrame = None, **params):
     """
     Generates and prints a table summarizing the performance of different counterfactual explanation generation methods.
 
-    @param dl: DatasetLoader, The dataset loader to preprocess and provide data for the classification task.
-    @param model: BaseModel, The model to be trained and evaluated.
+    @param ct: ClassificationTask.
     @param methods: Dict[str, RecourseGenerator.__class__], A dictionary where keys are method names and values are
                     classes of CE generation methods to evaluate.
     @param subset: optional DataFrame, subset of instances you would like to generate CEs on
-    @param preprocess: optional Boolean, whether you want to preprocess the dataset or not, example datasets only
     @param **params: Additional parameters to be passed to the CE generation methods and evaluators.
     @return: None
     """
-
-    # Preprocess example datasets
-    if preprocess and isinstance(dl, ExampleDatasetLoader):
-        dl.default_preprocess()
-
-    # Create and train task
-    model.train(dl.X, dl.y)
-    ct = ClassificationTask(model, dl)
 
     results = []
 

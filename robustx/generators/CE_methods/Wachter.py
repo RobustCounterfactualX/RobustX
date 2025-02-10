@@ -40,8 +40,8 @@ class Wachter(CEGenerator):
     using gradient descent.
     """
 
-    def _generation_method(self, instance, column_name="target", neg_value=0, lamb=0.1, lr=0.01,
-                           max_iter=1000000000, max_allowed_minutes=0.5, epsilon=0.001, **kwargs):
+    def _generation_method(self, instance, column_name="target", neg_value=0, lamb=0.1, lr=0.02,
+                           max_iter=10000000, max_allowed_minutes=0.5, epsilon=0.001, **kwargs):
         """
         Generates a counterfactual explanation using gradient descent, based on Wachter's method.
 
@@ -80,7 +80,7 @@ class Wachter(CEGenerator):
         class_prob = self.task.model.predict_proba_tensor(wac)
         wac_valid = False
         iterations = 0
-        if y_target == 0 and class_prob < 0.5 or y_target == 1 and class_prob >= 0.5:
+        if y_target == 0 and class_prob >= 0.5 or y_target == 1 and class_prob < 0.5:
             wac_valid = True
 
         # set maximum allowed time for computing 1 counterfactual
@@ -98,7 +98,7 @@ class Wachter(CEGenerator):
 
             # break conditions
             p = class_prob[0].item()
-            if (neg_value and p + epsilon < 0.5) or (not neg_value and p - epsilon >= 0.5):
+            if (neg_value and p + epsilon >= 0.5) or (not neg_value and p - epsilon < 0.5):
                 wac_valid = True
             if datetime.datetime.now() - t0 > t_max:
                 break

@@ -7,7 +7,7 @@ from robustx.robustness_evaluations.DeltaRobustnessEvaluator import DeltaRobustn
 from robustx.robustness_evaluations.ModelChangesRobustnessEvaluator import ModelChangesRobustnessEvaluator
 
 
-class TrexNN(CEGenerator):
+class STCE(CEGenerator):
     """
     A counterfactual explanation generator that uses the T-Rex method for finding robust counterfactual explanations.
 
@@ -84,6 +84,6 @@ class TrexNN(CEGenerator):
         model_scores.columns = range(model_scores.shape[1])
 
         # Calculate the stability score using tensor operations
-        res = torch.tensor(np.sum((model_scores - (model_scores - score_x).abs()) / len(model_scores)),
+        res = torch.tensor(np.sum((model_scores.values - abs((model_scores.values - score_x.values))) / len(model_scores.values)),
                            requires_grad=True)
         return res

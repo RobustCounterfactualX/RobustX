@@ -45,10 +45,13 @@ class DistanceEvaluator(CEEvaluator):
         @param kwargs: other arguments
         @return: int, average distance of CEs from their original instances
         """
-        df1 = counterfactuals.drop(columns=[column_name, "loss"], errors='ignore')
+        if 'predicted' in counterfactuals.columns and 'Loss' in counterfactuals.columns:
+            counterfactuals = counterfactuals.drop(columns=['predicted', 'Loss']).astype(np.float32)
+
+        df1 = counterfactuals
 
         if subset is None:
-            df2 = self.task.training_data.get_negative_instances(neg_value=1 - valid_val, column_name=column_name)
+            df2 = self.task.get_negative_instances(neg_value=1 - valid_val, column_name=column_name)
         else:
             df2 = subset
 

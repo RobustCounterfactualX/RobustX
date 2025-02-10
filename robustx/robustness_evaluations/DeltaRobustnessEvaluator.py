@@ -27,7 +27,7 @@ class DeltaRobustnessEvaluator(ModelChangesRobustnessEvaluator):
         super().__init__(ct)
         self.opt = OptSolver(ct)
 
-    def evaluate(self, instance, desired_output=1, delta=0.5, bias_delta=0, M=10000, epsilon=0.0001):
+    def evaluate(self, instance, desired_output=1, delta=0.005, bias_delta=0.005, M=10000, epsilon=0.0001):
         """
         Evaluates whether the instance is Delta-robust.
 

@@ -116,11 +116,22 @@ class PROPLACE(CEGenerator):
             bp = self.b_primes[i]
             gurobi_model = self._master_prob_add_one_model(gurobi_model, wp, bp, i, input_vars)
         # set objective
-        objective = gurobi_model.addVar(name="objective")
-        gurobi_model.addConstr(objective == quicksum(
-            (input_vars[f'v_0_{i}'] - ilist[i]) ** 2 for i in range(len(self.task.training_data.X.columns))))
-        gurobi_model.update()
-        gurobi_model.setObjective(objective, GRB.MINIMIZE)
+        # objective = gurobi_model.addVar(name="objective")
+        # gurobi_model.addConstr(objective == quicksum(
+        #     (input_vars[f'v_0_{i}'] - ilist[i]) ** 2 for i in range(len(self.task.training_data.X.columns))))
+
+        obj_vars_l1 = []
+        for i in range(len(self.task.training_data.X.columns)):
+            gurobi_model.update()
+            key = f"v_0_{i}"
+            this_obj_var_l1 = gurobi_model.addVar(vtype=GRB.SEMICONT, lb=-GRB.INFINITY, name=f"objl1_feat_{i}")
+            gurobi_model.addConstr(this_obj_var_l1 >= ilist[i] - input_vars[key])
+            gurobi_model.addConstr(this_obj_var_l1 >= input_vars[key] - ilist[i])
+            obj_vars_l1.append(this_obj_var_l1)
+        gurobi_model.setObjective(quicksum(obj_vars_l1), GRB.MINIMIZE)
+
+        # gurobi_model.update()
+        # gurobi_model.setObjective(objective, GRB.MINIMIZE)
         gurobi_model.update()
         gurobi_model.Params.NonConvex = 2
         gurobi_model.optimize()

@@ -133,7 +133,8 @@ class SimpleNNModel(BaseModel):
         @return: Predictions as a pandas DataFrame.
         """
         if not isinstance(X, torch.Tensor):
-            X = torch.tensor(X.values, dtype=torch.float32)
+            # X = torch.tensor(X.values, dtype=torch.float32)
+            X = torch.from_numpy(X.values.astype(float)).float()
         return pd.DataFrame(self._model(X).detach().numpy())
 
     def predict_single(self, x) -> int:
@@ -144,8 +145,9 @@ class SimpleNNModel(BaseModel):
         @return: Prediction as an integer (0 or 1).
         """
         if not isinstance(x, torch.Tensor):
-            x = torch.tensor(x.values, dtype=torch.float32)
-        return 0 if self.predict_proba(x).iloc[0, 0] < 0.5 else 1
+            # x = torch.tensor(x.values, dtype=torch.float32)
+            x = torch.from_numpy(x.values.astype(float)).float()
+        return 0 if self.predict_proba(x).iloc[0, 0] > 0.5 else 1
 
     def evaluate(self, X, y):
         """

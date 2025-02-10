@@ -30,8 +30,8 @@ class MCER(CEGenerator):
         self.mce = MCE(ct)
         self.evaluator = evaluator(ct)
 
-    def _generation_method(self, instance, column_name="target", neg_value=0, M=1000, epsilon=0.0001,
-                           threshold=1000, increment=1, delta=0.005, bias_delta=0, **kwargs) -> pd.DataFrame:
+    def _generation_method(self, instance, column_name="target", neg_value=0, M=100000, epsilon=0.0001,
+                           threshold=50, increment=0.03, delta=0.005, bias_delta=0.005, **kwargs) -> pd.DataFrame:
         """
         Generates a robust counterfactual explanation for a provided instance by iterating over different minimum distances
         and evaluating robustness until the threshold is reached or a robust counterfactual is found.
@@ -70,7 +70,7 @@ class MCER(CEGenerator):
 
             # MCE returns original instance if solution doesn't exist
             if ce.equals(instance_df):
-                print("No possible solution for given parameters - maybe your delta is TOO HIGH!")
+                # print("No possible solution for given parameters - maybe your delta is TOO HIGH!")
                 return ce
 
             # If solution exists, check robustness, if robust return
@@ -82,5 +82,5 @@ class MCER(CEGenerator):
             i += 1
             minimum_distance += increment
 
-        print("Exceeded threshold before finding robust CE - maybe your delta is TOO HIGH!")
+        # print("Exceeded threshold before finding robust CE - maybe your delta is TOO HIGH!")
         return ce

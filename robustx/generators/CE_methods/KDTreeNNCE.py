@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 import torch
 from sklearn.neighbors import KDTree
 
@@ -33,42 +34,29 @@ class KDTreeNNCE(CEGenerator):
         """
         model = self.task.model
 
-        # Convert X values of dataset to tensor
-        X_tensor = torch.tensor(self.task.training_data.X.values, dtype=torch.float32)
-
-        # Get all model predictions of model, turning them to 0s or 1s
-        model_labels = model.predict(X_tensor)
-        model_labels = (model_labels >= 0.5).astype(int)
+        preds = model.predict(self.task.training_data.X)
+        idxs_1 = np.where(preds.values.flatten()>=0.5)[0]
+        idxs_0 = np.array([i for i in range(len(preds.values.flatten())) if i not in idxs_1])
 
         # Determine the target label
-        y = neg_value
-        nnce_y = 1 - y
-
-        # Convert instance to DataFrame if it is a Series
-        if isinstance(instance, pd.Series):
-            instance = instance.to_frame().T
-
-        # Prepare the data
-        preds = self.task.training_data.X.copy()
-        preds["predicted"] = model_labels
+        nnce_y = 1 - neg_value
 
         # Filter out instances that have the desired counterfactual label
-        positive_instances = preds[preds["predicted"] == nnce_y].drop(columns=["predicted"])
+        positive_instances = self.task.training_data.X.values
+        if nnce_y:
+            positive_instances = positive_instances[idxs_1]
+        else:
+            positive_instances = positive_instances[idxs_0]
 
         # If there are no positive instances, return None
-        if positive_instances.empty:
+        if len(positive_instances) == 0:
             return instance
 
         # Build KD-Tree
-        kd_tree = KDTree(positive_instances.values)
+        kd_tree = KDTree(positive_instances)
 
         # Query the KD-Tree for the nearest neighbour
-        dist, idx = kd_tree.query(instance.values, k=1, return_distance=True)
-        nearest_instance = positive_instances.iloc[idx[0]]
+        dist, idx = kd_tree.query(instance.values.astype(float).reshape(1, -1), k=1, return_distance=True)
+        nearest_instance = positive_instances[idx[0]]
 
-        nearest_instance["predicted"] = nnce_y
-
-        # Add the distance as a new column
-        nearest_instance["Loss"] = dist[0]
-
-        return nearest_instance
+        return pd.DataFrame(nearest_instance, columns=self.task.training_data.X.columns)

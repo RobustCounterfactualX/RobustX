@@ -3,7 +3,7 @@ from sklearn.preprocessing import StandardScaler
 
 from robustx.datasets.ExampleDatasets import get_example_dataset
 from robustx.datasets.custom_datasets.CsvDatasetLoader import CsvDatasetLoader
-from robustx.lib.QuickTabulate import quick_tabulate
+from robustx.lib.DefaultBenchmark import quick_tabulate
 from robustx.lib.models.pytorch_models.SimpleNNModel import SimpleNNModel
 from robustx.generators.robust_CE_methods.STCE import TrexNN
 from robustx.generators.CE_methods.BinaryLinearSearch import BinaryLinearSearch

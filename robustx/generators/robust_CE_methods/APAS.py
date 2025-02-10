@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import torch
 from robustx.generators.CEGenerator import CEGenerator
+from robustx.generators.CE_methods.KDTreeNNCE import KDTreeNNCE
 from robustx.robustness_evaluations.ApproximateDeltaRobustnessEvaluator import ApproximateDeltaRobustnessEvaluator
 from robustx.lib.tasks.Task import Task
 
@@ -22,7 +23,7 @@ class APAS(CEGenerator):
         alpha = confidence level in the robustness evaluator
     """
 
-    def __init__(self, task: Task, CE_generator: CEGenerator, alpha: float):
+    def __init__(self, task: Task, CE_generator=KDTreeNNCE, alpha=0.999):
         """
         Initializes the APAS CE generator with a given task and a CE generator.
 

@@ -35,6 +35,16 @@ class Task(ABC):
         """
         pass
 
+    def get_negative_instances(self, neg_value=0, column_name="target") -> pd.DataFrame:
+        """
+        Abstract method to retrieve all the negative instances in the dataset as predicted by the model.
+
+        @param neg_value: The value considered negative in the target variable.
+        @param column_name: The name of the target column.
+        @return: All instances with a negative target value predicted by the model.
+        """
+        pass
+
     @property
     def training_data(self):
         """

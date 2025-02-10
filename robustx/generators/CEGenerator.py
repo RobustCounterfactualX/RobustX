@@ -1,7 +1,5 @@
 from abc import ABC, abstractmethod
-
 import pandas as pd
-
 from robustx.lib.tasks.Task import Task
 
 
@@ -76,7 +74,18 @@ class CEGenerator(ABC):
         @param distance_func: The method to calculate the distance between two points. Options are 'l1' / 'manhattan', 'l2' / 'euclidean', and 'custom'.
         @return: A DataFrame of the counterfactuals for all negative values.
         """
-        negatives = self.task.training_data.get_negative_instances(neg_value, column_name=column_name)
+
+        negatives = self.task.get_negative_instances(neg_value, column_name=column_name)
+        # preds = self.task.model.predict(self.task.training_data.X).values.flatten()
+        #
+        # if neg_value == 0:
+        #     idxs = np.where(preds < 0.5)[0]
+        #     negatives = self.task.training_data.data.drop(columns=[column_name])
+        #     negatives = pd.DataFrame(negatives.values[idxs], columns=negatives.columns)
+        # else:
+        #     idxs = np.where(preds >= 0.5)[0]
+        #     negatives = self.task.training_data.data.drop(columns=[column_name])
+        #     negatives = pd.DataFrame(negatives.values[idxs], columns=negatives.columns)
 
         counterfactuals = self.generate(
             negatives,

@@ -1,5 +1,5 @@
 import pandas as pd
-
+import numpy as np
 from robustx.evaluations.CEEvaluator import CEEvaluator
 
 
@@ -51,8 +51,11 @@ class ValidityEvaluator(CEEvaluator):
         valid = 0
         cnt = 0
 
+        instances = counterfactuals
+
         # Remove redundant columns
-        instances = counterfactuals.drop(columns=[column_name, "loss"], errors='ignore')
+        if 'predicted' in counterfactuals.columns and 'Loss' in counterfactuals.columns:
+            instances = counterfactuals.drop(columns=['predicted', 'Loss']).astype(np.float32)
 
         for _, instance in instances.iterrows():
 

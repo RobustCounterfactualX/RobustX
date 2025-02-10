@@ -160,6 +160,16 @@ class SimpleNNModel(BaseModel):
         predictions = self.predict(X)
         accuracy = (predictions.view(-1) == torch.tensor(y.values)).float().mean()
         return accuracy.item()
+    
+    def compute_accuracy(self, X_test, y_test):
+        with torch.no_grad():
+            X_tensor = torch.FloatTensor(X_test)
+            y_tensor = torch.FloatTensor(y_test).view(-1, 1)
+            y_pred = self._model(X_tensor)
+            y_pred_classes = (y_pred > 0.5).float()
+            accuracy = (y_pred_classes.view(-1) == y_tensor.view(-1)).float().mean().item()
+            
+        return accuracy
 
     def predict_proba(self, x: torch.Tensor) -> pd.DataFrame:
         """

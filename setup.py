@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 if __name__ == "__main__":
     setup(
-        name='RoCELib',
+        name='robustx',
         version='0.1.0',
         packages=find_packages(),
         install_requires=[
@@ -10,7 +10,7 @@ if __name__ == "__main__":
             'pandas',
             'scikit-learn',
         ],
-        author='Aaryan Purohit, Junqi Jiang, Luca Marzari, Francesco Leofante',
+        author='Junqi Jiang, Luca Marzari, Aaryan Purohit, Francesco Leofante',
         description='A library for generating robust counterfactual explanations.',
         python_requires='>=3.7',
     )

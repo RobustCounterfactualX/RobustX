@@ -1,4 +1,5 @@
 import pandas as pd
+from sklearn.model_selection import train_test_split
 from robustx.datasets.ExampleDatasets import get_example_dataset
 from robustx.datasets.custom_datasets.CsvDatasetLoader import CsvDatasetLoader
 from robustx.generators.CE_methods.KDTreeNNCE import KDTreeNNCE
@@ -42,15 +43,33 @@ def test_apas() -> None:
     # # Set the custom weights
     # model.set_weights(weights)
 
+
+    # create a train-test split
+    target_column = "target"
+    X_train, X_test, y_train, y_test = train_test_split(dl.data.drop(columns=[target_column]), dl.data[target_column], test_size=0.2, random_state=0)
+
+    accuracy = model.compute_accuracy(X_test.values, y_test.values)
+      # Display results
+    print("Model accuracy before training: ", accuracy)
+
+    model.train(X_train, y_train, epochs=100)
+
+    accuracy = model.compute_accuracy(X_test.values, y_test.values)
+      # Display results
+    print("Model accuracy after training: ", accuracy)
+
+  
     # Create task
     task = ClassificationTask(model, dl)
 
-    # Train model on dataset
-    task.train()
-    counterfactual_label = 1
+ 
+    counterfactual_label = 0
 
     # retrieves a random instance from the training data that does not produce the specified counterfactual_label value, i.e., a valid instance
-    pos_instance = task.get_random_positive_instance(neg_value=counterfactual_label, column_name="target")
+    pos_instance = X_test[y_test == counterfactual_label].iloc[0]
+    if model.predict_single(pos_instance) == counterfactual_label:
+        print("The selected instance is valid")
+   
     
     # instanciate the robust_recourse_generator method. The APAS method is used to generate robust recourse
     confidence = 0.999

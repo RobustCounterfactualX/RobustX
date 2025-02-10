@@ -1,7 +1,7 @@
-from rocelib.datasets.ExampleDatasets import get_example_dataset
-from rocelib.lib.models.pytorch_models.SimpleNNModel import SimpleNNModel
-from rocelib.generators.robust_CE_methods.RNCE import RNCE
-from rocelib.lib.tasks.ClassificationTask import ClassificationTask
+from robustx.datasets.ExampleDatasets import get_example_dataset
+from robustx.lib.models.pytorch_models.SimpleNNModel import SimpleNNModel
+from robustx.generators.robust_CE_methods.RNCE import RNCE
+from robustx.lib.tasks.ClassificationTask import ClassificationTask
 
 
 def test_rnce() -> None:

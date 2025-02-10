@@ -1,16 +1,16 @@
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
 
-from rocelib.datasets.ExampleDatasets import get_example_dataset
-from rocelib.datasets.custom_datasets.CsvDatasetLoader import CsvDatasetLoader
-from rocelib.lib.QuickTabulate import quick_tabulate
-from rocelib.lib.models.pytorch_models.SimpleNNModel import SimpleNNModel
-from rocelib.generators.robust_CE_methods.STCE import TrexNN
-from rocelib.generators.CE_methods.BinaryLinearSearch import BinaryLinearSearch
-from rocelib.generators.CE_methods.MCE import MCE
-from rocelib.generators.robust_CE_methods.MCER import MCER
-from rocelib.generators.robust_CE_methods.RNCE import RNCE
-from rocelib.generators.CE_methods.Wachter import Wachter
+from robustx.datasets.ExampleDatasets import get_example_dataset
+from robustx.datasets.custom_datasets.CsvDatasetLoader import CsvDatasetLoader
+from robustx.lib.QuickTabulate import quick_tabulate
+from robustx.lib.models.pytorch_models.SimpleNNModel import SimpleNNModel
+from robustx.generators.robust_CE_methods.STCE import TrexNN
+from robustx.generators.CE_methods.BinaryLinearSearch import BinaryLinearSearch
+from robustx.generators.CE_methods.MCE import MCE
+from robustx.generators.robust_CE_methods.MCER import MCER
+from robustx.generators.robust_CE_methods.RNCE import RNCE
+from robustx.generators.CE_methods.Wachter import Wachter
 
 
 def test_quick_tabulate():

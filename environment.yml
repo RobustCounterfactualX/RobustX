@@ -1,4 +1,4 @@
-name: RoCELib
+name: robustx
 channels:
   - pytorch
   - https://conda.anaconda.org/gurobi

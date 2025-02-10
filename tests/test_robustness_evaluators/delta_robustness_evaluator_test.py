@@ -1,12 +1,12 @@
 import pandas as pd
 import torch
 
-from rocelib.datasets.ExampleDatasets import get_example_dataset
-from rocelib.datasets.custom_datasets.CsvDatasetLoader import CsvDatasetLoader
-from rocelib.lib.models.pytorch_models.SimpleNNModel import SimpleNNModel
-from rocelib.generators.CE_methods.KDTreeNNCE import KDTreeNNCE
-from rocelib.robustness_evaluations.DeltaRobustnessEvaluator import DeltaRobustnessEvaluator
-from rocelib.lib.tasks.ClassificationTask import ClassificationTask
+from robustx.datasets.ExampleDatasets import get_example_dataset
+from robustx.datasets.custom_datasets.CsvDatasetLoader import CsvDatasetLoader
+from robustx.lib.models.pytorch_models.SimpleNNModel import SimpleNNModel
+from robustx.generators.CE_methods.KDTreeNNCE import KDTreeNNCE
+from robustx.robustness_evaluations.DeltaRobustnessEvaluator import DeltaRobustnessEvaluator
+from robustx.lib.tasks.ClassificationTask import ClassificationTask
 
 
 def test_from_example_8_in_paper():

@@ -1,12 +1,12 @@
 import numpy as np
 import pandas as pd
 
-from rocelib.datasets.ExampleDatasets import get_example_dataset
-from rocelib.datasets.custom_datasets.CsvDatasetLoader import CsvDatasetLoader
-from rocelib.lib.models.Models import get_sklearn_model
-from rocelib.lib.models.pytorch_models.SimpleNNModel import SimpleNNModel
-from rocelib.generators.CE_methods.BinaryLinearSearch import BinaryLinearSearch
-from rocelib.lib.tasks.ClassificationTask import ClassificationTask
+from robustx.datasets.ExampleDatasets import get_example_dataset
+from robustx.datasets.custom_datasets.CsvDatasetLoader import CsvDatasetLoader
+from robustx.lib.models.Models import get_sklearn_model
+from robustx.lib.models.pytorch_models.SimpleNNModel import SimpleNNModel
+from robustx.generators.CE_methods.BinaryLinearSearch import BinaryLinearSearch
+from robustx.lib.tasks.ClassificationTask import ClassificationTask
 
 
 def test_binary_linear_search_nn() -> None:

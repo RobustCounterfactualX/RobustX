@@ -1,7 +1,7 @@
-from rocelib.datasets.ExampleDatasets import get_example_dataset
-from rocelib.lib.models.pytorch_models.SimpleNNModel import SimpleNNModel
-from rocelib.generators.CE_methods.ModelMultiplicityMILP import ModelMultiplicityMILP
-from rocelib.lib.tasks.ClassificationTask import ClassificationTask
+from robustx.datasets.ExampleDatasets import get_example_dataset
+from robustx.lib.models.pytorch_models.SimpleNNModel import SimpleNNModel
+from robustx.generators.CE_methods.ModelMultiplicityMILP import ModelMultiplicityMILP
+from robustx.lib.tasks.ClassificationTask import ClassificationTask
 
 
 def test_mce_predicts_positive_instances():

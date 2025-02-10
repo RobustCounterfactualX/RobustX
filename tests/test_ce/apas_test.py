@@ -1,15 +1,15 @@
 import pandas as pd
-from rocelib.datasets.ExampleDatasets import get_example_dataset
-from rocelib.datasets.custom_datasets.CsvDatasetLoader import CsvDatasetLoader
-from rocelib.generators.CE_methods.KDTreeNNCE import KDTreeNNCE
-from rocelib.generators.CE_methods.Wachter import Wachter
-from rocelib.lib.models.pytorch_models.SimpleNNModel import SimpleNNModel
-from rocelib.generators.robust_CE_methods.APAS import APAS
-from rocelib.lib.tasks.ClassificationTask import ClassificationTask
+from robustx.datasets.ExampleDatasets import get_example_dataset
+from robustx.datasets.custom_datasets.CsvDatasetLoader import CsvDatasetLoader
+from robustx.generators.CE_methods.KDTreeNNCE import KDTreeNNCE
+from robustx.generators.CE_methods.Wachter import Wachter
+from robustx.lib.models.pytorch_models.SimpleNNModel import SimpleNNModel
+from robustx.generators.robust_CE_methods.APAS import APAS
+from robustx.lib.tasks.ClassificationTask import ClassificationTask
 import warnings
 import torch
 
-from rocelib.robustness_evaluations.ApproximateDeltaRobustnessEvaluator import ApproximateDeltaRobustnessEvaluator
+from robustx.robustness_evaluations.ApproximateDeltaRobustnessEvaluator import ApproximateDeltaRobustnessEvaluator
 warnings.filterwarnings("ignore")
 
 

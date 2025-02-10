@@ -1,10 +1,10 @@
-from rocelib.datasets.ExampleDatasets import get_example_dataset
-from rocelib.datasets.custom_datasets.CsvDatasetLoader import CsvDatasetLoader
-from rocelib.lib.models.Models import get_sklearn_model
-from rocelib.lib.models.pytorch_models.SimpleNNModel import SimpleNNModel
-from rocelib.generators.CE_methods.KDTreeNNCE import KDTreeNNCE
-from rocelib.generators.CE_methods.NNCE import NNCE
-from rocelib.lib.tasks.ClassificationTask import ClassificationTask
+from robustx.datasets.ExampleDatasets import get_example_dataset
+from robustx.datasets.custom_datasets.CsvDatasetLoader import CsvDatasetLoader
+from robustx.lib.models.Models import get_sklearn_model
+from robustx.lib.models.pytorch_models.SimpleNNModel import SimpleNNModel
+from robustx.generators.CE_methods.KDTreeNNCE import KDTreeNNCE
+from robustx.generators.CE_methods.NNCE import NNCE
+from robustx.lib.tasks.ClassificationTask import ClassificationTask
 
 
 def test_kdtree_nnce() -> None:

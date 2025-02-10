@@ -1,4 +1,4 @@
-from rocelib.datasets.ExampleDatasets import get_example_dataset
+from robustx.datasets.ExampleDatasets import get_example_dataset
 
 iris = get_example_dataset("iris")
 

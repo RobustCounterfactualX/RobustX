@@ -1,8 +1,8 @@
-from rocelib.datasets.ExampleDatasets import get_example_dataset
-from rocelib.lib.models.pytorch_models.SimpleNNModel import SimpleNNModel
-from rocelib.generators.robust_CE_methods.PROPLACE import PROPLACE
-from rocelib.lib.tasks.ClassificationTask import ClassificationTask
-from rocelib.robustness_evaluations.DeltaRobustnessEvaluator import DeltaRobustnessEvaluator
+from robustx.datasets.ExampleDatasets import get_example_dataset
+from robustx.lib.models.pytorch_models.SimpleNNModel import SimpleNNModel
+from robustx.generators.robust_CE_methods.PROPLACE import PROPLACE
+from robustx.lib.tasks.ClassificationTask import ClassificationTask
+from robustx.robustness_evaluations.DeltaRobustnessEvaluator import DeltaRobustnessEvaluator
 
 
 def test_proplace() -> None:

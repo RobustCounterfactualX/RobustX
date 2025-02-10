@@ -1,8 +1,8 @@
-from rocelib.datasets.ExampleDatasets import get_example_dataset
-from rocelib.evaluations.ValidityEvaluator import ValidityEvaluator
-from rocelib.lib.models.pytorch_models.SimpleNNModel import SimpleNNModel
-from rocelib.generators.CE_methods.Wachter import Wachter
-from rocelib.lib.tasks.ClassificationTask import ClassificationTask
+from robustx.datasets.ExampleDatasets import get_example_dataset
+from robustx.evaluations.ValidityEvaluator import ValidityEvaluator
+from robustx.lib.models.pytorch_models.SimpleNNModel import SimpleNNModel
+from robustx.generators.CE_methods.Wachter import Wachter
+from robustx.lib.tasks.ClassificationTask import ClassificationTask
 
 
 def test_wachter() -> None:

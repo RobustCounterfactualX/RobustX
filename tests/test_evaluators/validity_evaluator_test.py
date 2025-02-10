@@ -1,9 +1,9 @@
-from rocelib.datasets.ExampleDatasets import get_example_dataset
-from rocelib.evaluations.ValidityEvaluator import ValidityEvaluator
-from rocelib.lib.distance_functions.DistanceFunctions import manhattan
-from rocelib.lib.models.Models import get_sklearn_model
-from rocelib.generators.CE_methods.BinaryLinearSearch import BinaryLinearSearch
-from rocelib.lib.tasks.ClassificationTask import ClassificationTask
+from robustx.datasets.ExampleDatasets import get_example_dataset
+from robustx.evaluations.ValidityEvaluator import ValidityEvaluator
+from robustx.lib.distance_functions.DistanceFunctions import manhattan
+from robustx.lib.models.Models import get_sklearn_model
+from robustx.generators.CE_methods.BinaryLinearSearch import BinaryLinearSearch
+from robustx.lib.tasks.ClassificationTask import ClassificationTask
 
 
 def test_validity():

@@ -72,7 +72,7 @@ class Wachter(CEGenerator):
 
         # TASK: specify target label y: either 0 or 1, depending on the original prediction
         # something like this
-        y_target = torch.Tensor([[1 - neg_value]])
+        y_target = torch.Tensor([1 - neg_value])
 
         # the total loss in the instructions: loss = validity_loss + lamb * cost_loss
 

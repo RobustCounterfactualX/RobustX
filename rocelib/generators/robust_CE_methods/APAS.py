@@ -1,3 +1,6 @@
+import numpy as np
+import pandas as pd
+import torch
 from rocelib.generators.CEGenerator import CEGenerator
 from rocelib.robustness_evaluations.ApproximateDeltaRobustnessEvaluator import ApproximateDeltaRobustnessEvaluator
 from rocelib.lib.tasks.Task import Task
@@ -36,7 +39,7 @@ class APAS(CEGenerator):
                             target_column_name="target",
                             desired_outcome=0,
                             delta_max=0.5,
-                            maximum_iterations=1000,
+                            maximum_iterations=1000, verbose=False,
                            **kwargs):
         
         """
@@ -53,25 +56,25 @@ class APAS(CEGenerator):
         
         iterations = 0
         robustness_check = ApproximateDeltaRobustnessEvaluator(self.task, self.alpha)
+      
+        for i in range(maximum_iterations):
+            if verbose: print(f"Iteration {i}/{maximum_iterations}")
+            ce = self.rg._generation_method(instance=original_input)
 
-        print("original_input\n", original_input)
-        print("\nwith prediction: ", self._task.model.predict_single(original_input))
-     
-        for _ in range(maximum_iterations):
-            ce = self.rg._generation_method(instance=original_input, neg_value=1-desired_outcome)
-            ce = ce.drop(columns=['predicted', 'Loss'])            
-            valid = self._task.model.predict_single(ce) == desired_outcome
-            if not valid:
-                print("Counterfactual explanation is invalid...")
-                quit()
+            # check if column names contains ['predicted', 'Loss'] columns
+            if 'predicted' in ce.columns and 'Loss' in ce.columns:
+                ce = ce.drop(columns=['predicted', 'Loss']).astype(np.float32)   
 
-            robustness = robustness_check.evaluate(ce.T, desired_outcome=desired_outcome, delta=delta_max)
+            ce = torch.tensor(ce.values[0], dtype=torch.float32)
+  
+            robustness = robustness_check.evaluate(ce, desired_outcome=desired_outcome, delta=delta_max)
             if robustness:
                 return ce
             
             iterations += 1
 
-        return None
+        print("No robust counterfactual explanation found for the given perturbation.")
+        return pd.DataFrame(original_input).T
 
 
 

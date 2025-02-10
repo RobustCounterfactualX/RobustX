@@ -125,3 +125,7 @@ class BaseModel(ABC):
         @return: The model object.
         """
         return self._model
+    
+    @abstractmethod
+    def __repr__(self):
+        pass

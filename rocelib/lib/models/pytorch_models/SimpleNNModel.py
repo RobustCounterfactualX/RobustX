@@ -198,3 +198,7 @@ class SimpleNNModel(BaseModel):
         @return: The PyTorch model.
         """
         return self._model
+    
+    def __repr__(self):
+        return str(self._model)
+

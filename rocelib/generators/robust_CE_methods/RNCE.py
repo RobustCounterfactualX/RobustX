@@ -10,7 +10,7 @@ from functools import lru_cache
 
 class RNCE(CEGenerator):
     """
-    A recourse generator that finds robust nearest counterfactual examples using KDTree.
+    A counterfactual explanation generator that finds robust nearest counterfactual examples using KDTree.
 
     Inherits from the CEGenerator class and implements the _generation_method to find counterfactual examples 
     that are robust to perturbations. It leverages KDTree for nearest neighbor search and uses a robustness evaluator 
@@ -22,7 +22,7 @@ class RNCE(CEGenerator):
 
     def __init__(self, task: Task):
         """
-        Initializes the RNCE recourse generator with a given task and robustness evaluator.
+        Initializes the RNCE CE generator with a given task and robustness evaluator.
 
         @param task: The task to solve, provided as a Task instance.
         """

@@ -24,13 +24,6 @@ class Task(ABC):
         self._training_data = training_data
         self.__model = model
 
-    @abstractmethod
-    def train(self, **kwargs):
-        """
-        Abstract method to train the model on the provided training data.
-        Must be implemented by subclasses.
-        """
-        pass
 
     def get_random_positive_instance(self, neg_value, column_name="target") -> pd.Series:
         """

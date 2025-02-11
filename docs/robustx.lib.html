@@ -1,0 +1,314 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>robustx.lib package &mdash; robustx  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+    <link rel="canonical" href="https://robustcounterfactualx.github.io/RobustX/robustx.lib.html" />
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9a2dae69"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="robustx.lib.distance_functions package" href="robustx.lib.distance_functions.html" />
+    <link rel="prev" title="robustx.generators.robust_CE_methods package" href="robustx.generators.robust_CE_methods.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            robustx
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">robustx</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="robustx.html">robustx package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="robustx.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="robustx.datasets.html">robustx.datasets package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="robustx.evaluations.html">robustx.evaluations package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="robustx.generators.html">robustx.generators package</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">robustx.lib package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="robustx.model_evaluations.html">robustx.model_evaluations package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="robustx.robustness_evaluations.html">robustx.robustness_evaluations package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="robustx.html#module-robustx">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">robustx</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">robustx</a></li>
+          <li class="breadcrumb-item"><a href="robustx.html">robustx package</a></li>
+      <li class="breadcrumb-item active">robustx.lib package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/robustx.lib.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="robustx-lib-package">
+<h1>robustx.lib package<a class="headerlink" href="#robustx-lib-package" title="Link to this heading"></a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="robustx.lib.distance_functions.html">robustx.lib.distance_functions package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="robustx.lib.distance_functions.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="robustx.lib.distance_functions.html#module-robustx.lib.distance_functions.DistanceFunctions">robustx.lib.distance_functions.DistanceFunctions module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="robustx.lib.distance_functions.html#robustx.lib.distance_functions.DistanceFunctions.euclidean"><code class="docutils literal notranslate"><span class="pre">euclidean()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="robustx.lib.distance_functions.html#robustx.lib.distance_functions.DistanceFunctions.manhattan"><code class="docutils literal notranslate"><span class="pre">manhattan()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="robustx.lib.distance_functions.html#module-robustx.lib.distance_functions">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="robustx.lib.intabs.html">robustx.lib.intabs package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="robustx.lib.intabs.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="robustx.lib.intabs.html#module-robustx.lib.intabs.IntervalAbstractionPyTorch">robustx.lib.intabs.IntervalAbstractionPyTorch module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="robustx.lib.intabs.html#robustx.lib.intabs.IntervalAbstractionPyTorch.IntervalAbstractionPytorch"><code class="docutils literal notranslate"><span class="pre">IntervalAbstractionPytorch</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="robustx.lib.intabs.html#robustx.lib.intabs.IntervalAbstractionPyTorch.IntervalAbstractionPytorch.evaluate"><code class="docutils literal notranslate"><span class="pre">IntervalAbstractionPytorch.evaluate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="robustx.lib.intabs.html#robustx.lib.intabs.IntervalAbstractionPyTorch.IntervalAbstractionPytorch.create_weights_and_bias_dictionary"><code class="docutils literal notranslate"><span class="pre">IntervalAbstractionPytorch.create_weights_and_bias_dictionary()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="robustx.lib.intabs.html#module-robustx.lib.intabs.WeightBiasDictionary">robustx.lib.intabs.WeightBiasDictionary module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="robustx.lib.intabs.html#robustx.lib.intabs.WeightBiasDictionary.create_weights_and_bias_dictionary"><code class="docutils literal notranslate"><span class="pre">create_weights_and_bias_dictionary()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="robustx.lib.intabs.html#module-robustx.lib.intabs">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="robustx.lib.models.html">robustx.lib.models package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="robustx.lib.models.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="robustx.lib.models.keras_models.html">robustx.lib.models.keras_models package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="robustx.lib.models.keras_models.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="robustx.lib.models.keras_models.html#robustx-lib-models-keras-models-simplekerasnnmodel-module">robustx.lib.models.keras_models.SimpleKerasNNModel module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="robustx.lib.models.keras_models.html#module-robustx.lib.models.keras_models">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="robustx.lib.models.pytorch_models.html">robustx.lib.models.pytorch_models package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="robustx.lib.models.pytorch_models.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="robustx.lib.models.pytorch_models.html#module-robustx.lib.models.pytorch_models.CustomPyTorchModel">robustx.lib.models.pytorch_models.CustomPyTorchModel module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="robustx.lib.models.pytorch_models.html#module-robustx.lib.models.pytorch_models.SimpleNNModel">robustx.lib.models.pytorch_models.SimpleNNModel module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="robustx.lib.models.pytorch_models.html#module-robustx.lib.models.pytorch_models">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="robustx.lib.models.sklearn_models.html">robustx.lib.models.sklearn_models package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="robustx.lib.models.sklearn_models.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="robustx.lib.models.sklearn_models.html#module-robustx.lib.models.sklearn_models.DecisionTreeModel">robustx.lib.models.sklearn_models.DecisionTreeModel module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="robustx.lib.models.sklearn_models.html#module-robustx.lib.models.sklearn_models.LogisticRegressionModel">robustx.lib.models.sklearn_models.LogisticRegressionModel module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="robustx.lib.models.sklearn_models.html#module-robustx.lib.models.sklearn_models.SVMModel">robustx.lib.models.sklearn_models.SVMModel module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="robustx.lib.models.sklearn_models.html#module-robustx.lib.models.sklearn_models.SklearnModel">robustx.lib.models.sklearn_models.SklearnModel module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="robustx.lib.models.sklearn_models.html#module-robustx.lib.models.sklearn_models">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="robustx.lib.models.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="robustx.lib.models.html#module-robustx.lib.models.BaseModel">robustx.lib.models.BaseModel module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="robustx.lib.models.html#robustx.lib.models.BaseModel.BaseModel"><code class="docutils literal notranslate"><span class="pre">BaseModel</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="robustx.lib.models.html#robustx.lib.models.BaseModel.BaseModel._model"><code class="docutils literal notranslate"><span class="pre">BaseModel._model</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="robustx.lib.models.html#robustx.lib.models.BaseModel.BaseModel.train"><code class="docutils literal notranslate"><span class="pre">BaseModel.train()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="robustx.lib.models.html#robustx.lib.models.BaseModel.BaseModel.predict"><code class="docutils literal notranslate"><span class="pre">BaseModel.predict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="robustx.lib.models.html#robustx.lib.models.BaseModel.BaseModel.predict_single"><code class="docutils literal notranslate"><span class="pre">BaseModel.predict_single()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="robustx.lib.models.html#robustx.lib.models.BaseModel.BaseModel.predict_proba"><code class="docutils literal notranslate"><span class="pre">BaseModel.predict_proba()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="robustx.lib.models.html#robustx.lib.models.BaseModel.BaseModel.predict_proba_tensor"><code class="docutils literal notranslate"><span class="pre">BaseModel.predict_proba_tensor()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="robustx.lib.models.html#robustx.lib.models.BaseModel.BaseModel.Properties"><code class="docutils literal notranslate"><span class="pre">BaseModel.Properties()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="robustx.lib.models.html#robustx.lib.models.BaseModel.BaseModel.evaluate"><code class="docutils literal notranslate"><span class="pre">BaseModel.evaluate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="robustx.lib.models.html#robustx.lib.models.BaseModel.BaseModel.model"><code class="docutils literal notranslate"><span class="pre">BaseModel.model</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="robustx.lib.models.html#id0"><code class="docutils literal notranslate"><span class="pre">BaseModel.predict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="robustx.lib.models.html#id1"><code class="docutils literal notranslate"><span class="pre">BaseModel.predict_proba()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="robustx.lib.models.html#id2"><code class="docutils literal notranslate"><span class="pre">BaseModel.predict_proba_tensor()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="robustx.lib.models.html#id3"><code class="docutils literal notranslate"><span class="pre">BaseModel.predict_single()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="robustx.lib.models.html#id4"><code class="docutils literal notranslate"><span class="pre">BaseModel.train()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="robustx.lib.models.html#module-robustx.lib.models.Models">robustx.lib.models.Models module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="robustx.lib.models.html#robustx.lib.models.Models.get_sklearn_model"><code class="docutils literal notranslate"><span class="pre">get_sklearn_model()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="robustx.lib.models.html#module-robustx.lib.models">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="robustx.lib.tasks.html">robustx.lib.tasks package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="robustx.lib.tasks.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="robustx.lib.tasks.html#module-robustx.lib.tasks.ClassificationTask">robustx.lib.tasks.ClassificationTask module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="robustx.lib.tasks.html#robustx.lib.tasks.ClassificationTask.ClassificationTask"><code class="docutils literal notranslate"><span class="pre">ClassificationTask</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="robustx.lib.tasks.html#robustx.lib.tasks.ClassificationTask.ClassificationTask.model"><code class="docutils literal notranslate"><span class="pre">ClassificationTask.model</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="robustx.lib.tasks.html#robustx.lib.tasks.ClassificationTask.ClassificationTask._training_data"><code class="docutils literal notranslate"><span class="pre">ClassificationTask._training_data</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="robustx.lib.tasks.html#robustx.lib.tasks.ClassificationTask.ClassificationTask.get_negative_instances"><code class="docutils literal notranslate"><span class="pre">ClassificationTask.get_negative_instances()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="robustx.lib.tasks.html#robustx.lib.tasks.ClassificationTask.ClassificationTask.get_random_positive_instance"><code class="docutils literal notranslate"><span class="pre">ClassificationTask.get_random_positive_instance()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="robustx.lib.tasks.html#module-robustx.lib.tasks.Task">robustx.lib.tasks.Task module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="robustx.lib.tasks.html#robustx.lib.tasks.Task.Task"><code class="docutils literal notranslate"><span class="pre">Task</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="robustx.lib.tasks.html#robustx.lib.tasks.Task.Task._training_data"><code class="docutils literal notranslate"><span class="pre">Task._training_data</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="robustx.lib.tasks.html#robustx.lib.tasks.Task.Task.__model"><code class="docutils literal notranslate"><span class="pre">Task.__model</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="robustx.lib.tasks.html#robustx.lib.tasks.Task.Task.get_negative_instances"><code class="docutils literal notranslate"><span class="pre">Task.get_negative_instances()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="robustx.lib.tasks.html#robustx.lib.tasks.Task.Task.get_random_positive_instance"><code class="docutils literal notranslate"><span class="pre">Task.get_random_positive_instance()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="robustx.lib.tasks.html#robustx.lib.tasks.Task.Task.model"><code class="docutils literal notranslate"><span class="pre">Task.model</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="robustx.lib.tasks.html#robustx.lib.tasks.Task.Task.training_data"><code class="docutils literal notranslate"><span class="pre">Task.training_data</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="robustx.lib.tasks.html#module-robustx.lib.tasks">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-robustx.lib.DefaultBenchmark">
+<span id="robustx-lib-defaultbenchmark-module"></span><h2>robustx.lib.DefaultBenchmark module<a class="headerlink" href="#module-robustx.lib.DefaultBenchmark" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="robustx.lib.DefaultBenchmark.default_benchmark">
+<span class="sig-prename descclassname"><span class="pre">robustx.lib.DefaultBenchmark.</span></span><span class="sig-name descname"><span class="pre">default_benchmark</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ct</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">methods</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evaluations</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/robustx/lib/DefaultBenchmark.html#default_benchmark"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#robustx.lib.DefaultBenchmark.default_benchmark" title="Link to this definition"></a></dt>
+<dd><p>Generates and prints a table summarizing the performance of different counterfactual explanation generation methods.</p>
+<p>&#64;param ct: ClassificationTask.
+&#64;param methods: A list or a set of method names.
+&#64;param evaluations: A list or a set of evaluator names.
+&#64;param subset: optional DataFrame, subset of instances you would like to generate CEs on
+&#64;param <a href="#id1"><span class="problematic" id="id2">**</span></a>params: Additional parameters to be passed to the CE generation methods and evaluators.
+&#64;return: None</p>
+</dd></dl>
+
+</section>
+<section id="module-robustx.lib.OptSolver">
+<span id="robustx-lib-optsolver-module"></span><h2>robustx.lib.OptSolver module<a class="headerlink" href="#module-robustx.lib.OptSolver" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="robustx.lib.OptSolver.OptSolver">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">robustx.lib.OptSolver.</span></span><span class="sig-name descname"><span class="pre">OptSolver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ct</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/robustx/lib/OptSolver.html#OptSolver"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#robustx.lib.OptSolver.OptSolver" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A solver class that uses Gurobi to optimize a model based on a given task and instance.</p>
+<section id="attributes-properties">
+<h3>Attributes / Properties<a class="headerlink" href="#attributes-properties" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>task: Task</dt><dd><p>The task to be optimized.</p>
+</dd>
+<dt>gurobiModel: Model</dt><dd><p>The Gurobi optimization model.</p>
+</dd>
+<dt>inputNodes: dict</dt><dd><p>Dictionary to store Gurobi variables for input nodes.</p>
+</dd>
+<dt>outputNode: Gurobi variable</dt><dd><p>The Gurobi variable representing the output node.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">setup(instance,</span> <span class="pre">desired_output=1,</span> <span class="pre">delta=0.5,</span> <span class="pre">bias_delta=0,</span> <span class="pre">M=1000000000,</span> <span class="pre">epsilon=0.0001,</span> <span class="pre">fix_inputs=True):</span></span></dt>
+<dd><p>Sets up the Gurobi model with constraints based on the provided instance and parameters.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">-------</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="robustx.lib.OptSolver.OptSolver.setup">
+<span class="sig-name descname"><span class="pre">setup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">instance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bias_delta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">M</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fix_inputs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/robustx/lib/OptSolver.html#OptSolver.setup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#robustx.lib.OptSolver.OptSolver.setup" title="Link to this definition"></a></dt>
+<dd><p>Sets up the Gurobi model with constraints based on the provided instance and parameters.</p>
+<p>&#64;param instance: pd.DataFrame or list, The input data instance for which to set up the model.
+&#64;param desired_output: int, Optional, The desired output value (default is 1).
+&#64;param delta: float, Optional, The delta value used in constraints (default is 0.5).
+&#64;param bias_delta: float, Optional, The bias delta value used in constraints (default is 0).
+&#64;param M: float, Optional, A large constant used in constraints (default is 1000000000).
+&#64;param epsilon: float, Optional, The epsilon value used in constraints (default is 0.0001).
+&#64;param fix_inputs: bool, Optional, Whether to fix input values or use variable bounds (default is True).</p>
+<p>&#64;return: None</p>
+</dd></dl>
+
+</section>
+</dd></dl>
+
+</section>
+<section id="robustx-lib-pytorchconversions-module">
+<h2>robustx.lib.PyTorchConversions module<a class="headerlink" href="#robustx-lib-pytorchconversions-module" title="Link to this heading"></a></h2>
+</section>
+<section id="module-robustx.lib">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-robustx.lib" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="robustx.generators.robust_CE_methods.html" class="btn btn-neutral float-left" title="robustx.generators.robust_CE_methods package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="robustx.lib.distance_functions.html" class="btn btn-neutral float-right" title="robustx.lib.distance_functions package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Junqi Jiang, Luca Marzari, Aaryan Purohit, Francesco Leofante.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

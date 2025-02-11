@@ -1,0 +1,30 @@
+robustx.generators package
+==========================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   robustx.generators.CE_methods
+   robustx.generators.robust_CE_methods
+
+Submodules
+----------
+
+robustx.generators.CEGenerator module
+-------------------------------------
+
+.. automodule:: robustx.generators.CEGenerator
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: robustx.generators
+   :members:
+   :undoc-members:
+   :show-inheritance:

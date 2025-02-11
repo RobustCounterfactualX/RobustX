@@ -1,0 +1,363 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>robustx.generators package &mdash; robustx  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+    <link rel="canonical" href="https://robustcounterfactualx.github.io/RobustX/robustx.generators.html" />
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9a2dae69"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="robustx.generators.CE_methods package" href="robustx.generators.CE_methods.html" />
+    <link rel="prev" title="robustx.evaluations package" href="robustx.evaluations.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            robustx
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">robustx</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="robustx.html">robustx package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="robustx.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="robustx.datasets.html">robustx.datasets package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="robustx.evaluations.html">robustx.evaluations package</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">robustx.generators package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="robustx.lib.html">robustx.lib package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="robustx.model_evaluations.html">robustx.model_evaluations package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="robustx.robustness_evaluations.html">robustx.robustness_evaluations package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="robustx.html#module-robustx">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">robustx</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">robustx</a></li>
+          <li class="breadcrumb-item"><a href="robustx.html">robustx package</a></li>
+      <li class="breadcrumb-item active">robustx.generators package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/robustx.generators.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="robustx-generators-package">
+<h1>robustx.generators package<a class="headerlink" href="#robustx-generators-package" title="Link to this heading"></a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="robustx.generators.CE_methods.html">robustx.generators.CE_methods package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="robustx.generators.CE_methods.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="robustx.generators.CE_methods.html#module-robustx.generators.CE_methods.BinaryLinearSearch">robustx.generators.CE_methods.BinaryLinearSearch module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="robustx.generators.CE_methods.html#robustx.generators.CE_methods.BinaryLinearSearch.BinaryLinearSearch"><code class="docutils literal notranslate"><span class="pre">BinaryLinearSearch</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="robustx.generators.CE_methods.html#robustx.generators.CE_methods.BinaryLinearSearch.BinaryLinearSearch._task"><code class="docutils literal notranslate"><span class="pre">BinaryLinearSearch._task</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="robustx.generators.CE_methods.html#robustx.generators.CE_methods.BinaryLinearSearch.BinaryLinearSearch.__customFunc"><code class="docutils literal notranslate"><span class="pre">BinaryLinearSearch.__customFunc</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="robustx.generators.CE_methods.html#module-robustx.generators.CE_methods.GuidedBinaryLinearSearch">robustx.generators.CE_methods.GuidedBinaryLinearSearch module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="robustx.generators.CE_methods.html#robustx.generators.CE_methods.GuidedBinaryLinearSearch.GuidedBinaryLinearSearch"><code class="docutils literal notranslate"><span class="pre">GuidedBinaryLinearSearch</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="robustx.generators.CE_methods.html#module-robustx.generators.CE_methods.KDTreeNNCE">robustx.generators.CE_methods.KDTreeNNCE module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="robustx.generators.CE_methods.html#robustx.generators.CE_methods.KDTreeNNCE.KDTreeNNCE"><code class="docutils literal notranslate"><span class="pre">KDTreeNNCE</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="robustx.generators.CE_methods.html#robustx.generators.CE_methods.KDTreeNNCE.KDTreeNNCE._task"><code class="docutils literal notranslate"><span class="pre">KDTreeNNCE._task</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="robustx.generators.CE_methods.html#robustx.generators.CE_methods.KDTreeNNCE.KDTreeNNCE.__customFunc"><code class="docutils literal notranslate"><span class="pre">KDTreeNNCE.__customFunc</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="robustx.generators.CE_methods.html#module-robustx.generators.CE_methods.MCE">robustx.generators.CE_methods.MCE module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="robustx.generators.CE_methods.html#robustx.generators.CE_methods.MCE.MCE"><code class="docutils literal notranslate"><span class="pre">MCE</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="robustx.generators.CE_methods.html#robustx.generators.CE_methods.MCE.MCE._task"><code class="docutils literal notranslate"><span class="pre">MCE._task</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="robustx.generators.CE_methods.html#robustx.generators.CE_methods.MCE.MCE.__customFunc"><code class="docutils literal notranslate"><span class="pre">MCE.__customFunc</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="robustx.generators.CE_methods.html#robustx.generators.CE_methods.MCE.MCE.opt"><code class="docutils literal notranslate"><span class="pre">MCE.opt</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="robustx.generators.CE_methods.html#module-robustx.generators.CE_methods.NNCE">robustx.generators.CE_methods.NNCE module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="robustx.generators.CE_methods.html#robustx.generators.CE_methods.NNCE.NNCE"><code class="docutils literal notranslate"><span class="pre">NNCE</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="robustx.generators.CE_methods.html#robustx.generators.CE_methods.NNCE.NNCE._task"><code class="docutils literal notranslate"><span class="pre">NNCE._task</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="robustx.generators.CE_methods.html#robustx.generators.CE_methods.NNCE.NNCE.__customFunc"><code class="docutils literal notranslate"><span class="pre">NNCE.__customFunc</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="robustx.generators.CE_methods.html#module-robustx.generators.CE_methods.Wachter">robustx.generators.CE_methods.Wachter module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="robustx.generators.CE_methods.html#robustx.generators.CE_methods.Wachter.CostLoss"><code class="docutils literal notranslate"><span class="pre">CostLoss</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="robustx.generators.CE_methods.html#robustx.generators.CE_methods.Wachter.CostLoss.forward"><code class="docutils literal notranslate"><span class="pre">CostLoss.forward()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="robustx.generators.CE_methods.html#robustx.generators.CE_methods.Wachter.Wachter"><code class="docutils literal notranslate"><span class="pre">Wachter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="robustx.generators.CE_methods.html#module-robustx.generators.CE_methods">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="robustx.generators.robust_CE_methods.html">robustx.generators.robust_CE_methods package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="robustx.generators.robust_CE_methods.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="robustx.generators.robust_CE_methods.html#module-robustx.generators.robust_CE_methods.APAS">robustx.generators.robust_CE_methods.APAS module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="robustx.generators.robust_CE_methods.html#robustx.generators.robust_CE_methods.APAS.APAS"><code class="docutils literal notranslate"><span class="pre">APAS</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="robustx.generators.robust_CE_methods.html#module-robustx.generators.robust_CE_methods.ArgEnsembling">robustx.generators.robust_CE_methods.ArgEnsembling module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="robustx.generators.robust_CE_methods.html#robustx.generators.robust_CE_methods.ArgEnsembling.ArgEnsembling"><code class="docutils literal notranslate"><span class="pre">ArgEnsembling</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="robustx.generators.robust_CE_methods.html#robustx.generators.robust_CE_methods.ArgEnsembling.ArgEnsembling._task"><code class="docutils literal notranslate"><span class="pre">ArgEnsembling._task</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="robustx.generators.robust_CE_methods.html#robustx.generators.robust_CE_methods.ArgEnsembling.ArgEnsembling.models"><code class="docutils literal notranslate"><span class="pre">ArgEnsembling.models</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="robustx.generators.robust_CE_methods.html#robustx.generators.robust_CE_methods.ArgEnsembling.ArgEnsembling.dl"><code class="docutils literal notranslate"><span class="pre">ArgEnsembling.dl</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="robustx.generators.robust_CE_methods.html#module-robustx.generators.robust_CE_methods.DiverseRobustCE">robustx.generators.robust_CE_methods.DiverseRobustCE module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="robustx.generators.robust_CE_methods.html#robustx.generators.robust_CE_methods.DiverseRobustCE.DiverseRobustCE"><code class="docutils literal notranslate"><span class="pre">DiverseRobustCE</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="robustx.generators.robust_CE_methods.html#robustx.generators.robust_CE_methods.DiverseRobustCE.DiverseRobustCE._task"><code class="docutils literal notranslate"><span class="pre">DiverseRobustCE._task</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="robustx.generators.robust_CE_methods.html#module-robustx.generators.robust_CE_methods.MCER">robustx.generators.robust_CE_methods.MCER module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="robustx.generators.robust_CE_methods.html#robustx.generators.robust_CE_methods.MCER.MCER"><code class="docutils literal notranslate"><span class="pre">MCER</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="robustx.generators.robust_CE_methods.html#robustx.generators.robust_CE_methods.MCER.MCER._task"><code class="docutils literal notranslate"><span class="pre">MCER._task</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="robustx.generators.robust_CE_methods.html#robustx.generators.robust_CE_methods.MCER.MCER.__customFunc"><code class="docutils literal notranslate"><span class="pre">MCER.__customFunc</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="robustx.generators.robust_CE_methods.html#robustx.generators.robust_CE_methods.MCER.MCER.mce"><code class="docutils literal notranslate"><span class="pre">MCER.mce</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="robustx.generators.robust_CE_methods.html#robustx.generators.robust_CE_methods.MCER.MCER.evaluator"><code class="docutils literal notranslate"><span class="pre">MCER.evaluator</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="robustx.generators.robust_CE_methods.html#module-robustx.generators.robust_CE_methods.ModelMultiplicityMILP">robustx.generators.robust_CE_methods.ModelMultiplicityMILP module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="robustx.generators.robust_CE_methods.html#robustx.generators.robust_CE_methods.ModelMultiplicityMILP.ModelMultiplicityMILP"><code class="docutils literal notranslate"><span class="pre">ModelMultiplicityMILP</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="robustx.generators.robust_CE_methods.html#module-robustx.generators.robust_CE_methods.PROPLACE">robustx.generators.robust_CE_methods.PROPLACE module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="robustx.generators.robust_CE_methods.html#robustx.generators.robust_CE_methods.PROPLACE.PROPLACE"><code class="docutils literal notranslate"><span class="pre">PROPLACE</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="robustx.generators.robust_CE_methods.html#robustx.generators.robust_CE_methods.PROPLACE.PROPLACE._task"><code class="docutils literal notranslate"><span class="pre">PROPLACE._task</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="robustx.generators.robust_CE_methods.html#robustx.generators.robust_CE_methods.PROPLACE.PROPLACE.achieved"><code class="docutils literal notranslate"><span class="pre">PROPLACE.achieved</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="robustx.generators.robust_CE_methods.html#robustx.generators.robust_CE_methods.PROPLACE.PROPLACE.x_prime_star"><code class="docutils literal notranslate"><span class="pre">PROPLACE.x_prime_star</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="robustx.generators.robust_CE_methods.html#robustx.generators.robust_CE_methods.PROPLACE.PROPLACE.x_prime_current"><code class="docutils literal notranslate"><span class="pre">PROPLACE.x_prime_current</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="robustx.generators.robust_CE_methods.html#robustx.generators.robust_CE_methods.PROPLACE.PROPLACE.layers"><code class="docutils literal notranslate"><span class="pre">PROPLACE.layers</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="robustx.generators.robust_CE_methods.html#robustx.generators.robust_CE_methods.PROPLACE.PROPLACE.neg_value"><code class="docutils literal notranslate"><span class="pre">PROPLACE.neg_value</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="robustx.generators.robust_CE_methods.html#robustx.generators.robust_CE_methods.PROPLACE.PROPLACE.delta"><code class="docutils literal notranslate"><span class="pre">PROPLACE.delta</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="robustx.generators.robust_CE_methods.html#robustx.generators.robust_CE_methods.PROPLACE.PROPLACE.orig_w"><code class="docutils literal notranslate"><span class="pre">PROPLACE.orig_w</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="robustx.generators.robust_CE_methods.html#robustx.generators.robust_CE_methods.PROPLACE.PROPLACE.orig_b"><code class="docutils literal notranslate"><span class="pre">PROPLACE.orig_b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="robustx.generators.robust_CE_methods.html#robustx.generators.robust_CE_methods.PROPLACE.PROPLACE.w_primes"><code class="docutils literal notranslate"><span class="pre">PROPLACE.w_primes</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="robustx.generators.robust_CE_methods.html#robustx.generators.robust_CE_methods.PROPLACE.PROPLACE.b_primes"><code class="docutils literal notranslate"><span class="pre">PROPLACE.b_primes</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="robustx.generators.robust_CE_methods.html#robustx.generators.robust_CE_methods.PROPLACE.PROPLACE.rnce"><code class="docutils literal notranslate"><span class="pre">PROPLACE.rnce</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="robustx.generators.robust_CE_methods.html#module-robustx.generators.robust_CE_methods.RNCE">robustx.generators.robust_CE_methods.RNCE module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="robustx.generators.robust_CE_methods.html#robustx.generators.robust_CE_methods.RNCE.RNCE"><code class="docutils literal notranslate"><span class="pre">RNCE</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="robustx.generators.robust_CE_methods.html#robustx.generators.robust_CE_methods.RNCE.RNCE.intabs"><code class="docutils literal notranslate"><span class="pre">RNCE.intabs</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="robustx.generators.robust_CE_methods.html#robustx.generators.robust_CE_methods.RNCE.RNCE.getCandidates"><code class="docutils literal notranslate"><span class="pre">RNCE.getCandidates()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="robustx.generators.robust_CE_methods.html#module-robustx.generators.robust_CE_methods.ROAR">robustx.generators.robust_CE_methods.ROAR module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="robustx.generators.robust_CE_methods.html#robustx.generators.robust_CE_methods.ROAR.ROAR"><code class="docutils literal notranslate"><span class="pre">ROAR</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="robustx.generators.robust_CE_methods.html#robustx.generators.robust_CE_methods.ROAR.ROAR._task"><code class="docutils literal notranslate"><span class="pre">ROAR._task</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="robustx.generators.robust_CE_methods.html#module-robustx.generators.robust_CE_methods.STCE">robustx.generators.robust_CE_methods.STCE module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="robustx.generators.robust_CE_methods.html#robustx.generators.robust_CE_methods.STCE.STCE"><code class="docutils literal notranslate"><span class="pre">STCE</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="robustx.generators.robust_CE_methods.html#robustx.generators.robust_CE_methods.STCE.STCE.counterfactual_stability"><code class="docutils literal notranslate"><span class="pre">STCE.counterfactual_stability()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="robustx.generators.robust_CE_methods.html#module-robustx.generators.robust_CE_methods">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-robustx.generators.CEGenerator">
+<span id="robustx-generators-cegenerator-module"></span><h2>robustx.generators.CEGenerator module<a class="headerlink" href="#module-robustx.generators.CEGenerator" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="robustx.generators.CEGenerator.CEGenerator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">robustx.generators.CEGenerator.</span></span><span class="sig-name descname"><span class="pre">CEGenerator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ct</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_distance_func</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/robustx/generators/CEGenerator.html#CEGenerator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#robustx.generators.CEGenerator.CEGenerator" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<p>Abstract class for generating counterfactual explanations for a given task.</p>
+<p>This class provides a framework for generating counterfactuals based on a distance function
+and a given task. It supports default distance functions such as Euclidean and Manhattan,
+and allows for custom distance functions.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="robustx.generators.CEGenerator.CEGenerator._task">
+<span class="sig-name descname"><span class="pre">_task</span></span><a class="headerlink" href="#robustx.generators.CEGenerator.CEGenerator._task" title="Link to this definition"></a></dt>
+<dd><p>The task to solve.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="robustx.lib.tasks.html#robustx.lib.tasks.Task.Task" title="robustx.lib.tasks.Task.Task">Task</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="robustx.generators.CEGenerator.CEGenerator.__customFunc">
+<span class="sig-name descname"><span class="pre">__customFunc</span></span><a class="headerlink" href="#robustx.generators.CEGenerator.CEGenerator.__customFunc" title="Link to this definition"></a></dt>
+<dd><p>A custom distance function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>callable, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="robustx.generators.CEGenerator.CEGenerator.custom_distance_func">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">custom_distance_func</span></span><a class="headerlink" href="#robustx.generators.CEGenerator.CEGenerator.custom_distance_func" title="Link to this definition"></a></dt>
+<dd><p>Returns custom distance function passed at instantiation
+&#64;return: distance Function, (DataFrame, DataFrame) -&gt; Int</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="robustx.generators.CEGenerator.CEGenerator.generate">
+<span class="sig-name descname"><span class="pre">generate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">instances</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">neg_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'target'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/robustx/generators/CEGenerator.html#CEGenerator.generate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#robustx.generators.CEGenerator.CEGenerator.generate" title="Link to this definition"></a></dt>
+<dd><p>Generates counterfactuals for a given DataFrame of instances.</p>
+<p>&#64;param instances: A DataFrame of instances for which you want to generate counterfactuals explanations.
+&#64;param distance_func: The method to calculate the distance between two points. Options are ‘l1’ / ‘manhattan’, ‘l2’ / ‘euclidean’, and ‘custom’.
+&#64;param column_name: The name of the target column.
+&#64;param neg_value: The value considered negative in the target variable.
+&#64;return: A DataFrame of the counterfactual explanations for the provided instances.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="robustx.generators.CEGenerator.CEGenerator.generate_for_all">
+<span class="sig-name descname"><span class="pre">generate_for_all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">neg_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'target'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/robustx/generators/CEGenerator.html#CEGenerator.generate_for_all"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#robustx.generators.CEGenerator.CEGenerator.generate_for_all" title="Link to this definition"></a></dt>
+<dd><p>Generates counterfactuals for all instances with a given negative value in their target column.</p>
+<p>&#64;param neg_value: The value in the target column which counts as a negative instance.
+&#64;param column_name: The name of the target variable.
+&#64;param distance_func: The method to calculate the distance between two points. Options are ‘l1’ / ‘manhattan’, ‘l2’ / ‘euclidean’, and ‘custom’.
+&#64;return: A DataFrame of the counterfactuals for all negative values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="robustx.generators.CEGenerator.CEGenerator.generate_for_instance">
+<span class="sig-name descname"><span class="pre">generate_for_instance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">instance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">neg_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'target'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/robustx/generators/CEGenerator.html#CEGenerator.generate_for_instance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#robustx.generators.CEGenerator.CEGenerator.generate_for_instance" title="Link to this definition"></a></dt>
+<dd><p>Generates a counterfactual for a provided instance.</p>
+<p>&#64;param instance: The instance for which you would like to generate a counterfactual.
+&#64;param distance_func: The method to calculate the distance between two points. Options are ‘l1’ / ‘manhattan’, ‘l2’ / ‘euclidean’, and ‘custom’.
+&#64;param column_name: The name of the target column.
+&#64;param neg_value: The value considered negative in the target variable.
+&#64;return: A DataFrame containing the counterfactual explanations for the instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="robustx.generators.CEGenerator.CEGenerator.task">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">task</span></span><a class="headerlink" href="#robustx.generators.CEGenerator.CEGenerator.task" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-robustx.generators">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-robustx.generators" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="robustx.evaluations.html" class="btn btn-neutral float-left" title="robustx.evaluations package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="robustx.generators.CE_methods.html" class="btn btn-neutral float-right" title="robustx.generators.CE_methods package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Junqi Jiang, Luca Marzari, Aaryan Purohit, Francesco Leofante.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

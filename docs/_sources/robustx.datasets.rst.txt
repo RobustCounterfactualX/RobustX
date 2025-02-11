@@ -1,0 +1,37 @@
+robustx.datasets package
+========================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   robustx.datasets.provided_datasets
+
+Submodules
+----------
+
+robustx.datasets.DatasetLoader module
+-------------------------------------
+
+.. automodule:: robustx.datasets.DatasetLoader
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+robustx.datasets.ExampleDatasets module
+---------------------------------------
+
+.. automodule:: robustx.datasets.ExampleDatasets
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: robustx.datasets
+   :members:
+   :undoc-members:
+   :show-inheritance:

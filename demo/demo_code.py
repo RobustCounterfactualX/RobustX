@@ -11,7 +11,7 @@ from robustx.generators.CE_methods.MCE import MCE
 from robustx.generators.CE_methods.NNCE import NNCE
 from robustx.generators.CE_methods.Wachter import Wachter
 from robustx.generators.robust_CE_methods.APAS import APAS
-from robustx.generators.robust_CE_methods.STCE import TrexNN
+from robustx.generators.robust_CE_methods.STCE import STCE
 from robustx.generators.robust_CE_methods.MCER import MCER
 from robustx.generators.robust_CE_methods.RNCE import RNCE
 from robustx.lib.models.pytorch_models.SimpleNNModel import SimpleNNModel
@@ -75,7 +75,7 @@ def get_robust_ces(input_instance, task, delta_robust_methods, max_distance):
             generator = RNCE(task)
             ce = generator._generation_method(input_instance, neg_value=0, delta=max_distance)[['feature1', 'feature2']].values
         elif method == "STCE":
-            generator = TrexNN(task)
+            generator = STCE(task)
             ce = generator._generation_method(input_instance, neg_value=0)[['feature1', 'feature2']].values
         elif method == "APAS":
             generator = APAS(task, CE_generator=Wachter , alpha=0.999)
@@ -281,11 +281,8 @@ def main(plot = True):
 
         _ = plot_decision_boundary_with_counterfactual(model._model, X_test.values, y_test.values, Z, original_point=input_instance.values, counterfactual_points=complete_ces_dict, updated=False, title='Decision Boundary with Counterfactuals', name_file=f"{name_file}_before_retraining", visualize=True)
      
-        
-        print(name_file+"_after_retraining")
         _ = plot_decision_boundary_with_counterfactual(model_new._model, X_test_new.values, y_test_new.values, Z, original_point=input_instance.values, counterfactual_points=complete_ces_dict, updated=True, title='Decision Boundary with Counterfactuals after retraining', name_file=f"{name_file}_after_retraining", visualize=True)
 
-    quit()
     # evaluate the robustness of the counterfactual explanations
     print("====================================\n")
     print("Evaluation of the robustness of the counterfactual explanations")

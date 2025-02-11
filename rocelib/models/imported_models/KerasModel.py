@@ -1,47 +1,41 @@
 import keras
 import pandas as pd
+import os
+import numpy as np
 
 from rocelib.models.TrainedModel import TrainedModel
 
 
 class KerasModel(TrainedModel):
     def __init__(self, model_path: str):
-        # don't think 'device: str = "cpu"' needed
         """
         Initialize the KerasModel by loading the saved Keras model.
-
         :param model_path: Path to the saved Keras model file (.keras)
         """
-        # self.device = keras.device(device)
         if not isinstance(model_path, str):
-            raise TypeError(
-                f"Incorrect input type for model path: {model_path}, "
-                f"expected str, got {type(model_path)}"
-            )
+            raise TypeError(f"Expected 'model_path' to be a string, got {type(model_path)}")
 
-        if model_path.endswith('.h5'):
-            raise ValueError(
-                f"File type not supported: filepath={model_path}. "
-                ".h5 files should not be used by themselves, "
-                "instead please save the model as a `.keras` "
-                "zip file."
-            )
-        self.model = keras.saving.load_model(model_path)
+        if not os.path.exists(model_path):
+            raise ValueError(f"Model file not found: {model_path}")
+
+        if not model_path.endswith(".keras"):
+            raise ValueError(f"Invalid file format: {model_path}. Expected a .keras file.")
+
+        try:
+            self.model = keras.saving.load_model(model_path)
+        except Exception as e:
+            raise RuntimeError(f"Failed to load Keras model from {model_path}: {e}")
 
     @classmethod
     def from_model(cls, model: keras.Model) -> 'KerasModel':
         """
         Alternative constructor to initialize KerasModel from a Keras model instance.
-
         :param model: A Keras model instance
         :return: An instance of KerasModel
         """
         if not isinstance(model, keras.Model):
-            raise TypeError(
-                f"Incorrect type of model={model}, "
-                f"expected type keras.Model, got {type(model)}"
-            )
-        instance = cls.__new__(cls)  # Create a new instance without calling __init__
+            raise TypeError(f"Expected a keras.Model, got {type(model)}")
+        instance = cls.__new__(cls)
         instance.model = model
         return instance
 
@@ -98,8 +92,3 @@ class KerasModel(TrainedModel):
         """
         _, accuracy = self.model.evaluate(X, y)
         return accuracy
-
-
-# TODO: decide what to do about predict_proba_tensor, update PM, TM
-# TODO: copy tests for PM and tweak them for KM
-# TODO: improve test coverage (ie evaluate)

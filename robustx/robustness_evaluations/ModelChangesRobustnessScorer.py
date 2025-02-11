@@ -5,9 +5,9 @@ from robustx.lib.tasks.Task import Task
 
 class ModelChangesRobustnessScorer(ABC):
     """
-    Abstract base class for scoring the robustness of model predictions with respect to counterfactuals.
+    Abstract base class for scoring the robustness of CEs with respect to model changes.
 
-    This class defines an interface for assigning a robustness score to a model's predictions
+    This class defines an interface for assigning a robustness score to a model's predictions for a CE
     when the model parameters are changed.
     """
 

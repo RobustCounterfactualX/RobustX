@@ -6,10 +6,10 @@ from robustx.lib.tasks.Task import Task
 
 class ModelChangesRobustnessSetEvaluator:
     """
-    Class for evaluating the robustness of model predictions over a set of instances.
+    Class for evaluating the robustness of CEs with respect to model changes.
 
     This class uses a specified evaluator to assess the robustness of model predictions for
-    multiple instances.
+    multiple CEs.
 
     Attributes:
         task (Task): The task for which robustness is being evaluated.

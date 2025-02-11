@@ -5,9 +5,9 @@ from robustx.lib.tasks.Task import Task
 
 class ModelChangesRobustnessEvaluator(ABC):
     """
-    Abstract base class for evaluating the robustness of model predictions with respect to model changes.
+    Abstract base class for evaluating the robustness of CEs with respect to model changes.
 
-    This class defines an interface for evaluating how robust a model's predictions are
+    This class defines an interface for evaluating how robust a CE's validity are
     when the model parameters are changed.
     """
 

@@ -43,6 +43,50 @@ Navigate to docs/source and run ```make html```. If that doesn't work, try to ru
 
 ## Examples
 
+A first example of RobustX is provided below.
+
+```python
+# first prepare a task
+from robustx.datasets.ExampleDatasets import get_example_dataset
+from robustx.lib.models.pytorch_models.SimpleNNModel import SimpleNNModel
+from robustx.lib.tasks.ClassificationTask import ClassificationTask
+
+data = get_example_dataset("ionosphere")
+data.default_preprocess()
+model = SimpleNNModel(34, [8], 1)
+model.train(data.X, data.y)
+task = ClassificationTask(model, data)
+
+# then specify some CE methods
+from robustx.generators.robust_CE_methods import MCER, RNCE, STCE
+from robustx.generators.CE_methods import KDTreeNNCE, MCE
+methods = {"MCER": MCER, "RNCE": RNCE, "STCE":STCE, "KDTreeNNCE": KDTreeNNCE, "MCE": MCE}
+
+# benchmark the selected CE methods
+from robustx.lib.DefaultBenchmark import default_benchmark
+default_benchmark(task, methods, neg_value=0, column_name="target", delta=0.005)
+```
+which will produce an output similar to:
+
+| Method     | Execution Time (s) | Validity proportion | Average Distance | Robustness proportion |
+|------------|------------------:|--------------------:|-----------------:|----------------------:|
+| MCER       |          92.6725  |                   1 |          5.09594 |              0.270833 |
+| RNCE       |           2.25211 |                   1 |          6.3207  |              1        |
+| STCE       |           9.74055 |                   1 |          6.86229 |              1        |
+| KDTreeNNCE |           0.0779453|                   1 |          6.07593 |              0.416667 |
+| MCE        |           1.65993 |                   1 |          2.45932 |              0        |
+
+
+
+
+A demonstration of how to use the library is available here:
+
+```bash
+conda activate robustx
+cd RobustX/demo
+streamlit run demo_main.py --theme.base="light"   
+```
+
 Python notebooks demonstrating the usage of RobustX are
 available [here](https://github.com/RobustX/RobustX/tree/main/examples).
 

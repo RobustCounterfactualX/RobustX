@@ -33,7 +33,13 @@ conda env create -f environment.yml
 conda activate robustx
 ```
 
-Alternatively, run ```pip install -r requirements.txt``` in a Python virtual environment if using an existing one. 
+Then, start using the library by:
+
+```
+pip install -e .
+```
+
+Alternatively, if using an existing Python environment, directly run ```pip install -e .```
 
 Note that one needs [Gurobi](https://www.gurobi.com/) optimizer to run mixed integer programming-based methods. Gurobi offers [free academic licenses](https://www.gurobi.com/downloads/end-user-license-agreement-academic/).
 

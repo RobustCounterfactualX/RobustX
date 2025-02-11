@@ -92,8 +92,6 @@ streamlit run demo_main.py --theme.base="light"
 Python notebooks demonstrating the usage of RobustX are
 available [here](https://github.com/RobustX/RobustX/tree/main/examples).
 
-The docs pages can be accessed by opening ```docs/build/html/index.html```.
-
 
 ## Documentations
 

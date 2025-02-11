@@ -8,12 +8,11 @@
 
 import os
 import sys
-sys.path.insert(0, os.path.abspath('../'))
+sys.path.insert(0, os.path.abspath('../../'))
 
-
-project = 'robustx'
-copyright = '2025, Junqi Jiang, Luca Marzari, Aaryan Purohit, Francesco Leofante'
-author = 'Junqi Jiang, Luca Marzari, Aaryan Purohit, Francesco Leofante'
+project = 'RoCELib'
+copyright = '2025, Aaryan Purohit'
+author = 'Aaryan Purohit'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
@@ -26,7 +25,7 @@ extensions = [
 ]
 
 templates_path = ['_templates']
-exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
+exclude_patterns = []
 
 
 

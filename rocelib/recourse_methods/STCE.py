@@ -3,8 +3,8 @@ import pandas as pd
 import torch
 
 from rocelib.recourse_methods.RecourseGenerator import RecourseGenerator
-from rocelib.robustness_evaluations.DeltaRobustnessEvaluator import DeltaRobustnessEvaluator
-from rocelib.robustness_evaluations.ModelChangesRobustnessEvaluator import ModelChangesRobustnessEvaluator
+from rocelib.evaluations.robustness_evaluations.DeltaRobustnessEvaluator import DeltaRobustnessEvaluator
+from rocelib.evaluations.robustness_evaluations.ModelChangesRobustnessEvaluator import ModelChangesRobustnessEvaluator
 
 
 class TrexNN(RecourseGenerator):

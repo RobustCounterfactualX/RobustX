@@ -1,7 +1,7 @@
 from gurobipy import Model, GRB
 
 from rocelib.lib.OptSolver import OptSolver
-from rocelib.robustness_evaluations.ModelChangesRobustnessEvaluator import ModelChangesRobustnessEvaluator
+from rocelib.evaluations.robustness_evaluations.ModelChangesRobustnessEvaluator import ModelChangesRobustnessEvaluator
 from rocelib.tasks.Task import Task
 
 

@@ -43,10 +43,6 @@ Alternatively, if using an existing Python environment, directly run ```pip inst
 
 Note that one needs [Gurobi](https://www.gurobi.com/) optimizer to run mixed integer programming-based methods. Gurobi offers [free academic licenses](https://www.gurobi.com/downloads/end-user-license-agreement-academic/).
 
-## Generating docs
-
-Navigate to docs/source and run ```make html```. If that doesn't work, try to run ```sphinx-build -b html . _build/html```?
-
 ## Examples
 
 A first example of RobustX is provided below.
@@ -97,6 +93,11 @@ Python notebooks demonstrating the usage of RobustX are
 available [here](https://github.com/RobustX/RobustX/tree/main/examples).
 
 The docs pages can be accessed by opening ```docs/build/html/index.html```.
+
+
+## Documentations
+
+See the documentations [here](https://robustcounterfactualx.github.io/RobustX/) (WIP).
 
 ## Contributors
 * **Junqi Jiang** - junqi.jiang20@imperial.ac.uk

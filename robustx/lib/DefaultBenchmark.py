@@ -1,27 +1,30 @@
 import pandas as pd
 
-from robustx.datasets.DatasetLoader import DatasetLoader
-from robustx.datasets.provided_datasets.ExampleDatasetLoader import ExampleDatasetLoader
-from robustx.evaluations.DistanceEvaluator import DistanceEvaluator
-from robustx.evaluations.ManifoldEvaluator import ManifoldEvaluator
-from robustx.evaluations.RobustnessProportionEvaluator import RobustnessProportionEvaluator
-from robustx.evaluations.ValidityEvaluator import ValidityEvaluator
-from robustx.lib.models.BaseModel import BaseModel
-from robustx.generators.CEGenerator import CEGenerator
+from robustx.evaluations import *
+from robustx.robustness_evaluations import ModelChangesRobustnessSetEvaluator
 from robustx.lib.tasks.ClassificationTask import ClassificationTask
-from typing import Dict
 import time
 from tabulate import tabulate
+from robustx.generators.CE_methods import *
+from robustx.generators.robust_CE_methods import *
 
 
-def default_benchmark(ct: ClassificationTask, methods: Dict[str, CEGenerator.__class__],
-                   subset: pd.DataFrame = None, **params):
+METHODS = {"APAS": APAS, "ArgEnsembling": ArgEnsembling, "DiverseRobustCE": DiverseRobustCE, "MCER": MCER,
+           "ModelMultiplicityMILP": ModelMultiplicityMILP, "PROPLACE": PROPLACE, "RNCE": RNCE, "ROAR": ROAR,
+           "STCE": STCE, "BinaryLinearSearch": BinaryLinearSearch, "GuidedBinaryLinearSearch": GuidedBinaryLinearSearch,
+           "NNCE": NNCE, "KDTreeNNCE": KDTreeNNCE, "MCE": MCE, "Wachter": Wachter}
+EVALUATIONS = {"Distance": DistanceEvaluator, "Validity": ValidityEvaluator, "Manifold": ManifoldEvaluator,
+               "Delta-robustness": RobustnessProportionEvaluator}
+
+
+def default_benchmark(ct: ClassificationTask, methods, evaluations,
+                      subset: pd.DataFrame = None, **params):
     """
     Generates and prints a table summarizing the performance of different counterfactual explanation generation methods.
 
     @param ct: ClassificationTask.
-    @param methods: Dict[str, RecourseGenerator.__class__], A dictionary where keys are method names and values are
-                    classes of CE generation methods to evaluate.
+    @param methods: A list or a set of method names.
+    @param evaluations: A list or a set of evaluator names.
     @param subset: optional DataFrame, subset of instances you would like to generate CEs on
     @param **params: Additional parameters to be passed to the CE generation methods and evaluators.
     @return: None
@@ -29,15 +32,10 @@ def default_benchmark(ct: ClassificationTask, methods: Dict[str, CEGenerator.__c
 
     results = []
 
-    # Instantiate evaluators
-    validity_evaluator = ValidityEvaluator(ct)
-    distance_evaluator = DistanceEvaluator(ct)
-    robustness_evaluator = RobustnessProportionEvaluator(ct)
-
     for method_name in methods:
 
         # Instantiate ce_generator method
-        ce_generator = methods[method_name](ct)
+        ce_generator = METHODS[method_name](ct)
 
         # Start timer
         start_time = time.perf_counter()
@@ -51,14 +49,19 @@ def default_benchmark(ct: ClassificationTask, methods: Dict[str, CEGenerator.__c
         # End timer
         end_time = time.perf_counter()
 
+        # start evaluation
+        eval_results = [method_name, end_time-start_time]
+        for eval_name in evaluations:
+            ce_evaluator = EVALUATIONS[eval_name](ct)
+            eval_results.append(ce_evaluator.evaluate(ces, **params))
+
         # Add to results
-        results.append([method_name, end_time - start_time, validity_evaluator.evaluate(ces, **params),
-                        distance_evaluator.evaluate(ces, subset=subset, **params), robustness_evaluator.evaluate(ces, **params),
-                        ])
+        results.append(eval_results)
 
     # Set headers
-    headers = ["Method", "Execution Time (s)", "Validity proportion", "Average Distance", "Robustness proportion"]
+    headers = ["Method", "Execution Time (s)"]
+    for eval_name in evaluations:
+        headers.append(eval_name)
 
     # Print results
     print(tabulate(results, headers, tablefmt="grid"))
-

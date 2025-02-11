@@ -9,7 +9,7 @@
 
 <table>
   <tr>
-    <td><img src="path-to-image.png" width="150"></td>
+    <td><img src="demo/overview_new.png" width="150"></td>
     <td>
       <ul>
         <li> Standardises the evaluation and benchmarking of robust CEs.</li>

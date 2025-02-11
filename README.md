@@ -57,24 +57,24 @@ model = SimpleNNModel(34, [8], 1)
 model.train(data.X, data.y)
 task = ClassificationTask(model, data)
 
-# then specify some CE methods
-from robustx.generators.robust_CE_methods import MCER, RNCE, STCE
-from robustx.generators.CE_methods import KDTreeNNCE, MCE
-methods = {"MCER": MCER, "RNCE": RNCE, "STCE":STCE, "KDTreeNNCE": KDTreeNNCE, "MCE": MCE}
-
-# benchmark the selected CE methods
-from robustx.lib.DefaultBenchmark import default_benchmark
-default_benchmark(task, methods, neg_value=0, column_name="target", delta=0.005)
+# specify the names of the methods and evaluations we want to use, run benchmarking
+# This will find CEs for all instances predicted with the undesirable class (0) and compare
+from robustx.lib import default_benchmark
+methods = ["KDTreeNNCE", "MCE", "MCER", "RNCE", "STCE", "PROPLACE"]
+evaluations = ["Validity", "Distance", "Delta-robustness"]
+default_benchmark(task, methods, evaluations, neg_value=0, column_name="target", delta=0.005)
 ```
 which will produce an output similar to:
 
-| Method     | Execution Time (s) | Validity proportion | Average Distance | Robustness proportion |
-|------------|------------------:|--------------------:|-----------------:|----------------------:|
-| MCER       |          92.6725  |                   1 |          5.09594 |              0.270833 |
-| RNCE       |           2.25211 |                   1 |          6.3207  |              1        |
-| STCE       |           9.74055 |                   1 |          6.86229 |              1        |
-| KDTreeNNCE |           0.0779453|                   1 |          6.07593 |              0.416667 |
-| MCE        |           1.65993 |                   1 |          2.45932 |              0        |
+| Method     | Execution Time (s) | Validity | Distance | Delta-robustness |
+|------------|------------------:|---------:|---------:|-----------------:|
+| KDTreeNNCE |          0.21686  |        1 |  5.76588 |        0.515625  |
+| MCE        |          3.44478  |        1 |  3.26922 |        0         |
+| MCER       |        137.563    |        1 |  5.14061 |        0.648438  |
+| RNCE       |          3.98173  |        1 |  6.03255 |        1         |
+| STCE       |         29.6889   |        1 |  6.86523 |        1         |
+| PROPLACE   |         12.9444   |        1 |  5.96721 |        1         |
+
 
 
 

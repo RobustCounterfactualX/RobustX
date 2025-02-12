@@ -1,9 +1,11 @@
 # RobustX <img width="100" alt="portfolio_view" align="right" src="https://isla-lab.github.io/images/slider/slider-image.svg"> <img width="100" alt="portfolio_view" align="right" src="https://upload.wikimedia.org/wikipedia/commons/0/06/Imperial_College_London_new_logo.png"> 
 
-![Alt text](demo/RobustX.gif) 
+RobustX is a Python library implementing a collection of generation and evaluation methods for Counterfactual Explanation (CE), with a focus on the robustness property.
+It provides easy-to-use interfaces for implementing new CE methods and benchmarking performances against a range of robust methods.
 
+![Alt text](demo/RobustX.gif)
 
-> The increasing use of machine learning models to aid decision-making in high-stakes industries like finance and healthcare demands explainability to build trust. Counterfactual Explanations (CEs) provide valuable insights into model predictions by showing how slight changes in input data could lead to different outcomes. A key aspect of CEs is their robustness, which ensures that the desired outcomes remain stable even with minor alterations to the input. Robustness is important since produced CEs should hold up in the future should the original model be altered or replaced.Despite the importance of robustness, there has been a lack of standardised tools to comprehensively evaluate and compare robust CE generation methods. To address this, **RobustX** was developed as an open-source Python library aimed at benchmarking the robustness of various CE methods. RobustX provides a systematic framework for generating, evaluating, and comparing CEs with a focus on robustness, enabling fair and effective benchmarking. The library is highly extensible, allowing for custom models, datasets, and tools to be integrated, making it an essential tool for enhancing the reliability and interpretability of machine learning models in critical applications.
+See our techincal report [here](https://github.com/RobustCounterfactualX/RobustX/blob/main/demo/robustx.pdf), and [read more about robust CE](https://www.ijcai.org/proceedings/2024/894).
 
 ## Features
 
@@ -15,12 +17,11 @@
         <li> Standardises the evaluation and benchmarking of robust CEs.</li>
         <li> Supports multiple ML frameworks, including PyTorch, Keras, and scikit-learn.</li>
         <li>Extensible to incorporate custom models, datasets, CE methods, and evaluation metrics.</li>
-        <li>Includes several robust CE generation algorithms (e.g., TRexNN, RNCE) and non-robust baselines (e.g., MCE, BLS).</li>      
+        <li>Includes robust CE generation methods (currently 9) and non-robust baselines.</li>      
       </ul>
     </td>
   </tr>
 </table>
-
 
 ## Setup
 
@@ -90,7 +91,7 @@ streamlit run demo_main.py --theme.base="light"
 ```
 
 Python notebooks demonstrating the usage of RobustX are
-available [here](https://github.com/RobustX/RobustX/tree/main/examples).
+available [here](https://github.com/RobustCounterfactualX/RobustX/tree/main/examples).
 
 
 ## Documentations

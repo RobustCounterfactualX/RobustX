@@ -36,6 +36,7 @@ class Task(ABC):
         @return: A Pandas Series representing a random positive instance.
         """
         pass
+    
 
     @property
     def dataset(self):

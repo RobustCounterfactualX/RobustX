@@ -4,6 +4,8 @@ import pandas as pd
 
 from rocelib.datasets.DatasetLoader import DatasetLoader
 from rocelib.models.TrainedModel import TrainedModel
+from typing import List, Dict, Any, Union
+
 
 
 class Task(ABC):
@@ -25,6 +27,7 @@ class Task(ABC):
         """
         self._dataset = dataset
         self.__model = model
+        self._CEs: Dict[str, [pd.DataFrame, float]] = {}  # Stores generated counterfactuals per method
 
 
     def get_random_positive_instance(self, neg_value, column_name="target") -> pd.Series:
@@ -36,7 +39,12 @@ class Task(ABC):
         @return: A Pandas Series representing a random positive instance.
         """
         pass
-    
+
+    def generate(self, methods: List[str]):
+        pass
+
+    def evaluate(self):
+        pass
 
     @property
     def dataset(self):
@@ -46,6 +54,15 @@ class Task(ABC):
         @return: The training data loaded from DatasetLoader.
         """
         return self._dataset
+    
+    @property
+    def ces(self):
+        """
+        Property to access the training data.
+
+        @return: The training data loaded from DatasetLoader.
+        """
+        return self._CEs
 
     @property
     def model(self):

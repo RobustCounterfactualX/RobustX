@@ -46,7 +46,7 @@ class DistanceEvaluator(Evaluator):
         @param kwargs: other arguments
         @return: int, average distance of CEs from their original instances
         """
-        recourses = self.task._CEs[recourse_method]
+        recourses = self.task.CEs[recourse_method]
         
         df1 = recourses.drop(columns=[column_name, "loss"], errors='ignore')
 

@@ -61,6 +61,9 @@ class InvalidationRateRobustnessEvaluator(RecourseEvaluator):
         # random_values = np.random.normal(loc=0, scale=5, size=df.shape)
         # df_new = df + random_values
 
+        # TODO more tests
+        # TODO merge, then change to be like new DeltaRE (probably evaluate more than 1 CE at a time, return %)
+
         instance = instance.drop(columns=["predicted", "Loss"], errors='ignore')
 
         mean = np.zeros(len(instance.columns))

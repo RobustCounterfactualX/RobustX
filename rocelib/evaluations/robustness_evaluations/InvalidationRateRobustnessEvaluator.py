@@ -68,10 +68,10 @@ class InvalidationRateRobustnessEvaluator(RecourseEvaluator):
         cov_matrix = (stddev**2) * np.identity(len(instance.columns))
 
         noise = np.random.multivariate_normal(mean, cov_matrix, size=len(instance))
-        pred = self.task.model.predict(instance)
+        pred = self.task.model.predict_single(instance)
 
-        denormalised_noise = noise * (self.dataset_maxs - self.dataset_mins) + self.dataset_mins
-        pred_noisy = self.task.model.predict(instance + denormalised_noise)
+        denormalised_noise = noise * (self.dataset_maxs - self.dataset_mins)
+        pred_noisy = self.task.model.predict_single(instance + denormalised_noise)
 
         return pred == pred_noisy
 

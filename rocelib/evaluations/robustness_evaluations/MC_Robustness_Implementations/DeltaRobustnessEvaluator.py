@@ -18,13 +18,13 @@ class DeltaRobustnessEvaluator(ModelChangesRobustnessEvaluator):
         opt (OptSolver): An optimizer instance for setting up and solving the MILP problem.
     """
 
-    def __init__(self, task: Task, recourse_methods: list[str]):
+    def __init__(self, task: Task):
         """
         Initializes the DeltaRobustnessEvaluator with a given task.
 
         @param ct: The task to solve, provided as a Task instance.
         """
-        super().__init__(task, recourse_methods)
+        super().__init__(task)
         self.opt = OptSolver(task)
 
     def evaluate_single_instance(self, index, recourse_method, desired_output=1, delta=0.5, bias_delta=0, M=1000000000, epsilon=0.0001):

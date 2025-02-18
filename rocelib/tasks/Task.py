@@ -40,10 +40,10 @@ class Task(ABC):
         """
         pass
 
-    def generate(self, methods: List[str]):
+    def generate(self, methods: List[str]) -> List[pd.DataFrame]:
         pass
 
-    def evaluate(self):
+    def evaluate(self, methods: List[str], evaluations: List[str]):
         pass
 
     @property

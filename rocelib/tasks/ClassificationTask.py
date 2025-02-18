@@ -11,6 +11,9 @@ from rocelib.recourse_methods.Wachter import Wachter
 from rocelib.recourse_methods.RNCE import RNCE
 from rocelib.recourse_methods.MCER import MCER
 
+from rocelib.evaluations.DistanceEvaluator import DistanceEvaluator
+
+
 # from robustx.generators.robust_CE_methods.APAS import APAS
 # from robustx.generators.robust_CE_methods.ArgEnsembling import ArgEnsembling
 # from robustx.generators.robust_CE_methods.DiverseRobustCE import DiverseRobustCE
@@ -38,7 +41,7 @@ METHODS = {
     "RNCE": RNCE,
     "MCER": MCER
 }
-
+EVALUATIONS = {"Distance": DistanceEvaluator}
 
 class ClassificationTask(Task):
     """
@@ -109,3 +112,46 @@ class ClassificationTask(Task):
                 print(f"Error generating counterfactuals with method '{method}': {e}")
             
         return all_generated_CEs
+    
+    def evaluate(self, methods: List[str], evaluations: List[str]):
+        """
+        Evaluates the generated counterfactual explanations using specified evaluation metrics.
+
+        @param methods: List of recourse methods to evaluate.
+        @param evaluations: List of evaluation metrics to apply.
+        @return: Dictionary containing evaluation results per method and metric.
+        """
+        evaluation_results = {}
+
+        # Validate evaluation names
+        invalid_evaluations = [ev for ev in evaluations if ev not in EVALUATIONS]
+        if invalid_evaluations:
+            raise ValueError(f"Invalid evaluation metrics: {invalid_evaluations}. Available: {list(EVALUATIONS.keys())}")
+
+        # Filter out methods that haven't been generated
+        valid_methods = [method for method in methods if method in self._CEs]
+        if not valid_methods:
+            print("No valid methods have been generated for evaluation.")
+            return evaluation_results
+
+        # Instantiate evaluators and evaluate
+        for evaluation in evaluations:
+            evaluator_class = EVALUATIONS[evaluation]
+
+            try:
+                # Create evaluator instance
+                evaluator = evaluator_class(self, valid_methods)
+
+                # Perform evaluation across all methods
+                eval_scores = evaluator.evaluate()
+                
+                # Store results
+                for method, score in eval_scores.items():
+                    if method not in evaluation_results:
+                        evaluation_results[method] = {}
+                    evaluation_results[method][evaluation] = score
+
+            except Exception as e:
+                print(f"Error evaluating '{evaluation}': {e}")
+
+        return evaluation_results

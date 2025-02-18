@@ -4,7 +4,7 @@ from rocelib.evaluations import RecourseEvaluator
 from rocelib.tasks.Task import Task
 
 
-class ModelChangesRobustnessEvaluator(RecourseEvaluator):
+class ModelMultiplicityRobustnessEvaluator(ABC, RecourseEvaluator):
     """
     Abstract base class for evaluating the robustness of model predictions with respect to model changes.
 

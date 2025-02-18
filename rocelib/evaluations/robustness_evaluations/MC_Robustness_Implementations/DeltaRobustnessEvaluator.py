@@ -41,7 +41,7 @@ class DeltaRobustnessEvaluator(ModelChangesRobustnessEvaluator):
         @param epsilon: A small constant used to ensure numerical stability.
         @return: A boolean indicating whether the model's prediction is robust given the desired output.
         """
-        instance = self.task.dataset.data[index]
+        instance = self.task.dataset.data.iloc[index]
         # Initialize the Gurobi model
         self.opt.gurobiModel = Model()
 

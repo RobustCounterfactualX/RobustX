@@ -4,6 +4,7 @@ import pandas as pd
 
 from rocelib.datasets.DatasetLoader import DatasetLoader
 from rocelib.models.TrainedModel import TrainedModel
+from typing import List, Dict, Any, Union, Tuple
 
 
 class Task(ABC):
@@ -25,7 +26,7 @@ class Task(ABC):
         """
         self._dataset = dataset
         self.__model = model
-
+        self._CEs: Dict[str, Tuple[pd.DataFrame, float]] = {}  # Stores generated counterfactuals per method
 
     def get_random_positive_instance(self, neg_value, column_name="target") -> pd.Series:
         """
@@ -54,3 +55,7 @@ class Task(ABC):
         @return: The model instance that extends TrainableModel
         """
         return self.__model
+
+    @property
+    def CEs(self):
+        return self._CEs

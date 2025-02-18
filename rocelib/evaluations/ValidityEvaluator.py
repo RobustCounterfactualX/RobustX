@@ -39,7 +39,7 @@ class ValidityEvaluator(RecourseEvaluator):
         # Return if prediction is valid
         return self.task.model.predict_single(instance) == valid_val
 
-    def evaluate(self, recourses, valid_val=1, column_name="target", **kwargs):
+    def evaluate(self, recourse_method, valid_val=1, column_name="target", **kwargs):
         """
         Evaluates the proportion of CEs are valid
         @param recourses: pd.DataFrame, set of CEs which we want to evaluate
@@ -48,6 +48,7 @@ class ValidityEvaluator(RecourseEvaluator):
         @param kwargs: other arguments
         @return: int, proportion of CEs which are valid
         """
+        recourses = self.task._CEs[recourse_method]
         valid = 0
         cnt = 0
 

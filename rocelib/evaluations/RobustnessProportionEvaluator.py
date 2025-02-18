@@ -1,9 +1,10 @@
 from rocelib.evaluations.RecourseEvaluator import RecourseEvaluator
+from rocelib.evaluations.robustness_evaluations import Evaluator
 from rocelib.evaluations.robustness_evaluations.MC_Robustness_Implementations.DeltaRobustnessEvaluator import DeltaRobustnessEvaluator
 from rocelib.evaluations.robustness_evaluations.ModelChangesRobustnessEvaluator import ModelChangesRobustnessEvaluator
 
 
-class RobustnessProportionEvaluator(RecourseEvaluator):
+class RobustnessProportionEvaluator(Evaluator):
     """
      An Evaluator class which evaluates the proportion of recourses which are robust
 
@@ -35,7 +36,7 @@ class RobustnessProportionEvaluator(RecourseEvaluator):
     -------
     """
 
-    def evaluate(self, recourses, delta=0.05, bias_delta=0, M=1000000, epsilon=0.001, valid_val=1, column_name="target",
+    def evaluate(self, recourse_method, delta=0.05, bias_delta=0, M=1000000, epsilon=0.001, valid_val=1, column_name="target",
                  robustness_evaluator: ModelChangesRobustnessEvaluator.__class__ = DeltaRobustnessEvaluator,
                  **kwargs):
         """
@@ -50,6 +51,7 @@ class RobustnessProportionEvaluator(RecourseEvaluator):
         @param robustness_evaluator: ModelChangesRobustnessEvaluator.__class__, the CLASS of the evaluator to use
         @return: Proportion of CEs which are robust
         """
+        recourses = self.task._CEs[recourse_method]
         robust = 0
         cnt = 0
 

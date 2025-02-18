@@ -31,7 +31,8 @@ class DeltaRobustnessEvaluator(ModelChangesRobustnessEvaluator):
         """
         Evaluates whether the model's prediction for a given instance is robust to changes in the input.
 
-        @param instance: The instance to evaluate.
+        @param index: The index of the instance to evaluate.
+        @param recourse_method: The particular recourse method used for evaluation (not needed in this implementation)
         @param desired_output: The desired output for the model (0 or 1).
                                The evaluation will check if the model's output matches this.
         @param delta: The maximum allowable perturbation in the input features.

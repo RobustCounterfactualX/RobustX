@@ -1,10 +1,11 @@
 import numpy as np
 
 from rocelib.evaluations.RecourseEvaluator import RecourseEvaluator
+from rocelib.evaluations.robustness_evaluations import Evaluator
 from rocelib.lib.distance_functions.DistanceFunctions import euclidean
 
 
-class DistanceEvaluator(RecourseEvaluator):
+class DistanceEvaluator(Evaluator):
     """
      An Evaluator class which evaluates the average distance of recourses from their original instance
 
@@ -33,7 +34,7 @@ class DistanceEvaluator(RecourseEvaluator):
     -------
     """
 
-    def evaluate(self, recourses, valid_val=1, distance_func=euclidean, column_name="target", subset=None, **kwargs):
+    def evaluate(self, recourse_method, valid_val=1, distance_func=euclidean, column_name="target", subset=None, **kwargs):
         """
         Determines the average distance of the CEs from their original instances
         @param recourses: pd.DataFrame, dataset containing CEs in same order as negative instances in dataset
@@ -45,6 +46,8 @@ class DistanceEvaluator(RecourseEvaluator):
         @param kwargs: other arguments
         @return: int, average distance of CEs from their original instances
         """
+        recourses = self.task._CEs[recourse_method]
+        
         df1 = recourses.drop(columns=[column_name, "loss"], errors='ignore')
 
         if subset is None:

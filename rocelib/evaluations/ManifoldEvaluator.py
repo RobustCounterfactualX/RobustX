@@ -28,7 +28,7 @@ class ManifoldEvaluator(RecourseEvaluator):
     -------
     """
 
-    def evaluate(self, recourses, n_neighbors=20, column_name="target", **kwargs):
+    def evaluate(self, recourse_method, n_neighbors=20, column_name="target", **kwargs):
         """
         Determines the proportion of CEs that lie on the data manifold based on LOF
         @param recourses: DataFrame, containing the CEs in the same order as the negative instances in the dataset
@@ -37,6 +37,8 @@ class ManifoldEvaluator(RecourseEvaluator):
         @param kwargs: other arguments
         @return: proportion of CEs on manifold
         """
+        recourses = self.task._CEs[recourse_method]
+        
         on_manifold = 0
         cnt = 0
 

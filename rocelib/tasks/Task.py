@@ -16,7 +16,7 @@ class Task(ABC):
         __model (TrainableModel): The model to be trained and used for predictions.
     """
 
-    def __init__(self, model: TrainedModel, dataset: DatasetLoader, mm_models: [TrainedModel] = None):
+    def __init__(self, model: TrainedModel, dataset: DatasetLoader):
         """
         Initializes the Task with a model and training data.
 
@@ -25,7 +25,6 @@ class Task(ABC):
         """
         self._dataset = dataset
         self.__model = model
-        self.__mm_models = mm_models
 
 
     def get_random_positive_instance(self, neg_value, column_name="target") -> pd.Series:
@@ -64,3 +63,7 @@ class Task(ABC):
         @return: The model instance that extends TrainableModel
         """
         return self.__mm_models
+
+    @property
+    def CEs(self):
+        return self._CEs

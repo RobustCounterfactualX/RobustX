@@ -36,10 +36,10 @@ class InvalidationRateRobustnessEvaluator(RecourseEvaluator):
         @param ct: The task to solve, provided as a Task instance.
         """
         super().__init__(ct)
-        self.dataset_mins = self.task.dataset.min()
-        self.dataset_maxs = self.task.dataset.max()
+        self.dataset_mins = self.task.dataset.X.min().to_frame().transpose().values
+        self.dataset_maxs = self.task.dataset.X.max().to_frame().transpose().values
 
-    def evaluate(self, instance, **kwargs):  # , desired_output=1, delta=0.5, bias_delta=0, M=1000000000, epsilon=0.0001):
+    def evaluate(self, instance, **kwargs):
         """
         Evaluates whether the model's prediction for a given instance is robust to ...
 
@@ -61,14 +61,20 @@ class InvalidationRateRobustnessEvaluator(RecourseEvaluator):
         mean = 0
         stddev = 0.1
         I = 1  # references in paper but i have no idea what it is
-        noise = pd.DataFrame([random.gauss(mean, stddev * I) for _ in range(len(instance))])
-        pred = self.task.model().predict(instance)
-        denormalised_noise = noise * (self.dataset_maxs - self.dataset_mins) + self.dataset_mins
-        # denormalised_noise = [n * (maxi - mini) + mini for n, mini, maxi in zip(noise, self.dataset_mins, self.dataset_maxs)]
-        pred_noisy = self.task.model().predict(instance + denormalised_noise)
+        # print("BBBBBB")
+        # print(instance)
+        instance = instance.drop(columns=["predicted", "Loss"], errors='ignore')
+        noise = pd.DataFrame([random.gauss(mean, stddev * I) for _ in range(len(instance.columns))]).transpose()
+
+        pred = self.task.model.predict(instance)
+
+        denormalised_noise = noise.values * (self.dataset_maxs - self.dataset_mins) + self.dataset_mins
+        pred_noisy = self.task.model.predict(instance + denormalised_noise)
+        print("--------")
+        print(pred_noisy)
+        print(pred)
 
         return pred == pred_noisy
-        # cf2 = method.generate_for_instance(instance + noise, neg_value=0, column_name="target")
 
         # calculate expectation of M(x') - M(x' + s)
         # where M is the model which generates an output label

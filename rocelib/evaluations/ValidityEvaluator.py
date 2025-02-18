@@ -1,9 +1,9 @@
 import pandas as pd
 
-from rocelib.evaluations.RecourseEvaluator import RecourseEvaluator
+from rocelib.evaluations.robustness_evaluations.Evaluator import Evaluator
 
 
-class ValidityEvaluator(RecourseEvaluator):
+class ValidityEvaluator(Evaluator):
     """
      An Evaluator class which evaluates the proportion of recourses which are valid
 

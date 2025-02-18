@@ -1,9 +1,10 @@
 from abc import abstractmethod, ABC
 
+from rocelib.evaluations.robustness_evaluations import Evaluator
 from rocelib.tasks.Task import Task
 
 
-class InputChangesRobustnessEvaluator(ABC):
+class InputChangesRobustnessEvaluator(ABC, Evaluator):
     """
     Abstract base class for evaluating the robustness of model predictions with respect to model changes.
 

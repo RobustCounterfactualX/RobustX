@@ -12,12 +12,12 @@ class Evaluator(ABC):
         Returns: a dictionary from recourse method -> score
         """
         for recourse_method in self.recourse_methods:
-            for instance in self.task.dataset:
-                self.evaluate_single_instance(instance, recourse_method)
+            for index in range(len(self.task.dataset.data)):
+                self.evaluate_single_instance(index, recourse_method)
     
 
     @abstractmethod
-    def evaluate_single_instance(self, instance, recourse_method):
+    def evaluate_single_instance(self, index, recourse_method):
         pass
 
         

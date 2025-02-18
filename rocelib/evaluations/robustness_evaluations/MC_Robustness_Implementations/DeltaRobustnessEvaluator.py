@@ -18,16 +18,16 @@ class DeltaRobustnessEvaluator(ModelChangesRobustnessEvaluator):
         opt (OptSolver): An optimizer instance for setting up and solving the MILP problem.
     """
 
-    def __init__(self, ct: Task):
+    def __init__(self, task: Task, recourse_methods: list[str]):
         """
         Initializes the DeltaRobustnessEvaluator with a given task.
 
         @param ct: The task to solve, provided as a Task instance.
         """
-        super().__init__(ct)
-        self.opt = OptSolver(ct)
+        super().__init__(task, recourse_methods)
+        self.opt = OptSolver(task)
 
-    def evaluate_single_instance(self, instance, recourse_method, desired_output=1, delta=0.5, bias_delta=0, M=1000000000, epsilon=0.0001):
+    def evaluate_single_instance(self, index, recourse_method, desired_output=1, delta=0.5, bias_delta=0, M=1000000000, epsilon=0.0001):
         """
         Evaluates whether the model's prediction for a given instance is robust to changes in the input.
 
@@ -40,7 +40,7 @@ class DeltaRobustnessEvaluator(ModelChangesRobustnessEvaluator):
         @param epsilon: A small constant used to ensure numerical stability.
         @return: A boolean indicating whether the model's prediction is robust given the desired output.
         """
-
+        instance = self.task.dataset.data[index]
         # Initialize the Gurobi model
         self.opt.gurobiModel = Model()
 

@@ -1,10 +1,11 @@
 from abc import abstractmethod, ABC
 
 from rocelib.evaluations import RecourseEvaluator
+from rocelib.evaluations.robustness_evaluations import Evaluator
 from rocelib.tasks.Task import Task
 
 
-class ModelMultiplicityRobustnessEvaluator(ABC, RecourseEvaluator):
+class ModelMultiplicityRobustnessEvaluator(ABC, Evaluator):
     """
     Abstract base class for evaluating the robustness of model predictions with respect to model changes.
 

@@ -11,15 +11,15 @@ class BaseRobustnessEvaluator(Evaluator):
     This class defines an interface for evaluating how robust a model's predictions with all the different robustness types.
     
     """
-    def evaluate(self, recourse_method):
+    def evaluate(self, recourse_method, **kwargs):
         """
         Returns: a list of evaluation scores
         """
         evaluations = []
         for index in range(len(self.task.dataset.data)):
-            evaluations.append(self.evaluate_single_instance(index, recourse_method))
+            evaluations.append(self.evaluate_single_instance(index, recourse_method, **kwargs))
         return evaluations
     
     @abstractmethod
-    def evaluate_single_instance(self, index, recourse_method):
+    def evaluate_single_instance(self, index, recourse_method, **kwargs):
         pass

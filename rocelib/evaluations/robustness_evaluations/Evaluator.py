@@ -7,7 +7,7 @@ class Evaluator(ABC):
         
 
     @abstractmethod
-    def evaluate(self, recourse_method):
+    def evaluate(self, recourse_method, **kwargs):
         """
         Returns: a list of evaluation scores
         """

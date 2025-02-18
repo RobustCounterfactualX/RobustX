@@ -3,7 +3,7 @@ import numpy as np
 import torch
 from rocelib.recourse_methods.RecourseGenerator import RecourseGenerator
 from rocelib.lib.distance_functions.DistanceFunctions import euclidean
-from rocelib.evaluations.robustness_evaluations.DeltaRobustnessEvaluator import DeltaRobustnessEvaluator
+from rocelib.evaluations.robustness_evaluations.MC_Robustness_Implementations.DeltaRobustnessEvaluator import DeltaRobustnessEvaluator
 from rocelib.tasks.Task import Task
 from rocelib.models.TrainableModel import TrainableModel
 

@@ -1,5 +1,7 @@
 import pandas as pd
 import time
+import torch
+import numpy as np
 
 from rocelib.tasks.Task import Task
 from typing import List, Dict, Any, Union
@@ -43,6 +45,9 @@ METHODS = {
 }
 EVALUATIONS = {"Distance": DistanceEvaluator}
 
+
+DATA_TYPES = {"DataFrame"}
+
 class ClassificationTask(Task):
     """
     A specific task type for classification problems that extends the base Task class.
@@ -77,7 +82,7 @@ class ClassificationTask(Task):
 
         return pos_instance
     
-    def generate(self, methods: List[str]) -> List[pd.DataFrame]:
+    def generate(self, methods: List[str], type="DataFrame") -> List[pd.DataFrame]:
         """
         Generates counterfactual explanations for the specified methods and stores the results.
 
@@ -98,14 +103,14 @@ class ClassificationTask(Task):
                 start_time = time.perf_counter()
 
                 res = recourse_method.generate_for_all()  # Generate counterfactuals
-
+                res_correct_type = self.convert_datatype(res, type)
                 # End timer
                 end_time = time.perf_counter()
 
                 # Store the result in the counterfactual explanations dictionary
                 self._CEs[method] = [res, end_time - start_time]  
 
-                all_generated_CEs.append(res)
+                all_generated_CEs.append(res_correct_type)
 
 
             except Exception as e:
@@ -155,3 +160,26 @@ class ClassificationTask(Task):
                 print(f"Error evaluating '{evaluation}': {e}")
 
         return evaluation_results
+    
+
+    def convert_datatype(self, data: pd.DataFrame, target_type: str):
+        """
+        Converts a Pandas DataFrame to the specified data type.
+
+        @param data: pd.DataFrame - The input DataFrame.
+        @param target_type: str - The target data type: "DataFrame", "NPArray", or "TTensor".
+        @return: Converted data in the specified format.
+        """
+        if not isinstance(data, pd.DataFrame):
+            raise ValueError("Input data must be a Pandas DataFrame.")
+
+        target_type = target_type.lower()  # Normalize input for case insensitivity
+
+        if target_type == "dataframe":
+            return data
+        elif target_type == "nparray":
+            return data.to_numpy()
+        elif target_type == "tensor":
+            return torch.tensor(data.to_numpy(), dtype=torch.float32)
+        else:
+            raise ValueError("Invalid target_type. Choose from: 'DataFrame', 'NPArray', 'Tensor'.")

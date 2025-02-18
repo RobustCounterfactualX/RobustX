@@ -1,10 +1,11 @@
 from abc import abstractmethod, ABC
 
 from rocelib.evaluations import RecourseEvaluator
+from rocelib.evaluations.robustness_evaluations import Evaluator
 from rocelib.tasks.Task import Task
 
 
-class ModelChangesRobustnessEvaluator(RecourseEvaluator):
+class NoisyExecutionRobustnessEvaluator(Evaluator, ABC):
     """
     Abstract base class for evaluating the robustness of model predictions with respect to model changes.
 

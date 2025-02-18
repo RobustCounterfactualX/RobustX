@@ -6,13 +6,19 @@ class Evaluator(ABC):
         self.task = task
         self.recourse_methods = recourse_methods
 
-    @abstractmethod
+
     def evaluate(self):
         """
         Returns: a dictionary from recourse method -> score
         """
-        pass
+        for recourse_method in self.recourse_methods:
+            for instance in self.task.dataset:
+                self.evaluate_single_instance(instance, recourse_method)
+    
 
     @abstractmethod
-    def evaluate_single_instance(self, instance):
+    def evaluate_single_instance(self, instance, recourse_method):
         pass
+
+        
+

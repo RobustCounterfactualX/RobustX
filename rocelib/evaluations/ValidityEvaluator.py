@@ -32,11 +32,25 @@ class ValidityEvaluator(Evaluator):
         @param valid_val: int, the target column value which denotes a valid CE
         @return:
         """
-        # Convert to DataFrame
+        # Convert to DataFrame if needed
         if not isinstance(instance, pd.DataFrame):
             instance = pd.DataFrame(instance).T
 
-        # Return if prediction is valid
+        # Drop categorical or non-numeric columns before prediction
+        instance = instance.drop(columns=["predicted", "loss", "target"], errors="ignore")
+
+        # Align instance columns to match model expected features
+        expected_features = self.task.dataset.X.columns
+        instance = instance[expected_features]  # Select only expected features
+
+        # Convert to float32 to avoid numpy.object_ errors
+        instance = instance.astype("float32")
+
+        # Ensure instance is not empty
+        if instance.empty:
+            return False
+
+        # Predict and check validity
         return self.task.model.predict_single(instance) == valid_val
 
     def evaluate(self, recourse_method, valid_val=1, column_name="target", **kwargs):
@@ -48,7 +62,7 @@ class ValidityEvaluator(Evaluator):
         @param kwargs: other arguments
         @return: int, proportion of CEs which are valid
         """
-        recourses = self.task._CEs[recourse_method]
+        recourses = self.task._CEs[recourse_method][0]
         valid = 0
         cnt = 0
 

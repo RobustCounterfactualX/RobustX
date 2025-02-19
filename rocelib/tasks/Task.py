@@ -41,6 +41,12 @@ class Task(ABC):
         """
         pass
 
+    def generate(self, methods: List[str]) -> Dict[str, Tuple[pd.DataFrame, float]]:
+        pass
+
+    def evaluate(self, methods: List[str], evaluations: List[str]) -> Dict[str, Dict[str, Any]]:
+        pass
+
     @property
     def dataset(self):
         """
@@ -49,6 +55,15 @@ class Task(ABC):
         @return: The training data loaded from DatasetLoader.
         """
         return self._dataset
+    
+    @property
+    def ces(self):
+        """
+        Property to access the training data.
+
+        @return: The training data loaded from DatasetLoader.
+        """
+        return self._CEs
 
     @property
     def model(self):

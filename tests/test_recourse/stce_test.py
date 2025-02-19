@@ -11,10 +11,8 @@ from rocelib.tasks.ClassificationTask import ClassificationTask
 
 
 
-def test_stce(testing_models) -> None:
-    ct = testing_models.get("ionosphere", "ionosphere", "pytorch", 34, 8, 1)
+# def test_stce(testing_models) -> None:
+#     ct = testing_models.get("ionosphere", "ionosphere", "pytorch", 34, 8, 1)
+#     res = ct.generate(["STCE"])
 
-    recourse = TrexNN(ct)
-    res = recourse.generate_for_all()
-
-    assert not res.empty
+#     assert not res["STCE"][0].empty

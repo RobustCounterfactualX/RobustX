@@ -38,7 +38,7 @@ class ManifoldEvaluator(Evaluator):
         @param kwargs: other arguments
         @return: proportion of CEs on manifold
         """
-        recourses = self.task._CEs[recourse_method]
+        recourses = self.task._CEs[recourse_method][0]
         
         on_manifold = 0
         cnt = 0

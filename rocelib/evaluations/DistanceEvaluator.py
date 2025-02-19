@@ -46,14 +46,24 @@ class DistanceEvaluator(Evaluator):
         @param kwargs: other arguments
         @return: int, average distance of CEs from their original instances
         """
-        recourses = self.task.CEs[recourse_method]
+        recourses = self.task.CEs[recourse_method][0]
         
-        df1 = recourses.drop(columns=[column_name, "loss"], errors='ignore')
+        df1 = recourses.drop(columns=[column_name, "loss", "predicted"], errors='ignore')
+        # df1 = df1.drop(columns=[column_name, "predicted"], errors='ignore')
+
 
         if subset is None:
             df2 = self.task.dataset.get_negative_instances(neg_value=1 - valid_val, column_name=column_name)
         else:
             df2 = subset
+
+        # Drop any extra target columns from df2
+        df2 = df2.drop(columns=[column_name, "predicted"], errors='ignore')
+
+        # **Ensure both DataFrames have the same columns before assertion**
+        df1 = df1[df2.columns]  # Align df1 columns to match df2
+
+        print(f"Final Shapes - df1: {df1.shape}, df2: {df2.shape}")
 
         # Ensure the DataFrames have the same shape
         assert df1.shape == df2.shape, "DataFrames must have the same shape"

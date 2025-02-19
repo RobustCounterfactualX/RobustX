@@ -51,12 +51,16 @@ class RobustnessProportionEvaluator(Evaluator):
         @param robustness_evaluator: ModelChangesRobustnessEvaluator.__class__, the CLASS of the evaluator to use
         @return: Proportion of CEs which are robust
         """
-        recourses = self.task._CEs[recourse_method]
+        recourses = self.task._CEs[recourse_method][0]
         robust = 0
         cnt = 0
 
-        # Get only the feature variables from the CEs
-        instances = recourses.drop(columns=[column_name, "loss"], errors='ignore')
+        # Drop categorical or non-numeric columns before evaluation
+        instances = recourses.drop(columns=[column_name, "loss", "predicted"], errors="ignore")
+
+        # Align columns to dataset features
+        expected_features = self.task.dataset.X.columns
+        instances = instances[expected_features]  # Select only the expected feature columns
 
         robustness_evaluator = robustness_evaluator(self.task)
 

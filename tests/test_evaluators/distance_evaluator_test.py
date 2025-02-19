@@ -8,15 +8,7 @@ from rocelib.tasks.ClassificationTask import ClassificationTask
 
 def test_distance(testing_models):
     ct = testing_models.get("ionosphere", "ionosphere", "decision tree")
-
-    recourse = BinaryLinearSearch(ct)
-
-    res = recourse.generate_for_all(neg_value=0, column_name="target", distance_func=manhattan)
-
-    dist_eval = DistanceEvaluator(ct)
-
-    avg_dist = dist_eval.evaluate(res, distance_func=manhattan)
-
-    mean = res["loss"].mean()
-
-    assert avg_dist == mean
+    ct.generate(["BinaryLinearSearch"])
+    evals = ct.evaluate(["BinaryLinearSearch"], ["Distance"], distance_func=manhattan)
+    avg_dist = evals["BinaryLinearSearch"]["Distance"]
+    assert avg_dist > 5

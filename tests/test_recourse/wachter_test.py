@@ -10,9 +10,8 @@ from rocelib.tasks.ClassificationTask import ClassificationTask
 def test_wachter(testing_models) -> None:
     ct = testing_models.get("ionosphere", "ionosphere", "pytorch", 34, 8, 1)
 
-    recourse = Wachter(ct)
-    res = recourse.generate_for_all(neg_value=0)
+    res = ct.generate(["Wachter"])
 
-    assert not res.empty
+    assert not res["Wachter"][0].empty
 
 

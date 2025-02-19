@@ -11,8 +11,6 @@ from rocelib.evaluations.ValidityEvaluator import ValidityEvaluator
 
 def test_rocoursenet(testing_models) -> None:
     ct = testing_models.get("ionosphere", "ionosphere", "pytorch", 34, 8, 1)
+    res = ct.generate(["RoCourseNet"])
 
-    recourse = RoCourseNet(ct)
-    res = recourse.generate_for_all()
-
-    assert not res.empty
+    assert not res["RoCourseNet"][0].empty

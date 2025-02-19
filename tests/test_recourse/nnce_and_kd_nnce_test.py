@@ -11,11 +11,9 @@ from rocelib.tasks.ClassificationTask import ClassificationTask
 
 def test_kdtree_nnce(testing_models) -> None:
     ct = testing_models.get("ionosphere", "ionosphere", "logistic regression")
+    res = ct.generate(["KDTreeNNCE"])
 
-    kdrecourse = KDTreeNNCE(ct)
-    res = kdrecourse.generate_for_all()
-
-    assert not res.empty
+    assert not res["KDTreeNNCE"][0].empty
 
 
 def test_kdtree_nnce_same_as_nnce(testing_models) -> None:

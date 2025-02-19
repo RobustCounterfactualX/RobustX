@@ -2,9 +2,11 @@ import pandas as pd
 import time
 import torch
 import numpy as np
+from tabulate import tabulate  # For better table formatting
+
 
 from rocelib.tasks.Task import Task
-from typing import List, Dict, Any, Union
+from typing import List, Dict, Any, Union, Tuple
 from rocelib.recourse_methods.BinaryLinearSearch import BinaryLinearSearch
 from rocelib.recourse_methods.NNCE import NNCE
 from rocelib.recourse_methods.KDTreeNNCE import KDTreeNNCE
@@ -12,10 +14,14 @@ from rocelib.recourse_methods.MCE import MCE
 from rocelib.recourse_methods.Wachter import Wachter
 from rocelib.recourse_methods.RNCE import RNCE
 from rocelib.recourse_methods.MCER import MCER
+from rocelib.recourse_methods.RoCourseNet import RoCourseNet
+from rocelib.recourse_methods.STCE import TrexNN
+
 
 from rocelib.evaluations.DistanceEvaluator import DistanceEvaluator
-
-
+from rocelib.evaluations.ValidityEvaluator import ValidityEvaluator
+from rocelib.evaluations.robustness_evaluations.MC_Robustness_Implementations.DeltaRobustnessEvaluator import DeltaRobustnessEvaluator
+from rocelib.evaluations.RobustnessProportionEvaluator import RobustnessProportionEvaluator
 # from robustx.generators.robust_CE_methods.APAS import APAS
 # from robustx.generators.robust_CE_methods.ArgEnsembling import ArgEnsembling
 # from robustx.generators.robust_CE_methods.DiverseRobustCE import DiverseRobustCE
@@ -41,12 +47,17 @@ METHODS = {
     "MCE": MCE,
     "Wachter": Wachter,
     "RNCE": RNCE,
-    "MCER": MCER
+    "MCER": MCER,
+    "RoCourseNet": RoCourseNet,
+    "STCE": TrexNN
 }
-EVALUATIONS = {"Distance": DistanceEvaluator}
 
+EVALUATIONS = {
+    "Distance": DistanceEvaluator,
+    "Validity": ValidityEvaluator,
+    "RobustnessProportionEvaluator": RobustnessProportionEvaluator,
+    }
 
-DATA_TYPES = {"DataFrame"}
 
 class ClassificationTask(Task):
     """
@@ -82,13 +93,12 @@ class ClassificationTask(Task):
 
         return pos_instance
     
-    def generate(self, methods: List[str], type="DataFrame") -> List[pd.DataFrame]:
+    def generate(self, methods: List[str], type="DataFrame", **kwargs) -> Dict[str, Tuple[pd.DataFrame, float]]:#List[pd.DataFrame]:
         """
         Generates counterfactual explanations for the specified methods and stores the results.
 
         @param methods: List of recourse methods (by name) to use for counterfactual generation.
         """
-        all_generated_CEs = []  # List to store lists of generated counterfactuals
 
         for method in methods:
             try:
@@ -102,7 +112,7 @@ class ClassificationTask(Task):
                 # Start timer
                 start_time = time.perf_counter()
 
-                res = recourse_method.generate_for_all()  # Generate counterfactuals
+                res = recourse_method.generate_for_all(**kwargs)  # Generate counterfactuals
                 res_correct_type = self.convert_datatype(res, type)
                 # End timer
                 end_time = time.perf_counter()
@@ -110,15 +120,12 @@ class ClassificationTask(Task):
                 # Store the result in the counterfactual explanations dictionary
                 self._CEs[method] = [res, end_time - start_time]  
 
-                all_generated_CEs.append(res_correct_type)
-
-
             except Exception as e:
                 print(f"Error generating counterfactuals with method '{method}': {e}")
             
-        return all_generated_CEs
+        return self.CEs
     
-    def evaluate(self, methods: List[str], evaluations: List[str]):
+    def evaluate(self, methods: List[str], evaluations: List[str], **kwargs) -> Dict[str, Dict[str, Any]]:
         """
         Evaluates the generated counterfactual explanations using specified evaluation metrics.
 
@@ -139,19 +146,28 @@ class ClassificationTask(Task):
             print("No valid methods have been generated for evaluation.")
             return evaluation_results
 
-        # Instantiate evaluators and evaluate
+        # Perform evaluation
         for evaluation in evaluations:
             evaluator_class = EVALUATIONS[evaluation]
 
             try:
-                # Create evaluator instance
-                evaluator = evaluator_class(self, valid_methods)
+                    # Create evaluator instance
+                evaluator = evaluator_class(self)
 
-                # Perform evaluation across all methods
-                eval_scores = evaluator.evaluate()
-                
-                # Store results
-                for method, score in eval_scores.items():
+                for method in valid_methods:
+                    # Retrieve generated counterfactuals
+                    counterfactuals = self._CEs[method][0]  # Extract DataFrame from stored list
+                    print(f"Shape of CEs for {method}: {counterfactuals.shape}")
+
+                    # Ensure counterfactuals are not empty
+                    if counterfactuals is None or counterfactuals.empty:
+                        print(f"Skipping evaluation for method '{method}' as no counterfactuals were generated.")
+                        continue
+
+                    # Perform evaluation
+                    score = evaluator.evaluate(method, **kwargs)
+
+                    # Store results
                     if method not in evaluation_results:
                         evaluation_results[method] = {}
                     evaluation_results[method][evaluation] = score
@@ -159,7 +175,33 @@ class ClassificationTask(Task):
             except Exception as e:
                 print(f"Error evaluating '{evaluation}': {e}")
 
+        # Print results in table format
+        self._print_evaluation_results(evaluation_results, evaluations)
+
         return evaluation_results
+
+    def _print_evaluation_results(self, evaluation_results: Dict[str, Dict[str, Any]], evaluations: List[str]):
+        """
+        Prints the evaluation results in a table format.
+
+        @param evaluation_results: Dictionary containing evaluation scores per method and metric.
+        @param evaluations: List of evaluation metrics that were actually requested.
+        """
+        if not evaluation_results:
+            print("No evaluation results to display.")
+            return
+
+        # Prepare table data
+        table_data = []
+        headers = ["Recourse Method"] + evaluations  # Only include requested evaluations
+
+        for method, scores in evaluation_results.items():
+            row = [method] + [scores.get(metric, "N/A") for metric in evaluations]
+            table_data.append(row)
+
+        print("\nEvaluation Results:")
+        print(tabulate(table_data, headers=headers, tablefmt="grid"))
+
     
 
     def convert_datatype(self, data: pd.DataFrame, target_type: str):

@@ -2,10 +2,11 @@ import pandas as pd
 from sklearn.neighbors import LocalOutlierFactor
 
 from rocelib.evaluations.RecourseEvaluator import RecourseEvaluator
+from rocelib.evaluations.robustness_evaluations.Evaluator import Evaluator
 
 
 ### Work In Progress ###
-class ManifoldEvaluator(RecourseEvaluator):
+class ManifoldEvaluator(Evaluator):
     """
      An Evaluator class which evaluates the proportion of recourses which are on the data manifold using LOF
 
@@ -28,7 +29,7 @@ class ManifoldEvaluator(RecourseEvaluator):
     -------
     """
 
-    def evaluate(self, recourses, n_neighbors=20, column_name="target", **kwargs):
+    def evaluate(self, recourse_method, n_neighbors=20, column_name="target", **kwargs):
         """
         Determines the proportion of CEs that lie on the data manifold based on LOF
         @param recourses: DataFrame, containing the CEs in the same order as the negative instances in the dataset
@@ -37,6 +38,8 @@ class ManifoldEvaluator(RecourseEvaluator):
         @param kwargs: other arguments
         @return: proportion of CEs on manifold
         """
+        recourses = self.task._CEs[recourse_method][0]
+        
         on_manifold = 0
         cnt = 0
 

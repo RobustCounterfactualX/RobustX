@@ -1,13 +1,13 @@
-import pandas as pd
 import numpy as np
 
-from rocelib.evaluations.RecourseEvaluator import RecourseEvaluator
+from rocelib.evaluations.robustness_evaluations.NoisyExecutionRobustnessEvaluator import \
+    NoisyExecutionRobustnessEvaluator
 from rocelib.tasks.Task import Task
 
 import random
 
 
-class InvalidationRateRobustnessEvaluator(RecourseEvaluator):
+class InvalidationRateRobustnessEvaluator(NoisyExecutionRobustnessEvaluator):
     """
      An Evaluator class which evaluates ...
 
@@ -40,30 +40,23 @@ class InvalidationRateRobustnessEvaluator(RecourseEvaluator):
         self.dataset_mins = self.task.dataset.X.min().to_frame().transpose().values
         self.dataset_maxs = self.task.dataset.X.max().to_frame().transpose().values
 
-    def evaluate(self, instance, **kwargs):
+    def evaluate_single_instance(self, index, recourse_method, **kwargs):
         """
         Evaluates whether the model's prediction for a given instance is robust to ...
 
-        @param instance: The instance to evaluate.
-        @param desired_output: The desired output for the model (0 or 1).
-                               The evaluation will check if the model's output matches this.
-        @param delta: The maximum allowable perturbation in the input features.
-        @param bias_delta: Additional bias to apply to the delta changes.
-        @param M: A large constant used in MILP formulation for modeling constraints.
-        @param epsilon: A small constant used to ensure numerical stability.
-        @return: A boolean indicating whether the model's prediction is robust given the desired output.
+        @param index: The index of the instance to evaluate.
+        @param recourse_method: The particular recourse method used for evaluation (not needed in this implementation)
+        @return: A boolean indicating whether the model's prediction is robust
         """
-
-        # IMPORTANT: used dataset should be normalised so each feature is in range [0, 1]
-        # instance is a single CE
 
         # use this to generate unique noise for every value in a df with more than one CEs
         # random_values = np.random.normal(loc=0, scale=5, size=df.shape)
         # df_new = df + random_values
 
         # TODO more tests
-        # TODO merge, then change to be like new DeltaRE (probably evaluate more than 1 CE at a time, return %)
 
+        # instance is a single CE
+        instance = self.task.dataset.data.iloc[index]
         instance = instance.drop(columns=["predicted", "Loss"], errors='ignore')
 
         mean = np.zeros(len(instance.columns))
@@ -77,11 +70,3 @@ class InvalidationRateRobustnessEvaluator(RecourseEvaluator):
         pred_noisy = self.task.model.predict_single(instance + denormalised_noise)
 
         return pred == pred_noisy
-
-        # calculate expectation of M(x') - M(x' + s)
-        # where M is the model which generates an output label
-        # x' is a predicted counterfactual
-        # sigma is a sampled noise vector
-
-
-

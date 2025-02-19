@@ -1,5 +1,5 @@
 # just copied this test from delta_robustness tests to see if it works
-from rocelib.evaluations.robustness_evaluations.InvalidationRateRobustnessEvaluator import \
+from rocelib.evaluations.robustness_evaluations.NE_Robustness_Implementations.InvalidationRateRobustnessEvaluator import \
     InvalidationRateRobustnessEvaluator
 from rocelib.recourse_methods.KDTreeNNCE import KDTreeNNCE
 

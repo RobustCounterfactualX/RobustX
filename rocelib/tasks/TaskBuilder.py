@@ -26,6 +26,7 @@ class TaskBuilder:
         Initializes the TaskBuilder with no model or dataset set.
         """
         self._model = None
+        self._mm_models = []
         self._data = None
         self._task_type = ClassificationTask  # Default task type will be ClassificationTask
 
@@ -65,7 +66,10 @@ class TaskBuilder:
         if ext not in model_classes:
             raise ValueError(f"Unsupported model format: {ext}")
 
-        self._model = model_classes[ext](model_path)
+        model = model_classes[ext](model_path)
+        if not self._model:
+            self._model = model
+        self._mm_models.append(model)
         return self
 
     def add_pytorch_model(self, input_dim, hidden_dim, output_dim, training_data: DatasetLoader):
@@ -77,7 +81,10 @@ class TaskBuilder:
         @param output_dim: Number of output neurons.
         @return: self (TaskBuilder) for method chaining.
         """
-        self._model = TrainablePyTorchModel(input_dim, hidden_dim, output_dim).train(training_data.X, training_data.y)
+        model = TrainablePyTorchModel(input_dim, hidden_dim, output_dim).train(training_data.X, training_data.y)
+        if not self._model:
+            self._model = model
+        self._mm_models.append(model)
         return self
     
     def add_sklearn_model(self, model_type: str, training_data: DatasetLoader): # TODO - enum of sk learn types
@@ -97,7 +104,10 @@ class TaskBuilder:
         if model_type not in sk_types:
             raise ValueError(f"Unsupported sk model type: {model_type}. Please use one of: {sk_types.keys()}")
 
-        self._model = sk_types[model_type]().train(training_data.X, training_data.y)
+        model = sk_types[model_type]().train(training_data.X, training_data.y)
+        if not self._model:
+            self._model = model
+        self._mm_models.append(model)
 
         return self
     
@@ -110,13 +120,17 @@ class TaskBuilder:
         @param output_dim: Number of output neurons.
         @return: self (TaskBuilder) for method chaining.
         """
-        self._model = TrainableKerasModel(input_dim, hidden_dim, output_dim).train(training_data.X, training_data.y)
+        model = TrainableKerasModel(input_dim, hidden_dim, output_dim).train(training_data.X, training_data.y)
+        if not self._model:
+            self._model = model
+        self._mm_models.append(model)
         return self
 
 
     def add_data(self, data: DatasetLoader):
         self._data = data
         return self
+
 
     def build(self) -> Task:
         """
@@ -130,4 +144,4 @@ class TaskBuilder:
         if not self._data:
             raise ValueError("Data must be added before building the Task.")
         
-        return self._task_type(self._model, self._data)
+        return self._task_type(self._model, self._data, self._mm_models)

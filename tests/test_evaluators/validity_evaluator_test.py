@@ -7,16 +7,9 @@ from rocelib.tasks.ClassificationTask import ClassificationTask
 
 
 def test_validity(testing_models):
+    # assumes binarylinearsearch has 100% validity
     ct = testing_models.get("ionosphere", "ionosphere", "decision tree")
-
-    recourse = BinaryLinearSearch(ct)
-
-    res = recourse.generate_for_all(neg_value=0, column_name="target", distance_func=manhattan)
-
-    val_eval = ValidityEvaluator(ct)
-
-    efficacy = val_eval.evaluate(res)
-
-    print(f"Valid: {efficacy}")
-
+    ct.generate(["BinaryLinearSearch"])
+    evals = ct.evaluate(["BinaryLinearSearch"], ["Validity"], distance_func=manhattan)
+    efficacy = evals["BinaryLinearSearch"]["Validity"]
     assert efficacy == 1

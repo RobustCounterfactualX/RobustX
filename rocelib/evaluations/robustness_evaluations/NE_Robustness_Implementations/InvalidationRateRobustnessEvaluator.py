@@ -57,16 +57,17 @@ class InvalidationRateRobustnessEvaluator(NoisyExecutionRobustnessEvaluator):
 
         # instance is a single CE
         instance = self.task.dataset.data.iloc[index]
-        instance = instance.drop(columns=["predicted", "Loss"], errors='ignore')
+        instance = instance.drop(labels=["target"])
 
-        mean = np.zeros(len(instance.columns))
+        feature_count = len(instance)
+
+        mean = np.zeros(feature_count)
         stddev = 0.1
-        cov_matrix = (stddev**2) * np.identity(len(instance.columns))
+        cov_matrix = (stddev**2) * np.identity(feature_count)
+        noise = np.random.multivariate_normal(mean, cov_matrix, size=1)  # size 1 as only 1 CE
 
-        noise = np.random.multivariate_normal(mean, cov_matrix, size=len(instance))
         pred = self.task.model.predict_single(instance)
-
         denormalised_noise = noise * (self.dataset_maxs - self.dataset_mins)
-        pred_noisy = self.task.model.predict_single(instance + denormalised_noise)
+        pred_noisy = self.task.model.predict_single(instance + denormalised_noise.flatten())
 
         return pred == pred_noisy

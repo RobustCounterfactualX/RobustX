@@ -40,13 +40,12 @@ class InvalidationRateRobustnessEvaluator(NoisyExecutionRobustnessEvaluator):
         self.dataset_mins = self.task.dataset.X.min().to_frame().transpose().values
         self.dataset_maxs = self.task.dataset.X.max().to_frame().transpose().values
 
-    def evaluate_single_instance(self, instance, counterfactual, recourse_method, **kwargs):
+    def evaluate_single_instance(self, instance, counterfactual, **kwargs):
         """
         Evaluates whether the model's prediction for a given instance is robust to ...
 
         @param instance: input
         @param counterfactual: CE
-        @param recourse_method: The particular recourse method used for evaluation (not needed in this implementation)
         @return: A boolean indicating whether the model's prediction is robust
         """
 

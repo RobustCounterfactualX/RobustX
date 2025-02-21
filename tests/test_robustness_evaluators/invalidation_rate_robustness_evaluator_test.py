@@ -12,7 +12,7 @@ from rocelib.recourse_methods.KDTreeNNCE import KDTreeNNCE
 
 #     opt = InvalidationRateRobustnessEvaluator(ct)
 
-#     for _, neg in ct.dataset.get_negative_instances(neg_value=0).iterrows():
+#     for _, neg in ct.dataset.get_negative_instances().iterrows():
 #         ce = kdtree.generate_for_instance(neg)
 #         robust = opt.evaluate(ce, delta=0.0000000000000000001)
 #         print("######################################################")

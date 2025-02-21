@@ -23,7 +23,7 @@ def test_from_example_8_in_paper():
     trained_model = model.set_weights(weights)
 
     # Load dummy dataset and create task
-    dl = CsvDatasetLoader('./assets/random_normal_values.csv', "target")
+    dl = CsvDatasetLoader('./assets/random_normal_values.csv', "target", 0)
     ct = ClassificationTask(trained_model, dl)
 
     # Create robustness checker
@@ -78,14 +78,14 @@ def test_mix_of_robustness_from_example_7_in_paper():
     # Set the custom weights
     trained_model = model.set_weights(weights)
 
-    dl = CsvDatasetLoader('./assets/random_normal_values.csv', "target")
+    dl = CsvDatasetLoader('./assets/random_normal_values.csv', "target", 0)
     ct = ClassificationTask(trained_model, dl)
 
     kdtree = KDTreeNNCE(ct)
 
     opt = DeltaRobustnessEvaluator(ct)
 
-    for _, neg in dl.get_negative_instances(neg_value=0).iterrows():
+    for _, neg in dl.get_negative_instances().iterrows():
         ce = kdtree.generate_for_instance(neg)
         robust = opt.evaluate(ce, delta=0.05)
         print("######################################################")
@@ -102,7 +102,7 @@ def test_ionosphere_kdtree_robustness(testing_models):
 
     opt = DeltaRobustnessEvaluator(ct)
 
-    for _, neg in ct.dataset.get_negative_instances(neg_value=0).iterrows():
+    for _, neg in ct.dataset.get_negative_instances().iterrows():
         ce = kdtree.generate_for_instance(neg)
         robust = opt.evaluate(ce, delta=0.0000000000000000001)
         print("######################################################")

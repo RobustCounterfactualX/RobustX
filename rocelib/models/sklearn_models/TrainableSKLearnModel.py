@@ -2,6 +2,7 @@ import pandas as pd
 import torch
 from sklearn.metrics import accuracy_score, f1_score
 
+from rocelib.datasets.DatasetLoader import DatasetLoader
 from rocelib.models.TrainableModel import TrainableModel
 from rocelib.models.TrainedModel import TrainedModel
 from rocelib.models.imported_models.SKLearnModel import SKLearnModel
@@ -28,7 +29,6 @@ class TrainableSKLearnModel(TrainableModel):
         """
         Trains the scikit-learn model.
 
-        @param X: The feature variables, should be a DataFrame.
         @param y: The target variable, should be a DataFrame.
         """
         self.model.fit(X, y)

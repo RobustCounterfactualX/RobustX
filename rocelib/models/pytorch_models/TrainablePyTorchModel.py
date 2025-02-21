@@ -96,8 +96,7 @@ class TrainablePyTorchModel(TrainableModel):
         """
         Trains the neural network model.
 
-        @param X: Feature variables as a pandas DataFrame.
-        @param y: Target variable as a pandas DataFrame.
+        @param dataset_loader: Feature and target variables as a DatasetLoader
         @param epochs: Number of training epochs.
         """
         self.model.train()

@@ -35,7 +35,7 @@ def get_example_dataset(name: str):
         ds.load_data()
         return ds
     elif name == "recruitment":
-        ds = CsvDatasetLoader('./assets/recruitment_data.csv', "HiringDecision")
+        ds = CsvDatasetLoader('./assets/recruitment_data.csv', "HiringDecision", 0)
         return ds
     else:
         raise ValueError(f"Unknown dataset: {name}")

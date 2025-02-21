@@ -55,7 +55,6 @@ class InvalidationRateRobustnessEvaluator(NoisyExecutionRobustnessEvaluator):
         # df_new = df + random_values
 
         # TODO more tests
-
         counterfactual = counterfactual.drop(labels=["predicted", "Loss"])
 
         feature_count = len(counterfactual)

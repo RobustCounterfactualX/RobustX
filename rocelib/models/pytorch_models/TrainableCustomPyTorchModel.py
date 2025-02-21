@@ -4,6 +4,7 @@ import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import DataLoader, TensorDataset
 
+from rocelib.datasets.DatasetLoader import DatasetLoader
 from rocelib.models.TrainableModel import TrainableModel
 from rocelib.models.TrainedModel import TrainedModel
 
@@ -57,8 +58,7 @@ class TrainableCustomPyTorchModel(TrainableModel):
         """
         Train the PyTorch model using the provided data.
 
-        @param X: Feature variables as a pandas DataFrame.
-        @param y: Target variable as a pandas DataFrame.
+        @param dataset_loader: Feature and target variables as a DatasetLoader
         @param epochs: Number of training epochs, default is 10.
         @param batch_size: Size of each mini-batch, default is 32.
         """

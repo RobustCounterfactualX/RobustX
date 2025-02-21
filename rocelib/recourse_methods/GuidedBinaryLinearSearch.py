@@ -14,7 +14,7 @@ class GuidedBinaryLinearSearch(RecourseGenerator):
         opt = DeltaRobustnessEvaluator(self.task)
 
         # Keep getting random positive counterfactual until we find one that is robust
-        while not opt.evaluate(instance, desired_output=1 - neg_value):
+        while not opt.evaluate_single_instance(instance):
             c = self.task.get_random_positive_instance(neg_value, column_name).T
 
         # Make sure column names are same so return result has same indices

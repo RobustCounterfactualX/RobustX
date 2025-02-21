@@ -16,13 +16,18 @@ from rocelib.recourse_methods.RNCE import RNCE
 from rocelib.recourse_methods.MCER import MCER
 from rocelib.recourse_methods.RoCourseNet import RoCourseNet
 from rocelib.recourse_methods.STCE import TrexNN
+from rocelib.recourse_methods.GuidedBinaryLinearSearch import GuidedBinaryLinearSearch
+# from rocelib.recourse_methods.ModelMultiplicityMILP import ModelMultiplicityMILP
+from rocelib.recourse_methods.APAS import APAS
+# from rocelib.recourse_methods.ArgEnsembling import ArgEnsembling
+from rocelib.recourse_methods.DiverseRobustCE import DiverseRobustCE
 
-
+from rocelib.evaluations.ManifoldEvaluator import ManifoldEvaluator
 from rocelib.evaluations.DistanceEvaluator import DistanceEvaluator
 from rocelib.evaluations.ValidityEvaluator import ValidityEvaluator
 from rocelib.evaluations.robustness_evaluations.MC_Robustness_Implementations.DeltaRobustnessEvaluator import DeltaRobustnessEvaluator
 from rocelib.evaluations.RobustnessProportionEvaluator import RobustnessProportionEvaluator
-# from robustx.generators.robust_CE_methods.APAS import APAS
+
 # from robustx.generators.robust_CE_methods.ArgEnsembling import ArgEnsembling
 # from robustx.generators.robust_CE_methods.DiverseRobustCE import DiverseRobustCE
 # from robustx.generators.robust_CE_methods.MCER import MCER
@@ -33,8 +38,7 @@ from rocelib.evaluations.RobustnessProportionEvaluator import RobustnessProporti
 # from robustx.generators.robust_CE_methods.STCE import STCE
 
 # METHODS = {"APAS": APAS, "ArgEnsembling": ArgEnsembling, "DiverseRobustCE": DiverseRobustCE, "MCER": MCER,
-#            "ModelMultiplicityMILP": ModelMultiplicityMILP, "PROPLACE": PROPLACE, "RNCE": RNCE, "ROAR": ROAR,
-#            "STCE": STCE, "BinaryLinearSearch": BinaryLinearSearch, "GuidedBinaryLinearSearch": GuidedBinaryLinearSearch,
+#            "STCE": TrexNN, "BinaryLinearSearch": BinaryLinearSearch, "GuidedBinaryLinearSearch": GuidedBinaryLinearSearch,
 #            "NNCE": NNCE, "KDTreeNNCE": KDTreeNNCE, "MCE": MCE, "Wachter": Wachter}
 # EVALUATIONS = {"Distance": DistanceEvaluator, "Validity": ValidityEvaluator, "Manifold": ManifoldEvaluator,
 #                "Delta-robustness": RobustnessProportionEvaluator}
@@ -42,6 +46,8 @@ from rocelib.evaluations.RobustnessProportionEvaluator import RobustnessProporti
 
 METHODS = {
     "BinaryLinearSearch": BinaryLinearSearch,
+    "GuidedBinaryLinearSearch": GuidedBinaryLinearSearch,
+    # "MMMILP": ModelMultiplicityMILP,
     "NNCE": NNCE,
     "KDTreeNNCE": KDTreeNNCE,
     "MCE": MCE,
@@ -55,8 +61,11 @@ METHODS = {
 EVALUATIONS = {
     "Distance": DistanceEvaluator,
     "Validity": ValidityEvaluator,
-    "RobustnessProportionEvaluator": RobustnessProportionEvaluator,
+    "DeltaRobustnessEvaluator": RobustnessProportionEvaluator,
+
     }
+
+TIMEOUT_SECONDS = 60
 
 
 class ClassificationTask(Task):
@@ -101,6 +110,7 @@ class ClassificationTask(Task):
         """
 
         for method in methods:
+            
             try:
                 # Check if the method exists in the dictionary
                 if method not in METHODS:

@@ -40,12 +40,12 @@ class InvalidationRateRobustnessEvaluator(NoisyExecutionRobustnessEvaluator):
         self.dataset_mins = self.task.dataset.X.min().to_frame().transpose().values
         self.dataset_maxs = self.task.dataset.X.max().to_frame().transpose().values
 
-    def evaluate_single_instance(self, index, recourse_method, **kwargs):
+    def evaluate_single_instance(self, instance, counterfactual, **kwargs):
         """
         Evaluates whether the model's prediction for a given instance is robust to ...
 
-        @param index: The index of the instance to evaluate.
-        @param recourse_method: The particular recourse method used for evaluation (not needed in this implementation)
+        @param instance: input
+        @param counterfactual: CE
         @return: A boolean indicating whether the model's prediction is robust
         """
 
@@ -54,21 +54,17 @@ class InvalidationRateRobustnessEvaluator(NoisyExecutionRobustnessEvaluator):
         # df_new = df + random_values
 
         # TODO more tests
+        counterfactual = counterfactual.drop(labels=["predicted", "Loss"])
 
-        # instance is a single CE
-        instance = self.task.dataset.data.iloc[index]
-        ce = self.task.CEs[recourse_method][0].iloc[index]
-        instance = instance.drop(labels=["target"])
-
-        feature_count = len(instance)
+        feature_count = len(counterfactual)
 
         mean = np.zeros(feature_count)
         stddev = 0.1
         cov_matrix = (stddev**2) * np.identity(feature_count)
         noise = np.random.multivariate_normal(mean, cov_matrix, size=1)  # size 1 as only 1 CE
 
-        pred = self.task.model.predict_single(instance)
+        pred = self.task.model.predict_single(counterfactual)
         denormalised_noise = noise * (self.dataset_maxs - self.dataset_mins)
-        pred_noisy = self.task.model.predict_single(instance + denormalised_noise.flatten())
+        pred_noisy = self.task.model.predict_single(counterfactual + denormalised_noise.flatten())
 
         return pred == pred_noisy

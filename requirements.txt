@@ -74,3 +74,4 @@ wheel==0.45.1
 wrapt==1.17.0
 
 multimethod~=2.0
+clingo>=5.6.2

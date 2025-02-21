@@ -32,7 +32,7 @@ def test_from_example_8_in_paper():
     # Create instance for which to check robustness, this one is not robust
     ce = pd.DataFrame({'x1': [0.7], 'x2': [0.7]})
 
-    robust_check_1 = opt.evaluate(ce, delta=0.1)
+    robust_check_1 = opt.evaluate_single_instance(ce, delta=0.1)
     print("######################################################")
     print("CE was: ", ce)
     print("This CE was" + ("" if robust_check_1 else " not") + " robust")
@@ -43,7 +43,7 @@ def test_from_example_8_in_paper():
     # This one is the original negative instance and so is not robust
     ce = pd.DataFrame({'x1': [0.7], 'x2': [0.5]})
 
-    robust_check_2 = opt.evaluate(ce, delta=0.1)
+    robust_check_2 = opt.evaluate_single_instance(ce, delta=0.1)
     print("######################################################")
     print("CE was: ", ce)
     print("This CE was" + ("" if robust_check_2 else " not") + " robust")
@@ -54,7 +54,7 @@ def test_from_example_8_in_paper():
     # This one is robust
     ce = pd.DataFrame({'x1': [0.7], 'x2': [0.86]})
 
-    robust_check_3 = opt.evaluate(ce, delta=0.1)
+    robust_check_3 = opt.evaluate_single_instance(ce, delta=0.1)
     print("######################################################")
     print("CE was: ", ce)
     print("This CE was" + ("" if robust_check_3 else " not") + " robust")
@@ -87,7 +87,7 @@ def test_mix_of_robustness_from_example_7_in_paper():
 
     for _, neg in dl.get_negative_instances().iterrows():
         ce = kdtree.generate_for_instance(neg)
-        robust = opt.evaluate(ce, delta=0.05)
+        robust = opt.evaluate_single_instance(ce, delta=0.05)
         print("######################################################")
         print("CE was: ", ce)
         print("This CE was" + ("" if robust else " not") + " robust")
@@ -104,7 +104,7 @@ def test_ionosphere_kdtree_robustness(testing_models):
 
     for _, neg in ct.dataset.get_negative_instances().iterrows():
         ce = kdtree.generate_for_instance(neg)
-        robust = opt.evaluate(ce, delta=0.0000000000000000001)
+        robust = opt.evaluate_single_instance(ce, delta=0.0000000000000000001)
         print("######################################################")
         print("CE was: ", ce)
         print("This CE was" + ("" if robust else " not") + " robust")

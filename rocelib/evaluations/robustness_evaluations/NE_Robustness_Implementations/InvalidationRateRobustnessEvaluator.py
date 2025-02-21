@@ -57,6 +57,7 @@ class InvalidationRateRobustnessEvaluator(NoisyExecutionRobustnessEvaluator):
 
         # instance is a single CE
         instance = self.task.dataset.data.iloc[index]
+        ce = self.task.CEs[recourse_method][0].iloc[index]
         instance = instance.drop(labels=["target"])
 
         feature_count = len(instance)

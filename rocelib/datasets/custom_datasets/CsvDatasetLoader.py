@@ -1,81 +1,47 @@
 import pandas as pd
 
-from ..DatasetLoader import DatasetLoader
+from rocelib.datasets.DatasetLoader import DatasetLoader
 
 
 class CsvDatasetLoader(DatasetLoader):
-    """
-    A DatasetLoader class which opens a CSV and loads it into DatasetLoader format
+    def __init__(self, file_path, target_column_label, neg_value, header=0, names=None):
+        super().__init__(target_column_label, neg_value)
+        self.file_path = file_path
+        self._data = None
+        self._header = header
+        self._names = names
+        self.load_data()
 
-        ...
 
-    Attributes / Properties
-    -------
-
-    _data: pd.DataFrame
-        Stores the dataset as a DataFrame, only has value once load_data() called
-
-    _target_col: str
-        Stores name of target variable
-
-    X: pd.DataFrame
-        Stores the feature columns as a DataFrame, only has value once load_data() called
-
-    y: pd.DataFrame
-        Stores the target column as a DataFrame, only has value once load_data() called
-
-    -------
-
-    Methods
-    -------
-
-    get_negative_instances() -> pd.DataFrame:
-        Filters all the negative instances in the dataset and returns them
-
-    get_random_positive_instance() -> pd.Series:
-        Returns a random instance where the target variable is NOT the neg_value
-
-    -------
-    """
-
-    def __init__(self, csv, target_column, header=0, names=None):
-        """
-        @param csv: str, Path to csv
-        @param target_column: str, Name of column storing target variable
-        @param header: optional int, Row number(s) containing column labels and marking the start of the data (zero-indexed).
-        @param names: optional list[str], Column labels
-        """
-        super().__init__()
-        self._target_col = target_column
-        self.__load_data(csv, header, names)
-        if target_column not in self._data.columns:
-            raise ValueError(f"Target column {target_column} not found in dataset")
-
-    def __load_data(self, csv, header, names):
-        """
-        Loads data into protected self._data attribute
-        @param csv: str, Path to csv
-        @param header: optional int, Row number(s) containing column labels and marking the start of the data (zero-indexed).
-        @param names: optional list[str], Column labels
-        @return:
-        """
+    def load_data(self):
+        """Loads the CSV data and validates the target column specification."""
         try:
+            # Load CSV
+            self._data = pd.read_csv(self.file_path, header=self._header, names=self._names)
 
-            if names is None:
-                self._data = pd.read_csv(csv, header=header)
-                print("no names", self._data)
-            else:
-                self._data = pd.read_csv(csv, header=header, names=names)
-                print("with names", self._data)
+            # Ensure the CSV is not empty
+            if self._data.empty:
+                raise ValueError("The loaded dataset is empty.")
+
+
+            # Validate target column specification
+            if self._target_column_label not in self._data.columns:
+                raise ValueError(
+                    f"Target column label '{self._target_column_label}' not found in dataset columns.")
+
+
         except FileNotFoundError:
-            raise FileNotFoundError(f"File {csv} not found")
-
-
-
+            raise FileNotFoundError(f"The file '{self.file_path}' was not found.")
+        except pd.errors.EmptyDataError:
+            raise ValueError("The file is empty or cannot be read as a valid CSV.")
+        except pd.errors.ParserError:
+            raise ValueError("The file could not be parsed as a valid CSV format.")
     @property
     def X(self):
-        return self._data.drop(columns=[self._target_col])
+        """Returns the feature matrix (X) by excluding the target column."""
+        return self._data.drop(columns=[self._target_column_label])
 
     @property
-    def y(self) -> pd.Series:
-        return self._data[[self._target_col]]
+    def y(self):
+        """Returns the target column (y)."""
+        return self._data[self._target_column_label]

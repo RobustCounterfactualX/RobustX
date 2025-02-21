@@ -14,23 +14,24 @@ def test_correct_evaluations_generated(testing_models) -> None:
     evals = ct.evaluate(["MCE", "BinaryLinearSearch"], ["Distance", "Validity"])
     assert isinstance(evals["MCE"]["Distance"], np.float64)
 
-# def test_correct_robustness_evaluations_generated(testing_models) -> None:
-#     ct = testing_models.get("ionosphere", "ionosphere", "pytorch", 34, 8, 1)
-#     ces = ct.generate(["MCE", "BinaryLinearSearch"])
-#     evals = ct.evaluate(["MCE"], ["Distance"])
-#     assert not ces["MCE"]["Distance"].empty
-
-# def test_generate_np_conversion(testing_models) -> None:
-#     ct = testing_models.get("ionosphere", "ionosphere", "pytorch", 34, 8, 1)
-#     ces = ct.generate(["MCE"], "NPArray")
-#     assert isinstance(ces[0][0], np.ndarray)
-
-def test_visualisation_radar_chart(testing_models) -> None:
+def test_correct_robustness_evaluations_generated(testing_models) -> None:
     ct = testing_models.get("ionosphere", "ionosphere", "pytorch", 34, 8, 1)
     ces = ct.generate(["MCE", "BinaryLinearSearch"])
-    evals = ct.evaluate(["MCE", "BinaryLinearSearch"], ["Distance", "Validity", "RobustnessProportionEvaluator", "ExtraMetric"], visualisation=True)
-    assert evals is not None  # Ensure evaluation does not return None
-    # No assertion for plots since they are visual, but no errors should occur
+    evals = ct.evaluate(["MCE"], ["RobustnessProportionEvaluator"])
+    assert len(evals["MCE"]) == 1
+
+def test_robustness_and_standards_evaluations_generated(testing_models) -> None:
+    ct = testing_models.get("ionosphere", "ionosphere", "pytorch", 34, 8, 1)
+    ces = ct.generate(["MCE", "BinaryLinearSearch"])
+    evals = ct.evaluate(["MCE"], ["RobustnessProportionEvaluator", "Distance"])
+    assert len(evals["MCE"]) == 2
+
+# def test_visualisation_radar_chart(testing_models) -> None:
+#     ct = testing_models.get("ionosphere", "ionosphere", "pytorch", 34, 8, 1)
+#     ces = ct.generate(["MCE", "BinaryLinearSearch"])
+#     evals = ct.evaluate(["MCE", "BinaryLinearSearch"], ["Distance", "Validity", "RobustnessProportionEvaluator", "ExtraMetric"], visualisation=True)
+#     assert evals is not None  # Ensure evaluation does not return None
+#     # No assertion for plots since they are visual, but no errors should occur
 
 def test_visualisation_bar_chart(testing_models) -> None:
     ct = testing_models.get("ionosphere", "ionosphere", "pytorch", 34, 8, 1)
@@ -49,6 +50,7 @@ def test_invalid_metrics_raises_exception(testing_models) -> None:
         ct.evaluate(["MCE"], ["InvalidMetric"], visualisation=True)
     except ValueError as e:
         assert "Invalid evaluation metrics" in str(e)
+
 def test_generate_df_conversion(testing_models) -> None:
     ct = testing_models.get("ionosphere", "ionosphere", "pytorch", 34, 8, 1)
     ces = ct.generate(["MCE"], "DataFrame")

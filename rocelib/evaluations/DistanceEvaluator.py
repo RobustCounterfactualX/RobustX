@@ -53,7 +53,7 @@ class DistanceEvaluator(Evaluator):
 
 
         if subset is None:
-            df2 = self.task.dataset.get_negative_instances(neg_value=1 - valid_val, column_name=column_name)
+            df2 = self.task.dataset.get_negative_instances()
         else:
             df2 = subset
 

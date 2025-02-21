@@ -6,32 +6,27 @@ class MultiplicityValidityRobustnessEvaluator(ModelMultiplicityRobustnessEvaluat
     The robustness evaluator that examines how many models (in %) each counterfactual is valid on.
     """
 
-    def evaluate_single_instance(self, index, recourse_method, **kwargs):
-        # def evaluate_single_instance(self, index, counterfactuals):
+    def evaluate_single_instance(self, instance, counterfactuals, **kwargs):
         """
         Evaluate on average how many models (in %) each counterfactual is valid on.
 
         @param index: An index for the input instance.
-        @param recourse_method: the recourse method to perform evaluation for.
         """
-        instance = self.task.dataset.data.iloc[index]
-        instance = instance.drop('target')
+        # instance = self.task.dataset.data.iloc[index]
+        # instance = list(self.task.dataset.get_negative_instances())[index]
+        # instance = instance.drop('target')
 
         # mm_CEs: Dict[str, Dict[str, Tuple[pd.DataFrame, float]]]
+        # instance = instance.drop('target')
 
-        # Get the counterfactual for each model for this instance and put all into a list
-        counterfactuals = []
-        ces = self.task.mm_CEs[recourse_method]
-        for model_name in ces:
-            counterfactual = ces[model_name][0].iloc[index].drop('predicted').drop('Loss')
-            counterfactuals.append(counterfactual)
+        counterfactuals = [ce.drop('predicted').drop('Loss') for ce in counterfactuals]
 
         avg_valid_num = 0
         for c in counterfactuals:
-            avg_valid_num += self.evaluate_single_counterfactual(instance, c, recourse_method)
+            avg_valid_num += self.evaluate_single_counterfactual(instance, c)
         return avg_valid_num / len(counterfactuals)
 
-    def evaluate_single_counterfactual(self, instance, counterfactual, recourse_method):
+    def evaluate_single_counterfactual(self, instance, counterfactual):
         """
         Evaluate how many models (in %) one counterfactual is valid on.
 

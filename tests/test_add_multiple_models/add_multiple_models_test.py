@@ -33,3 +33,25 @@ def test_generate_mm() -> None:
 
 
     #TODO: for some reason generate_mm doesn't work for BinaryLinearSearch
+
+def test_evaluate_without_generating_any_mm() -> None:
+    dl = get_example_dataset("ionosphere")
+    ct = TaskBuilder().add_pytorch_model(34, [8], 1, dl).add_pytorch_model(34, [8], 1, dl).add_data(dl).build()
+
+    recourse_methods = ["KDTreeNNCE"]
+    ces = ct.generate(recourse_methods) # we are not generating mm so evaluate should not work
+
+    evals = ct.evaluate(["KDTreeNNCE"], ["ModelMultiplicityRobustness"])
+
+    assert len(evals) == 0
+
+def test_evaluate_without_generating_all_mm() -> None:
+    dl = get_example_dataset("ionosphere")
+    ct = TaskBuilder().add_pytorch_model(34, [8], 1, dl).add_pytorch_model(34, [8], 1, dl).add_data(dl).build()
+
+    recourse_methods = ["KDTreeNNCE"]
+    ces = ct.generate_mm(recourse_methods) # we are not generating for all methods we want to evaluate for
+
+    evals = ct.evaluate(["KDTreeNNCE", "MCE"], ["ModelMultiplicityRobustness"])
+
+    assert len(evals) == 1

@@ -16,10 +16,10 @@ class BaseRobustnessEvaluator(Evaluator):
         Returns: a list of evaluation scores
         """
         evaluations = []
-        for index in range(len(self.task.dataset.data)):
-            evaluations.append(self.evaluate_single_instance(index, recourse_method, **kwargs))
+        # for index in range(len(self.task.dataset.data)):
+        #     evaluations.append(self.evaluate_single_instance(index, recourse_method, **kwargs))
         return evaluations
-    
+
     @abstractmethod
-    def evaluate_single_instance(self, index, recourse_method, **kwargs):
+    def evaluate_single_instance(self, instance, counterfactual, **kwargs):
         pass

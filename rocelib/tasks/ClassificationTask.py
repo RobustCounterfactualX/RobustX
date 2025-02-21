@@ -126,7 +126,7 @@ class ClassificationTask(Task):
             
         return self.CEs
 
-    def generate_mm(self, methods: List[str], type="DataFrame", **kwargs) -> Dict[str, Tuple[pd.DataFrame, float]]:
+    def generate_mm(self, methods: List[str], type="DataFrame", **kwargs) -> Dict[str, Dict[str, Tuple[pd.DataFrame, float]]]:
         #TODO: should this be in the self.generate() function (so the generate func would return a dict if mm_flag off or a list of dicts if mm_flag on
         if not self.mm_flag:
             raise ValueError("Multiple models must be added in order to generate for MM")
@@ -199,6 +199,16 @@ class ClassificationTask(Task):
         if not valid_methods:
             print("No valid methods have been generated for evaluation.")
             return evaluation_results
+        print(f"generate has not been called for {list(set(methods) - set(valid_methods))} so evaluations were not performed for these")
+
+        # Filter out methods that haven't been generated for MM if mm_flag is on
+        if self.mm_flag:
+            valid_methods = [method for method in methods if (method in self.mm_CEs and len(self.mm_CEs[method].keys()) == len(self.mm_models))]
+            if not valid_methods:
+                print("No valid methods have been generated for MM for evaluation. Call generate_mm for these methods")
+                return evaluation_results
+            print(f"generate_mm has not been called for {list(set(methods) - set(valid_methods))} so evaluations were not performed for these")
+
 
         # Perform evaluation
         for evaluation in evaluations:

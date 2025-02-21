@@ -3,7 +3,7 @@ import time
 import torch
 import numpy as np
 from tabulate import tabulate  # For better table formatting
-
+import matplotlib.pyplot as plt
 
 from rocelib.tasks.Task import Task
 from typing import List, Dict, Any, Union, Tuple
@@ -125,7 +125,7 @@ class ClassificationTask(Task):
             
         return self.CEs
     
-    def evaluate(self, methods: List[str], evaluations: List[str], **kwargs) -> Dict[str, Dict[str, Any]]:
+    def evaluate(self, methods: List[str], evaluations: List[str], visualisation=False, **kwargs) -> Dict[str, Dict[str, Any]]:
         """
         Evaluates the generated counterfactual explanations using specified evaluation metrics.
 
@@ -177,8 +177,89 @@ class ClassificationTask(Task):
 
         # Print results in table format
         self._print_evaluation_results(evaluation_results, evaluations)
-
+        time.sleep(2)
+        if visualisation:
+            self._visualise_results(evaluation_results, evaluations)
         return evaluation_results
+    def _visualise_results(self, evaluations_results: Dict[str, Dict[str, Any]], evaluations: List[str]):
+        if not evaluations_results:
+            print("No evaluation results to display.")
+            return
+
+        if len(evaluations) > 3:
+            self._visualise_results_radar_chart(evaluations_results, evaluations)
+        else:
+            self._visualise_results_bar_chart(evaluations_results, evaluations)
+    def _visualise_results_bar_chart(self, evaluation_results: Dict[str, Dict[str, Any]], evaluations: List[str]):
+        recourse_methods = list(evaluation_results.keys())
+
+        # Extract metric values
+        metric_values = {method: [evaluation_results[method].get(metric, 0) for metric in evaluations] for method in
+                         recourse_methods}
+
+
+        x = np.arange(len(recourse_methods))
+        width = 0.2
+        fig, ax = plt.subplots(figsize=(8, 6))
+
+        for i, metric in enumerate(evaluations):
+            values = [metric_values[method][i] for method in recourse_methods]
+            ax.bar(x + i * width, values, width, label=metric)
+
+        ax.set_xticks(x + width / 2)
+        ax.set_xticklabels(recourse_methods)
+        ax.set_xlabel("Recourse Methods")
+        ax.set_ylabel("Metric Values")
+        ax.set_title("Bar Chart of Evaluation Metrics")
+        ax.legend()
+
+        plt.show()
+
+
+    def _visualise_results_radar_chart(self, evaluation_results: Dict[str, Dict[str, Any]], evaluations: List[str]):
+        """
+        Generate a radar chart for evaluation results.
+
+        Parameters:
+            evaluation_results (Dict[str, Dict[str, Any]]):
+                A dictionary where keys are recourse methods, and values are dictionaries mapping metric names to values.
+            evaluations (List[str]):
+                A list of metric names to be visualized (must have at least 4 metrics).
+        """
+        assert len(evaluations) >= 4, "There must be at least 4 evaluation metrics to plot a radar chart."
+
+        # Extract recourse methods
+        recourse_methods = list(evaluation_results.keys())
+
+        # Extract metric values for each recourse method
+        metric_values = {method: [evaluation_results[method].get(metric, 0) for metric in evaluations]
+                         for method in recourse_methods}
+
+        # Define radar chart angles
+        num_vars = len(evaluations)
+        angles = np.linspace(0, 2 * np.pi, num_vars, endpoint=False).tolist()
+
+        # Close the radar chart loop
+        angles += angles[:1]
+
+        # Create figure
+        fig, ax = plt.subplots(figsize=(8, 8), subplot_kw=dict(polar=True))
+
+        # Plot each recourse method
+        for method, values in metric_values.items():
+            values += values[:1]  # Close the loop
+            ax.plot(angles, values, label=method, linewidth=2)
+            ax.fill(angles, values, alpha=0.2)
+
+        # Add labels and legend
+        ax.set_xticks(angles[:-1])
+        ax.set_xticklabels(evaluations, fontsize=12)
+        ax.set_yticklabels([])
+        ax.set_title("Radar Chart of Evaluation Metrics", fontsize=14, fontweight='bold')
+        ax.legend(loc='upper right', bbox_to_anchor=(1.3, 1.1))
+
+        # Show the plot
+        plt.show()
 
     def _print_evaluation_results(self, evaluation_results: Dict[str, Dict[str, Any]], evaluations: List[str]):
         """

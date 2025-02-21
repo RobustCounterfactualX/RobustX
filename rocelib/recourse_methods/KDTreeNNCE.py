@@ -34,7 +34,7 @@ class KDTreeNNCE(RecourseGenerator):
         model = self.task.model
 
         # Convert X values of dataset to tensor
-        X_tensor = torch.tensor(self.task.training_data.X.values, dtype=torch.float32)
+        X_tensor = torch.tensor(self.task.dataset.X.values, dtype=torch.float32)
 
         # Get all model predictions of model, turning them to 0s or 1s
         model_labels = model.predict(X_tensor)
@@ -49,7 +49,7 @@ class KDTreeNNCE(RecourseGenerator):
             instance = instance.to_frame().T
 
         # Prepare the data
-        preds = self.task.training_data.X.copy()
+        preds = self.task.dataset.X.copy()
         preds["predicted"] = model_labels
 
         # Filter out instances that have the desired counterfactual label

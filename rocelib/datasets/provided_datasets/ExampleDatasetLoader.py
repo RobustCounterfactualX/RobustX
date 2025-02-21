@@ -66,7 +66,7 @@ class ExampleDatasetLoader(DatasetLoader, ABC):
         @param missing_val_num: optional, Value to represent missing numerical data (default: np.nan)
         @param missing_val_cat: optional, Value to represent missing categorical data (default: np.nan)
         """
-        super().__init__(target_column_label='target')
+        super().__init__('target', 0)
         self._categorical = categoricals
         self._numerical = numericals
         self.__missing_num = missing_val_num

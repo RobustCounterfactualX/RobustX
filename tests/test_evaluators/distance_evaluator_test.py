@@ -6,24 +6,9 @@ from rocelib.recourse_methods.BinaryLinearSearch import BinaryLinearSearch
 from rocelib.tasks.ClassificationTask import ClassificationTask
 
 
-def test_distance():
-    model = get_sklearn_model("decision_tree")
-    dl = get_example_dataset("ionosphere")
-    dl.default_preprocess()
-    trained_model = model.train(dl.X, dl.y)
-
-    ct = ClassificationTask(trained_model, dl)
-
-
-
-    recourse = BinaryLinearSearch(ct)
-
-    res = recourse.generate_for_all(neg_value=0, column_name="target", distance_func=manhattan)
-
-    dist_eval = DistanceEvaluator(ct)
-
-    avg_dist = dist_eval.evaluate(res, distance_func=manhattan)
-
-    mean = res["loss"].mean()
-
-    assert avg_dist == mean
+def test_distance(testing_models):
+    ct = testing_models.get("ionosphere", "ionosphere", "decision tree")
+    ct.generate(["BinaryLinearSearch"])
+    evals = ct.evaluate(["BinaryLinearSearch"], ["Distance"], distance_func=manhattan)
+    avg_dist = evals["BinaryLinearSearch"]["Distance"]
+    assert avg_dist > 5

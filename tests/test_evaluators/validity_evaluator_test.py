@@ -6,25 +6,10 @@ from rocelib.recourse_methods.BinaryLinearSearch import BinaryLinearSearch
 from rocelib.tasks.ClassificationTask import ClassificationTask
 
 
-def test_validity():
-    model = get_sklearn_model("decision_tree")
-    dl = get_example_dataset("ionosphere")
-
-    dl.default_preprocess()
-    trained_model = model.train(dl)
-
-    ct = ClassificationTask(trained_model, dl)
-
-
-
-    recourse = BinaryLinearSearch(ct)
-
-    res = recourse.generate_for_all(neg_value=0, column_name="target", distance_func=manhattan)
-
-    val_eval = ValidityEvaluator(ct)
-
-    efficacy = val_eval.evaluate(res)
-
-    print(f"Valid: {efficacy}")
-
+def test_validity(testing_models):
+    # assumes binarylinearsearch has 100% validity
+    ct = testing_models.get("ionosphere", "ionosphere", "decision tree")
+    ct.generate(["BinaryLinearSearch"])
+    evals = ct.evaluate(["BinaryLinearSearch"], ["Validity"], distance_func=manhattan)
+    efficacy = evals["BinaryLinearSearch"]["Validity"]
     assert efficacy == 1

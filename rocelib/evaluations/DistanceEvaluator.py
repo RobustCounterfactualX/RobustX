@@ -1,10 +1,11 @@
 import numpy as np
 
 from rocelib.evaluations.RecourseEvaluator import RecourseEvaluator
+from rocelib.evaluations.robustness_evaluations.Evaluator import Evaluator
 from rocelib.lib.distance_functions.DistanceFunctions import euclidean
 
 
-class DistanceEvaluator(RecourseEvaluator):
+class DistanceEvaluator(Evaluator):
     """
      An Evaluator class which evaluates the average distance of recourses from their original instance
 
@@ -33,7 +34,7 @@ class DistanceEvaluator(RecourseEvaluator):
     -------
     """
 
-    def evaluate(self, recourses, valid_val=1, distance_func=euclidean, column_name="target", subset=None, **kwargs):
+    def evaluate(self, recourse_method, valid_val=1, distance_func=euclidean, column_name="target", subset=None, **kwargs):
         """
         Determines the average distance of the CEs from their original instances
         @param recourses: pd.DataFrame, dataset containing CEs in same order as negative instances in dataset
@@ -45,12 +46,24 @@ class DistanceEvaluator(RecourseEvaluator):
         @param kwargs: other arguments
         @return: int, average distance of CEs from their original instances
         """
-        df1 = recourses.drop(columns=[column_name, "loss"], errors='ignore')
+        recourses = self.task.CEs[recourse_method][0]
+        
+        df1 = recourses.drop(columns=[column_name, "loss", "predicted"], errors='ignore')
+        # df1 = df1.drop(columns=[column_name, "predicted"], errors='ignore')
+
 
         if subset is None:
-            df2 = self.task.training_data.get_negative_instances(neg_value=1 - valid_val, column_name=column_name)
+            df2 = self.task.dataset.get_negative_instances()
         else:
             df2 = subset
+
+        # Drop any extra target columns from df2
+        df2 = df2.drop(columns=[column_name, "predicted"], errors='ignore')
+
+        # **Ensure both DataFrames have the same columns before assertion**
+        df1 = df1[df2.columns]  # Align df1 columns to match df2
+
+        print(f"Final Shapes - df1: {df1.shape}, df2: {df2.shape}")
 
         # Ensure the DataFrames have the same shape
         assert df1.shape == df2.shape, "DataFrames must have the same shape"

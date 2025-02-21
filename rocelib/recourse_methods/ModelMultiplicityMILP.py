@@ -70,12 +70,12 @@ class ModelMultiplicityMILP(RecourseGenerator):
         all_nodes = {}
 
         # Create Gurobi variables for the inputs (shared for all models)
-        for i, col in enumerate(self.task.training_data.X.columns):
+        for i, col in enumerate(self.task.dataset.X.columns):
             key = f"v_0_{i}"
 
             # Calculate the minimum and maximum values for the current column
-            col_min = self.task.training_data.X[col].min()
-            col_max = self.task.training_data.X[col].max()
+            col_min = self.task.dataset.X[col].min()
+            col_max = self.task.dataset.X[col].max()
 
             # Use the calculated min and max for the bounds of the variable
             self.inputNodes[key] = self.gurobiModel.addVar(lb=col_min, ub=col_max, name=key)
@@ -161,7 +161,7 @@ class ModelMultiplicityMILP(RecourseGenerator):
         objective = self.gurobiModel.addVar(name="objective")
 
         self.gurobiModel.addConstr(objective == quicksum(
-            (self.inputNodes[f'v_0_{i}'] - ilist[i]) ** 2 for i in range(len(self.task.training_data.X.columns))))
+            (self.inputNodes[f'v_0_{i}'] - ilist[i]) ** 2 for i in range(len(self.task.dataset.X.columns))))
 
         self.gurobiModel.update()
 

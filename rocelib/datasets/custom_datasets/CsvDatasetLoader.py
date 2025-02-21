@@ -4,12 +4,13 @@ from rocelib.datasets.DatasetLoader import DatasetLoader
 
 
 class CsvDatasetLoader(DatasetLoader):
-    def __init__(self, file_path, target_column_label=None, target_column_index=None, header=0, names=None):
-        super().__init__(target_column_index=target_column_index, target_column_label=target_column_label)
+    def __init__(self, file_path, target_column_label, neg_value, header=0, names=None):
+        super().__init__(target_column_label, neg_value)
         self.file_path = file_path
         self._data = None
         self._header = header
         self._names = names
+        self.load_data()
 
 
     def load_data(self):
@@ -24,19 +25,10 @@ class CsvDatasetLoader(DatasetLoader):
 
 
             # Validate target column specification
-            if self._target_column_label is not None:
-                print(f'{self._target_column_label}   {self._data.columns}')
-                print(self._target_column_label not in self._data.columns)
-                if self._target_column_label not in self._data.columns:
-                    print('got here')
-                    raise ValueError(
-                        f"Target column label '{self._target_column_label}' not found in dataset columns.")
+            if self._target_column_label not in self._data.columns:
+                raise ValueError(
+                    f"Target column label '{self._target_column_label}' not found in dataset columns.")
 
-            elif self._target_column_index is not None:
-                num_columns = len(self._data.columns)
-                if not (0 <= self._target_column_index < num_columns):
-                    raise IndexError(
-                        f"Target column index {self._target_column_index} is out of bounds. Dataset has {num_columns} columns.")
 
         except FileNotFoundError:
             raise FileNotFoundError(f"The file '{self.file_path}' was not found.")
@@ -47,23 +39,9 @@ class CsvDatasetLoader(DatasetLoader):
     @property
     def X(self):
         """Returns the feature matrix (X) by excluding the target column."""
-        if self._data is None:
-            raise ValueError("Dataset not loaded. Call `load_data()` first.")
-
-        if self._target_column_label:
-            return self._data.drop(columns=[self._target_column_label])
-        elif self._target_column_index is not None:
-            return self._data.drop(columns=[self._data.columns[self._target_column_index]])
-        return self._data  # If no target column is defined, return full dataset.
+        return self._data.drop(columns=[self._target_column_label])
 
     @property
     def y(self):
         """Returns the target column (y)."""
-        if self._data is None:
-            raise ValueError("Dataset not loaded. Call `load_data()` first.")
-
-        if self._target_column_label:
-            return self._data[self._target_column_label]
-        elif self._target_column_index is not None:
-            return self._data.iloc[:, self._target_column_index]
-        return None  # If no target column is defined, return None
+        return self._data[self._target_column_label]

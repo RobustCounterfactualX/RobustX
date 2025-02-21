@@ -1,25 +1,34 @@
 import joblib
 import pandas as pd
+import os
 import numpy as np
 from sklearn.base import BaseEstimator
 from rocelib.models.TrainedModel import TrainedModel
-
 
 class SKLearnModel(TrainedModel):
     def __init__(self, model_path: str):
         """
         Initialize the SKLearnModel by loading the saved sklearn model.
-
         :param model_path: Path to the saved sklearn model file (.pkl)
         """
         if not isinstance(model_path, str):
-            raise TypeError(f"Expected 'model_path' to be a str, but got {type(model_path)}")
+            raise TypeError(f"Expected 'model_path' to be a string, got {type(model_path)}")
+
+        if not os.path.exists(model_path):
+            raise ValueError(f"Model file not found: {model_path}")
 
         if not model_path.endswith(".pkl"):
             raise ValueError(f"Invalid file format: {model_path}. Expected a .pkl file.")
 
-        self.model = joblib.load(model_path)  # Load model from file
-        self.check_model_is_sklearn_class(self.model)
+        try:
+            self.model = joblib.load(model_path)
+            self.check_model_is_sklearn_class(self.model)
+        except Exception as e:
+            raise RuntimeError(f"Failed to load Scikit-learn model from {model_path}: {e}")
+
+    def check_model_is_sklearn_class(self, model):
+        if not isinstance(model, BaseEstimator):
+            raise TypeError(f"Expected an sklearn model (BaseEstimator), but got {type(model).__name__}.")
 
     @classmethod
     def from_model(cls, model: BaseEstimator) -> 'SKLearnModel':

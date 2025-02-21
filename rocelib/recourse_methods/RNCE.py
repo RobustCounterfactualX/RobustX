@@ -3,7 +3,7 @@ import pandas as pd
 from sklearn.neighbors import KDTree
 
 from rocelib.recourse_methods.RecourseGenerator import RecourseGenerator
-from rocelib.robustness_evaluations.DeltaRobustnessEvaluator import DeltaRobustnessEvaluator
+from rocelib.evaluations.robustness_evaluations.MC_Robustness_Implementations.DeltaRobustnessEvaluator import DeltaRobustnessEvaluator
 from rocelib.tasks.Task import Task
 from functools import lru_cache
 
@@ -68,7 +68,7 @@ class RNCE(RecourseGenerator):
         """
         S = []
 
-        for _, instance in self.task.training_data.data.iterrows():
+        for _, instance in self.task.dataset.data.iterrows():
             instance_x = instance.drop(column_name)
             if robustInit:
                 if self.intabs.evaluate(instance_x, delta=delta, bias_delta=bias_delta, desired_output=1-neg_value):

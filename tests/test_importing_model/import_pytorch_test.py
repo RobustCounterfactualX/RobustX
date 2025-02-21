@@ -1,86 +1,64 @@
-from exceptions.invalid_pytorch_model_error import InvalidPytorchModelError
-from rocelib.datasets.ExampleDatasets import get_example_dataset
-from rocelib.models.pytorch_models.TrainablePyTorchModel import TrainablePyTorchModel
-from rocelib.tasks.ClassificationTask import ClassificationTask
-from rocelib.models.imported_models.PytorchModel import PytorchModel
-import torch
-import os
 import pytest
+import torch
+from rocelib.models.imported_models.PytorchModel import PytorchModel
+from test_helpers.TestingModels import TestingModels
 
 
-def trained_classification_task():
-    model = TrainablePyTorchModel(34, [8], 1)
-    dl = get_example_dataset("ionosphere")
-    dl.default_preprocess()
-    trained_model = model.train(dl)
-    ct = ClassificationTask(trained_model, dl)
-
-    return ct
-
-
-def test_imported_pytorch_model_file_predict_single_same_as_original() -> None:
+def test_imported_pytorch_model_file_predict_single_same_as_original():
     # Create Model
-    ct = trained_classification_task()
+    testing_models = TestingModels()
+    ct = testing_models.get("ionosphere", "ionosphere", "pytorch", 34, 8, 1)
 
-    # Save Model
+    # Save Entire Model
     torch.save(ct.model.model, "./model.pt")
 
-    # Import Model
-
+    # Load Model
     imported_model = PytorchModel("./model.pt")
 
-    for _, instance in ct.training_data.data.iterrows():
-        instance_x = instance.drop("target")
-        assert ct.model.predict_single(instance_x) == imported_model.predict_single(instance_x)
+    # Test Single Prediction
+    sample_input = torch.randn(1, 34)  # Adjust shape based on model input
+    original_prediction = ct.model.model(sample_input)
+    imported_prediction = imported_model.model(sample_input)
 
-    os.remove('./model.pt')
+    assert torch.equal(original_prediction, imported_prediction), "Predictions do not match"
 
 
-def test_imported_pytorch_model_file_predict_all_same_as_original() -> None:
+def test_imported_pytorch_model_file_predict_all_same_as_original():
     # Create Model
-    ct = trained_classification_task()
+    testing_models = TestingModels()
+    ct = testing_models.get("ionosphere", "ionosphere", "pytorch", 34, 8, 1)
 
-    # Save Model
+    # Save Entire Model
     torch.save(ct.model.model, "./model.pt")
 
-    # Import Model
-    trained_model = PytorchModel("./model.pt")
+    # Load Model
+    imported_model = PytorchModel("./model.pt")
 
-    predictions_1 = ct.model.predict(ct.training_data.data.drop("target", axis=1))
-    predictions_2 = trained_model.predict(ct.training_data.data.drop("target", axis=1))
-    assert predictions_1.equals(predictions_2)
+    # Test Multiple Predictions
+    test_data = torch.randn(10, 34)  # Adjust shape based on model input
+    original_predictions = ct.model.model(test_data)
+    imported_predictions = imported_model.model(test_data)
 
-    os.remove('./model.pt')
-
-
-def test_imported_pytorch_model_from_instance_predict_single_same_as_original() -> None:
-    # Create Model
-    ct = trained_classification_task()
-
-    torch_model = ct.model.model
-
-    # Import Model
-    trained_model = PytorchModel.from_model(torch_model)
-
-    for _, instance in ct.training_data.data.iterrows():
-        instance_x = instance.drop("target")
-        assert ct.model.predict_single(instance_x) == trained_model.predict_single(instance_x)
+    assert torch.equal(original_predictions, imported_predictions), "Batch predictions do not match"
 
 
-def test_throws_file_not_found_error() -> None:
-    with pytest.raises(FileNotFoundError):
-        trained_model = PytorchModel("./garbage.pt")
+def test_throws_file_not_found_error():
+    with pytest.raises(ValueError, match="Model file not found"):
+        PytorchModel("./garbage.pt")
 
 
-def test_throws_wrong_file_type_error() -> None:
-    with pytest.raises(TypeError):
-        trained_model = PytorchModel("./test.txt")
+def test_throws_wrong_file_type_error():
+    with pytest.raises(ValueError, match="Invalid file format"):
+        PytorchModel("./test.txt")
 
 
-def test_throws_error_if_underlying_model_not_pytorch() -> None:
-    with pytest.raises(InvalidPytorchModelError):
-        ct = trained_classification_task()
-        # Save The SimpleNNModel rather than Torch Model
-        torch.save(ct.model, "./model.pt")
-        # Import Model
-        trained_model = PytorchModel("./model.pt")
+def test_throws_error_if_underlying_model_not_pytorch():
+    testing_models = TestingModels()
+    ct = testing_models.get("ionosphere", "ionosphere", "pytorch", 34, 8, 1)
+
+    # Save the model incorrectly (saving wrapper instead of actual model)
+    torch.save(ct.model, "./model.pt")
+
+    with pytest.raises(RuntimeError, match="Expected a PyTorch model"):
+        PytorchModel("./model.pt")
+

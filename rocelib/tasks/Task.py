@@ -4,6 +4,7 @@ import pandas as pd
 
 from rocelib.datasets.DatasetLoader import DatasetLoader
 from rocelib.models.TrainedModel import TrainedModel
+from typing import List, Dict, Any, Union, Tuple
 
 
 class Task(ABC):
@@ -12,19 +13,22 @@ class Task(ABC):
     on a specific dataset.
 
     Attributes:
-        _training_data (DatasetLoader): The dataset used for training the model.
+        _dataset (DatasetLoader): The dataset used for training the model.
         __model (TrainableModel): The model to be trained and used for predictions.
     """
 
-    def __init__(self, model: TrainedModel, training_data: DatasetLoader):
+    def __init__(self, model: TrainedModel, dataset: DatasetLoader, mm_models: [TrainedModel] = None):
         """
         Initializes the Task with a model and training data.
 
         @param model: An instance of a model that extends TrainableModel
-        @param training_data: An instance of DatasetLoader containing the training data.
+        @param dataset: An instance of DatasetLoader containing the training data.
         """
-        self._training_data = training_data
+        self._dataset = dataset
         self.__model = model
+        self._CEs: Dict[str, Tuple[pd.DataFrame, float]] = {}  # Stores generated counterfactuals per method
+        self.__mm_models = mm_models
+
 
 
     def get_random_positive_instance(self, neg_value, column_name="target") -> pd.Series:
@@ -37,14 +41,29 @@ class Task(ABC):
         """
         pass
 
+    def generate(self, methods: List[str]) -> Dict[str, Tuple[pd.DataFrame, float]]:
+        pass
+
+    def evaluate(self, methods: List[str], evaluations: List[str]) -> Dict[str, Dict[str, Any]]:
+        pass
+
     @property
-    def training_data(self):
+    def dataset(self):
         """
         Property to access the training data.
 
         @return: The training data loaded from DatasetLoader.
         """
-        return self._training_data
+        return self._dataset
+    
+    @property
+    def ces(self):
+        """
+        Property to access the training data.
+
+        @return: The training data loaded from DatasetLoader.
+        """
+        return self._CEs
 
     @property
     def model(self):
@@ -54,3 +73,16 @@ class Task(ABC):
         @return: The model instance that extends TrainableModel
         """
         return self.__model
+
+    @property
+    def mm_models(self):
+        """
+        Property to access the model.
+
+        @return: The model instance that extends TrainableModel
+        """
+        return self.__mm_models
+
+    @property
+    def CEs(self):
+        return self._CEs

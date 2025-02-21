@@ -1,34 +1,43 @@
 import pandas as pd
-import numpy as np
-
-from rocelib.models.TrainedModel import TrainedModel
-
-
 import torch
-from multimethod import multimethod
+import os
+import numpy as np
 
 from exceptions.invalid_pytorch_model_error import InvalidPytorchModelError
 from rocelib.models.TrainedModel import TrainedModel
-
 
 class PytorchModel(TrainedModel):
     def __init__(self, model_path: str, device: str = "cpu"):
         """
         Initialize the PytorchModel by loading the saved PyTorch model.
-
         :param model_path: Path to the saved PyTorch model file (.pt or .pth)
         :param device: Device to load the model on ('cpu' or 'cuda')
         """
+        if not isinstance(model_path, str):
+            raise TypeError(f"Expected 'model_path' to be a string, got {type(model_path)}")
+
+        # Check file format before checking existence
         if not model_path.endswith((".pt", ".pth")):
-            raise TypeError(f"Invalid file type: {model_path}. Expected a '.pt' or '.pth' file.")
+            raise ValueError(f"Invalid file format: {model_path}. Expected a .pt or .pth file.")
 
-        self.device = torch.device(device)
-        self.model = torch.load(model_path, map_location=self.device)  # Load full model
+        if not os.path.exists(model_path):
+            raise ValueError(f"Model file not found: {model_path}")
 
-        self.check_model_is_torch_class(self.model)
+        try:
+            self.device = torch.device(device)
+            self.model = torch.load(model_path, map_location=self.device)
 
-        self.model.eval()  # Set to evaluation mode
-        (self.input_dim, self.hidden_dim, self.output_dim) = get_model_dimensions_and_hidden_layers(self.model)
+            if not isinstance(self.model, torch.nn.Module):
+                raise TypeError("Expected a PyTorch model (torch.nn.Module), but got a different object.")
+
+            self.model.eval()
+
+        except Exception as e:
+            raise RuntimeError(f"Failed to load PyTorch model from {model_path}: {e}")
+
+    def check_model_is_torch_class(self, model):
+        if not isinstance(model, torch.nn.Module):
+            raise InvalidPytorchModelError(f"Expected a PyTorch model (torch.nn.Module), but got {type(model).__name__}.")
 
     @classmethod
     def from_model(cls, model, device: str = "cpu") -> 'PytorchModel':
@@ -55,10 +64,16 @@ class PytorchModel(TrainedModel):
         :param X: pd.DataFrame, Instances to predict.
         :return: pd.DataFrame, Predictions for each instance.
         """
-        X_tensor = torch.tensor(X.values, dtype=torch.float32).to(self.device)
-        with torch.no_grad():
-            predictions = self.model(X_tensor).cpu().numpy()
-        return pd.DataFrame(predictions)
+        # Ensure X is a tensor
+        if isinstance(X, pd.DataFrame):
+            X_values = X.values
+            X_tensor = torch.tensor(X_values, dtype=torch.float32).to(self.device)
+        elif isinstance(X, torch.Tensor):
+            X_tensor = X.to(self.device)  # Ensure it's on the correct device
+        else:
+            raise TypeError(f"Unsupported type for X: {type(X)}")
+
+        return self.model(X_tensor).detach().cpu().numpy()
 
     def predict_single(self, x: pd.DataFrame) -> int:
         """
@@ -109,7 +124,7 @@ class PytorchModel(TrainedModel):
     
     def check_model_is_torch_class(self, model):
         if not isinstance(model, torch.nn.Module):
-            raise InvalidPytorchModelError(
+            raise RuntimeError(
                 f"Expected a PyTorch model (torch.nn.Module), but got {type(model).__name__}"
                 "The loaded model is not a torch model, but instead relies on a self defined class. \n"
                 "Please save your model again, ensuring to save the underlying torch model, rather than your wrapper class\n"

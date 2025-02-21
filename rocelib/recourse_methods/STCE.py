@@ -3,8 +3,8 @@ import pandas as pd
 import torch
 
 from rocelib.recourse_methods.RecourseGenerator import RecourseGenerator
-from rocelib.robustness_evaluations.DeltaRobustnessEvaluator import DeltaRobustnessEvaluator
-from rocelib.robustness_evaluations.ModelChangesRobustnessEvaluator import ModelChangesRobustnessEvaluator
+from rocelib.evaluations.robustness_evaluations.MC_Robustness_Implementations.DeltaRobustnessEvaluator import DeltaRobustnessEvaluator
+from rocelib.evaluations.robustness_evaluations.ModelChangesRobustnessEvaluator import ModelChangesRobustnessEvaluator
 
 
 class TrexNN(RecourseGenerator):
@@ -36,7 +36,7 @@ class TrexNN(RecourseGenerator):
         @param kwargs: Additional keyword arguments.
         @return: A DataFrame containing the counterfactual explanation if found, otherwise the original instance.
         """
-        positives = self.task.training_data.data[self.task.training_data.data[column_name]
+        positives = self.task.dataset.data[self.task.dataset.data[column_name]
                                                  == neg_value].drop(columns=[column_name])
 
         # Compute Euclidean distances between the instance and each positive sample

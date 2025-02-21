@@ -35,11 +35,13 @@ class DatasetLoader(ABC):
     -------
     """
 
-    def __init__(self, target_column_index=None, target_column_label=None):
+    def __init__(self, target_column_label, neg_value):
         self._data = None
-        if target_column_index is None and target_column_label is None:
-            raise ValueError("Either target_column_label or target_column_index must be provided")
-        self._target_column_index = target_column_index
+        if target_column_label is None:
+            raise ValueError("target_column_label must be provided")
+        if neg_value is None:
+            raise ValueError("neg_value must be provided")
+        self.neg_value = neg_value
         self._target_column_label = target_column_label
 
     @property
@@ -72,28 +74,22 @@ class DatasetLoader(ABC):
         """
         pass
 
-    def get_negative_instances(self, neg_value) -> pd.DataFrame:
+    def get_negative_instances(self) -> pd.DataFrame:
         """
         Filters all the negative instances in the dataset and returns them
         @param neg_value: What target value counts as a "negative" instance
         @param column_name: Target column's name
         @return: All instances with a negative target value
         """
-        if self._target_column_label is None:
-            return self.data[self.data.iloc[:, self._target_column_index] == neg_value].drop(self.data.columns[self._target_column_index], axis=1)
-        else:
-            return self.data[self.data[self._target_column_label] == neg_value].drop(columns=[self._target_column_label])
+        return self.data[self.data[self._target_column_label] == self.neg_value].drop(columns=[self._target_column_label])
 
 
 
-    def get_random_positive_instance(self, neg_value) -> pd.Series:
+    def get_random_positive_instance(self) -> pd.Series:
         """
         Returns a random instance where the target variable is NOT the neg_value
         @param neg_value: What target value counts as a "negative" instance
         @param column_name: Target column's name
         @return: Random instance in dataset with positive target value
         """
-        if self._target_column_label is None:
-            return self.data[self.data.iloc[:, self._target_column_index] == neg_value].drop(self.data.columns[self._target_column_index], axis=1).sample()
-        else:
-            return self.data[self.data[self._target_column_label] != neg_value].drop(columns=[self._target_column_label]).sample()
+        return self.data[self.data[self._target_column_label] != self.neg_value].drop(columns=[self._target_column_label]).sample()

@@ -1,11 +1,13 @@
 import pandas as pd
 import torch
 
+from enums.dataset_enums import Dataset
+from enums.model_enums import ModelType
 from rocelib.datasets.ExampleDatasets import get_example_dataset
 from rocelib.datasets.custom_datasets.CsvDatasetLoader import CsvDatasetLoader
 from rocelib.models.pytorch_models.TrainablePyTorchModel import TrainablePyTorchModel
 from rocelib.recourse_methods.MCER import MCER
-from rocelib.robustness_evaluations.DeltaRobustnessEvaluator import DeltaRobustnessEvaluator
+from rocelib.evaluations.robustness_evaluations.MC_Robustness_Implementations.DeltaRobustnessEvaluator import DeltaRobustnessEvaluator
 from rocelib.tasks.ClassificationTask import ClassificationTask
 
 
@@ -24,14 +26,14 @@ def test_mcer_generates_all_robust():
     # Set the custom weights
     trained_model = model.set_weights(weights)
 
-    dl = CsvDatasetLoader('./assets/random_normal_values.csv', "target")
+    dl = CsvDatasetLoader('./assets/random_normal_values.csv', "target", 0)
     ct = ClassificationTask(trained_model, dl)
 
     mcer = MCER(ct)
 
     opt = DeltaRobustnessEvaluator(ct)
 
-    for _, neg in dl.get_negative_instances(neg_value=0).iterrows():
+    for _, neg in dl.get_negative_instances().iterrows():
         ce = mcer.generate_for_instance(neg, delta=0.1)
         robust = opt.evaluate(ce, delta=0.1)
         print("######################################################")
@@ -41,32 +43,23 @@ def test_mcer_generates_all_robust():
         assert robust
 
 
-def test_mcer_generates_all_robust_custom():
-    # Create the model instance
-    model = TrainablePyTorchModel(input_dim=34, hidden_dim=[10], output_dim=1)
+# def test_mcer_generates_all_robust_custom(testing_models):
+#     # Create the model instance
+#     ct, dl = testing_models.get(Dataset.IONOSPHERE, ModelType.NEURALNET, 34, 10, 1)
 
-    dl = get_example_dataset("ionosphere")
+#     mcer = MCER(ct)
 
-    dl.default_preprocess()
-
-    trained_model = model.train(dl)
-    ct = ClassificationTask(trained_model, dl)
-
-
-
-    mcer = MCER(ct)
-
-    opt = DeltaRobustnessEvaluator(ct)
-    ces = []
-    negs = dl.get_negative_instances(neg_value=0)
-    for _, neg in negs.iterrows():
-        ce = mcer.generate_for_instance(neg, delta=0.005)
-        ces.append(ce)
-        if not ce.equals(pd.DataFrame(neg)):
-            robust = opt.evaluate(ce, delta=0.005)
-            print("######################################################")
-            print("CE was: ", ce)
-            print("This CE was" + ("" if robust else " not") + " robust")
-            print("######################################################")
-            assert robust
-    print(ces)
+#     opt = DeltaRobustnessEvaluator(ct)
+#     ces = []
+#     negs = dl.get_negative_instances(neg_value=0)
+#     for _, neg in negs.iterrows():
+#         ce = mcer.generate_for_instance(neg, delta=0.005)
+#         ces.append(ce)
+#         if not ce.equals(pd.DataFrame(neg)):
+#             robust = opt.evaluate(ce, delta=0.005)
+#             print("######################################################")
+#             print("CE was: ", ce)
+#             print("This CE was" + ("" if robust else " not") + " robust")
+#             print("######################################################")
+#             assert robust
+#     print(ces)

@@ -66,7 +66,7 @@ class MCE(RecourseGenerator):
         objective = self.opt.gurobiModel.addVar(name="objective")
 
         self.opt.gurobiModel.addConstr(objective == quicksum(
-            (self.opt.inputNodes[f'v_0_{i}'] - ilist[i]) ** 2 for i in range(len(self.task.training_data.X.columns))))
+            (self.opt.inputNodes[f'v_0_{i}'] - ilist[i]) ** 2 for i in range(len(self.task.dataset.X.columns))))
 
         self.opt.gurobiModel.update()
 

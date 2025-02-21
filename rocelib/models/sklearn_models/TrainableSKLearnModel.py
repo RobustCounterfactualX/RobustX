@@ -25,14 +25,13 @@ class TrainableSKLearnModel(TrainableModel):
         """
         super().__init__(model)
 
-    def train(self, dataset_loader: DatasetLoader, **kwargs) -> TrainedModel:
+    def train(self, X: pd.DataFrame, y: pd.DataFrame, **kwargs) -> TrainedModel:
         """
         Trains the scikit-learn model.
 
-        @param dataset_loader: Feature and target variables as a DatasetLoader
         @param y: The target variable, should be a DataFrame.
         """
-        self.model.fit(dataset_loader.X, dataset_loader.y)
+        self.model.fit(X, y)
         return SKLearnModel.from_model(self._model)
 
     # def predict(self, X: pd.DataFrame) -> pd.DataFrame:

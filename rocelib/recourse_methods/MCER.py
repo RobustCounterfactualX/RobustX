@@ -1,6 +1,7 @@
 from rocelib.recourse_methods.MCE import MCE
 from rocelib.recourse_methods.RecourseGenerator import RecourseGenerator
-from rocelib.evaluations.robustness_evaluations.MC_Robustness_Implementations.DeltaRobustnessEvaluator import DeltaRobustnessEvaluator
+from rocelib.evaluations.robustness_evaluations.MC_Robustness_Implementations.DeltaRobustnessEvaluator import \
+    DeltaRobustnessEvaluator
 from rocelib.tasks.Task import Task
 import pandas as pd
 
@@ -74,8 +75,8 @@ class MCER(RecourseGenerator):
                 return ce
 
             # If solution exists, check robustness, if robust return
-            if self.evaluator.evaluate(ce, desired_output=1 - neg_value, delta=delta, bias_delta=bias_delta, M=M,
-                                       epsilon=epsilon):
+            if self.evaluator.evaluate_single_instance(ce, delta=delta, bias_delta=bias_delta, M=M,
+                                                       epsilon=epsilon):
                 return ce
 
             # Increment iteration counter and minimum distance from boundary to get more robust CEs

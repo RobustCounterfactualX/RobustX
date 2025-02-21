@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 import pandas as pd
 import torch
 
+from rocelib.datasets.DatasetLoader import DatasetLoader
 from rocelib.models.TrainedModel import TrainedModel
 
 
@@ -56,8 +57,6 @@ class TrainableModel(ABC):
         can decide how to train their model and can add additional parameters, but X and y must be of
         type DataFrame.
 
-        @param X: pd.DataFrame, The feature variables.
-        @param y: pd.DataFrame, The target variable.
 
         @return: None
         """

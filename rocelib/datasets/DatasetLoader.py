@@ -35,8 +35,14 @@ class DatasetLoader(ABC):
     -------
     """
 
-    def __init__(self):
+    def __init__(self, target_column_label, neg_value):
         self._data = None
+        if target_column_label is None:
+            raise ValueError("target_column_label must be provided")
+        if neg_value is None:
+            raise ValueError("neg_value must be provided")
+        self.neg_value = neg_value
+        self._target_column_label = target_column_label
 
     @property
     def data(self) -> pd.DataFrame:
@@ -68,20 +74,22 @@ class DatasetLoader(ABC):
         """
         pass
 
-    def get_negative_instances(self, neg_value, column_name="target") -> pd.DataFrame:
+    def get_negative_instances(self) -> pd.DataFrame:
         """
         Filters all the negative instances in the dataset and returns them
         @param neg_value: What target value counts as a "negative" instance
         @param column_name: Target column's name
         @return: All instances with a negative target value
         """
-        return self.data[self.data[column_name] == neg_value].drop(columns=[column_name])
+        return self.data[self.data[self._target_column_label] == self.neg_value].drop(columns=[self._target_column_label])
 
-    def get_random_positive_instance(self, neg_value, column_name="target") -> pd.Series:
+
+
+    def get_random_positive_instance(self) -> pd.Series:
         """
         Returns a random instance where the target variable is NOT the neg_value
         @param neg_value: What target value counts as a "negative" instance
         @param column_name: Target column's name
         @return: Random instance in dataset with positive target value
         """
-        return self.data[self.data[column_name] != neg_value].drop(columns=[column_name]).sample()
+        return self.data[self.data[self._target_column_label] != self.neg_value].drop(columns=[self._target_column_label]).sample()

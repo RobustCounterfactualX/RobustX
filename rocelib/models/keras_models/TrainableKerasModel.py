@@ -7,6 +7,7 @@ from keras.metrics import Accuracy
 from keras.models import Sequential
 from keras.optimizers import Adam
 
+from rocelib.datasets.DatasetLoader import DatasetLoader
 from rocelib.models.TrainableModel import TrainableModel
 from rocelib.models.TrainedModel import TrainedModel
 from rocelib.models.imported_models.KerasModel import KerasModel
@@ -65,8 +66,7 @@ class TrainableKerasModel(TrainableModel):
         """
         Trains the model on the provided data.
 
-        @param X: The feature variables as a DataFrame.
-        @param y: The target variable as a DataFrame.
+        @param dataset_loader: Feature and target variables as a DatasetLoader
         @param epochs: The number of epochs to train the model (default is 100).
         @param batch_size: The batch size used in training (default is 32).
         """

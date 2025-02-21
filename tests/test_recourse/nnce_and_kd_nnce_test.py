@@ -22,7 +22,7 @@ def test_kdtree_nnce_same_as_nnce(testing_models) -> None:
 
     kdrecourse = KDTreeNNCE(ct)
     nncerecourse = NNCE(ct)
-    negs = ct.dataset.get_negative_instances(neg_value=0, column_name="HiringDecision")
+    negs = ct.dataset.get_negative_instances()
 
     for _, neg in negs.iterrows():
         a = kdrecourse.generate_for_instance(neg)

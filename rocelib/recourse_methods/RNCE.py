@@ -71,7 +71,7 @@ class RNCE(RecourseGenerator):
         for _, instance in self.task.dataset.data.iterrows():
             instance_x = instance.drop(column_name)
             if robustInit:
-                if self.intabs.evaluate(instance_x, delta=delta, bias_delta=bias_delta, desired_output=1-neg_value):
+                if self.intabs.evaluate_single_instance(instance_x, delta=delta, bias_delta=bias_delta):
                     S.append(instance_x)
             else:
                 if self.task.model.predict_single(instance_x):

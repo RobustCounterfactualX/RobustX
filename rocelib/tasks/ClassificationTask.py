@@ -86,11 +86,11 @@ class ClassificationTask(Task):
         @return: A Pandas Series representing a random positive instance.
         """
         # Get a random positive instance from the training data
-        pos_instance = self._dataset.get_random_positive_instance(neg_value, column_name=column_name)
+        pos_instance = self._dataset.get_random_positive_instance()
 
         # Loop until a positive instance whose prediction is positive is found
         while self.model.predict_single(pos_instance) == neg_value:
-            pos_instance = self._dataset.get_random_positive_instance(neg_value, column_name=column_name)
+            pos_instance = self._dataset.get_random_positive_instance()
 
         return pos_instance
 

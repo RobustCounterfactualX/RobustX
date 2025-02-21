@@ -44,11 +44,9 @@ class RecourseGenerator(ABC):
         @return: A DataFrame of the recourses for the provided instances.
         """
         cs = []
-
         for _, instance in instances.iterrows():
             cs.append(self.generate_for_instance(instance, neg_value=neg_value,
                                                  column_name=column_name, **kwargs))
-
         res = pd.concat(cs)
 
         return res
@@ -76,7 +74,7 @@ class RecourseGenerator(ABC):
         @param distance_func: The method to calculate the distance between two points. Options are 'l1' / 'manhattan', 'l2' / 'euclidean', and 'custom'.
         @return: A DataFrame of the recourses for all negative values.
         """
-        negatives = self.task.dataset.get_negative_instances(neg_value, column_name=column_name)
+        negatives = self.task.dataset.get_negative_instances()
 
         recourses = self.generate(
             negatives,

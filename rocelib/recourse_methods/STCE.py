@@ -52,7 +52,7 @@ class TrexNN(RecourseGenerator):
 
         for _, positive in positives.iterrows():
 
-            if evaluator.evaluate(positive, desired_output=1 - neg_value, **kwargs):
+            if evaluator.evaluate_single_instance(positive, **kwargs):
 
                 val = self.counterfactual_stability(positive)
                 if val > threshold:

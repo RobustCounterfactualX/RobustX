@@ -67,7 +67,7 @@ class RobustnessProportionEvaluator(Evaluator):
         for _, instance in instances.iterrows():
 
             # Increment robust if CE is robust under given parameters
-            if instance is not None and robustness_evaluator.evaluate(instance, desired_output=valid_val,
+            if instance is not None and robustness_evaluator.evaluate_single_instance(instance, desired_output=valid_val,
                                                                       delta=delta, bias_delta=bias_delta,
                                                                       M=M, epsilon=epsilon):
                 robust += 1

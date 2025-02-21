@@ -26,16 +26,16 @@ def test_mcer_generates_all_robust():
     # Set the custom weights
     trained_model = model.set_weights(weights)
 
-    dl = CsvDatasetLoader('./assets/random_normal_values.csv', "target")
+    dl = CsvDatasetLoader('./assets/random_normal_values.csv', "target", 0)
     ct = ClassificationTask(trained_model, dl)
 
     mcer = MCER(ct)
 
     opt = DeltaRobustnessEvaluator(ct)
 
-    for _, neg in dl.get_negative_instances(neg_value=0).iterrows():
+    for _, neg in dl.get_negative_instances().iterrows():
         ce = mcer.generate_for_instance(neg, delta=0.1)
-        robust = opt.evaluate(ce, delta=0.1)
+        robust = opt.evaluate_single_instance(ce, delta=0.1)
         print("######################################################")
         print("CE was: ", ce)
         print("This CE was" + ("" if robust else " not") + " robust")

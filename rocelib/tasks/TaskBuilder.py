@@ -26,9 +26,16 @@ class TaskBuilder:
         Initializes the TaskBuilder with no model or dataset set.
         """
         self._model = None
-        self._mm_models = []
+        self._mm_models = {}
         self._data = None
         self._task_type = ClassificationTask  # Default task type will be ClassificationTask
+
+        self._pytorch_models = 0
+        self._keras_models = 0
+        self._sklearn_models = 0
+        self._custom_models = 0
+
+
 
     def set_task_type(self, task_type: str): #TODO
         """
@@ -47,7 +54,7 @@ class TaskBuilder:
 
         return self
 
-    def add_model_from_path(self, model_path: str):
+    def add_model_from_path(self, model_path: str, model_name = None):
         """
         Adds a pre-trained model from a path.
 
@@ -69,10 +76,14 @@ class TaskBuilder:
         model = model_classes[ext](model_path)
         if not self._model:
             self._model = model
-        self._mm_models.append(model)
+
+        if not model_name:
+            model_name = f"custom_model_{self._custom_models}"
+            self._custom_models += 1
+        self._mm_models[model_name] = model
         return self
 
-    def add_pytorch_model(self, input_dim, hidden_dim, output_dim, training_data: DatasetLoader):
+    def add_pytorch_model(self, input_dim, hidden_dim, output_dim, training_data: DatasetLoader, model_name=None):
         """
         Adds a new Trainable PyTorch Model.
 
@@ -84,10 +95,15 @@ class TaskBuilder:
         model = TrainablePyTorchModel(input_dim, hidden_dim, output_dim).train(training_data.X, training_data.y)
         if not self._model:
             self._model = model
-        self._mm_models.append(model)
+
+        if not model_name:
+            model_name = f"pytorch_model_{self._pytorch_models}"
+            self._pytorch_models += 1
+        self._mm_models[model_name] = model
+
         return self
     
-    def add_sklearn_model(self, model_type: str, training_data: DatasetLoader): # TODO - enum of sk learn types
+    def add_sklearn_model(self, model_type: str, training_data: DatasetLoader, model_name=None): # TODO - enum of sk learn types
         """
         Adds a new Trainable PyTorch Model.
 
@@ -107,11 +123,15 @@ class TaskBuilder:
         model = sk_types[model_type]().train(training_data.X, training_data.y)
         if not self._model:
             self._model = model
-        self._mm_models.append(model)
+
+        if not model_name:
+            model_name = f"sklearn_model_{self._sklearn_models}"
+            self._sklearn_models += 1
+        self._mm_models[model_name] = model
 
         return self
     
-    def add_keras_model(self, input_dim, hidden_dim, output_dim, training_data: DatasetLoader):
+    def add_keras_model(self, input_dim, hidden_dim, output_dim, training_data: DatasetLoader, model_name=None):
         """
         Adds a new Trainable PyTorch Model.
 
@@ -123,7 +143,12 @@ class TaskBuilder:
         model = TrainableKerasModel(input_dim, hidden_dim, output_dim).train(training_data.X, training_data.y)
         if not self._model:
             self._model = model
-        self._mm_models.append(model)
+
+        if not model_name:
+            model_name = f"keras_model_{self._keras_models}"
+            self._keras_models += 1
+        self._mm_models[model_name] = model
+
         return self
 
 

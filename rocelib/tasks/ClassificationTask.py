@@ -4,7 +4,6 @@ import torch
 import numpy as np
 from tabulate import tabulate  # For better table formatting
 
-
 from rocelib.tasks.Task import Task
 from typing import List, Dict, Any, Union, Tuple
 from rocelib.recourse_methods.BinaryLinearSearch import BinaryLinearSearch
@@ -22,6 +21,7 @@ from rocelib.evaluations.DistanceEvaluator import DistanceEvaluator
 from rocelib.evaluations.ValidityEvaluator import ValidityEvaluator
 from rocelib.evaluations.robustness_evaluations.MC_Robustness_Implementations.DeltaRobustnessEvaluator import DeltaRobustnessEvaluator
 from rocelib.evaluations.RobustnessProportionEvaluator import RobustnessProportionEvaluator
+from rocelib.evaluations.robustness_evaluations.MM_Robustness_Implementations.MultiplicityValidityRobustnessEvaluator import MultiplicityValidityRobustnessEvaluator
 # from robustx.generators.robust_CE_methods.APAS import APAS
 # from robustx.generators.robust_CE_methods.ArgEnsembling import ArgEnsembling
 # from robustx.generators.robust_CE_methods.DiverseRobustCE import DiverseRobustCE
@@ -56,6 +56,7 @@ EVALUATIONS = {
     "Distance": DistanceEvaluator,
     "Validity": ValidityEvaluator,
     "RobustnessProportionEvaluator": RobustnessProportionEvaluator,
+    "ModelMultiplicityRobustness": MultiplicityValidityRobustnessEvaluator
     }
 
 
@@ -92,7 +93,7 @@ class ClassificationTask(Task):
             pos_instance = self._dataset.get_random_positive_instance(neg_value, column_name=column_name)
 
         return pos_instance
-    
+
     def generate(self, methods: List[str], type="DataFrame", **kwargs) -> Dict[str, Tuple[pd.DataFrame, float]]:#List[pd.DataFrame]:
         """
         Generates counterfactual explanations for the specified methods and stores the results.
@@ -118,13 +119,66 @@ class ClassificationTask(Task):
                 end_time = time.perf_counter()
 
                 # Store the result in the counterfactual explanations dictionary
-                self._CEs[method] = [res, end_time - start_time]  
+                self._CEs[method] = [res, end_time - start_time]
 
             except Exception as e:
                 print(f"Error generating counterfactuals with method '{method}': {e}")
             
         return self.CEs
-    
+
+    def generate_mm(self, methods: List[str], type="DataFrame", **kwargs) -> Dict[str, Tuple[pd.DataFrame, float]]:
+        #TODO: should this be in the self.generate() function (so the generate func would return a dict if mm_flag off or a list of dicts if mm_flag on
+        if not self.mm_flag:
+            raise ValueError("Multiple models must be added in order to generate for MM")
+
+        # self._mm_CEs: Dict[str, Dict[str, Tuple[pd.DataFrame, float]]]
+        # self._CEs: Dict[str, Tuple[pd.DataFrame, float]] = {}  # Stores generated counterfactuals per method
+
+        for method in methods:
+            for i, model_name in enumerate(self.mm_models):
+                ces = self.generate_for_model_method(model_name, method, type, **kwargs)
+                if i == 0:
+                    # Primary model so we should store results in self._CEs
+                    self._CEs[method] = ces
+
+                # Store results in mm_CEs
+                if method not in self.mm_CEs:
+                    self.mm_CEs[method] = {}
+                self.mm_CEs[method][model_name] = ces
+
+        return self.mm_CEs
+
+
+    def generate_for_model_method(self, model_name, method, type, **kwargs) -> Tuple[pd.DataFrame, float]:
+        print(f"GENERATING FOR: model: {model_name}, method: {method}")
+        try:
+            # Check if the method exists in the dictionary
+            if method not in METHODS:
+                raise ValueError(f"Recourse method '{method}' not found. Available methods: {list(METHODS.keys())}")
+
+            # Instantiate the recourse method
+            task = Task(self.mm_models[model_name], dataset=self.dataset)
+            recourse_method = METHODS[method](task)  # Pass the classification task to the method
+
+            # Start timer
+            start_time = time.perf_counter()
+
+            res = recourse_method.generate_for_all(**kwargs)  # Generate counterfactuals
+            res_correct_type = self.convert_datatype(res, type)
+            # End timer
+            end_time = time.perf_counter()
+
+            # Store the result in the counterfactual explanations dictionary
+            return [res, end_time - start_time]
+
+        except Exception as e:
+            print(f"Error generating counterfactuals with method '{method}': {e}")
+            return None
+
+
+
+
+
     def evaluate(self, methods: List[str], evaluations: List[str], **kwargs) -> Dict[str, Dict[str, Any]]:
         """
         Evaluates the generated counterfactual explanations using specified evaluation metrics.

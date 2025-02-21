@@ -22,20 +22,24 @@ def test_correct_robustness_evaluations_generated(testing_models) -> None:
 
 def test_robustness_and_standards_evaluations_generated(testing_models) -> None:
     ct = testing_models.get("ionosphere", "ionosphere", "pytorch", 34, 8, 1)
-    ces = ct.generate(["MCE", "BinaryLinearSearch"])
-    evals = ct.evaluate(["MCE"], ["RobustnessProportionEvaluator", "Distance"])
+
+    ces = ct.generate(["MCE", "BinaryLinearSearch", "RNCE"])
+    evals = ct.evaluate(["MCE", "RNCE"], ["RobustnessProportionEvaluator", "Distance", "Validity"])
+
     assert len(evals["MCE"]) == 2
     
 def test_generate_df_conversion(testing_models) -> None:
     ct = testing_models.get("ionosphere", "ionosphere", "pytorch", 34, 8, 1)
+
     ces = ct.generate(["MCE"], "DataFrame")
     assert isinstance(ces["MCE"][0], pd.DataFrame)
 
 #TODO
 # def test_generate_torch_conversion(testing_models) -> None:
 #     ct = testing_models.get("ionosphere", "ionosphere", "pytorch", 34, 8, 1)
-#     ces = ct.generate(["MCE"], "Tensor")
-#     assert isinstance(ces[0][0], torch.Tensor)
+
+    ces = ct.generate(["MCE"], "Tensor")
+    assert isinstance(ces[0][0], torch.Tensor)
     
 
 

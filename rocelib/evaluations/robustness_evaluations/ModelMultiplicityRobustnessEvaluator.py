@@ -15,7 +15,7 @@ class ModelMultiplicityRobustnessEvaluator(BaseRobustnessEvaluator):
         """
         evaluations = []
 
-        for index, (_,instance) in enumerate(self.task.dataset.get_negative_instances(neg_value=0).iterrows()):
+        for index, (_,instance) in enumerate(self.task.dataset.get_negative_instances().iterrows()):
             # Get the counterfactual for each model for this instance and put all into a list
             counterfactuals = []
             ces = self.task.mm_CEs[recourse_method]

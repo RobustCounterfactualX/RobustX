@@ -9,25 +9,10 @@ import random
 
 class InvalidationRateRobustnessEvaluator(NoisyExecutionRobustnessEvaluator):
     """
-     An Evaluator class which evaluates ...
+     An Evaluator class which evaluates robustness using the IR method described in [Pawelczyk et al., 2023a]
 
-        ...
-
-    Attributes / Properties
-    -------
-
-    task: Task
-        Stores the Task for which we are evaluating the validity of CEs
-
-    -------
-
-    Methods
-    -------
-
-    evaluate() -> int:
-        Returns the proportion of CEs which are valid
-
-    -------
+    Attributes:
+        task (Task): The task to solve, inherited from ModelChangesRobustnessEvaluator.
     """
 
     def __init__(self, ct: Task):
@@ -44,8 +29,8 @@ class InvalidationRateRobustnessEvaluator(NoisyExecutionRobustnessEvaluator):
         """
         Evaluates whether the model's prediction for a given instance is robust to ...
 
-        @param instance: input
-        @param counterfactual: CE
+        @param instance: a single input that can be evaluated by the model
+        @param counterfactual: a counterfactual explanation - possibly of instance
         @return: A boolean indicating whether the model's prediction is robust
         """
 
@@ -53,7 +38,6 @@ class InvalidationRateRobustnessEvaluator(NoisyExecutionRobustnessEvaluator):
         # random_values = np.random.normal(loc=0, scale=5, size=df.shape)
         # df_new = df + random_values
 
-        # TODO more tests
         counterfactual = counterfactual.drop(labels=["predicted", "Loss"])
 
         feature_count = len(counterfactual)

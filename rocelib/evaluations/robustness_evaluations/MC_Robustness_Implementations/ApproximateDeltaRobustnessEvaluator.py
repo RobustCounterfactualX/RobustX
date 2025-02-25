@@ -1,3 +1,5 @@
+import pandas as pd
+
 from rocelib.intabs.IntervalAbstractionPyTorch import IntervalAbstractionPytorch
 from rocelib.evaluations.robustness_evaluations.ModelChangesRobustnessEvaluator import ModelChangesRobustnessEvaluator
 
@@ -55,7 +57,8 @@ class ApproximateDeltaRobustnessEvaluator(ModelChangesRobustnessEvaluator):
 
         for _ in range(self.number_of_samples):
             input_features = ce.detach().numpy() if hasattr(ce, "detach") else ce.copy()
-            input_features = input_features.drop(columns=["predicted", "Loss"])
+            if isinstance(input_features, pd.DataFrame):
+                input_features = input_features.drop(columns=["predicted", "Loss"])
 
             for l in range(len(old_weights)):
                 layer_weights = old_weights[l]

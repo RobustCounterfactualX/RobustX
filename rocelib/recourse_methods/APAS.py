@@ -3,7 +3,8 @@ import pandas as pd
 import torch
 from rocelib.recourse_methods.RecourseGenerator import RecourseGenerator
 from rocelib.recourse_methods.KDTreeNNCE import KDTreeNNCE
-from rocelib.evaluations.robustness_evaluations.MC_Robustness_Implementations.ApproximateDeltaRobustnessEvaluator import ApproximateDeltaRobustnessEvaluator
+from rocelib.evaluations.robustness_evaluations.MC_Robustness_Implementations.ApproximateDeltaRobustnessEvaluator import \
+    ApproximateDeltaRobustnessEvaluator
 from rocelib.tasks.Task import Task
 
 
@@ -23,7 +24,7 @@ class APAS(RecourseGenerator):
         alpha = confidence level in the robustness evaluator
     """
 
-    def __init__(self, task: Task, CE_generator=KDTreeNNCE, alpha=0.999):
+    def __init__(self, task: Task, ce_generator=KDTreeNNCE, alpha=0.999):
         """
         Initializes the APAS CE generator with a given task and a CE generator.
 
@@ -31,18 +32,17 @@ class APAS(RecourseGenerator):
         """
 
         super().__init__(task)
-        self.rg = CE_generator(task)
+        self.rg = ce_generator(task)
         self.alpha = alpha
 
-
     def _generation_method(self,
-                            original_input, 
-                            target_column_name="target",
-                            desired_outcome=0,
-                            delta_max=0.5,
-                            maximum_iterations=1000, verbose=False,
+                           original_input,
+                           target_column_name="target",
+                           desired_outcome=0,
+                           delta_max=0.5,
+                           maximum_iterations=1000, verbose=False,
                            **kwargs):
-        
+
         """
         Generates the first counterfactual explanation for a given input using the APΔS method, i.e., a combination of exponential and binary search with a probabilistic delta robustness model changes check.
 
@@ -53,31 +53,25 @@ class APAS(RecourseGenerator):
 
         @return: the first robust counterfactual explanation to Δ-model changes.
         """
-        
-        
+
         iterations = 0
         robustness_check = ApproximateDeltaRobustnessEvaluator(self.task, self.alpha)
-      
+
         for i in range(maximum_iterations):
             if verbose: print(f"Iteration {i}/{maximum_iterations}")
             ce = self.rg._generation_method(instance=original_input)
 
             # check if column names contains ['predicted', 'Loss'] columns
             if 'predicted' in ce.columns and 'Loss' in ce.columns:
-                ce = ce.drop(columns=['predicted', 'Loss']).astype(np.float32)   
+                ce = ce.drop(columns=['predicted', 'Loss']).astype(np.float32)
 
             ce = torch.tensor(ce.values[0], dtype=torch.float32)
-  
+
             robustness = robustness_check.evaluate(ce, desired_outcome=desired_outcome, delta=delta_max)
             if robustness:
                 return ce
-            
+
             iterations += 1
 
         print("No robust counterfactual explanation found for the given perturbation.")
         return pd.DataFrame(original_input).T
-
-
-
-
-       

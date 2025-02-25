@@ -29,32 +29,30 @@ class ManifoldEvaluator(Evaluator):
     -------
     """
 
-    def evaluate(self, recourse_method, n_neighbors=20, column_name="target", **kwargs):
+def evaluate(self, counterfactual_explanations, n_neighbors=20, column_name="target", **kwargs):
         """
         Determines the proportion of CEs that lie on the data manifold based on LOF
-        @param recourses: DataFrame, containing the CEs in the same order as the negative instances in the dataset
+        @param counterfactual_explanations: DataFrame, containing the CEs in the same order as the negative instances in the dataset
         @param n_neighbors: int, number of neighbours to compare to in order to find if outlier
         @param column_name: str, name of target column
         @param kwargs: other arguments
         @return: proportion of CEs on manifold
         """
-        recourses = self.task._CEs[recourse_method][0]
-        
         on_manifold = 0
         cnt = 0
 
-        data = self.task.dataset.X
-        recourses = recourses.drop(columns=[column_name, "loss"], errors='ignore')
+        data = self.task.training_data.X
+        counterfactual_explanations = counterfactual_explanations.drop(columns=[column_name, "loss"], errors='ignore')
 
         # TODO: Compute raw LoF score, proplace code to see what else is working
-        for _, recourse in recourses.iterrows():
+        for _, ce in counterfactual_explanations.iterrows():
 
-            if recourse is None:
+            if ce is None:
                 cnt += 1
                 continue
 
             # Combine the dataset with the new instance
-            data_with_instance = pd.concat([data, pd.DataFrame([recourse])], ignore_index=True)
+            data_with_instance = pd.concat([data, pd.DataFrame([ce])], ignore_index=True)
 
             data_with_instance.columns = data_with_instance.columns.astype(str)
 

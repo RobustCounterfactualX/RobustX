@@ -17,7 +17,7 @@ class Task(ABC):
         __model (TrainableModel): The model to be trained and used for predictions.
     """
 
-    def __init__(self, model: TrainedModel, dataset: DatasetLoader, mm_models: [TrainedModel] = None):
+    def __init__(self, model: TrainedModel, dataset: DatasetLoader, mm_models: Dict[str, TrainedModel] = None):
         """
         Initializes the Task with a model and training data.
 
@@ -27,8 +27,15 @@ class Task(ABC):
         self._dataset = dataset
         self.__model = model
         self._CEs: Dict[str, Tuple[pd.DataFrame, float]] = {}  # Stores generated counterfactuals per method
-        self.__mm_models = mm_models
+        # self._mm_CEs: List[Dict[str, Tuple[pd.DataFrame, float]]] = []
+        self._mm_CEs: Dict[str, Dict[str, Tuple[pd.DataFrame, float]]] = {} #Stores generated counterfactuals per model per method
+        self.__mm_models: Dict[str, TrainedModel] = mm_models
 
+        # Set mm_flag based on whether the user added multiple models
+        if mm_models and len(mm_models) > 1:
+            self.mm_flag = True
+        else:
+            self.mm_flag = False
 
 
     def get_random_positive_instance(self, neg_value, column_name="target") -> pd.Series:
@@ -42,6 +49,9 @@ class Task(ABC):
         pass
 
     def generate(self, methods: List[str]) -> Dict[str, Tuple[pd.DataFrame, float]]:
+        pass
+
+    def generate_mm(self, methods: List[str]) -> Dict[str, Tuple[pd.DataFrame, float]]:
         pass
 
     def evaluate(self, methods: List[str], evaluations: List[str]) -> Dict[str, Dict[str, Any]]:
@@ -86,3 +96,7 @@ class Task(ABC):
     @property
     def CEs(self):
         return self._CEs
+
+    @property
+    def mm_CEs(self):
+        return self._mm_CEs

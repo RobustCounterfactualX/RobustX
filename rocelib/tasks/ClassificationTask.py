@@ -3,6 +3,7 @@ import time
 import torch
 import numpy as np
 from tabulate import tabulate  # For better table formatting
+import matplotlib.pyplot as plt
 
 
 from rocelib.tasks.Task import Task
@@ -28,6 +29,8 @@ from rocelib.evaluations.ValidityEvaluator import ValidityEvaluator
 from rocelib.evaluations.robustness_evaluations.MC_Robustness_Implementations.DeltaRobustnessEvaluator import DeltaRobustnessEvaluator
 from rocelib.evaluations.RobustnessProportionEvaluator import RobustnessProportionEvaluator
 
+from rocelib.evaluations.robustness_evaluations.MM_Robustness_Implementations.MultiplicityValidityRobustnessEvaluator import MultiplicityValidityRobustnessEvaluator
+# from robustx.generators.robust_CE_methods.APAS import APAS
 # from robustx.generators.robust_CE_methods.ArgEnsembling import ArgEnsembling
 # from robustx.generators.robust_CE_methods.DiverseRobustCE import DiverseRobustCE
 # from robustx.generators.robust_CE_methods.MCER import MCER
@@ -38,7 +41,8 @@ from rocelib.evaluations.RobustnessProportionEvaluator import RobustnessProporti
 # from robustx.generators.robust_CE_methods.STCE import STCE
 
 # METHODS = {"APAS": APAS, "ArgEnsembling": ArgEnsembling, "DiverseRobustCE": DiverseRobustCE, "MCER": MCER,
-#            "STCE": TrexNN, "BinaryLinearSearch": BinaryLinearSearch, "GuidedBinaryLinearSearch": GuidedBinaryLinearSearch,
+#            "ModelMultiplicityMILP": ModelMultiplicityMILP, "PROPLACE": PROPLACE, "RNCE": RNCE, "ROAR": ROAR,
+#            "STCE": STCE, "BinaryLinearSearch": BinaryLinearSearch, "GuidedBinaryLinearSearch": GuidedBinaryLinearSearch,
 #            "NNCE": NNCE, "KDTreeNNCE": KDTreeNNCE, "MCE": MCE, "Wachter": Wachter}
 # EVALUATIONS = {"Distance": DistanceEvaluator, "Validity": ValidityEvaluator, "Manifold": ManifoldEvaluator,
 #                "Delta-robustness": RobustnessProportionEvaluator}
@@ -65,6 +69,8 @@ METHODS = {
 EVALUATIONS = {
     "Distance": DistanceEvaluator,
     "Validity": ValidityEvaluator,
+    "RobustnessProportionEvaluator": RobustnessProportionEvaluator,
+    "ModelMultiplicityRobustness": MultiplicityValidityRobustnessEvaluator,
     "DeltaRobustnessEvaluator": RobustnessProportionEvaluator,
 
     }
@@ -105,7 +111,7 @@ class ClassificationTask(Task):
             pos_instance = self._dataset.get_random_positive_instance()
 
         return pos_instance
-    
+
     def generate(self, methods: List[str], type="DataFrame", **kwargs) -> Dict[str, Tuple[pd.DataFrame, float]]:#List[pd.DataFrame]:
         """
         Generates counterfactual explanations for the specified methods and stores the results.
@@ -114,7 +120,7 @@ class ClassificationTask(Task):
         """
 
         for method in methods:
-            
+
             try:
                 # Check if the method exists in the dictionary
                 if method not in METHODS:
@@ -132,14 +138,67 @@ class ClassificationTask(Task):
                 end_time = time.perf_counter()
 
                 # Store the result in the counterfactual explanations dictionary
-                self._CEs[method] = [res, end_time - start_time]  
+                self._CEs[method] = [res, end_time - start_time]
 
             except Exception as e:
                 print(f"Error generating counterfactuals with method '{method}': {e}")
             
         return self.CEs
-    
-    def evaluate(self, methods: List[str], evaluations: List[str], **kwargs) -> Dict[str, Dict[str, Any]]:
+
+    def generate_mm(self, methods: List[str], type="DataFrame", **kwargs) -> Dict[str, Dict[str, Tuple[pd.DataFrame, float]]]:
+        #TODO: should this be in the self.generate() function (so the generate func would return a dict if mm_flag off or a list of dicts if mm_flag on
+        if not self.mm_flag:
+            raise ValueError("Multiple models must be added in order to generate for MM")
+
+        # self._mm_CEs: Dict[str, Dict[str, Tuple[pd.DataFrame, float]]]
+        # self._CEs: Dict[str, Tuple[pd.DataFrame, float]] = {}  # Stores generated counterfactuals per method
+
+        for method in methods:
+            for i, model_name in enumerate(self.mm_models):
+                ces = self.generate_for_model_method(model_name, method, type, **kwargs)
+                if i == 0:
+                    # Primary model so we should store results in self._CEs
+                    self._CEs[method] = ces
+
+                # Store results in mm_CEs
+                if method not in self.mm_CEs:
+                    self.mm_CEs[method] = {}
+                self.mm_CEs[method][model_name] = ces
+
+        return self.mm_CEs
+
+
+    def generate_for_model_method(self, model_name, method, type, **kwargs) -> Tuple[pd.DataFrame, float]:
+        print(f"GENERATING FOR: model: {model_name}, method: {method}")
+        try:
+            # Check if the method exists in the dictionary
+            if method not in METHODS:
+                raise ValueError(f"Recourse method '{method}' not found. Available methods: {list(METHODS.keys())}")
+
+            # Instantiate the recourse method
+            task = Task(self.mm_models[model_name], dataset=self.dataset)
+            recourse_method = METHODS[method](task)  # Pass the classification task to the method
+
+            # Start timer
+            start_time = time.perf_counter()
+
+            res = recourse_method.generate_for_all(**kwargs)  # Generate counterfactuals
+            res_correct_type = self.convert_datatype(res, type)
+            # End timer
+            end_time = time.perf_counter()
+
+            # Store the result in the counterfactual explanations dictionary
+            return [res, end_time - start_time]
+
+        except Exception as e:
+            print(f"Error generating counterfactuals with method '{method}': {e}")
+            return None
+
+
+
+
+
+    def evaluate(self, methods: List[str], evaluations: List[str], visualisation=False, **kwargs) -> Dict[str, Dict[str, Any]]:
         """
         Evaluates the generated counterfactual explanations using specified evaluation metrics.
 
@@ -159,6 +218,16 @@ class ClassificationTask(Task):
         if not valid_methods:
             print("No valid methods have been generated for evaluation.")
             return evaluation_results
+        print(f"generate has not been called for {list(set(methods) - set(valid_methods))} so evaluations were not performed for these")
+
+        # Filter out methods that haven't been generated for MM if mm_flag is on
+        if self.mm_flag:
+            valid_methods = [method for method in methods if (method in self.mm_CEs and len(self.mm_CEs[method].keys()) == len(self.mm_models))]
+            if not valid_methods:
+                print("No valid methods have been generated for MM for evaluation. Call generate_mm for these methods")
+                return evaluation_results
+            print(f"generate_mm has not been called for {list(set(methods) - set(valid_methods))} so evaluations were not performed for these")
+
 
         # Perform evaluation
         for evaluation in evaluations:
@@ -191,8 +260,89 @@ class ClassificationTask(Task):
 
         # Print results in table format
         self._print_evaluation_results(evaluation_results, evaluations)
-
+        time.sleep(2)
+        if visualisation:
+            self._visualise_results(evaluation_results, evaluations)
         return evaluation_results
+    def _visualise_results(self, evaluations_results: Dict[str, Dict[str, Any]], evaluations: List[str]):
+        if not evaluations_results:
+            print("No evaluation results to display.")
+            return
+
+        if len(evaluations) > 3:
+            self._visualise_results_radar_chart(evaluations_results, evaluations)
+        else:
+            self._visualise_results_bar_chart(evaluations_results, evaluations)
+    def _visualise_results_bar_chart(self, evaluation_results: Dict[str, Dict[str, Any]], evaluations: List[str]):
+        recourse_methods = list(evaluation_results.keys())
+
+        # Extract metric values
+        metric_values = {method: [evaluation_results[method].get(metric, 0) for metric in evaluations] for method in
+                         recourse_methods}
+
+
+        x = np.arange(len(recourse_methods))
+        width = 0.2
+        fig, ax = plt.subplots(figsize=(8, 6))
+
+        for i, metric in enumerate(evaluations):
+            values = [metric_values[method][i] for method in recourse_methods]
+            ax.bar(x + i * width, values, width, label=metric)
+
+        ax.set_xticks(x + width / 2)
+        ax.set_xticklabels(recourse_methods)
+        ax.set_xlabel("Recourse Methods")
+        ax.set_ylabel("Metric Values")
+        ax.set_title("Bar Chart of Evaluation Metrics")
+        ax.legend()
+
+        plt.show()
+
+
+    def _visualise_results_radar_chart(self, evaluation_results: Dict[str, Dict[str, Any]], evaluations: List[str]):
+        """
+        Generate a radar chart for evaluation results.
+
+        Parameters:
+            evaluation_results (Dict[str, Dict[str, Any]]):
+                A dictionary where keys are recourse methods, and values are dictionaries mapping metric names to values.
+            evaluations (List[str]):
+                A list of metric names to be visualized (must have at least 4 metrics).
+        """
+        assert len(evaluations) >= 4, "There must be at least 4 evaluation metrics to plot a radar chart."
+
+        # Extract recourse methods
+        recourse_methods = list(evaluation_results.keys())
+
+        # Extract metric values for each recourse method
+        metric_values = {method: [evaluation_results[method].get(metric, 0) for metric in evaluations]
+                         for method in recourse_methods}
+
+        # Define radar chart angles
+        num_vars = len(evaluations)
+        angles = np.linspace(0, 2 * np.pi, num_vars, endpoint=False).tolist()
+
+        # Close the radar chart loop
+        angles += angles[:1]
+
+        # Create figure
+        fig, ax = plt.subplots(figsize=(8, 8), subplot_kw=dict(polar=True))
+
+        # Plot each recourse method
+        for method, values in metric_values.items():
+            values += values[:1]  # Close the loop
+            ax.plot(angles, values, label=method, linewidth=2)
+            ax.fill(angles, values, alpha=0.2)
+
+        # Add labels and legend
+        ax.set_xticks(angles[:-1])
+        ax.set_xticklabels(evaluations, fontsize=12)
+        ax.set_yticklabels([])
+        ax.set_title("Radar Chart of Evaluation Metrics", fontsize=14, fontweight='bold')
+        ax.legend(loc='upper right', bbox_to_anchor=(1.3, 1.1))
+
+        # Show the plot
+        plt.show()
 
     def _print_evaluation_results(self, evaluation_results: Dict[str, Dict[str, Any]], evaluations: List[str]):
         """

@@ -1,31 +1,45 @@
-from rocelib.datasets.DatasetLoader import DatasetLoader
 from rocelib.datasets.ExampleDatasets import get_example_dataset
-from rocelib.datasets.custom_datasets.CsvDatasetLoader import CsvDatasetLoader
-from rocelib.models.Models import get_sklearn_model
-from rocelib.models.pytorch_models.TrainablePyTorchModel import TrainablePyTorchModel
-from rocelib.tasks.ClassificationTask import ClassificationTask
 from rocelib.tasks.Task import Task
-
 from rocelib.tasks.TaskBuilder import TaskBuilder
-from enums.dataset_enums import Dataset
-from enums.model_enums import ModelType
 
 
 class TestingModels:
+    """
+    A class used as a singleton and shared between all test instances containing models (wrapped in a Task) that are
+    used by one or more tests to prevent retraining and improve the speed of the test suite.
+
+    Attributes:
+        models (dict): a dictionary mapping model parameters to a classification task containing the requested,
+        preprocessed dataset and the corresponding trained, usable model
+    """
     def __init__(self):
-        # dictionary of singletons (dataset, model_type, args) -> Task
+        """
+        Initializes the 'models' dictionary. Key value types: (dataset, model_type, args) -> Task
+
+        """
         self.models = {}
 
     def get(self, training_dataset: str, dataset: str, model_type: str, *args) -> Task:
+        """
+        The public method that tests use to interface with the class. This is done by requesting a certain model -
+        if it exists then it's container Task will be returned, otherwise a new Task will be created, and the requested
+        model will be trained and added to it.
+
+        @param training_dataset: The name of the dataset used for training the model.
+        @param dataset: The name of the dataset we want to evaluate our model on.
+        @param model_type: Specifies which ML framework the model is implemented with (e.g. pytorch, keras, etc.)
+        @param args: Additional model parameters specific to some model types (e.g. layer sizes for a neural network).
+        @return: A Pandas Series representing a random positive instance.
+        """
         if (training_dataset, model_type, args) not in self.models:
             print(self.models)
-            return self.create_and_train(training_dataset, model_type, dataset, args)
+            return self.__create_and_train(training_dataset, model_type, dataset, args)
         else:
             print(self.models)
 
             return self.models[(training_dataset, model_type, args)]
 
-    def create_and_train(self, training_dataset: str, model_type: str, dataset: str, args) -> Task:
+    def __create_and_train(self, training_dataset: str, model_type: str, dataset: str, args) -> Task:
         tb = TaskBuilder()
         dl_training = get_example_dataset(training_dataset)
         dl = get_example_dataset(dataset)
@@ -62,9 +76,7 @@ class TestingModels:
             tb.add_model_from_path(model_type)
         
         tb.add_data(dl)
-        
         ct = tb.build()
-
         self.models[(training_dataset, model_type, args)] = ct
 
         return ct

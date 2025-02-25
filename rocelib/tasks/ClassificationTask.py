@@ -54,8 +54,12 @@ METHODS = {
     "Wachter": Wachter,
     "RNCE": RNCE,
     "MCER": MCER,
-    "RoCourseNet": RoCourseNet,
-    "STCE": TrexNN
+    # "RoCourseNet": RoCourseNet,
+    "STCE": TrexNN,
+    # "APAS": APAS,
+    # "ArgEnsembling": ArgEnsembling,
+    # "DiverseRobustCE": DiverseRobustCE
+    # "Proplace": Proplace
 }
 
 EVALUATIONS = {

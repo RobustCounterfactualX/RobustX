@@ -27,7 +27,7 @@ class DeltaRobustnessEvaluator(ModelChangesRobustnessEvaluator):
         super().__init__(task)
         self.opt = OptSolver(task)
 
-    def evaluate_single_instance(self, instance, counterfactual=None, desired_output=1, delta=0.5, bias_delta=0, M=1000000000, epsilon=0.0001):
+    def evaluate_single_instance(self, instance, counterfactual=None, desired_output=1, delta=0.005, bias_delta=0.005, M=10000, epsilon=0.0001):    
         """
         Evaluates whether the model's prediction for a given instance is robust to changes in the input.
 

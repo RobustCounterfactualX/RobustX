@@ -28,7 +28,7 @@ class ApproximateDeltaRobustnessEvaluator(ModelChangesRobustnessEvaluator):
         super().__init__(ct)
         self.alpha = alpha
         self.R = R
-        self.number_of_samples = np.ceil(np.log(1 - self.alpha) / np.log(self.R))
+        self.number_of_samples = int(np.ceil(np.log(1 - self.alpha) / np.log(self.R)))
 
     def evaluate(self, ce, desired_outcome=0, delta=0.5, bias_delta=0):
         """
@@ -46,7 +46,8 @@ class ApproximateDeltaRobustnessEvaluator(ModelChangesRobustnessEvaluator):
         old_biases = {}
         i = 0
 
-        for _, layer in enumerate(self.task.model):
+        # for _, layer in enumerate(self.task.model):
+        for layer in self.task.model.model.children():
             if isinstance(layer, nn.Linear):
                 old_weights[i] = layer.weight.detach().numpy()
                 old_biases[i] = layer.bias.detach().numpy()
@@ -54,6 +55,7 @@ class ApproximateDeltaRobustnessEvaluator(ModelChangesRobustnessEvaluator):
 
         for _ in range(self.number_of_samples):
             input_features = ce.detach().numpy() if hasattr(ce, "detach") else ce.copy()
+            input_features = input_features.drop(columns=["predicted", "Loss"])
 
             for l in range(len(old_weights)):
                 layer_weights = old_weights[l]

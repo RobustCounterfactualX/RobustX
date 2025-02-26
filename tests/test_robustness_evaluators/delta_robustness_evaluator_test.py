@@ -54,7 +54,7 @@ def test_from_example_8_in_paper():
     # This one is robust
     ce = pd.DataFrame({'x1': [0.7], 'x2': [0.86]})
 
-    robust_check_3 = opt.evaluate_single_instance(ce, delta=0.1)
+    robust_check_3 = opt.evaluate_single_instance(ce, delta=0.005)
     print("######################################################")
     print("CE was: ", ce)
     print("This CE was" + ("" if robust_check_3 else " not") + " robust")

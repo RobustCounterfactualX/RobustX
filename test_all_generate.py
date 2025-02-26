@@ -6,8 +6,24 @@ from test_helpers.TestingModels import TestingModels  # Import your testing_mode
 
 def test_correct_recourses_generated_for(testing_models) -> None:
     ct = testing_models.get("ionosphere", "ionosphere", "pytorch", 34, 8, 1)
-    ces = ct.generate(["RNCE"])
-    evals = ct.evaluate(["RNCE"], ["DeltaRobustnessEvaluator"])
+    ces = ct.generate(["BinaryLinearSearch",
+    "GuidedBinaryLinearSearch",
+    "NNCE",
+    "KDTreeNNCE",
+    "MCE",
+    "Wachter",
+    "RNCE",
+    "MCER",
+    "STCE"])
+    evals = ct.evaluate(["BinaryLinearSearch",
+    "GuidedBinaryLinearSearch",
+    "NNCE",
+    "KDTreeNNCE",
+    "MCE",
+    "Wachter",
+    "RNCE",
+    "MCER",
+    "STCE"], ["Validity", "Distance", "DeltaRobustnessEvaluator"])
     # ces = ct.generate(["MCE", "BinaryLinearSearch", "NNCE", "KDTreeNNCE", "Wachter", "RNCE", "MCER", "RoCourseNet", "STCE"])
     # print(ces)
     # evals = ct.evaluate(["MCE", "BinaryLinearSearch", "NNCE", "KDTreeNNCE", "Wachter", "RNCE", "MCER", "RoCourseNet", "STCE"], ["Distance", "Validity", "De"])

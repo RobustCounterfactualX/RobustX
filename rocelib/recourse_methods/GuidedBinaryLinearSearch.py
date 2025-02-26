@@ -12,10 +12,18 @@ class GuidedBinaryLinearSearch(RecourseGenerator):
         c = self.task.get_random_positive_instance(neg_value, column_name).T
 
         opt = DeltaRobustnessEvaluator(self.task)
+        MAX_ITERATIONS = 10  # Set a reasonable limit
 
-        # Keep getting random positive counterfactual until we find one that is robust
+        iteration = 0
+        # Keep getting random positive counterfactual until we find one that is robust 
         while not opt.evaluate_single_instance(instance):
             c = self.task.get_random_positive_instance(neg_value, column_name).T
+            iteration += 1
+
+            # # Stop if too many iterations
+            if iteration > MAX_ITERATIONS:
+                break
+
 
         # Make sure column names are same so return result has same indices
         negative = instance.to_frame()

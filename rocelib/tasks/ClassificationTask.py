@@ -5,7 +5,10 @@ import numpy as np
 from tabulate import tabulate  # For better table formatting
 import matplotlib.pyplot as plt
 
-
+from rocelib.datasets.DatasetLoader import DatasetLoader
+from rocelib.evaluations.robustness_evaluations.Evaluator import Evaluator
+from rocelib.models.TrainedModel import TrainedModel
+from rocelib.recourse_methods.RecourseGenerator import RecourseGenerator
 from rocelib.tasks.Task import Task
 from typing import List, Dict, Any, Union, Tuple
 from rocelib.recourse_methods.BinaryLinearSearch import BinaryLinearSearch
@@ -40,36 +43,12 @@ from rocelib.evaluations.robustness_evaluations.MM_Robustness_Implementations.Mu
 # from robustx.generators.robust_CE_methods.ROAR import ROAR
 # from robustx.generators.robust_CE_methods.STCE import STCE
 
-# METHODS = {"APAS": APAS, "ArgEnsembling": ArgEnsembling, "DiverseRobustCE": DiverseRobustCE, "MCER": MCER,
+# self.methods = {"APAS": APAS, "ArgEnsembling": ArgEnsembling, "DiverseRobustCE": DiverseRobustCE, "MCER": MCER,
 #            "ModelMultiplicityMILP": ModelMultiplicityMILP, "PROPLACE": PROPLACE, "RNCE": RNCE, "ROAR": ROAR,
 #            "STCE": STCE, "BinaryLinearSearch": BinaryLinearSearch, "GuidedBinaryLinearSearch": GuidedBinaryLinearSearch,
 #            "NNCE": NNCE, "KDTreeNNCE": KDTreeNNCE, "MCE": MCE, "Wachter": Wachter}
-# EVALUATIONS = {"Distance": DistanceEvaluator, "Validity": ValidityEvaluator, "Manifold": ManifoldEvaluator,
+# self.evaluation_metrics = {"Distance": DistanceEvaluator, "Validity": ValidityEvaluator, "Manifold": ManifoldEvaluator,
 #                "Delta-robustness": RobustnessProportionEvaluator}
-
-
-METHODS = {
-    "BinaryLinearSearch": BinaryLinearSearch,
-    "GuidedBinaryLinearSearch": GuidedBinaryLinearSearch,
-    # "MMMILP": ModelMultiplicityMILP,
-    "NNCE": NNCE,
-    "KDTreeNNCE": KDTreeNNCE,
-    "MCE": MCE,
-    "Wachter": Wachter,
-    "RNCE": RNCE,
-    "MCER": MCER,
-    "RoCourseNet": RoCourseNet,
-    "STCE": TrexNN
-}
-
-EVALUATIONS = {
-    "Distance": DistanceEvaluator,
-    "Validity": ValidityEvaluator,
-    "RobustnessProportionEvaluator": RobustnessProportionEvaluator,
-    "ModelMultiplicityRobustness": MultiplicityValidityRobustnessEvaluator,
-    "DeltaRobustnessEvaluator": RobustnessProportionEvaluator,
-
-    }
 
 TIMEOUT_SECONDS = 60
 
@@ -87,6 +66,29 @@ class ClassificationTask(Task):
     """
 
 
+    def __init__(self, model: TrainedModel, dataset: DatasetLoader, mm_models: Dict[str, TrainedModel] = None):
+        super().__init__(model, dataset, mm_models)
+        self.methods = {
+            "BinaryLinearSearch": BinaryLinearSearch,
+            # "GuidedBinaryLinearSearch": GuidedBinaryLinearSearch,
+            # "MMMILP": ModelMultiplicityMILP,
+            "NNCE": NNCE,
+            "KDTreeNNCE": KDTreeNNCE,
+            "MCE": MCE,
+            "Wachter": Wachter,
+            "RNCE": RNCE,
+            "MCER": MCER,
+            "RoCourseNet": RoCourseNet,
+            "STCE": TrexNN
+        }
+
+        self.evaluation_metrics = {
+            "Distance": DistanceEvaluator,
+            "Validity": ValidityEvaluator,
+            "RobustnessProportionEvaluator": RobustnessProportionEvaluator,
+            "ModelMultiplicityRobustness": MultiplicityValidityRobustnessEvaluator,
+            "DeltaRobustnessEvaluator": RobustnessProportionEvaluator,
+        }
 
     def get_random_positive_instance(self, neg_value, column_name="target") -> pd.Series:
         """
@@ -108,22 +110,26 @@ class ClassificationTask(Task):
 
         return pos_instance
 
-    def generate(self, methods: List[str], type="DataFrame", **kwargs) -> Dict[str, Tuple[pd.DataFrame, float]]:#List[pd.DataFrame]:
+    def generate(self, methods: List[str]=None, type="DataFrame", **kwargs) -> Dict[str, Tuple[pd.DataFrame, float]]:
         """
         Generates counterfactual explanations for the specified methods and stores the results.
 
-        @param methods: List of recourse methods (by name) to use for counterfactual generation.
+        @param methods: List of recourse methods (by name) to use for counterfactual generation. If not provided, then counterfactuals will be generated for all methods
+        @param type: The datatype your instances are in e.g. dataframe, nparray, tensor
+        @return: A dictionary from recourse method to a tuple of (Pandas dataframe holding the counterfactual, time taken to generate the counterfactual)
         """
 
-        for method in methods:
+        if methods is None:
+            methods = self.get_recourse_methods()
 
+        for method in methods:
             try:
                 # Check if the method exists in the dictionary
-                if method not in METHODS:
-                    raise ValueError(f"Recourse method '{method}' not found. Available methods: {list(METHODS.keys())}")
+                if method not in self.methods:
+                    raise ValueError(f"Recourse method '{method}' not found. Available methods: {list(self.methods.keys())}")
 
                 # Instantiate the recourse method
-                recourse_method = METHODS[method](self)  # Pass the classification task to the method
+                recourse_method = self.methods[method](self)  # Pass the classification task to the method
 
                 # Start timer
                 start_time = time.perf_counter()
@@ -138,16 +144,21 @@ class ClassificationTask(Task):
 
             except Exception as e:
                 print(f"Error generating counterfactuals with method '{method}': {e}")
-            
+
         return self.CEs
 
-    def generate_mm(self, methods: List[str], type="DataFrame", **kwargs) -> Dict[str, Dict[str, Tuple[pd.DataFrame, float]]]:
-        #TODO: should this be in the self.generate() function (so the generate func would return a dict if mm_flag off or a list of dicts if mm_flag on
+    def generate_mm(self, methods: List[str]=None, type="DataFrame", **kwargs) -> Dict[str, Dict[str, Tuple[pd.DataFrame, float]]]:
+        """
+        Generates counterfactual explanations for the specified methods for each of the stored models and stores the results.
+
+        @param methods: List of recourse methods (by name) to use for counterfactual generation.
+        @return: A nested dictionary from recourse method to model name to a tuple of (Pandas dataframe holding the counterfactual, time taken to generate the counterfactual)
+        """
+        if methods is None:
+            methods = self.get_recourse_methods()
+
         if not self.mm_flag:
             raise ValueError("Multiple models must be added in order to generate for MM")
-
-        # self._mm_CEs: Dict[str, Dict[str, Tuple[pd.DataFrame, float]]]
-        # self._CEs: Dict[str, Tuple[pd.DataFrame, float]] = {}  # Stores generated counterfactuals per method
 
         for method in methods:
             for i, model_name in enumerate(self.mm_models):
@@ -168,12 +179,12 @@ class ClassificationTask(Task):
         print(f"GENERATING FOR: model: {model_name}, method: {method}")
         try:
             # Check if the method exists in the dictionary
-            if method not in METHODS:
-                raise ValueError(f"Recourse method '{method}' not found. Available methods: {list(METHODS.keys())}")
+            if method not in self.methods:
+                raise ValueError(f"Recourse method '{method}' not found. Available methods: {list(self.methods.keys())}")
 
             # Instantiate the recourse method
             task = Task(self.mm_models[model_name], dataset=self.dataset)
-            recourse_method = METHODS[method](task)  # Pass the classification task to the method
+            recourse_method = self.methods[method](task)  # Pass the classification task to the method
 
             # Start timer
             start_time = time.perf_counter()
@@ -194,7 +205,7 @@ class ClassificationTask(Task):
 
 
 
-    def evaluate(self, methods: List[str], evaluations: List[str], visualisation=False, **kwargs) -> Dict[str, Dict[str, Any]]:
+    def evaluate(self, methods: List[str]=None, evaluations: List[str]=None, visualisation=False, **kwargs) -> Dict[str, Dict[str, Any]]:
         """
         Evaluates the generated counterfactual explanations using specified evaluation metrics.
 
@@ -202,12 +213,17 @@ class ClassificationTask(Task):
         @param evaluations: List of evaluation metrics to apply.
         @return: Dictionary containing evaluation results per method and metric.
         """
+        if methods is None:
+            methods = self.get_recourse_methods()
+        if evaluations is None:
+            evaluations = self.get_evaluation_metrics()
+
         evaluation_results = {}
 
         # Validate evaluation names
-        invalid_evaluations = [ev for ev in evaluations if ev not in EVALUATIONS]
+        invalid_evaluations = [ev for ev in evaluations if ev not in self.evaluation_metrics]
         if invalid_evaluations:
-            raise ValueError(f"Invalid evaluation metrics: {invalid_evaluations}. Available: {list(EVALUATIONS.keys())}")
+            raise ValueError(f"Invalid evaluation metrics: {invalid_evaluations}. Available: {list(self.evaluation_metrics.keys())}")
 
         # Filter out methods that haven't been generated
         valid_methods = [method for method in methods if method in self._CEs]
@@ -227,7 +243,7 @@ class ClassificationTask(Task):
 
         # Perform evaluation
         for evaluation in evaluations:
-            evaluator_class = EVALUATIONS[evaluation]
+            evaluator_class = self.evaluation_metrics[evaluation]
 
             try:
                     # Create evaluator instance
@@ -362,7 +378,7 @@ class ClassificationTask(Task):
         print("\nEvaluation Results:")
         print(tabulate(table_data, headers=headers, tablefmt="grid"))
 
-    
+
 
     def convert_datatype(self, data: pd.DataFrame, target_type: str):
         """
@@ -385,3 +401,9 @@ class ClassificationTask(Task):
             return torch.tensor(data.to_numpy(), dtype=torch.float32)
         else:
             raise ValueError("Invalid target_type. Choose from: 'DataFrame', 'NPArray', 'Tensor'.")
+
+    def add_recourse_method(self, method_name: str, method_class: RecourseGenerator):
+        self.methods[method_name] = method_class
+
+    def add_evaluation_metric(self, metric_name: str, metric_class: Evaluator):
+        self.evaluation_metrics[metric_name] = metric_class

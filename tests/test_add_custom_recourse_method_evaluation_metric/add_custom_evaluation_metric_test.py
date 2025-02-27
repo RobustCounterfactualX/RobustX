@@ -17,7 +17,7 @@ def test_metric_gets_added_to_list_of_metrics():
     ct.add_evaluation_metric("new_metric", NewEvaluator)
     assert "new_metric" in ct.get_evaluation_metrics()
 
-def test_ce_generation_for_new_method():
+def test_ce_evaluation_for_new_metric():
     dl = get_example_dataset("ionosphere")
     # Not using testing models as we will be adding a recourse method to the task so could mess up other tests
     ct = TaskBuilder().add_pytorch_model(34, [8], 1, dl).add_data(dl).build()

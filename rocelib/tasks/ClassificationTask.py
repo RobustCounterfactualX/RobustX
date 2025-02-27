@@ -79,7 +79,11 @@ class ClassificationTask(Task):
             "RNCE": RNCE,
             "MCER": MCER,
             "RoCourseNet": RoCourseNet,
-            "STCE": TrexNN
+            "STCE": TrexNN,
+            "APAS": APAS,
+            # "ArgEnsembling": ArgEnsembling,
+            # "DiverseRobustCE": DiverseRobustCE
+            # "Proplace": Proplace
         }
 
         self.evaluation_metrics = {
@@ -285,13 +289,12 @@ class ClassificationTask(Task):
             self._visualise_results_radar_chart(evaluations_results, evaluations)
         else:
             self._visualise_results_bar_chart(evaluations_results, evaluations)
+
     def _visualise_results_bar_chart(self, evaluation_results: Dict[str, Dict[str, Any]], evaluations: List[str]):
         recourse_methods = list(evaluation_results.keys())
 
         # Extract metric values
-        metric_values = {method: [evaluation_results[method].get(metric, 0) for metric in evaluations] for method in
-                         recourse_methods}
-
+        metric_values = {method: [evaluation_results[method].get(metric, 0) for metric in evaluations] for method in recourse_methods}
 
         x = np.arange(len(recourse_methods))
         width = 0.2
@@ -308,7 +311,9 @@ class ClassificationTask(Task):
         ax.set_title("Bar Chart of Evaluation Metrics")
         ax.legend()
 
-        plt.show()
+        plt.savefig("/tmp/evaluation_chart.png")  # Save the figure instead of displaying it
+        plt.close(fig)  # Ensure the figure is closed properly
+
 
 
     def _visualise_results_radar_chart(self, evaluation_results: Dict[str, Dict[str, Any]], evaluations: List[str]):
@@ -353,8 +358,8 @@ class ClassificationTask(Task):
         ax.set_title("Radar Chart of Evaluation Metrics", fontsize=14, fontweight='bold')
         ax.legend(loc='upper right', bbox_to_anchor=(1.3, 1.1))
 
-        # Show the plot
-        plt.show()
+        plt.pause(0.001)  # Allows the figure to be shown briefly without blocking
+        plt.close(fig)  # Closes the figure to avoid blocking execution
 
     def _print_evaluation_results(self, evaluation_results: Dict[str, Dict[str, Any]], evaluations: List[str]):
         """

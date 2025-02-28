@@ -6,6 +6,7 @@ import numpy as np
 from exceptions.invalid_pytorch_model_error import InvalidPytorchModelError
 from rocelib.models.TrainedModel import TrainedModel
 
+
 class PytorchModel(TrainedModel):
     def __init__(self, model_path: str, device: str = "cpu"):
         """
@@ -35,9 +36,14 @@ class PytorchModel(TrainedModel):
         except Exception as e:
             raise RuntimeError(f"Failed to load PyTorch model from {model_path}: {e}")
 
+    # exception handling if the user supplied an incorrect model
     def check_model_is_torch_class(self, model):
         if not isinstance(model, torch.nn.Module):
-            raise InvalidPytorchModelError(f"Expected a PyTorch model (torch.nn.Module), but got {type(model).__name__}.")
+            raise RuntimeError(
+                f"Expected a PyTorch model (torch.nn.Module), but got {type(model).__name__}"
+                "The loaded model is not a torch model, but instead relies on a self defined class. \n"
+                "Please save your model again, ensuring to save the underlying torch model, rather than your wrapper class\n"
+                "Then try and load your model in again")
 
     @classmethod
     def from_model(cls, model, device: str = "cpu") -> 'PytorchModel':
@@ -54,7 +60,7 @@ class PytorchModel(TrainedModel):
         instance.model.eval()  # Set to evaluation mode
 
         (cls.input_dim, cls.hidden_dim, cls.output_dim) = get_model_dimensions_and_hidden_layers(model)
-       
+
         return instance
 
     def predict(self, X: pd.DataFrame) -> pd.DataFrame:
@@ -85,8 +91,7 @@ class PytorchModel(TrainedModel):
         if not isinstance(x, torch.Tensor):
             x = torch.tensor(x.values, dtype=torch.float32)
         return 0 if self.predict_proba(x).iloc[0, 0] > 0.5 else 1
-    
-    
+
     def predict_proba(self, x: torch.Tensor) -> pd.DataFrame:
         """
         Predicts probabilities of outcomes.
@@ -121,14 +126,7 @@ class PytorchModel(TrainedModel):
         predictions = self.predict(X)
         accuracy = (predictions.view(-1) == torch.tensor(y.values)).float().mean()
         return accuracy.item()
-    
-    def check_model_is_torch_class(self, model):
-        if not isinstance(model, torch.nn.Module):
-            raise RuntimeError(
-                f"Expected a PyTorch model (torch.nn.Module), but got {type(model).__name__}"
-                "The loaded model is not a torch model, but instead relies on a self defined class. \n"
-                "Please save your model again, ensuring to save the underlying torch model, rather than your wrapper class\n"
-                "Then try and load your model in again")
+
 
 def get_model_dimensions_and_hidden_layers(model):
     """
@@ -152,6 +150,4 @@ def get_model_dimensions_and_hidden_layers(model):
             hidden_dims.append(layer.out_features)
     output_dim = hidden_dims.pop()
 
-
     return input_dim, hidden_dims, output_dim
-

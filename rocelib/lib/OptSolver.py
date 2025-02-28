@@ -41,7 +41,7 @@ class OptSolver:
         self.inputNodes = None
         self.outputNode = None
 
-    def setup(self, instance, delta=0.5, bias_delta=0, M=1000000000, fix_inputs=True):
+    def setup(self, instance, delta=0, bias_delta=0, M=1000, fix_inputs=True):
         """
         Sets up the Gurobi model with constraints based on the provided instance and parameters.
 

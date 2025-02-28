@@ -6,9 +6,6 @@ from tabulate import tabulate  # For better table formatting
 import matplotlib.pyplot as plt
 
 from rocelib.datasets.DatasetLoader import DatasetLoader
-from rocelib.evaluations.robustness_evaluations.Evaluator import Evaluator
-from rocelib.evaluations.robustness_evaluations.ModelMultiplicityRobustnessEvaluator import \
-    ModelMultiplicityRobustnessEvaluator
 from rocelib.models.TrainedModel import TrainedModel
 from rocelib.recourse_methods.ArgEnsembling import ArgEnsembling
 from rocelib.recourse_methods.RecourseGenerator import RecourseGenerator
@@ -30,29 +27,18 @@ from rocelib.recourse_methods.APAS import APAS
 from rocelib.recourse_methods.DiverseRobustCE import DiverseRobustCE
 from rocelib.recourse_methods.PROPLACE import PROPLACE
 
+# Evaluators
+from rocelib.evaluations.robustness_evaluations.Evaluator import Evaluator
 from rocelib.evaluations.ManifoldEvaluator import ManifoldEvaluator
 from rocelib.evaluations.DistanceEvaluator import DistanceEvaluator
 from rocelib.evaluations.ValidityEvaluator import ValidityEvaluator
-from rocelib.evaluations.RobustnessProportionEvaluator import RobustnessProportionEvaluator
+from rocelib.evaluations.robustness_evaluations.MC_Robustness_Implementations.DeltaRobustnessEvaluator import DeltaRobustnessEvaluator
+from rocelib.evaluations.robustness_evaluations.ModelMultiplicityRobustnessEvaluator import \
+    ModelMultiplicityRobustnessEvaluator
 from rocelib.evaluations.robustness_evaluations.NE_Robustness_Implementations.InvalidationRateRobustnessEvaluator import InvalidationRateRobustnessEvaluator
-
 from rocelib.evaluations.robustness_evaluations.MM_Robustness_Implementations.MultiplicityValidityRobustnessEvaluator import MultiplicityValidityRobustnessEvaluator
-# from robustx.generators.robust_CE_methods.APAS import APAS
-# from robustx.generators.robust_CE_methods.ArgEnsembling import ArgEnsembling
-# from robustx.generators.robust_CE_methods.DiverseRobustCE import DiverseRobustCE
-# from robustx.generators.robust_CE_methods.MCER import MCER
-# from robustx.generators.robust_CE_methods.ModelMultiplicityMILP import ModelMultiplicityMILP
-# from robustx.generators.robust_CE_methods.PROPLACE import PROPLACE
-# from robustx.generators.robust_CE_methods.RNCE import RNCE
-# from robustx.generators.robust_CE_methods.ROAR import ROAR
-# from robustx.generators.robust_CE_methods.STCE import STCE
+from rocelib.evaluations.robustness_evaluations.IC_Robustness_Implementations.SetDistanceRobustnessEvaluator import SetDistanceRobustnessEvaluator
 
-# self.methods = {"APAS": APAS, "ArgEnsembling": ArgEnsembling, "DiverseRobustCE": DiverseRobustCE, "MCER": MCER,
-#            "ModelMultiplicityMILP": ModelMultiplicityMILP, "PROPLACE": PROPLACE, "RNCE": RNCE, "ROAR": ROAR,
-#            "STCE": STCE, "BinaryLinearSearch": BinaryLinearSearch, "GuidedBinaryLinearSearch": GuidedBinaryLinearSearch,
-#            "NNCE": NNCE, "KDTreeNNCE": KDTreeNNCE, "MCE": MCE, "Wachter": Wachter}
-# self.evaluation_metrics = {"Distance": DistanceEvaluator, "Validity": ValidityEvaluator, "Manifold": ManifoldEvaluator,
-#                "Delta-robustness": RobustnessProportionEvaluator}
 
 TIMEOUT_SECONDS = 60
 
@@ -95,8 +81,9 @@ class ClassificationTask(Task):
             "Validity": ValidityEvaluator,
             "ManifoldEvaluator": ManifoldEvaluator,
             "ModelMultiplicityRobustness": MultiplicityValidityRobustnessEvaluator,
-            "DeltaRobustnessEvaluator": RobustnessProportionEvaluator,
-            "InvalidationRateRobustnessEvaluator": InvalidationRateRobustnessEvaluator
+            "DeltaRobustnessEvaluator": DeltaRobustnessEvaluator,
+            "InvalidationRateRobustnessEvaluator": InvalidationRateRobustnessEvaluator,
+            "SetDistanceRobustnessEvaluator": SetDistanceRobustnessEvaluator
         }
 
     def get_random_positive_instance(self, neg_value, column_name="target") -> pd.Series:

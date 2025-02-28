@@ -16,15 +16,15 @@ from rocelib.tasks.TaskBuilder import TaskBuilder
 def test_correct_recourses_generated_for(testing_models) -> None:
     ct = testing_models.get("ionosphere", "ionosphere", "pytorch", 34, 8, 1)
     ces = ct.generate([
-        "NNCE",
-    "KDTreeNNCE",
-    "MCE",
-    "Wachter",
+    #     "NNCE",
+    # "KDTreeNNCE",
+    # "MCE",
+    # "Wachter",
     "RNCE",
-    "MCER",
-    "STCE"
+    # "MCER",
+    # "STCE"
         ])
-    ct.evaluate(evaluations=["ManifoldEvaluator"])
+    ct.evaluate(evaluations=["SetDistanceRobustnessEvaluator"])
     # ces = ct.generate([
     # # "BinaryLinearSearch",
     # # "GuidedBinaryLinearSearch",

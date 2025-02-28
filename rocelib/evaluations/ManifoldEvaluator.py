@@ -2,13 +2,12 @@ import pandas as pd
 from sklearn.neighbors import LocalOutlierFactor
 
 from rocelib.evaluations.RecourseEvaluator import RecourseEvaluator
-from rocelib.evaluations.robustness_evaluations.Evaluator import Evaluator
 
 
 ### Work In Progress ###
-class ManifoldEvaluator(Evaluator):
+class ManifoldEvaluator(RecourseEvaluator):
     """
-     An Evaluator class which evaluates the proportion of recourses which are on the data manifold using LOF
+     An Evaluator class which evaluates the proportion of counterfactuals which are on the data manifold using LOF
 
         ...
 
@@ -29,7 +28,7 @@ class ManifoldEvaluator(Evaluator):
     -------
     """
 
-def evaluate(self, counterfactual_explanations, n_neighbors=20, column_name="target", **kwargs):
+    def evaluate(self, recourse_method, n_neighbors=20, column_name="target", **kwargs):
         """
         Determines the proportion of CEs that lie on the data manifold based on LOF
         @param counterfactual_explanations: DataFrame, containing the CEs in the same order as the negative instances in the dataset
@@ -38,11 +37,12 @@ def evaluate(self, counterfactual_explanations, n_neighbors=20, column_name="tar
         @param kwargs: other arguments
         @return: proportion of CEs on manifold
         """
+        counterfactual_explanations = self.task._CEs[recourse_method][0]
         on_manifold = 0
         cnt = 0
 
-        data = self.task.training_data.X
-        counterfactual_explanations = counterfactual_explanations.drop(columns=[column_name, "loss"], errors='ignore')
+        data = self.task.dataset.X
+        counterfactual_explanations = counterfactual_explanations.drop(columns=[column_name, "loss", "predicted"], errors='ignore')
 
         # TODO: Compute raw LoF score, proplace code to see what else is working
         for _, ce in counterfactual_explanations.iterrows():
@@ -55,6 +55,9 @@ def evaluate(self, counterfactual_explanations, n_neighbors=20, column_name="tar
             data_with_instance = pd.concat([data, pd.DataFrame([ce])], ignore_index=True)
 
             data_with_instance.columns = data_with_instance.columns.astype(str)
+
+            # Drop NaN-containing "Loss" column before using LOF
+            data_with_instance = data_with_instance.drop(columns=["Loss"], errors="ignore")
 
             # Apply Local Outlier Factor (LOF)
             lof = LocalOutlierFactor(n_neighbors=n_neighbors)

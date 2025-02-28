@@ -44,4 +44,4 @@ def test_ce_evaluation_for_new_robustness_metric():
     evals = ct.evaluate(["MCE"], ["new_mc_metric"])
 
     #Check all eval results are True
-    assert all(evals["MCE"]["new_mc_metric"])
+    assert evals["MCE"]["new_mc_metric"] == 1

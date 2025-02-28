@@ -12,8 +12,19 @@ from rocelib.tasks.ClassificationTask import ClassificationTask
 from rocelib.evaluations.ValidityEvaluator import ValidityEvaluator
 from rocelib.tasks.TaskBuilder import TaskBuilder
 
+# def test_correct_recourses_generated_for(testing_models) -> None:
 def test_correct_recourses_generated_for(testing_models) -> None:
-    # ct = testing_models.get("ionosphere", "ionosphere", "pytorch", 34, 8, 1)
+    ct = testing_models.get("ionosphere", "ionosphere", "pytorch", 34, 8, 1)
+    ces = ct.generate([
+        "NNCE",
+    "KDTreeNNCE",
+    "MCE",
+    "Wachter",
+    "RNCE",
+    "MCER",
+    "STCE"
+        ])
+    ct.evaluate(evaluations=["ManifoldEvaluator"])
     # ces = ct.generate([
     # # "BinaryLinearSearch",
     # # "GuidedBinaryLinearSearch",
@@ -44,39 +55,39 @@ def test_correct_recourses_generated_for(testing_models) -> None:
     #         "DeltaRobustnessEvaluator",
     #         "InvalidationRateRobustnessEvaluator"
     #     ])
-    dl = get_example_dataset("ionosphere")
-    ct = TaskBuilder().add_pytorch_model(34, [8], 1, dl).add_pytorch_model(34, [8], 1, dl).add_data(dl).build()
-    ces = ct.generate_mm([
-    # "BinaryLinearSearch",
-    # "GuidedBinaryLinearSearch",
-    # "NNCE",
-    # "KDTreeNNCE",
-    # "MCE",
-    # "Wachter",
-    "RNCE",
-    "MCER",
-    # "STCE"
-    ])
-    evals = ct.evaluate([
-    # "BinaryLinearSearch",
-    # "GuidedBinaryLinearSearch",
-    # "NNCE",
-    # "KDTreeNNCE",
-    # "MCE",
-    # "Wachter",
-    "RNCE",
-    "MCER",
-    # "STCE"
-    ], [
-        "ModelMultiplicityRobustness"
-        # "Distance",
-        #     "Validity",
-        #     "ManifoldEvaluator",
-        #     "RobustnessProportionEvaluator",
-        #     "ModelMultiplicityRobustness",
-        #     "DeltaRobustnessEvaluator",
-        #     "InvalidationRateRobustnessEvaluator"
-        ])
+    # dl = get_example_dataset("ionosphere")
+    # ct = TaskBuilder().add_pytorch_model(34, [8], 1, dl).add_pytorch_model(34, [8], 1, dl).add_data(dl).build()
+    # ces = ct.generate_mm([
+    # # "BinaryLinearSearch",
+    # # "GuidedBinaryLinearSearch",
+    # # "NNCE",
+    # # "KDTreeNNCE",
+    # # "MCE",
+    # # "Wachter",
+    # "RNCE",
+    # "MCER",
+    # # "STCE"
+    # ])
+    # evals = ct.evaluate([
+    # # "BinaryLinearSearch",
+    # # "GuidedBinaryLinearSearch",
+    # # "NNCE",
+    # # "KDTreeNNCE",
+    # # "MCE",
+    # # "Wachter",
+    # "RNCE",
+    # "MCER",
+    # # "STCE"
+    # ], [
+    #     # "ModelMultiplicityRobustness"
+    #     # "Distance",
+    #     #     "Validity",
+    #     #     "ManifoldEvaluator",
+    #     #     "RobustnessProportionEvaluator",
+    #     #     "ModelMultiplicityRobustness",
+    #     #     "DeltaRobustnessEvaluator",
+    #         "InvalidationRateRobustnessEvaluator"
+    #     ])
     # recourse_methods = ["KDTreeNNCE"]
     # ces = ct.generate_mm(recourse_methods) # we are not generating for all methods we want to evaluate for
 

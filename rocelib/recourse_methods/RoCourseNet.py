@@ -145,17 +145,6 @@ class RoCourseNet(RecourseGenerator):
         # forward pass
         y_hat = self._sigmoid(cf @ w + b)
 
-        # partial derivative wrt cf for the BCE part
-        # BCE'(cf) = [d/dz BCE(sigmoid(z), y_target)] * d/d(cf) z
-        # where z = w^T cf + b, d/d(cf) z = w
-        # derivative of BCE w.r.t. y_hat is (y_hat - y_target) / [y_hat*(1-y_hat)] in log scale,
-        # but simpler to do the manual chain:
-
-        # BCE(y_hat, y_target) = -[y_target log(y_hat) + (1-y_target) log(1-y_hat)]
-        # dBCE/dy_hat = (y_hat - y_target)/(y_hat*(1-y_hat)) 
-        # Then multiply by dy_hat/dz = y_hat(1-y_hat).
-        # => dBCE/dz = y_hat - y_target
-        # => dBCE/dcf = (y_hat - y_target)* w
         grad_bce = (y_hat - y_target) * w
 
         # partial derivative wrt cf for the L2 part = 2 * lambda_ * (cf - x)
@@ -174,11 +163,11 @@ class RoCourseNet(RecourseGenerator):
 
     def _predict_proba_single(self, x_np_2d):
         """
-        Utility to get model's probability predictions for a single instance 
+        Utility to get model's probability predictions for a single instance
         shaped (1, d). Returns np.array of shape (1,2): [p0, p1].
         """
         # This depends on your TrainablePyTorchModel implementation
-        # We'll assume .predict_proba(x) returns a DataFrame with columns [0,1].
+        # We will assume .predict_proba(x) returns a DataFrame with columns [0,1].
         out_df = self.model.predict_proba(x_np_2d)
         return out_df.values  # shape (1,2)
 

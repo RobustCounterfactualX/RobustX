@@ -15,11 +15,19 @@ class BaseRobustnessEvaluator(Evaluator):
         """
         Returns: a list of evaluation scores
         """
-        evaluations = []
+
+        true_count = 0
+        total_count = 0
+            
         for index, (_, instance) in enumerate(self.task.dataset.get_negative_instances().iterrows()):
+
             counterfactual = self.task.ces[recourse_method][0].iloc[index]
-            evaluations.append(self.evaluate_single_instance(instance, counterfactual, **kwargs))
-        return evaluations
+            if self.evaluate_single_instance(instance, counterfactual, **kwargs):
+                true_count += 1
+            total_count += 1
+
+        # Calculate and return the proportion (avoid division by zero)
+        return true_count / total_count if total_count > 0 else 0
     
     @abstractmethod
     def evaluate_single_instance(self, instance, counterfactual, **kwargs):

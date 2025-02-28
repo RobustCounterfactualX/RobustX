@@ -10,6 +10,7 @@ from rocelib.evaluations.robustness_evaluations.Evaluator import Evaluator
 from rocelib.evaluations.robustness_evaluations.ModelMultiplicityRobustnessEvaluator import \
     ModelMultiplicityRobustnessEvaluator
 from rocelib.models.TrainedModel import TrainedModel
+from rocelib.recourse_methods.ArgEnsembling import ArgEnsembling
 from rocelib.recourse_methods.RecourseGenerator import RecourseGenerator
 from rocelib.tasks.Task import Task
 from typing import List, Dict, Any, Union, Tuple
@@ -84,7 +85,7 @@ class ClassificationTask(Task):
             "RoCourseNet": RoCourseNet,
             "STCE": TrexNN,
             "APAS": APAS,
-            # "ArgEnsembling": ArgEnsembling,
+            "ArgEnsembling": ArgEnsembling,
             "DiverseRobustCE": DiverseRobustCE,
             "PROPLACE": PROPLACE
         }

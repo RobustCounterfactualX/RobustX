@@ -5,7 +5,7 @@ import clingo
 from rocelib.datasets.DatasetLoader import DatasetLoader
 from rocelib.recourse_methods.RecourseGenerator import RecourseGenerator
 from rocelib.recourse_methods.NNCE import NNCE
-from rocelib.tasks.ClassificationTask import ClassificationTask
+from rocelib.tasks.Task import Task
 
 BAF_ENCODING = """
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -203,7 +203,7 @@ class ArgEnsembling(RecourseGenerator):
         dl: The dataset
     """
 
-    def __init__(self, dl: DatasetLoader, models):
+    def __init__(self, ct: Task, custom_distance_func=None):
         """
         Initializes the Argumentative Ensembling CE generator with a dataset and a list of models.
 
@@ -211,9 +211,9 @@ class ArgEnsembling(RecourseGenerator):
             dl: dataset loader
             models: the list of models forming the model multiplicity problem setting
         """
-        super().__init__(ClassificationTask(models[0], dl))
-        self.models = models
-        self.dl = dl
+        super().__init__(ct)
+        self.models = ct.mm_models
+        self.dl = ct.dataset
 
     def _generation_method(self, instance, **kwargs) -> pd.DataFrame:
         """
@@ -233,16 +233,16 @@ class ArgEnsembling(RecourseGenerator):
         res = []
         ces = np.zeros((len(self.models), len(x)))
 
-        for i, m in enumerate(self.models):
+        for i, m in enumerate(self.models.values()):
             pred = m.predict_single(pd.DataFrame(x.reshape(1, -1)))
             res.append(pred)
-            ce_gen = NNCE(ClassificationTask(m, self.dl))
+            ce_gen = NNCE(Task(m, self.dl))
             ce = ce_gen.generate_for_instance(pd.DataFrame(x.reshape(1, -1)), neg_value=pred)
             ces[i] = ce.values.flatten()[:len(x)]
 
         # get counterfactual predictions
         ces_pred = np.zeros((len(self.models), len(self.models)))
-        for i, m in enumerate(self.models):
+        for i, m in enumerate(self.models.values()):
             for j, c in enumerate(ces):
                 ces_pred[i][j] = m.predict_single(pd.DataFrame(c.reshape(1, -1)))
 

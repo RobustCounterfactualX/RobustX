@@ -94,7 +94,6 @@ class ClassificationTask(Task):
             "Distance": DistanceEvaluator,
             "Validity": ValidityEvaluator,
             "ManifoldEvaluator": ManifoldEvaluator,
-            "RobustnessProportionEvaluator": RobustnessProportionEvaluator,
             "ModelMultiplicityRobustness": MultiplicityValidityRobustnessEvaluator,
             "DeltaRobustnessEvaluator": RobustnessProportionEvaluator,
             "InvalidationRateRobustnessEvaluator": InvalidationRateRobustnessEvaluator

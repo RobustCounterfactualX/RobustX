@@ -5,7 +5,7 @@ from gurobipy.gurobipy import quicksum
 from rocelib.recourse_methods.RecourseGenerator import RecourseGenerator
 from rocelib.recourse_methods.RNCE import RNCE
 from rocelib.tasks.Task import Task
-# from robustx.lib.intabs.WeightBiasDictionary import create_weights_and_bias_dictionary
+from rocelib.intabs.WeightBiasDictionary import create_weights_and_bias_dictionary
 
 
 class PROPLACE(RecourseGenerator):
@@ -68,10 +68,14 @@ class PROPLACE(RecourseGenerator):
         Returns: A DataFrame containing the counterfactual explanation.
 
         """
+        
 
         # get the boundary points of the convex hull
         candidates = self.rnce._generation_method(instance, robustInit=True, column_name=column_name,
                                                   neg_value=neg_value, delta=delta, bias_delta=bias_delta, k=k).values
+        
+        if candidates.shape[0] == 0:
+            raise ValueError("RNCE returned an empty candidate set, meaning no plausible region was found.")
         # Convert instance to a list
         if isinstance(instance, pd.DataFrame):
             try:
@@ -85,6 +89,8 @@ class PROPLACE(RecourseGenerator):
         # start robust optimisation
         while not self.achieved:
             self.x_prime_current = self._master_prob(ilist, candidates)
+            if self.x_prime_current.empty:
+                raise ValueError("Master problem returned an empty DataFrame, meaning it couldn't find a valid counterfactual.")
             self._adv_prob()  # add worst case perturbation to self.wprimes or have found best solution
         res = self.x_prime_current
 
@@ -121,7 +127,7 @@ class PROPLACE(RecourseGenerator):
         #     (input_vars[f'v_0_{i}'] - ilist[i]) ** 2 for i in range(len(self.task.training_data.X.columns))))
 
         obj_vars_l1 = []
-        for i in range(len(self.task.training_data.X.columns)):
+        for i in range(len(self.task.dataset.X.columns)):
             gurobi_model.update()
             key = f"v_0_{i}"
             this_obj_var_l1 = gurobi_model.addVar(vtype=GRB.SEMICONT, lb=-GRB.INFINITY, name=f"objl1_feat_{i}")
@@ -139,6 +145,16 @@ class PROPLACE(RecourseGenerator):
         status = gurobi_model.status
         # If no solution was obtained that means the INN could not be modelled
         if status != GRB.status.OPTIMAL:
+            print("Gurobi Model Optimization Failed!")
+            print("Gurobi Status:", status)
+
+            if gurobi_model.status == GRB.INFEASIBLE:
+                print("Model is infeasible! Computing IIS...")
+                gurobi_model.computeIIS()
+                gurobi_model.write("infeasible_model.ilp")  # Save IIS information
+                print("IIS written to infeasible_model.ilp")
+
+
             return pd.DataFrame()
 
         ce = []
@@ -159,12 +175,12 @@ class PROPLACE(RecourseGenerator):
 
         """
         input_vars = {}
-        for i, col in enumerate(self.task.training_data.X.columns):
+        for i, col in enumerate(self.task.dataset.X.columns):
             key = f"v_0_{i}"
 
             # Calculate the minimum and maximum values for the current column
-            col_min = self.task.training_data.X[col].min()
-            col_max = self.task.training_data.X[col].max()
+            col_min = self.task.dataset.X[col].min()
+            col_max = self.task.dataset.X[col].max()
 
             # Use the calculated min and max for the bounds of the variable
             input_vars[key] = gurobi_model.addVar(vtype=GRB.CONTINUOUS, lb=col_min, ub=col_max, name=key)

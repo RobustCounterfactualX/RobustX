@@ -6,41 +6,42 @@ from rocelib.datasets.DatasetLoader import DatasetLoader
 from rocelib.models.imported_models.PytorchModel import PytorchModel
 from rocelib.recourse_methods.RecourseGenerator import RecourseGenerator
 from rocelib.tasks.ClassificationTask import ClassificationTask
+from rocelib.intabs.WeightBiasDictionary import create_weights_and_bias_dictionary
 
 
-def create_weights_and_bias_dictionary(model):
-    """
-    layer 0 is input layer
-    """
+# def create_weights_and_bias_dictionary(model):
+#     """
+#     layer 0 is input layer
+#     """
 
-    # Extract the weights and biases as numpy arrays for each layer
-    params = {}
-    for name, param in model.model.named_parameters():
-        params[name] = param.detach().numpy()
+#     # Extract the weights and biases as numpy arrays for each layer
+#     params = {}
+#     for name, param in model.model.named_parameters():
+#         params[name] = param.detach().numpy()
 
-    weight_dict = {}
-    bias_dict = {}
+#     weight_dict = {}
+#     bias_dict = {}
 
-    # Loop through layers
-    for layer_idx in range(0, len(params) // 2):
+#     # Loop through layers
+#     for layer_idx in range(0, len(params) // 2):
 
-        # Get weights and biases
-        weights = params[f'{layer_idx * 2}.weight']
-        biases = params[f'{layer_idx * 2}.bias']
+#         # Get weights and biases
+#         weights = params[f'{layer_idx * 2}.weight']
+#         biases = params[f'{layer_idx * 2}.bias']
 
-        for dest_idx in range(weights.shape[0]):
+#         for dest_idx in range(weights.shape[0]):
 
-            # Set the interval for biases
-            bias_key = f'bias_into_l{layer_idx + 1}_n{dest_idx}'
-            bias_dict[bias_key] = biases[dest_idx]
+#             # Set the interval for biases
+#             bias_key = f'bias_into_l{layer_idx + 1}_n{dest_idx}'
+#             bias_dict[bias_key] = biases[dest_idx]
 
-            for src_idx in range(weights.shape[1]):
-                # Set the interval for weights
-                weight_key = f'weight_l{layer_idx}_n{src_idx}_to_l{layer_idx + 1}_n{dest_idx}'
-                weight = weights[dest_idx, src_idx]
-                weight_dict[weight_key] = weight
+#             for src_idx in range(weights.shape[1]):
+#                 # Set the interval for weights
+#                 weight_key = f'weight_l{layer_idx}_n{src_idx}_to_l{layer_idx + 1}_n{dest_idx}'
+#                 weight = weights[dest_idx, src_idx]
+#                 weight_dict[weight_key] = weight
 
-    return weight_dict, bias_dict
+#     return weight_dict, bias_dict
 
 
 class ModelMultiplicityMILP(RecourseGenerator):

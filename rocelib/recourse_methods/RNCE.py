@@ -30,7 +30,7 @@ class RNCE(RecourseGenerator):
         self.intabs = DeltaRobustnessEvaluator(task)
 
     def _generation_method(self, x, robustInit=True, optimal=True, column_name="target", neg_value=0, delta=0.005,
-                           bias_delta=0, **kwargs):
+                           bias_delta=0.005, k=1, **kwargs):
         """
         Generates a counterfactual explanation using nearest neighbor search.
 

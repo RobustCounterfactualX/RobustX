@@ -25,6 +25,7 @@ from rocelib.recourse_methods.GuidedBinaryLinearSearch import GuidedBinaryLinear
 from rocelib.recourse_methods.APAS import APAS
 # from rocelib.recourse_methods.ArgEnsembling import ArgEnsembling
 from rocelib.recourse_methods.DiverseRobustCE import DiverseRobustCE
+from rocelib.recourse_methods.PROPLACE import PROPLACE
 
 from rocelib.evaluations.ManifoldEvaluator import ManifoldEvaluator
 from rocelib.evaluations.DistanceEvaluator import DistanceEvaluator
@@ -83,7 +84,7 @@ class ClassificationTask(Task):
             "APAS": APAS,
             # "ArgEnsembling": ArgEnsembling,
             # "DiverseRobustCE": DiverseRobustCE
-            # "Proplace": Proplace
+            "PROPLACE": PROPLACE
         }
 
         self.evaluation_metrics = {

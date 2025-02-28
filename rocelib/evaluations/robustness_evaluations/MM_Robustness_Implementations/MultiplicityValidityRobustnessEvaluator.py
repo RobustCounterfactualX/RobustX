@@ -19,7 +19,6 @@ class MultiplicityValidityRobustnessEvaluator(ModelMultiplicityRobustnessEvaluat
         # mm_CEs: Dict[str, Dict[str, Tuple[pd.DataFrame, float]]]
         # instance = instance.drop('target')
 
-        counterfactuals = [ce.drop('predicted').drop('Loss') for ce in counterfactuals]
         avg_valid_num = 0
         for c in counterfactuals:
             avg_valid_num += self.evaluate_single_counterfactual(instance, c)

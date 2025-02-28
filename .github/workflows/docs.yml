@@ -22,19 +22,8 @@ jobs:
       - name: Install Documentation Dependencies
         run: |
           python -m pip install --upgrade pip
-          # Install project dependencies (so autodoc can import your modules)
+          # Install project dependencies
           pip install -r requirements.txt
-          # Install Sphinx and any required themes/extensions
-          pip install Sphinx==7.4.7 \
-                sphinx-autodoc-typehints==2.3.0 \
-                sphinx-rtd-theme==3.0.2 \
-                sphinxcontrib-applehelp==2.0.0 \
-                sphinxcontrib-devhelp==2.0.0 \
-                sphinxcontrib-htmlhelp==2.1.0 \
-                sphinxcontrib-jquery==4.1 \
-                sphinxcontrib-jsmath==1.0.1 \
-                sphinxcontrib-qthelp==2.0.0 \
-                sphinxcontrib-serializinghtml==2.0.0
                 
       - name: Build Sphinx Documentation
         working-directory: docs

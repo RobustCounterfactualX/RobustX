@@ -41,7 +41,6 @@ class BinaryLinearSearch(RecourseGenerator):
         iteration = 0
         # Loop until CE is under gamma threshold
         while distance_func(negative, c) > gamma:
-            print(iteration)
             # Calculate new CE by finding midpoint
             new_neg = c.add(negative, axis=0) / 2
 

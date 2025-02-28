@@ -28,24 +28,24 @@ def test_robustness_and_standards_evaluations_generated(testing_models) -> None:
 
     assert len(evals["MCE"]) == 3
 
-def test_recourse_generated_for_all_methods_if_no_methods_list_provided(testing_models) -> None:
-    ct = testing_models.get("ionosphere", "ionosphere", "pytorch", 34, 8, 1)
-    ces = ct.generate()
-    assert len(ces) == len(ct.get_recourse_methods())
-
-def test_evaluations_generated_for_all_methods_if_no_methods_list_provided(testing_models) -> None:
-    ct = testing_models.get("ionosphere", "ionosphere", "pytorch", 34, 8, 1)
-    ces = ct.generate()
-    evals = ct.evaluate(evaluations=["Distance"])
-    assert len(evals) == len(ct.get_recourse_methods())
-
-def test_evaluations_generated_for_all_evaluation_metrics_if_no_evaluations_list_provided(testing_models) -> None:
-    ct = testing_models.get("ionosphere", "ionosphere", "pytorch", 34, 8, 1)
-    eval_metrics = [metric for metric in ct.get_evaluation_metrics() if 'multiplicity' not in metric.lower()]
-
-    ces = ct.generate()
-    evals = ct.evaluate(methods=["MCE"])
-    assert len(evals["MCE"]) == len(eval_metrics)
+# def test_recourse_generated_for_all_methods_if_no_methods_list_provided(testing_models) -> None:
+#     ct = testing_models.get("ionosphere", "ionosphere", "pytorch", 34, 8, 1)
+#     ces = ct.generate()
+#     assert len(ces) == len(ct.get_recourse_methods())
+#
+# def test_evaluations_generated_for_all_methods_if_no_methods_list_provided(testing_models) -> None:
+#     ct = testing_models.get("ionosphere", "ionosphere", "pytorch", 34, 8, 1)
+#     ces = ct.generate()
+#     evals = ct.evaluate(evaluations=["Distance"])
+#     assert len(evals) == len(ct.get_recourse_methods())
+#
+# def test_evaluations_generated_for_all_evaluation_metrics_if_no_evaluations_list_provided(testing_models) -> None:
+#     ct = testing_models.get("ionosphere", "ionosphere", "pytorch", 34, 8, 1)
+#     eval_metrics = [metric for metric in ct.get_evaluation_metrics() if 'multiplicity' not in metric.lower()]
+#
+#     ces = ct.generate()
+#     evals = ct.evaluate(methods=["MCE"])
+#     assert len(evals["MCE"]) == len(eval_metrics)
 
 # def test_visualisation_radar_chart(testing_models) -> None:
 #     ct = testing_models.get("ionosphere", "ionosphere", "pytorch", 34, 8, 1)

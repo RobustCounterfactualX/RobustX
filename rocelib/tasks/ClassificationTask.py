@@ -7,6 +7,8 @@ import matplotlib.pyplot as plt
 
 from rocelib.datasets.DatasetLoader import DatasetLoader
 from rocelib.evaluations.robustness_evaluations.Evaluator import Evaluator
+from rocelib.evaluations.robustness_evaluations.ModelMultiplicityRobustnessEvaluator import \
+    ModelMultiplicityRobustnessEvaluator
 from rocelib.models.TrainedModel import TrainedModel
 from rocelib.recourse_methods.RecourseGenerator import RecourseGenerator
 from rocelib.tasks.Task import Task
@@ -235,15 +237,21 @@ class ClassificationTask(Task):
         if not valid_methods:
             print("No valid methods have been generated for evaluation.")
             return evaluation_results
-        print(f"generate has not been called for {list(set(methods) - set(valid_methods))} so evaluations were not performed for these")
+        if valid_methods != methods:
+            print(f"generate has not been called for {list(set(methods) - set(valid_methods))} so evaluations were not performed for these")
 
         # Filter out methods that haven't been generated for MM if mm_flag is on
-        if self.mm_flag:
-            valid_methods = [method for method in methods if (method in self.mm_CEs and len(self.mm_CEs[method].keys()) == len(self.mm_models))]
-            if not valid_methods:
-                print("No valid methods have been generated for MM for evaluation. Call generate_mm for these methods")
-                return evaluation_results
-            print(f"generate_mm has not been called for {list(set(methods) - set(valid_methods))} so evaluations were not performed for these")
+        mm_metric = [isinstance(metric, ModelMultiplicityRobustnessEvaluator) for metric in evaluations]
+        print(f"mm_metric{mm_metric}")
+        if any(mm_metric):
+            if not self.mm_flag:
+                print("Multiple models must be added to the task in order to evaluate model multiplicity")
+            else:
+                valid_methods = [method for method in methods if (method in self.mm_CEs and len(self.mm_CEs[method].keys()) == len(self.mm_models))]
+                if not valid_methods:
+                    print("No valid methods have been generated for MM for evaluation. Call generate_mm for these methods")
+                    return evaluation_results
+                print(f"generate_mm has not been called for {list(set(methods) - set(valid_methods))} so evaluations were not performed for these")
 
 
         # Perform evaluation

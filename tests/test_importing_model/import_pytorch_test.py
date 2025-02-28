@@ -2,7 +2,7 @@ import pytest
 import torch
 from rocelib.models.imported_models.PytorchModel import PytorchModel
 from test_helpers.TestingModels import TestingModels
-
+import os
 
 def test_imported_pytorch_model_file_predict_single_same_as_original():
     # Create Model
@@ -22,6 +22,9 @@ def test_imported_pytorch_model_file_predict_single_same_as_original():
 
     assert torch.equal(original_prediction, imported_prediction), "Predictions do not match"
 
+    os.remove('./model.pt')
+
+
 
 def test_imported_pytorch_model_file_predict_all_same_as_original():
     # Create Model
@@ -40,6 +43,8 @@ def test_imported_pytorch_model_file_predict_all_same_as_original():
     imported_predictions = imported_model.model(test_data)
 
     assert torch.equal(original_predictions, imported_predictions), "Batch predictions do not match"
+    os.remove('./model.pt')
+
 
 
 def test_throws_file_not_found_error():

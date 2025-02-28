@@ -10,5 +10,5 @@ def test_evaluate_mm_validity_robustness() -> None:
     ces = ct.generate_mm(recourse_methods)
 
     evals = ct.evaluate(["KDTreeNNCE"], ["ModelMultiplicityRobustness"])
-    assert isinstance(evals["KDTreeNNCE"]["ModelMultiplicityRobustness"][0], float)
+    assert isinstance(evals["KDTreeNNCE"]["ModelMultiplicityRobustness"], float)
 

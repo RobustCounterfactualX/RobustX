@@ -20,11 +20,10 @@ class MultiplicityValidityRobustnessEvaluator(ModelMultiplicityRobustnessEvaluat
         # instance = instance.drop('target')
 
         counterfactuals = [ce.drop('predicted').drop('Loss') for ce in counterfactuals]
-
         avg_valid_num = 0
         for c in counterfactuals:
             avg_valid_num += self.evaluate_single_counterfactual(instance, c)
-        return avg_valid_num / len(counterfactuals)
+        return (avg_valid_num / len(counterfactuals)) == 1
 
     def evaluate_single_counterfactual(self, instance, counterfactual):
         """

@@ -9,5 +9,5 @@ def test_ionosphere_kdtree_robustness(testing_models):
     ct.generate([method])
     opt = InvalidationRateRobustnessEvaluator(ct)
 
-    robusts = opt.evaluate(method)
-    print(f"Percentage of Robust CEs: {sum(robusts)/len(robusts) * 100:.2f}%")
+    robust_prop = opt.evaluate(method)
+    print(f"Percentage of Robust CEs: {robust_prop * 100:.2f}%")

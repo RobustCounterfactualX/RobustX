@@ -30,8 +30,8 @@ from rocelib.recourse_methods.PROPLACE import PROPLACE
 from rocelib.evaluations.ManifoldEvaluator import ManifoldEvaluator
 from rocelib.evaluations.DistanceEvaluator import DistanceEvaluator
 from rocelib.evaluations.ValidityEvaluator import ValidityEvaluator
-from rocelib.evaluations.robustness_evaluations.MC_Robustness_Implementations.DeltaRobustnessEvaluator import DeltaRobustnessEvaluator
 from rocelib.evaluations.RobustnessProportionEvaluator import RobustnessProportionEvaluator
+from rocelib.evaluations.robustness_evaluations.NE_Robustness_Implementations.InvalidationRateRobustnessEvaluator import InvalidationRateRobustnessEvaluator
 
 from rocelib.evaluations.robustness_evaluations.MM_Robustness_Implementations.MultiplicityValidityRobustnessEvaluator import MultiplicityValidityRobustnessEvaluator
 # from robustx.generators.robust_CE_methods.APAS import APAS
@@ -83,16 +83,18 @@ class ClassificationTask(Task):
             "STCE": TrexNN,
             "APAS": APAS,
             # "ArgEnsembling": ArgEnsembling,
-            # "DiverseRobustCE": DiverseRobustCE
+            "DiverseRobustCE": DiverseRobustCE,
             "PROPLACE": PROPLACE
         }
 
         self.evaluation_metrics = {
             "Distance": DistanceEvaluator,
             "Validity": ValidityEvaluator,
+            "ManifoldEvaluator": ManifoldEvaluator,
             "RobustnessProportionEvaluator": RobustnessProportionEvaluator,
             "ModelMultiplicityRobustness": MultiplicityValidityRobustnessEvaluator,
             "DeltaRobustnessEvaluator": RobustnessProportionEvaluator,
+            "InvalidationRateRobustnessEvaluator": InvalidationRateRobustnessEvaluator
         }
 
     def get_random_positive_instance(self, neg_value, column_name="target") -> pd.Series:
@@ -205,8 +207,6 @@ class ClassificationTask(Task):
         except Exception as e:
             print(f"Error generating counterfactuals with method '{method}': {e}")
             return None
-
-
 
 
 

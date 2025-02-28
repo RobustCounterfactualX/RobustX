@@ -13,9 +13,10 @@ class ModelMultiplicityRobustnessEvaluator(BaseRobustnessEvaluator):
         We override BaseRobustnessEvaluator as we need a list of counterfactuals rather than a single counterfactual
         Returns: a list of evaluation scores
         """
-        evaluations = []
+        true_count = 0
+        total_count = 0
 
-        for index, (_,instance) in enumerate(self.task.dataset.get_negative_instances().iterrows()):
+        for index, (_, instance) in enumerate(self.task.dataset.get_negative_instances().iterrows()):
             # Get the counterfactual for each model for this instance and put all into a list
             counterfactuals = []
             ces = self.task.mm_CEs[recourse_method]
@@ -23,6 +24,9 @@ class ModelMultiplicityRobustnessEvaluator(BaseRobustnessEvaluator):
                 counterfactual = ces[model_name][0].iloc[index]
                 counterfactuals.append(counterfactual)
 
-            evaluations.append(self.evaluate_single_instance(instance, counterfactuals, **kwargs))
+            if self.evaluate_single_instance(instance, counterfactuals, **kwargs):
+                true_count += 1
+            total_count += 1
 
-        return evaluations
+        # Calculate and return the proportion (avoid division by zero)
+        return true_count / total_count if total_count > 0 else 0

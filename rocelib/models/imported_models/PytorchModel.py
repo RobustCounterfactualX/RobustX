@@ -3,7 +3,7 @@ import torch
 import os
 import numpy as np
 
-from exceptions.invalid_pytorch_model_error import InvalidPytorchModelError
+from rocelib.exceptions.invalid_pytorch_model_error import InvalidPytorchModelError
 from rocelib.models.TrainedModel import TrainedModel
 
 

@@ -1,6 +1,7 @@
 from typing import Dict
 
 import pandas as pd
+from keras import Input
 from keras.layers import Dense
 from keras.losses import BinaryCrossentropy
 from keras.metrics import Accuracy
@@ -48,18 +49,21 @@ class TrainableKerasModel(TrainableModel):
         Predicts the probabilities of outcomes for a set of instances.
     """
 
-    def __init__(self, input_dim: int, hidden_dim: int, output_dim: int):
+    def __init__(self, input_dim: int, hidden_dims: list, output_dim: int):
         """
         @param input_dim: The number of input features for the model.
         @param hidden_dim: The number of neurons in the hidden layer.
         @param output_dim: The number of output neurons (1 for binary classification).
         """
-        model = Sequential([
-            Dense(hidden_dim, input_dim=input_dim, activation='relu'),
-            Dense(output_dim, activation='sigmoid')
-        ])
 
-        model.compile(optimizer=Adam(learning_rate=0.001), loss=BinaryCrossentropy(), metrics=[Accuracy()])
+        layers = [Input(shape=(input_dim,))]
+        for units in hidden_dims:
+            layers.append(Dense(units, activation='relu'))
+        layers.append(Dense(output_dim, activation='sigmoid'))
+        model = Sequential(layers)
+        model.compile(optimizer=Adam(learning_rate=0.001),
+                      loss=BinaryCrossentropy(),
+                      metrics=[Accuracy()])
         super().__init__(model)
 
     def train(self, X: pd.DataFrame, y: pd.DataFrame, epochs: int = 100, batch_size: int = 32, **kwargs) -> TrainedModel:

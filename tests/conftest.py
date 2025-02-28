@@ -1,5 +1,5 @@
 import pytest
-from test_helpers.TestingModels import TestingModels
+from tests.test_helpers.TestingModels import TestingModels
 
 
 @pytest.fixture(scope="session")

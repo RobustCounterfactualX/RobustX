@@ -6,9 +6,9 @@ requires = [
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "RobustX"
+name = "RoCELib"
 version = "0.1.0"
-description = "RobustX is an open-source Python library designed for benchmarking the robustness of counterfactual explanation (CE) methods."
+description = "RoCELib is an open-source Python library designed for benchmarking the robustness of counterfactual explanation (CE) methods."
 readme = "README.md"
 license = { file = "LICENSE" }
 authors = [

@@ -1,6 +1,4 @@
-from enums.dataset_enums import Dataset
-from enums.model_enums import ModelType
-from test_helpers.TestingModels import TestingModels
+from tests.test_helpers.TestingModels import TestingModels
 
 
 def test_binary_linear_search_dt() -> None:

@@ -52,3 +52,10 @@ def test_csv_dataset_loader_empty_file():
         CsvDatasetLoader(empty_file, "target", 0).load_data()
 
 
+def test_csv_dataset_loader_missing_target_column():
+    """Ensure ValueError is raised when the loaded dataset is empty."""
+    malformed_file = "malformed.csv"
+
+    with pytest.raises(ValueError, match="Target column label 'target' not found in dataset columns."):
+        CsvDatasetLoader(malformed_file, "target", 0).load_data()
+

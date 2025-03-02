@@ -61,23 +61,20 @@ class ModelMultiplicityMILP(RecourseGenerator):
         that satisfies the classification constraints of multiple neural network models simultaneously.
     """
 
-    def __init__(self, dl: DatasetLoader, models: list[PytorchModel]):
+    def __init__(self, ct: Task, custom_distance_func=None):
         """
-                Initialize the MILP-based recourse generator.
+        Initializes the Argumentative Ensembling CE generator with a dataset and a list of models.
 
-                Parameters
-                ----------
-                dl : DatasetLoader
-                    Provides the dataset (features, labels, etc.).
-                models : list[PytorchModel]
-                    A list of trained PyTorch models to incorporate into the MILP constraints.
+        Args:
+            dl: dataset loader
+            models: the list of models forming the model multiplicity problem setting
         """
-
-        super().__init__(Task(models[0], dl))
+        super().__init__(ct)
         self.gurobiModel = Model()
-        self.models = models
+        self.models = ct.mm_models.values()
         self.inputNodes = None
         self.outputNodes = {}
+
 
     def _generation_method(self, instance, column_name="target", neg_value=0, M=1000, epsilon=0.1, **kwargs):
 

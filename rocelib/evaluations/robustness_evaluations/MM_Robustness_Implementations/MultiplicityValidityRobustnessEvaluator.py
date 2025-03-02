@@ -21,6 +21,8 @@ class MultiplicityValidityRobustnessEvaluator(ModelMultiplicityRobustnessEvaluat
 
         avg_valid_num = 0
         for c in counterfactuals:
+            # Drop unwanted columns from each counterfactual before evaluation
+            c = c.drop(columns=["predicted", "Loss"], errors="ignore")
             avg_valid_num += self.evaluate_single_counterfactual(instance, c)
         return (avg_valid_num / len(counterfactuals)) == 1
 
@@ -33,6 +35,8 @@ class MultiplicityValidityRobustnessEvaluator(ModelMultiplicityRobustnessEvaluat
         """
         num_models = len(self.task.mm_models)
         num_valid = 0
+        counterfactual = counterfactual.drop(labels=["predicted", "Loss"], errors='ignore')
+
         for m in self.task.mm_models:
             model = self.task.mm_models[m]
             if model.predict_single(instance) != model.predict_single(counterfactual):

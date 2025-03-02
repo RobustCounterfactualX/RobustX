@@ -17,14 +17,14 @@ def test_correct_evaluations_generated(testing_models) -> None:
 def test_correct_robustness_evaluations_generated(testing_models) -> None:
     ct = testing_models.get("ionosphere", "ionosphere", "pytorch", 34, 8, 1)
     ces = ct.generate(["MCE", "BinaryLinearSearch"])
-    evals = ct.evaluate(["MCE"], ["RobustnessProportionEvaluator"])
+    evals = ct.evaluate(["MCE"], ["DeltaRobustnessEvaluator"])
     assert len(evals["MCE"]) == 1
 
 def test_robustness_and_standards_evaluations_generated(testing_models) -> None:
     ct = testing_models.get("ionosphere", "ionosphere", "pytorch", 34, 8, 1)
 
     ces = ct.generate(["MCE", "BinaryLinearSearch", "RNCE"])
-    evals = ct.evaluate(["MCE", "RNCE"], ["RobustnessProportionEvaluator", "Distance", "Validity"])
+    evals = ct.evaluate(["MCE", "RNCE"], ["DeltaRobustnessEvaluator", "Distance", "Validity"])
 
     assert len(evals["MCE"]) == 3
 

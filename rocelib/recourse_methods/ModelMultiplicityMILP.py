@@ -5,7 +5,7 @@ from gurobipy.gurobipy import quicksum, GRB
 from rocelib.datasets.DatasetLoader import DatasetLoader
 from rocelib.models.imported_models.PytorchModel import PytorchModel
 from rocelib.recourse_methods.RecourseGenerator import RecourseGenerator
-from rocelib.tasks.ClassificationTask import ClassificationTask
+from rocelib.tasks.Task import Task
 
 
 def create_weights_and_bias_dictionary(model):
@@ -73,7 +73,7 @@ class ModelMultiplicityMILP(RecourseGenerator):
                     A list of trained PyTorch models to incorporate into the MILP constraints.
         """
 
-        super().__init__(ClassificationTask(models[0], dl))
+        super().__init__(Task(models[0], dl))
         self.gurobiModel = Model()
         self.models = models
         self.inputNodes = None

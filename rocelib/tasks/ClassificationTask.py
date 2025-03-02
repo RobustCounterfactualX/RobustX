@@ -7,10 +7,11 @@ import matplotlib.pyplot as plt
 
 from rocelib.datasets.DatasetLoader import DatasetLoader
 from rocelib.models.TrainedModel import TrainedModel
-from rocelib.recourse_methods.ArgEnsembling import ArgEnsembling
-from rocelib.recourse_methods.RecourseGenerator import RecourseGenerator
 from rocelib.tasks.Task import Task
 from typing import List, Dict, Any, Union, Tuple
+
+from rocelib.recourse_methods.ArgEnsembling import ArgEnsembling
+from rocelib.recourse_methods.RecourseGenerator import RecourseGenerator
 from rocelib.recourse_methods.BinaryLinearSearch import BinaryLinearSearch
 from rocelib.recourse_methods.NNCE import NNCE
 from rocelib.recourse_methods.KDTreeNNCE import KDTreeNNCE
@@ -21,9 +22,8 @@ from rocelib.recourse_methods.MCER import MCER
 from rocelib.recourse_methods.RoCourseNet import RoCourseNet
 from rocelib.recourse_methods.STCE import TrexNN
 from rocelib.recourse_methods.GuidedBinaryLinearSearch import GuidedBinaryLinearSearch
-# from rocelib.recourse_methods.ModelMultiplicityMILP import ModelMultiplicityMILP
+from rocelib.recourse_methods.ModelMultiplicityMILP import ModelMultiplicityMILP
 from rocelib.recourse_methods.APAS import APAS
-# from rocelib.recourse_methods.ArgEnsembling import ArgEnsembling
 from rocelib.recourse_methods.DiverseRobustCE import DiverseRobustCE
 from rocelib.recourse_methods.PROPLACE import PROPLACE
 
@@ -33,8 +33,8 @@ from rocelib.evaluations.ManifoldEvaluator import ManifoldEvaluator
 from rocelib.evaluations.DistanceEvaluator import DistanceEvaluator
 from rocelib.evaluations.ValidityEvaluator import ValidityEvaluator
 from rocelib.evaluations.robustness_evaluations.MC_Robustness_Implementations.DeltaRobustnessEvaluator import DeltaRobustnessEvaluator
-from rocelib.evaluations.robustness_evaluations.ModelMultiplicityRobustnessEvaluator import \
-    ModelMultiplicityRobustnessEvaluator
+from rocelib.evaluations.robustness_evaluations.MC_Robustness_Implementations.VaRRobustnessEvaluator import VaRRobustnessEvaluator
+from rocelib.evaluations.robustness_evaluations.ModelMultiplicityRobustnessEvaluator import ModelMultiplicityRobustnessEvaluator
 from rocelib.evaluations.robustness_evaluations.NE_Robustness_Implementations.InvalidationRateRobustnessEvaluator import InvalidationRateRobustnessEvaluator
 from rocelib.evaluations.robustness_evaluations.MM_Robustness_Implementations.MultiplicityValidityRobustnessEvaluator import MultiplicityValidityRobustnessEvaluator
 from rocelib.evaluations.robustness_evaluations.IC_Robustness_Implementations.SetDistanceRobustnessEvaluator import SetDistanceRobustnessEvaluator
@@ -61,7 +61,7 @@ class ClassificationTask(Task):
         self.methods = {
             "BinaryLinearSearch": BinaryLinearSearch,
             # "GuidedBinaryLinearSearch": GuidedBinaryLinearSearch,
-            # "MMMILP": ModelMultiplicityMILP,
+            "MMMILP": ModelMultiplicityMILP,
             "NNCE": NNCE,
             "KDTreeNNCE": KDTreeNNCE,
             "MCE": MCE,
@@ -79,11 +79,12 @@ class ClassificationTask(Task):
         self.evaluation_metrics = {
             "Distance": DistanceEvaluator,
             "Validity": ValidityEvaluator,
-            "ManifoldEvaluator": ManifoldEvaluator,
             "ModelMultiplicityRobustness": MultiplicityValidityRobustnessEvaluator,
             "DeltaRobustnessEvaluator": DeltaRobustnessEvaluator,
             "InvalidationRateRobustnessEvaluator": InvalidationRateRobustnessEvaluator,
-            "SetDistanceRobustnessEvaluator": SetDistanceRobustnessEvaluator
+            # "SetDistanceRobustnessEvaluator": SetDistanceRobustnessEvaluator,
+            "ManifoldEvaluator": ManifoldEvaluator,
+            # "VaRRobustnessEvaluator": VaRRobustnessEvaluator
         }
 
     def get_random_positive_instance(self, neg_value, column_name="target") -> pd.Series:
@@ -119,6 +120,8 @@ class ClassificationTask(Task):
             methods = self.get_recourse_methods()
 
         for method in methods:
+            print(f"Generating for {method}")
+
             try:
                 # Check if the method exists in the dictionary
                 if method not in self.methods:
@@ -157,6 +160,8 @@ class ClassificationTask(Task):
             raise ValueError("Multiple models must be added in order to generate for MM")
 
         for method in methods:
+            print(f"Generating for {method}")
+
             for i, model_name in enumerate(self.mm_models):
                 ces = self.generate_for_model_method(model_name, method, type, **kwargs)
                 if i == 0:
@@ -243,13 +248,17 @@ class ClassificationTask(Task):
 
         # Perform evaluation
         for evaluation in evaluations:
+            print(f"Evaluation technique {evaluation}")
             evaluator_class = self.evaluation_metrics[evaluation]
 
-            try:
-                    # Create evaluator instance
-                evaluator = evaluator_class(self)
+            
+                # Create evaluator instance
+            evaluator = evaluator_class(self)
 
-                for method in valid_methods:
+            for method in valid_methods:
+                try:
+                    print(f"Method: {method}")
+
                     # Retrieve generated counterfactuals
                     counterfactuals = self._CEs[method][0]  # Extract DataFrame from stored list
                     print(f"Shape of CEs for {method}: {counterfactuals.shape}")
@@ -266,9 +275,11 @@ class ClassificationTask(Task):
                     if method not in evaluation_results:
                         evaluation_results[method] = {}
                     evaluation_results[method][evaluation] = score
+                    
+                except Exception as e:
+                    print(f"'{method}': Error evaluating '{evaluation}' for : {e}")
 
-            except Exception as e:
-                print(f"Error evaluating '{evaluation}': {e}")
+            
 
         # Print results in table format
         self._print_evaluation_results(evaluation_results, evaluations)
@@ -276,6 +287,7 @@ class ClassificationTask(Task):
         if visualisation:
             self._visualise_results(evaluation_results, evaluations)
         return evaluation_results
+    
     def _visualise_results(self, evaluations_results: Dict[str, Dict[str, Any]], evaluations: List[str]):
         if not evaluations_results:
             print("No evaluation results to display.")

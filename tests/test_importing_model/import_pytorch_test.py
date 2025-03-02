@@ -1,8 +1,11 @@
+import os
+
 import pytest
 import torch
+
 from rocelib.models.imported_models.PytorchModel import PytorchModel
-from test_helpers.TestingModels import TestingModels
-import os
+from tests.test_helpers.TestingModels import TestingModels
+
 
 def test_imported_pytorch_model_file_predict_single_same_as_original():
     # Create Model

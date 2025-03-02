@@ -1,8 +1,7 @@
+from rocelib.datasets.ExampleDatasets import get_example_dataset
 from rocelib.evaluations.robustness_evaluations.Evaluator import Evaluator
 from rocelib.evaluations.robustness_evaluations.ModelChangesRobustnessEvaluator import ModelChangesRobustnessEvaluator
 from rocelib.tasks.TaskBuilder import TaskBuilder
-from rocelib.datasets.ExampleDatasets import get_example_dataset
-import pandas as pd
 
 
 class NewEvaluator(Evaluator):

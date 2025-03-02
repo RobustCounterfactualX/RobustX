@@ -1,5 +1,6 @@
-import pytest
 import pandas as pd
+import pytest
+
 from rocelib.datasets.ExampleDatasets import get_example_dataset
 from rocelib.datasets.custom_datasets.CsvDatasetLoader import CsvDatasetLoader
 

@@ -1,5 +1,7 @@
 import pandas as pd
-from rocelib.evaluations.robustness_evaluations.MC_Robustness_Implementations.VaRRobustnessEvaluator import VaRRobustnessEvaluator
+
+from rocelib.evaluations.robustness_evaluations.MC_Robustness_Implementations.VaRRobustnessEvaluator import \
+    VaRRobustnessEvaluator
 from rocelib.tasks.Task import Task
 
 

@@ -1,14 +1,16 @@
+import os
+
+import pytest
+
 from rocelib.datasets.ExampleDatasets import get_example_dataset
 from rocelib.models.imported_models.KerasModel import KerasModel
 from rocelib.models.keras_models.TrainableKerasModel import TrainableKerasModel
 from rocelib.tasks.ClassificationTask import ClassificationTask
-import os
-import pytest
 
 
 def test_import_keras_model_file(testing_models) -> None:
     # # Create Model
-    model = TrainableKerasModel(34, 8, 1)
+    model = TrainableKerasModel(34, [8], 1)
     dl = get_example_dataset("ionosphere")
 
     dl.default_preprocess()
@@ -36,7 +38,7 @@ def test_import_keras_model_file(testing_models) -> None:
 
 def test_imported_keras_model_from_instance_predict_single_same_as_original(testing_models) -> None:
     # # Create Model
-    model = TrainableKerasModel(34, 8, 1)
+    model = TrainableKerasModel(34, [8], 1)
     dl = get_example_dataset("ionosphere")
 
     dl.default_preprocess()

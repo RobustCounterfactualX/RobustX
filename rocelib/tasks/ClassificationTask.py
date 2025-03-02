@@ -234,7 +234,6 @@ class ClassificationTask(Task):
 
         # Filter out methods that haven't been generated for MM if mm_flag is on
         mm_metric = [isinstance(metric, ModelMultiplicityRobustnessEvaluator) for metric in evaluations]
-        print(f"mm_metric{mm_metric}")
         if any(mm_metric):
             if not self.mm_flag:
                 print("Multiple models must be added to the task in order to evaluate model multiplicity")
@@ -256,28 +255,28 @@ class ClassificationTask(Task):
             evaluator = evaluator_class(self)
 
             for method in valid_methods:
-                try:
-                    print(f"Method: {method}")
+                # try:
+                print(f"Method: {method}")
 
-                    # Retrieve generated counterfactuals
-                    counterfactuals = self._CEs[method][0]  # Extract DataFrame from stored list
-                    print(f"Shape of CEs for {method}: {counterfactuals.shape}")
+                # Retrieve generated counterfactuals
+                counterfactuals = self._CEs[method][0]  # Extract DataFrame from stored list
+                print(f"Shape of CEs for {method}: {counterfactuals.shape}")
 
-                    # Ensure counterfactuals are not empty
-                    if counterfactuals is None or counterfactuals.empty:
-                        print(f"Skipping evaluation for method '{method}' as no counterfactuals were generated.")
-                        continue
+                # Ensure counterfactuals are not empty
+                if counterfactuals is None or counterfactuals.empty:
+                    print(f"Skipping evaluation for method '{method}' as no counterfactuals were generated.")
+                    continue
 
-                    # Perform evaluation
-                    score = evaluator.evaluate(method, **kwargs)
+                # Perform evaluation
+                score = evaluator.evaluate(method, **kwargs)
 
-                    # Store results
-                    if method not in evaluation_results:
-                        evaluation_results[method] = {}
-                    evaluation_results[method][evaluation] = score
+                # Store results
+                if method not in evaluation_results:
+                    evaluation_results[method] = {}
+                evaluation_results[method][evaluation] = score
                     
-                except Exception as e:
-                    print(f"'{method}': Error evaluating '{evaluation}' for : {e}")
+                # except Exception as e:
+                #     print(f"'{method}': Error evaluating '{evaluation}' for : {e}")
 
             
 

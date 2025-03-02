@@ -218,4 +218,5 @@ class ModelMultiplicityMILP(RecourseGenerator):
         for v in self.gurobiModel.getVars():
             if 'v_0_' in v.varName:
                 ce.append(v.getAttr(GRB.Attr.X))
-        return pd.DataFrame(ce).T
+        # return pd.DataFrame(ce).T
+        return pd.DataFrame([ce], columns=self.task.dataset.X.columns)

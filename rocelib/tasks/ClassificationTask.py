@@ -82,7 +82,7 @@ class ClassificationTask(Task):
             "ModelMultiplicityRobustness": MultiplicityValidityRobustnessEvaluator,
             "DeltaRobustnessEvaluator": DeltaRobustnessEvaluator,
             "InvalidationRateRobustnessEvaluator": InvalidationRateRobustnessEvaluator,
-            # "SetDistanceRobustnessEvaluator": SetDistanceRobustnessEvaluator,
+            "SetDistanceRobustnessEvaluator": SetDistanceRobustnessEvaluator,
             "ManifoldEvaluator": ManifoldEvaluator,
             # "VaRRobustnessEvaluator": VaRRobustnessEvaluator
         }

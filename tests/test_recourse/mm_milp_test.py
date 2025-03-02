@@ -2,7 +2,7 @@ from rocelib.datasets.ExampleDatasets import get_example_dataset
 from rocelib.tasks.TaskBuilder import TaskBuilder
 
 
-def test_mce_predicts_positive_instances(testing_models):
+def test_mm_milp(testing_models):
     dl = get_example_dataset("ionosphere")
     ct = TaskBuilder().add_pytorch_model(34, [8], 1, dl).add_pytorch_model(34, [8], 1, dl).add_data(dl).build()
 
@@ -10,7 +10,7 @@ def test_mce_predicts_positive_instances(testing_models):
 
     assert not ces["MMMILP"][0].empty
 
-def test_mce_predicts_positive_instances(testing_models):
+def test_mmmilp_evaluation(testing_models):
     dl = get_example_dataset("ionosphere")
     ct = TaskBuilder().add_pytorch_model(34, [8], 1, dl).add_pytorch_model(34, [8], 1, dl).add_data(dl).build()
 

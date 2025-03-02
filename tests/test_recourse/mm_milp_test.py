@@ -7,7 +7,7 @@ from rocelib.tasks.ClassificationTask import ClassificationTask
 from rocelib.tasks.TaskBuilder import TaskBuilder
 
 
-def test_mce_predicts_positive_instances(testing_models):
+def test_mm_milp(testing_models):
     dl = get_example_dataset("ionosphere")
     trained_model_1 = TrainablePyTorchModel(34, [8], 1).train(dl.X, dl.y)
     trained_model_2 = TrainablePyTorchModel(34, [16, 8], 1).train(dl.X, dl.y)

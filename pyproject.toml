@@ -1,13 +1,20 @@
 [build-system]
 requires = [
   "setuptools>=61.0.0",
+  "setuptools_scm",
   "wheel"
 ]
+
+[tool.setuptools_scm]
+version_scheme = "post-release"
+local_scheme = "dirty-tag"
+
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "RoCELib"
 version = "0.1.0"
+requires-python = ">=3.10"
 description = "RoCELib is an open-source Python library designed for benchmarking the robustness of counterfactual explanation (CE) methods."
 readme = "README.md"
 license = { file = "LICENSE" }

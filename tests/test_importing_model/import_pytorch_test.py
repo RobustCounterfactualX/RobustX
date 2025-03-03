@@ -4,7 +4,7 @@ import pytest
 import torch
 
 from rocelib.models.imported_models.PytorchModel import PytorchModel
-from tests.test_helpers.TestingModels import TestingModels
+from test_helpers import TestingModels
 
 
 def test_imported_pytorch_model_file_predict_single_same_as_original():

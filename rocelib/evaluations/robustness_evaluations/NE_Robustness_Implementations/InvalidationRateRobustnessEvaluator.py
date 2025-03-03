@@ -38,7 +38,8 @@ class InvalidationRateRobustnessEvaluator(NoisyExecutionRobustnessEvaluator):
         # random_values = np.random.normal(loc=0, scale=5, size=df.shape)
         # df_new = df + random_values
 
-        counterfactual = counterfactual.drop(labels=["predicted", "Loss"], errors='ignore')
+        cols_to_drop = [col for col in ["predicted", "Loss", "loss", "HiringDecision"] if col in counterfactual.index.to_list()]
+        counterfactual = counterfactual.drop(labels=cols_to_drop, errors='ignore')
 
         feature_count = len(counterfactual)
 

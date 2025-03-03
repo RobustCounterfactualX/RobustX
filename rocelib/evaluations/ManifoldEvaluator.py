@@ -59,6 +59,9 @@ class ManifoldEvaluator(RecourseEvaluator):
             # Drop NaN-containing "Loss" column before using LOF
             data_with_instance = data_with_instance.drop(columns=["Loss"], errors="ignore")
 
+            if "HiringDecision" in data_with_instance.columns:
+                data_with_instance = data_with_instance.drop(columns=["HiringDecision"], errors="ignore")
+
             # Apply Local Outlier Factor (LOF)
             lof = LocalOutlierFactor(n_neighbors=n_neighbors)
             lof_scores = lof.fit_predict(data_with_instance)  # Predict if data points are outliers (-1) or not (1)

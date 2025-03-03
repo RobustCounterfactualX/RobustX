@@ -226,17 +226,17 @@ class ClassificationTask(Task):
 
         # Filter out methods that haven't been generated
         valid_methods = [method for method in methods if method in self._CEs]
-        if not valid_methods:
-            print("No valid methods have been generated for evaluation.")
-            return evaluation_results
+
         if valid_methods != methods:
             print(f"generate has not been called for {list(set(methods) - set(valid_methods))} so evaluations were not performed for these")
 
         # Filter out methods that haven't been generated for MM if mm_flag is on
-        mm_metric = [isinstance(metric, ModelMultiplicityRobustnessEvaluator) for metric in evaluations]
+        mm_metric = [isinstance(self.evaluation_metrics[metric](self), ModelMultiplicityRobustnessEvaluator) for metric in evaluations]
         if any(mm_metric):
             if not self.mm_flag:
                 print("Multiple models must be added to the task in order to evaluate model multiplicity")
+                #Remove the MM metrics from this evaluation
+                evaluations = [metric for (i,metric) in enumerate(evaluations) if not mm_metric[i]]
             else:
                 valid_methods = [method for method in methods if (method in self.mm_CEs and len(self.mm_CEs[method].keys()) == len(self.mm_models))]
                 if not valid_methods:
@@ -244,6 +244,9 @@ class ClassificationTask(Task):
                     return evaluation_results
                 print(f"generate_mm has not been called for {list(set(methods) - set(valid_methods))} so evaluations were not performed for these")
 
+        if not valid_methods:
+            print("No valid methods have been generated for evaluation.")
+            return evaluation_results
 
         # Perform evaluation
         for evaluation in evaluations:

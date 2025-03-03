@@ -89,7 +89,8 @@ class PytorchModel(TrainedModel):
         :return: int, Single integer prediction.
         """
         if not isinstance(x, torch.Tensor):
-            x = torch.tensor(x.values, dtype=torch.float32)
+            # x = torch.tensor(x.values, dtype=torch.float32)
+            x = torch.tensor(x.to_numpy(dtype=np.float32), dtype=torch.float32)
         return 0 if self.predict_proba(x).iloc[0, 0] > 0.5 else 1
 
     def predict_proba(self, x: torch.Tensor) -> pd.DataFrame:

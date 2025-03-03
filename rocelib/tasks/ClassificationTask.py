@@ -1,3 +1,6 @@
+import os
+import zipfile
+
 import pandas as pd
 import time
 import torch
@@ -284,23 +287,26 @@ class ClassificationTask(Task):
             
 
         # Print results in table format
-        self._print_evaluation_results(evaluation_results, evaluations)
+        table_data, headers = self._print_evaluation_results(evaluation_results, evaluations)
+        csv_filename = "recourse_evaluations.csv"
         time.sleep(2)
-        if visualisation:
-            self._visualise_results(evaluation_results, evaluations)
+        graph_filename = self._visualise_results(evaluation_results, evaluations, visualisation)
+
+        self.save_evals_as_zip(table_data, headers, csv_filename, graph_filename)
+
         return evaluation_results
     
-    def _visualise_results(self, evaluations_results: Dict[str, Dict[str, Any]], evaluations: List[str]):
+    def _visualise_results(self, evaluations_results: Dict[str, Dict[str, Any]], evaluations: List[str], visualisation = False):
         if not evaluations_results:
             print("No evaluation results to display.")
             return
 
         if len(evaluations) > 3:
-            self._visualise_results_radar_chart(evaluations_results, evaluations)
+            return self._visualise_results_radar_chart(evaluations_results, evaluations, visualisation)
         else:
-            self._visualise_results_bar_chart(evaluations_results, evaluations)
+            return self._visualise_results_bar_chart(evaluations_results, evaluations, visualisation)
 
-    def _visualise_results_bar_chart(self, evaluation_results: Dict[str, Dict[str, Any]], evaluations: List[str]):
+    def _visualise_results_bar_chart(self, evaluation_results: Dict[str, Dict[str, Any]], evaluations: List[str], visualisation = False):
         recourse_methods = list(evaluation_results.keys())
 
         # Extract metric values
@@ -320,13 +326,18 @@ class ClassificationTask(Task):
         ax.set_ylabel("Metric Values")
         ax.set_title("Bar Chart of Evaluation Metrics")
         ax.legend()
+        filename = "/tmp/evaluation_chart.png"
+        plt.savefig(filename)  # Save the figure instead of displaying it
 
-        plt.savefig("/tmp/evaluation_chart.png")  # Save the figure instead of displaying it
+        if visualisation:
+            plt.show()
         plt.close(fig)  # Ensure the figure is closed properly
 
+        return filename
 
 
-    def _visualise_results_radar_chart(self, evaluation_results: Dict[str, Dict[str, Any]], evaluations: List[str]):
+
+    def _visualise_results_radar_chart(self, evaluation_results: Dict[str, Dict[str, Any]], evaluations: List[str], visualisation = False):
         """
         Generate a radar chart for evaluation results.
 
@@ -368,8 +379,17 @@ class ClassificationTask(Task):
         ax.set_title("Radar Chart of Evaluation Metrics", fontsize=14, fontweight='bold')
         ax.legend(loc='upper right', bbox_to_anchor=(1.3, 1.1))
 
+        filename = "/tmp/evaluation_chart.png"
+        plt.savefig(filename)  # Save the figure instead of displaying it
+
         plt.pause(0.001)  # Allows the figure to be shown briefly without blocking
+
+        if visualisation:
+            plt.show()
+
         plt.close(fig)  # Closes the figure to avoid blocking execution
+
+        return filename
 
     def _print_evaluation_results(self, evaluation_results: Dict[str, Dict[str, Any]], evaluations: List[str]):
         """
@@ -392,6 +412,23 @@ class ClassificationTask(Task):
 
         print("\nEvaluation Results:")
         print(tabulate(table_data, headers=headers, tablefmt="grid"))
+        return table_data, headers
+
+
+    def save_evals_as_zip(self, table_data, headers, csv_filename, graph_filename):
+        # Create DataFrame
+        df = pd.DataFrame(table_data, columns=headers)
+
+        # Save to CSV
+        df.to_csv(csv_filename, index=False)
+
+        # Create a zip file containing the CSV and graph files
+        zip_filename = "evaluations.zip"  # Output zip file name
+        with zipfile.ZipFile(zip_filename, 'w') as zipf:
+            # Add the CSV file to the zip
+            zipf.write(csv_filename, os.path.basename(csv_filename))
+            # Add the graph image to the zip
+            zipf.write(graph_filename, os.path.basename(graph_filename))
 
 
 

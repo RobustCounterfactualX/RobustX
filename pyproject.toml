@@ -1,5 +1,61 @@
-# pyproject.toml
-[tool.pytest.ini_options]
-pythonpath = [
-    "."
+[build-system]
+requires = [
+  "setuptools>=61.0.0",
+  "setuptools_scm",
+  "wheel"
 ]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools_scm]
+version_scheme = "post-release"
+local_scheme = "dirty-tag"
+
+[project]
+name = "RoCELib"
+version = "0.1.0"
+requires-python = ">=3.10"
+description = "RoCELib is an open-source Python library designed for benchmarking the robustness of counterfactual explanation (CE) methods."
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [
+  { name = "Ivan Artiukhov", email = "ivan.artiukhov22@imperial.ac.uk" },
+  { name = "Lorenzo Evans", email = "lorenzo.evans22@imperial.ac.uk" },
+  { name = "Shlok Shah", email = "shlok.shah22@imperial.ac.uk" },
+  { name = "Ayush Patel", email = "ayush.patel22@imperial.ac.uk" },
+  { name = "James Stadler", email = "james.stadler22@imperial.ac.uk" },
+  { name = "Seth Mack", email = "seth.mack22@imperial.ac.uk" },
+  { name = "Junqi Jiang", email = "junqi.jiang20@imperial.ac.uk" },
+  { name = "Luca Marzari", email = "luca.marzari@univr.it" },
+  { name = "Aaryan Purohit", email = "aaryan.purohit22@imperial.ac.uk" },
+  { name = "Francesco Leofante", email = "f.leofante@imperial.ac.uk" }
+]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent"
+]
+dependencies = [
+  "torch==2.4.1",
+  "notebook",
+  "scikit-learn",
+  "pandas",
+  "scipy",
+  "tqdm",
+  "tabulate",
+  "streamlit",
+  "matplotlib",
+  "seaborn",
+  "clingo>=5.6.2",
+  "tensorflow==2.16.2",
+  "keras==3.0.5"
+]
+
+[project.urls]
+Homepage = "https://github.com/JStadl/RoCELib"
+
+[project.optional-dependencies]
+dev = ["pytest"]
+gurobi = ["gurobipy==11.0.1"]
+
+[tool.setuptools.packages.find]
+include = ["rocelib", "rocelib.*", "tests", "tests.*", "test_helpers", "test_helpers.*"]

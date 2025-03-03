@@ -1,10 +1,5 @@
 import numpy as np
 import pandas as pd
-import pytest
-
-from enums.dataset_enums import Dataset
-from enums.model_enums import ModelType
-from rocelib.recourse_methods.BinaryLinearSearch import BinaryLinearSearch
 
 
 def test_binary_linear_search_nn(testing_models) -> None:

@@ -2,6 +2,7 @@ import itertools
 import random
 
 import rocoursenet_test
+
 33
 
 def main():

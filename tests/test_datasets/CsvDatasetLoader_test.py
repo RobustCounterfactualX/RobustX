@@ -1,5 +1,6 @@
-import pytest
 import pandas as pd
+import pytest
+
 from rocelib.datasets.ExampleDatasets import get_example_dataset
 from rocelib.datasets.custom_datasets.CsvDatasetLoader import CsvDatasetLoader
 
@@ -43,7 +44,7 @@ def test_csv_dataset_loader_x_and_y_properties():
 
 def test_csv_dataset_loader_empty_file():
     """Ensure ValueError is raised when the CSV file is empty."""
-    empty_file = "empty_file.csv"
+    empty_file = "./assets/empty_file.csv"
 
     # Create an empty CSV file for testing
     pd.DataFrame().to_csv(empty_file, index=False)
@@ -51,4 +52,11 @@ def test_csv_dataset_loader_empty_file():
     with pytest.raises(ValueError, match="The file is empty or cannot be read as a valid CSV."):
         CsvDatasetLoader(empty_file, "target", 0).load_data()
 
+
+def test_csv_dataset_loader_missing_target_column():
+    """Ensure ValueError is raised when the loaded dataset is empty."""
+    malformed_file = "./assets/malformed.csv"
+
+    with pytest.raises(ValueError, match="Target column label 'target' not found in dataset columns."):
+        CsvDatasetLoader(malformed_file, "target", 0).load_data()
 

@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-import torch
+
 
 def test_correct_recourses_generated_for(testing_models) -> None:
     ct = testing_models.get("ionosphere", "ionosphere", "pytorch", 34, 8, 1)

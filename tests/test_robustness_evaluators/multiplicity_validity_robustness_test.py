@@ -1,6 +1,6 @@
-from rocelib.tasks.TaskBuilder import TaskBuilder
 from rocelib.datasets.ExampleDatasets import get_example_dataset
-import numpy as np
+from rocelib.tasks.TaskBuilder import TaskBuilder
+
 
 def test_evaluate_mm_validity_robustness() -> None:
     dl = get_example_dataset("ionosphere")

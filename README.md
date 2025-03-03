@@ -49,65 +49,23 @@ You need Gurobi to run all tests.
 
 If you are on PyCharm, to run tests make sure that your default tester is pytest. (Settings > Tools > Python Integrated Tools > Default Test Runner > pytest)
 
-[//]: # (OLD DOCS, SAVING JUST IN CASE:)
+## Generating Docs
 
-[//]: # ()
-[//]: # (To set up RoCELib locally, you will need Python 3.9 and the following dependencies: `numpy`, `pandas`, `scikit-learn`,)
+The documentation for RoCELib is automatically generated and hosted online. You can access the latest version here:
 
-[//]: # (and `pytest`.)
+🔗 [RoCELib Documentation](https://jstadl.github.io/RoCELib/rocelib.html)
 
-[//]: # ()
-[//]: # (If you are using Conda, follow these steps:)
+There is no need to manually build the documentation unless making local modifications. However, if you need to generate docs locally, navigate to `docs/source` and run:
 
-[//]: # ()
-[//]: # (1. Clone this repository:)
+```bash
+make html
+```
 
-[//]: # (   ```bash)
+If that does not work, try:
 
-[//]: # (   git clone https://github.com/aaryanp2904/RoCELib.git)
-
-[//]: # (   cd RoCELib)
-
-[//]: # (   ```)
-
-[//]: # ()
-[//]: # (2. Create and activate a virtual environment:)
-
-[//]: # (   ```bash)
-
-[//]: # (   conda create -n RoCELib python=3.9)
-
-[//]: # (   conda activate RoCELib)
-
-[//]: # (   ```)
-
-[//]: # ()
-[//]: # (3. Install the required dependencies:)
-
-[//]: # (   ```bash)
-
-[//]: # (   conda install numpy pandas scikit-learn pytest)
-
-[//]: # (   conda install pytorch torchvision torchaudio cpuonly -c pytorch)
-
-[//]: # (   conda install tensorflow)
-
-[//]: # (   conda install -c gurobi gurobi)
-
-[//]: # (   conda install tqdm)
-
-[//]: # (   conda install xgboost)
-
-[//]: # (   conda install tabulate)
-
-[//]: # (   ```)
-
-   > Gurobi offers academic licenses. You can obtain
-   one [here](https://www.gurobi.com/downloads/end-user-license-agreement-academic/).
-
-## Generating docs
-
-Navigate to docs/source and run ```make html```. If that doesn't work, try to run ```sphinx-build -b html . _build/html```?
+```bash
+sphinx-build -b html . _build/html
+```
 
 ## Examples
 
@@ -118,6 +76,10 @@ The docs pages can be accessed by opening ```docs/build/html/index.html```.
 
 For a step-by-step tutorial, you can also watch the video guide [here](https://youtu.be/z9pbCFg9xVA?si=MjgZPDVBMumQ7ccu)
 .
+
+## Release Process
+
+For detailed instructions on publishing a new version of RoCELib to PyPI, refer to the [RELEASE.md](RELEASE.md) file in the repository. This file contains step-by-step guidance on versioning, tagging, and triggering the GitHub Action workflow for automated publishing.
 
 ## License
 

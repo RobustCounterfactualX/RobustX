@@ -1,7 +1,8 @@
-from rocelib.tasks.TaskBuilder import TaskBuilder
+import pandas as pd
+
 from rocelib.datasets.ExampleDatasets import get_example_dataset
 from rocelib.recourse_methods.RecourseGenerator import RecourseGenerator
-import pandas as pd
+from rocelib.tasks.TaskBuilder import TaskBuilder
 
 
 class NewRecourseMethod(RecourseGenerator):

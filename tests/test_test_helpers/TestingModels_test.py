@@ -1,5 +1,3 @@
-from enums.dataset_enums import Dataset
-from enums.model_enums import ModelType
 from test_helpers.TestingModels import TestingModels
 
 

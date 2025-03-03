@@ -4,12 +4,11 @@ requires = [
   "setuptools_scm",
   "wheel"
 ]
+build-backend = "setuptools.build_meta"
 
 [tool.setuptools_scm]
 version_scheme = "post-release"
 local_scheme = "dirty-tag"
-
-build-backend = "setuptools.build_meta"
 
 [project]
 name = "RoCELib"
@@ -25,10 +24,10 @@ authors = [
   { name = "Ayush Patel", email = "ayush.patel22@imperial.ac.uk" },
   { name = "James Stadler", email = "james.stadler22@imperial.ac.uk" },
   { name = "Seth Mack", email = "seth.mack22@imperial.ac.uk" },
-    { name = "Junqi Jiang", email = "junqi.jiang20@imperial.ac.uk" },
+  { name = "Junqi Jiang", email = "junqi.jiang20@imperial.ac.uk" },
   { name = "Luca Marzari", email = "luca.marzari@univr.it" },
   { name = "Aaryan Purohit", email = "aaryan.purohit22@imperial.ac.uk" },
-  { name = "Francesco Leofante", email = "f.leofante@imperial.ac.uk" },
+  { name = "Francesco Leofante", email = "f.leofante@imperial.ac.uk" }
 ]
 classifiers = [
   "Programming Language :: Python :: 3",
@@ -46,7 +45,6 @@ dependencies = [
   "streamlit",
   "matplotlib",
   "seaborn",
-  "gurobipy==11.0.1",
   "clingo>=5.6.2",
   "tensorflow==2.16.2",
   "keras==3.0.5"
@@ -56,6 +54,8 @@ dependencies = [
 Homepage = "https://github.com/JStadl/RoCELib"
 
 [project.optional-dependencies]
-dev = [
-  "pytest"
-]
+dev = ["pytest"]
+gurobi = ["gurobipy==11.0.1"]
+
+[tool.setuptools.packages.find]
+include = ["rocelib", "rocelib.*", "tests", "tests.*", "test_helpers", "test_helpers.*"]

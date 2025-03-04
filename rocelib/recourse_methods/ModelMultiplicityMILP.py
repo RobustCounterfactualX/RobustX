@@ -1,9 +1,12 @@
 import pandas as pd
 from gurobipy import Model
 from gurobipy.gurobipy import quicksum, GRB
+from sklearn.linear_model import LogisticRegression
 
 from rocelib.datasets.DatasetLoader import DatasetLoader
+from rocelib.models.imported_models.KerasModel import KerasModel
 from rocelib.models.imported_models.PytorchModel import PytorchModel
+from rocelib.models.imported_models.SKLearnModel import SKLearnModel
 from rocelib.recourse_methods.RecourseGenerator import RecourseGenerator
 from rocelib.tasks.Task import Task
 
@@ -27,8 +30,51 @@ def create_weights_and_bias_dictionary(model):
     """
 
     params = {}
-    for name, param in model.model.named_parameters():
-        params[name] = param.detach().numpy()
+
+    if isinstance(model, KerasModel):
+        layer_idx = 0  # Counter for naming layers like '0.weight', '0.bias', etc.
+        for layer in model.model.layers:
+            weights = layer.trainable_weights
+            if weights:
+                for weight in weights:
+                    param_type = "weight" if "kernel" in weight.name else "bias"
+                    if param_type == "weight":
+                        params[f"{layer_idx * 2}.{param_type}"] = weight.numpy().T  # Transpose weights to match PyTorch
+                    else:
+                        params[f"{layer_idx * 2}.{param_type}"] = weight.numpy()
+                layer_idx += 1
+    elif isinstance(model, SKLearnModel):
+        layer_idx = 0  # Counter for layer naming
+
+        sklearn_model = model.model  # Extract actual sklearn model
+
+        if hasattr(sklearn_model, "coef_"):  # Logistic Regression, Linear Regression, SVM (linear kernel)
+            params[f"{layer_idx * 2}.weight"] = sklearn_model.coef_
+            if hasattr(sklearn_model, "intercept_"):  # Some models may not have intercept
+                params[f"{layer_idx * 2}.bias"] = sklearn_model.intercept_
+
+        elif hasattr(sklearn_model, "coefs_"):  # MLPClassifier and MLPRegressor
+            for idx, (weights, bias) in enumerate(zip(sklearn_model.coefs_, sklearn_model.intercepts_)):
+                params[f"{idx * 2}.weight"] = weights.T  # Transpose to match PyTorch format
+                params[f"{idx * 2}.bias"] = bias
+
+        elif hasattr(sklearn_model, "support_vectors_"):  # SVM models
+            params["support_vectors"] = sklearn_model.support_vectors_
+            if hasattr(sklearn_model, "dual_coef_"):  # Dual coefficients (for SVC)
+                params["dual_coef"] = sklearn_model.dual_coef_
+            if hasattr(sklearn_model, "intercept_"):  # Intercept term
+                params["intercept"] = sklearn_model.intercept_
+
+        elif hasattr(sklearn_model, "tree_"):  # Decision Trees
+            params["tree_structure"] = sklearn_model.tree_
+            params["feature_importances"] = sklearn_model.feature_importances_
+
+        elif hasattr(sklearn_model, "estimators_"):  # Random Forest, Gradient Boosting
+            for i, estimator in enumerate(sklearn_model.estimators_):
+                params[f"estimator_{i}"] = estimator.tree_
+    else:
+        for name, param in model.model.named_parameters():
+            params[name] = param.detach().numpy()
 
     weight_dict = {}
     bias_dict = {}
@@ -37,7 +83,7 @@ def create_weights_and_bias_dictionary(model):
     for layer_idx in range(0, len(params) // 2):
 
         # Get weights and biases
-        weights = params[f'{layer_idx * 2}.weight']
+        weights = params[f'{layer_idx * 2}.weight'] #(8, 34)
         biases = params[f'{layer_idx * 2}.bias']
 
         for dest_idx in range(weights.shape[0]):
@@ -132,6 +178,8 @@ class ModelMultiplicityMILP(RecourseGenerator):
             all_nodes[key] = self.inputNodes[key]
 
         for model_idx, model in enumerate(self.models):
+            if not (isinstance(model.model, LogisticRegression) or isinstance(model.model, KerasModel) or isinstance(model.model, PytorchModel)):
+                continue
             weights, biases = create_weights_and_bias_dictionary(model)
 
             layers = [model.input_dim] + model.hidden_dim + [model.output_dim]

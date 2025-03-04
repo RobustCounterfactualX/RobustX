@@ -23,6 +23,8 @@ class SKLearnModel(TrainedModel):
         try:
             self.model = joblib.load(model_path)
             self.check_model_is_sklearn_class(self.model)
+            (self.input_dim, self.hidden_dim, self.output_dim) = get_model_dimensions_and_hidden_layers(self.model)
+
         except Exception as e:
             raise RuntimeError(f"Failed to load Scikit-learn model from {model_path}: {e}")
 
@@ -43,6 +45,7 @@ class SKLearnModel(TrainedModel):
 
         instance = cls.__new__(cls)  # Create a new instance without calling __init__
         instance.model = model
+        (cls.input_dim, cls.hidden_dim, cls.output_dim) = get_model_dimensions_and_hidden_layers(model)
         return instance
 
     def predict(self, X: pd.DataFrame) -> pd.DataFrame:
@@ -106,3 +109,42 @@ class SKLearnModel(TrainedModel):
                 f"Expected an sklearn model (BaseEstimator), but got {type(model).__name__}. "
                 "Ensure you are loading a properly trained sklearn model."
             )
+
+
+def get_model_dimensions_and_hidden_layers(model):
+    """
+    Returns the input dimension, output dimension, and number of hidden layers in an sklearn model.
+
+    :param model: An sklearn model instance
+    :return: (input_dim, output_dim, hidden_dims)
+    """
+
+    if hasattr(model, "coef_"):  # Covers Logistic Regression, Linear Regression, SVM (linear kernel)
+        input_dim = model.coef_.shape[1]
+        output_dim = model.coef_.shape[0]
+        hidden_dims = []
+
+    elif hasattr(model, "coefs_"):  # Covers MLPClassifier and MLPRegressor
+        input_dim = model.coefs_[0].shape[0]
+        output_dim = model.coefs_[-1].shape[1]
+        hidden_dims = [layer.shape[1] for layer in model.coefs_[:-1]]
+
+    elif hasattr(model, "support_vectors_"):  # Covers SVM (SVC, SVR)
+        input_dim = model.support_vectors_.shape[1]
+        output_dim = 1 if hasattr(model, "dual_coef_") else model.n_classes_
+        hidden_dims = []
+
+    elif hasattr(model, "tree_"):  # Covers DecisionTreeClassifier and DecisionTreeRegressor
+        input_dim = model.n_features_in_
+        output_dim = model.n_classes_ if hasattr(model, "n_classes_") else 1
+        hidden_dims = []  # Decision trees do not have hidden layers
+
+    elif hasattr(model, "estimators_"):  # Covers RandomForest, GradientBoosting, etc.
+        input_dim = model.n_features_in_
+        output_dim = model.n_classes_ if hasattr(model, "n_classes_") else 1
+        hidden_dims = []  # Ensembles don’t have traditional hidden layers
+
+    else:
+        raise ValueError(f"Unsupported sklearn model type: {type(model)}")
+
+    return input_dim, hidden_dims, output_dim

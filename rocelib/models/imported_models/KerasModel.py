@@ -23,6 +23,7 @@ class KerasModel(TrainedModel):
 
         try:
             self.model = keras.saving.load_model(model_path)
+            (self.input_dim, self.hidden_dim, self.output_dim) = get_model_dimensions_and_hidden_layers(self.model)
         except Exception as e:
             raise RuntimeError(f"Failed to load Keras model from {model_path}: {e}")
 
@@ -37,6 +38,7 @@ class KerasModel(TrainedModel):
             raise TypeError(f"Expected a keras.Model, got {type(model)}")
         instance = cls.__new__(cls)
         instance.model = model
+        (cls.input_dim, cls.hidden_dim, cls.output_dim) = get_model_dimensions_and_hidden_layers(model)
         return instance
 
     def predict(self, X: pd.DataFrame) -> pd.DataFrame:
@@ -92,3 +94,23 @@ class KerasModel(TrainedModel):
         """
         _, accuracy = self.model.evaluate(X, y)
         return accuracy
+
+def get_model_dimensions_and_hidden_layers(model):
+    """
+    Returns the input dimension, output dimension, and number of hidden layers in a Keras model.
+
+    :param model: A Keras model instance
+    :return: (input_dim, hidden_dims, output_dim)
+    """
+    layers = model.layers  # Get all model layers
+    if not layers:
+        raise ValueError("The model has no layers.")
+
+    # Extract input and output dimensions from the model itself
+    input_dim = model.input_shape[-1]  # Get input dimension
+    output_dim = model.output_shape[-1]  # Get output dimension
+
+    # Extract hidden layer sizes (excluding input & output layers)
+    hidden_dims = [layer.units for layer in layers if hasattr(layer, "units")]
+
+    return input_dim, hidden_dims[:-1], output_dim  # Exclude last hidden dim (output layer)

@@ -31,6 +31,8 @@ class PytorchModel(TrainedModel):
             if not isinstance(self.model, torch.nn.Module):
                 raise TypeError("Expected a PyTorch model (torch.nn.Module), but got a different object.")
 
+            (self.input_dim, self.hidden_dim, self.output_dim) = get_model_dimensions_and_hidden_layers(self.model)
+
             self.model.eval()
 
         except Exception as e:

@@ -4,7 +4,7 @@ import pytest
 import torch
 
 from rocelib.models.imported_models.PytorchModel import PytorchModel
-from test_helpers.TestingModels import TestingModels
+from ..test_helpers.TestingModels import TestingModels
 
 
 def test_imported_pytorch_model_file_predict_single_same_as_original():
@@ -69,4 +69,7 @@ def test_throws_error_if_underlying_model_not_pytorch():
 
     with pytest.raises(RuntimeError, match="Expected a PyTorch model"):
         PytorchModel("./model.pt")
+    
+    os.remove('./model.pt')
+
 

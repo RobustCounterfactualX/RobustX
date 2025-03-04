@@ -148,11 +148,11 @@ class PROPLACE(RecourseGenerator):
             print("Gurobi Model Optimization Failed!")
             print("Gurobi Status:", status)
 
-            if gurobi_model.status == GRB.INFEASIBLE:
-                print("Model is infeasible! Computing IIS...")
-                gurobi_model.computeIIS()
-                gurobi_model.write("infeasible_model.ilp")  # Save IIS information
-                print("IIS written to infeasible_model.ilp")
+            # if gurobi_model.status == GRB.INFEASIBLE:
+            #     print("Model is infeasible! Computing IIS...")
+            #     gurobi_model.computeIIS()
+            #     gurobi_model.write("infeasible_model.ilp")  # Save IIS information
+            #     print("IIS written to infeasible_model.ilp")
 
 
             return pd.DataFrame()

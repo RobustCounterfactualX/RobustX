@@ -12,8 +12,8 @@ local_scheme = "dirty-tag"
 
 [project]
 name = "RoCELib"
-version = "0.1.0"
-requires-python = ">=3.10"
+dynamic = ["version"]
+requires-python = ">=3.9"
 description = "RoCELib is an open-source Python library designed for benchmarking the robustness of counterfactual explanation (CE) methods."
 readme = "README.md"
 license = { file = "LICENSE" }
@@ -58,4 +58,4 @@ dev = ["pytest"]
 gurobi = ["gurobipy==11.0.1"]
 
 [tool.setuptools.packages.find]
-include = ["rocelib", "rocelib.*", "tests", "tests.*", "test_helpers", "test_helpers.*"]
+include = ["rocelib", "rocelib.*"]

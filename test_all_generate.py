@@ -1,4 +1,4 @@
-from test_helpers.TestingModels import TestingModels  # Import your testing_models class
+from tests.test_helpers.TestingModels import TestingModels  # Import your testing_models class
 from rocelib.datasets.ExampleDatasets import get_example_dataset
 from rocelib.tasks.TaskBuilder import TaskBuilder
 

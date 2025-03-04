@@ -1,4 +1,4 @@
-from test_helpers.TestingModels import TestingModels
+from ..test_helpers.TestingModels import TestingModels
 
 
 def test_binary_linear_search_dt() -> None:

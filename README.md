@@ -35,19 +35,11 @@ python -m venv venv
 source venv/bin/activate
 ```
 
-(3) Download dependencies:
+(3) Install the package from PyPi:
 
 ```bash
-pip install -r requirements.txt
+pip install rocelib
 ```
-
-If you want to also run tests, regenerate docs, do the below, this installs rocelib itself as library:
-
-```pip install .```
-
-You need Gurobi to run all tests.
-
-If you are on PyCharm, to run tests make sure that your default tester is pytest. (Settings > Tools > Python Integrated Tools > Default Test Runner > pytest)
 
 ## Generating Docs
 

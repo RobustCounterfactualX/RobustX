@@ -12,6 +12,7 @@ local_scheme = "dirty-tag"
 
 [project]
 name = "RoCELib"
+dynamic = ["version"]
 requires-python = ">=3.10"
 description = "RoCELib is an open-source Python library designed for benchmarking the robustness of counterfactual explanation (CE) methods."
 readme = "README.md"

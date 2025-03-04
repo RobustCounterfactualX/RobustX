@@ -187,7 +187,7 @@ class ClassificationTask(Task):
                 raise ValueError(f"Recourse method '{method}' not found. Available methods: {list(self.methods.keys())}")
 
             # Instantiate the recourse method
-            task = Task(self.mm_models[model_name], dataset=self.dataset)
+            task = ClassificationTask(self.mm_models[model_name], dataset=self.dataset)
             recourse_method = self.methods[method](task)  # Pass the classification task to the method
 
             # Start timer

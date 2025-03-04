@@ -69,4 +69,7 @@ def test_throws_error_if_underlying_model_not_pytorch():
 
     with pytest.raises(RuntimeError, match="Expected a PyTorch model"):
         PytorchModel("./model.pt")
+    
+    os.remove('./model.pt')
+
 

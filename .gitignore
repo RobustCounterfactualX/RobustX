@@ -5,3 +5,5 @@ __pycache__/
 RoCELib.egg-info/
 /build/
 /dist/
+*.csv
+*.zip

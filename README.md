@@ -62,12 +62,11 @@ sphinx-build -b html . _build/html
 ## Examples
 
 Python notebooks demonstrating the usage of RoCELib are
-available [here](https://github.com/RoCELib/RoCELib/tree/main/examples).
+available:
+   - [An overview of all features](https://colab.research.google.com/github/JStadl/RoCELib/blob/main/examples/Tasks.ipynb).
+   - [Showing how to use the example datasets include](https://colab.research.google.com/github/JStadl/RoCELib/blob/main/examples/ExampleDatasets.ipynb)
+   - [Showing how to use your own datasets](https://colab.research.google.com/github/JStadl/RoCELib/blob/main/examples/CustomDatasets.ipynb)
 
-The docs pages can be accessed by opening ```docs/build/html/index.html```.
-
-For a step-by-step tutorial, you can also watch the video guide [here](https://youtu.be/z9pbCFg9xVA?si=MjgZPDVBMumQ7ccu)
-.
 
 ## Release Process
 

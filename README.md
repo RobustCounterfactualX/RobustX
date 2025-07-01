@@ -1,11 +1,14 @@
 # RobustX <img width="100" alt="portfolio_view" align="right" src="https://isla-lab.github.io/images/slider/slider-image.svg"> <img width="100" alt="portfolio_view" align="right" src="https://upload.wikimedia.org/wikipedia/commons/0/06/Imperial_College_London_new_logo.png"> 
 
 RobustX is a Python library implementing a collection of generation and evaluation methods for Counterfactual Explanation (CE), with a focus on the robustness property.
-It provides easy-to-use interfaces for implementing new CE methods and benchmarking performances against a range of robust methods.
+It provides easy-to-use interfaces for implementing new CE methods and benchmarking performances against a range of robust methods. 
+
+#### RobustX is accepted at [IJCAI 2025](https://2025.ijcai.org/) Demo track! 
+
+See our technical report preprint [on ArXiv](https://arxiv.org/abs/2502.13751), and [read more about robust CE](https://www.ijcai.org/proceedings/2024/894).
+
 
 ![Alt text](demo/RobustX.gif)
-
-See our techincal report [here](https://github.com/RobustCounterfactualX/RobustX/blob/main/demo/robustx.pdf), and [read more about robust CE](https://www.ijcai.org/proceedings/2024/894).
 
 ## Features
 
@@ -104,6 +107,17 @@ See the documentations [here](https://robustcounterfactualx.github.io/RobustX/) 
 * **Aaryan Purohit** 
 * **Francesco Leofante** - f.leofante@imperial.ac.uk
 
+## Citation
+
+If you find RobustX useful for your work, please cite our technical report:
+```
+@article{jiang2025robustx,
+  title={RobustX: Robust Counterfactual Explanations Made Easy},
+  author={Jiang, Junqi and Marzari, Luca and Purohit, Aaryan and Leofante, Francesco},
+  journal={arXiv preprint arXiv:2502.13751},
+  year={2025}
+}
+```
 
 ## License
 

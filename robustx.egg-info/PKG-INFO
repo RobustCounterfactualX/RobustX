@@ -1,0 +1,30 @@
+Metadata-Version: 2.4
+Name: robustx
+Version: 1.0.0
+Summary: A Python library for benchmarking robust counterfactual explanations.
+Home-page: https://github.com/RobustCounterfactualX/RobustX
+Author: Junqi Jiang, Luca Marzari, Aaryan Purohit, Francesco Leofante
+Requires-Python: >=3.9
+License-File: LICENSE
+Requires-Dist: torch==2.4.1
+Requires-Dist: gurobipy==11.0.1
+Requires-Dist: clingo>=5.6.2
+Requires-Dist: tensorflow==2.16.2
+Requires-Dist: keras==3.0.5
+Requires-Dist: pytest
+Requires-Dist: notebook
+Requires-Dist: numpy
+Requires-Dist: pandas
+Requires-Dist: scikit-learn
+Requires-Dist: scipy
+Requires-Dist: tqdm
+Requires-Dist: tabulate
+Requires-Dist: streamlit
+Requires-Dist: matplotlib
+Requires-Dist: seaborn
+Dynamic: author
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary

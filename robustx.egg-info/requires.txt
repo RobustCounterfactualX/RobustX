@@ -1,0 +1,16 @@
+torch==2.4.1
+gurobipy==11.0.1
+clingo>=5.6.2
+tensorflow==2.16.2
+keras==3.0.5
+pytest
+notebook
+numpy
+pandas
+scikit-learn
+scipy
+tqdm
+tabulate
+streamlit
+matplotlib
+seaborn

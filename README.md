@@ -107,6 +107,11 @@ See the documentations [here](https://robustcounterfactualx.github.io/RobustX/) 
 * **Aaryan Purohit** 
 * **Francesco Leofante** - f.leofante@imperial.ac.uk
 
+
+## How to contribute to RobustX?
+
+If you are interested in contributing to RobustX by implementing your CE generation method, you can follow this simple tutorial available [here](https://github.com/RobustCounterfactualX/RobustX/tree/main/examples/HowToContribute.ipynb). 
+
 ## Citation
 
 If you find RobustX useful for your work, please cite our technical report:

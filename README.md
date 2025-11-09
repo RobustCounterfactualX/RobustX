@@ -116,11 +116,16 @@ If you are interested in contributing to RobustX by implementing your CE generat
 
 If you find RobustX useful for your work, please cite our technical report:
 ```
-@article{jiang2025robustx,
-  title={RobustX: Robust Counterfactual Explanations Made Easy},
-  author={Jiang, Junqi and Marzari, Luca and Purohit, Aaryan and Leofante, Francesco},
-  journal={arXiv preprint arXiv:2502.13751},
-  year={2025}
+@inproceedings{jiang2025robustx,
+  title     = {RobustX: Robust Counterfactual Explanations Made Easy},
+  author    = {Jiang, Junqi and Marzari, Luca and Purohit, Aaryan and Leofante, Francesco},
+  booktitle = {Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence, {IJCAI-25}},
+  publisher = {International Joint Conferences on Artificial Intelligence Organization},
+  pages     = {11067--11071},
+  year      = {2025},
+  month     = {8},
+  doi       = {10.24963/ijcai.2025/1264},
+  url       = {https://doi.org/10.24963/ijcai.2025/1264},
 }
 ```
 

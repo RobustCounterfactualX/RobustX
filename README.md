@@ -65,7 +65,7 @@ task = ClassificationTask(model, data)
 
 # specify the names of the methods and evaluations we want to use, run benchmarking
 # This will find CEs for all instances predicted with the undesirable class (0) and compare
-from robustx.lib import default_benchmark
+from robustx.lib.DefaultBenchmark import default_benchmark
 methods = ["KDTreeNNCE", "MCE", "MCER", "RNCE", "STCE", "PROPLACE"]
 evaluations = ["Validity", "Distance", "Delta-robustness"]
 default_benchmark(task, methods, evaluations, neg_value=0, column_name="target", delta=0.005)
